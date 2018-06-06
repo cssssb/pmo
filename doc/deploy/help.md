@@ -15,3 +15,6 @@
 - 远程服务器创建空仓库
 -       git init --bare
 - 本地初始化git仓库
+-       git add .
+        git commit -m 'init'
+        git remote add origin git@<server>:/目录.git
