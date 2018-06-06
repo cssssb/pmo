@@ -22,5 +22,13 @@
 
 ####3.部署开发环境
 #####3.1手动部署
+- 安装nodejs
+- 安装git
+- 设置ssh登陆远程服务器
+- 克隆远程服务器git库
+- 安装vscode
+- 添加Markdown Preview Enhanced插件
+- 添加PlantUML插件
+- 拥有java运行环境
 #####3.2自动部署
 ####4.部署运行环境

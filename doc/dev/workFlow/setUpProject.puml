@@ -1,0 +1,6 @@
+@startuml setUpProject
+
+Headmaster -> DepartmentManager : 申请立项
+DepartmentManager -> Headmaster : 同意立项
+
+@enduml
