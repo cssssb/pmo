@@ -1,9 +1,8 @@
 #部署帮助文档
+<!-- 文档结构说明 -->
+@import "../documentStructureDescription.md"
 
-####文档结构说明
-- 四级markdown标题作为一级文档标题
-
-####linux部署常用命令
+####1.linux部署常用命令
 - 切换所属用户和用户组
 -       chwon -R 用户名:用户组名 目录名
 - 切换所属用户组 
@@ -11,10 +10,17 @@
 - 切换权限 
 -        chmod -R 权限代码 目录名
 
-####git部署常用命令
+####2.git部署常用命令
 - 远程服务器创建空仓库
 -       git init --bare
 - 本地初始化git仓库
 -       git add .
         git commit -m 'init'
-        git remote add origin git@<server>:/目录.git
+- 添加远程地址，并设置默认推送分支
+-       git remote add origin git@<server>:/目录.git
+        git push --set-upstream origin master
+
+####3.部署开发环境
+#####3.1手动部署
+#####3.2自动部署
+####4.部署运行环境
