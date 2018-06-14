@@ -1,0 +1,7 @@
+@startuml implement
+
+headmaster -> DepartmentManager : 申请立项
+DepartmentManager -> headmaster : 同意立项
+headmaster -> headmaster : 同意立项
+
+@enduml
