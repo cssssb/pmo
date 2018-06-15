@@ -1,0 +1,12 @@
+@startuml defineClass
+
+    class User
+    class Group
+    class Position
+    class Plan
+    class Approve
+    class Process
+    class Teacher
+    class 
+
+@enduml

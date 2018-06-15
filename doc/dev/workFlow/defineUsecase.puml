@@ -1,13 +1,26 @@
 @startuml defineUsecase
 
-    actor Headmaster as pm
-    actor DepartmentManager as dm
-    actor PMO as pmo
-    actor teacherManager as tm
+    actor PMO as PMO
+    actor Executor as 实施班主任
+    actor projectManager as 项目经理
+    actor ProgramManager as 项目集经理
+    actor DepartmentManager as 部门经理
+    actor TeacherManager as 技术资源部
+    actor ProcessManager as 流程经理
 
-    usecase setBudget
-    usecase setFinalAccounts
-    usecase approve
-    usecase approveBudget
-    usecase approveFinalAccounts
+    usecase setBudget as 设置预算
+    usecase setFinalaccounts as 设置决算
+    usecase setProject as 实施项目
+    usecase setProgram as 项目集
+    usecase createProject
+    usecase createProgram
+    usecase createBudget
+    usecase createFinalaccounts 
+    usecase approve as 同意
+    usecase approveBudget as 同意预算
+    usecase approveFinalAccounts as 同意决算
+    
+    PMO -> (setBudget) 
+    PMO -> (setFinalaccounts)
+    ProcessManager -> (setProject)
 @enduml
