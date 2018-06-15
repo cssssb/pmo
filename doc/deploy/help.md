@@ -1,7 +1,6 @@
 #部署帮助文档
 <!-- 文档结构说明 -->
 @import "../documentStructureDescription.md"
-
 ####1.linux部署常用命令
 - 切换所属用户和用户组
 -       chown -R 用户名:用户组名 目录名
@@ -9,7 +8,6 @@
 -       chgrp -R 用户组名 目录名
 - 切换权限 
 -        chmod -R 权限代码 目录名
-
 ####2.git部署常用命令
 - 远程服务器创建空仓库
 -       git init --bare
@@ -19,7 +17,6 @@
 - 添加远程地址，并设置默认推送分支
 -       git remote add origin git@<server>:/目录.git
         git push --set-upstream origin master
-
 ####3.部署开发环境
 #####3.1手动部署
 - 安装nodejs
