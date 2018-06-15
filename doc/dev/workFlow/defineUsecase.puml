@@ -1,0 +1,13 @@
+@startuml defineUsecase
+
+    actor Headmaster as pm
+    actor DepartmentManager as dm
+    actor PMO as pmo
+    actor teacherManager as tm
+
+    usecase setBudget
+    usecase setFinalAccounts
+    usecase approve
+    usecase approveBudget
+    usecase approveFinalAccounts
+@enduml
