@@ -26,7 +26,7 @@ class app{
              // 获取动作名
             $action = $url_array[2];
             // 实例化控制器
-            $int = new $controller($controllerName, $action);
+            $int = new $controller($controller_name, $action);
             // 如果控制器存和动作存在，这调用并传入URL参数
             if ((int)method_exists($controller, $action)) {
                 call_user_func_array(array($int, $action), $queryString);
@@ -43,8 +43,7 @@ class app{
 	 */    
     public static function load_app_class($classname,$module){
         $path = MODULE_PATH.$module.DIRECTORY_SEPARATOR.'model'.DIRECTORY_SEPARATOR;
-        $namespace = $module;
-        
+        $namespace = $module;        
         return self::_load_class($classname,$path,$namespace, true);
     }
 
