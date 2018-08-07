@@ -21,18 +21,34 @@ class app{
             // 获取模块名称
             $module = $url_array[0];
             // 获取控制器名
-            $controller_name = $url_array[1];
+            array_shift($url_array);
+            $controller_name = $url_array[0];
             $controller = $controller_name . '_controller';
-             // 获取动作名
-            $action = $url_array[2];
+            // 获取动作名
+            array_shift($url_array); 
+            $action = $url_array[0];
+            // 获取参数
+            array_shift($url_array);
+            $queryString = empty($url_array) ? array() : $url_array;
+
             // 实例化控制器
-            
-            $int = new $controller($controller_name, $action);
-            // 如果控制器存和动作存在，这调用并传入URL参数
-            if ((int)method_exists($controller, $action)) {
-                call_user_func_array(array($int, $action), $queryString);
+            $path = MODULE_PATH.$module.DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR;
+            $filepath=$path.$controller.'.php';
+            $namespace = $module;
+
+            if (file_exists($filepath)) {
+                include $filepath;
+                $name = $namespace.'\\'.$controller;
+                if(class_exists($name)){
+                    $int = new $name;
+                        if((int)method_exists($name,$action)){
+                            call_user_func_array(array($int, $action), $queryString);
+                        }
+                }else{
+                    exit('Controller does not exist.');
+                 }
             } else {
-                exit($controller . "控制器不存在");
+                exit('Controller does not exist.');
             }
         }
     }
@@ -47,7 +63,7 @@ class app{
         $namespace = $module;        
         return self::_load_class($classname,$path,$namespace, true);
     }
-
+    
     /**
 	 * 加载系统类
 	 * @param string $classname 类名
