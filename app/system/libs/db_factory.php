@@ -73,7 +73,7 @@ final class db_factory {
 	 */
 	public function connect($db_name) {
 		$object = null;
-		switch($this->db_config[$db_name]['type']) {
+		switch(@$this->db_config[$db_name]['type']) {
 			case 'mysql' :
 				\app::load_sys_class('mysql');
 				$object = new mysql();
@@ -89,7 +89,7 @@ final class db_factory {
 				\app::load_sys_class('mysql');
 				$object = new mysql();
 		}
-		$object->open($this->db_config[$db_name]);
+		@$object->open($this->db_config[$db_name]);
 		return $object;
 	}
 

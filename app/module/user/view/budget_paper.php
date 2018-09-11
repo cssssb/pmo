@@ -76,19 +76,6 @@ final class budget_paper
                                         "descript" => "",
                                         "before_api_uri" =>
                                         "staff_small_list",
-                                        // [[
-                                        //     "id" => 1,
-                                        //     "name" => "亢鹏",
-                                        // ], [
-                                        //     "id" => 2,
-                                        //     "name" => "寇艳艳",
-                                        //     "budget_cost" => 10000
-                                        // ], [
-                                        //     "id" => 3,
-                                        //     "name" => "张剑",
-                                        //     "budget_cost" => 10000
-                                        // ]]
-
                                         "after_api_uri" => ""
                                     ], [
                                         "id_name" => "project_templet",
@@ -164,21 +151,6 @@ final class budget_paper
                         ],
                         "descript" => "",
                         "before_api_uri" => "project_header",
-                        // [
-                        //     [
-                        //     //project_header
-                        //     "id" => 1,
-                        //     "name" => "项目1",
-                        //     "cost" => 10000
-                        // ], [
-                        //     "id" => 2,
-                        //     "name" => "项目2",
-                        //     "cost" => 20000
-                        // ], [
-                        //     "id" => 3,
-                        //     "name" => "项目3",
-                        //     "cost" => 30000
-                        // ]],
                         "after_api_uri" => ""
                     ],
                     [

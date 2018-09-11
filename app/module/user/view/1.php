@@ -6,7 +6,8 @@ $a = ["budget_paper"=>  [
     //新建预算
     "id_name"=>  "budget_project_name",
     "type_name"=>  "BudgetListTextSearchLink",  //下拉搜索+联动
-    "key"=>  "",
+    "default_value"=>  "",
+    "value"=>  "",
     "title"=>  "所属项目",
     "tip"=>  "",
     "add_button"=>  [

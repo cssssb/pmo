@@ -7,7 +7,8 @@ final class project_header_class{
 		$this->model = \app::load_app_class('project_header','user');
 	
     }
-    public function select($limit){
+    public function select($limit=null){
         return $this->model->select(1,$limit);
     }
+
 }

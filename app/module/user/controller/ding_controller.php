@@ -307,7 +307,7 @@ class ding_controller
         echo json_encode($msg);
         // print_r($msg);die;
     }
-    public function staff_of_ding(){
+    public function staffOfDing(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->ding->of_ding();

@@ -32,8 +32,8 @@ class model {
 		if (!isset($this->db_config[$this->db_setting])) {
 			$this->db_setting = 'default';
 		}
-		$this->table_name = $this->db_config[$this->db_setting]['tablepre'].$this->table_name;
-		$this->db_tablepre = $this->db_config[$this->db_setting]['tablepre'];
+		@$this->table_name = $this->db_config[$this->db_setting]['tablepre'].$this->table_name;
+		@$this->db_tablepre = $this->db_config[$this->db_setting]['tablepre'];
 		$this->db = db_factory::get_instance($this->db_config)->get_database($this->db_setting);
 	}
 		

@@ -19,6 +19,7 @@ class project_controller
      */
     public function __construct()
     {   
+        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
         $this->ding = \app::load_service_class('ding', 'user');//部门 || 
         $this->project_header_class = \app::load_service_class('project_header_class', 'user');//项目表
         $this->of_project_class = \app::load_service_class('of_project_class', 'user');//项目集表
@@ -31,7 +32,7 @@ class project_controller
 
     }
     //返回部门
-    public function csst_department_list(){
+    public function csstDepartmentList(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->ding->csst_departent_list();
@@ -43,7 +44,7 @@ class project_controller
         echo json_encode($msg);
     }
     //获取所有人信息
-    public function staff_small_list(){
+    public function staffSmallList(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->ding->small_list();
@@ -63,7 +64,7 @@ class project_controller
      * @describe:  budget_all_list 预算管理json列表大表
      * ================
      */
-    public function budget_all_list(){
+    public function budgetAllList(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->view->budget_json();
@@ -84,7 +85,7 @@ class project_controller
      * ================
      */
     //管理
-    public function header_staff(){
+    public function headerStaff(){
         $department = 26509419;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->header_staff($data);
@@ -92,7 +93,7 @@ class project_controller
         return print_r($data);die;
     }
     //财务
-    public function finance_staff(){
+    public function financeStaff(){
         $department = 26509420;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->finance_staff($data);
@@ -100,70 +101,70 @@ class project_controller
         return var_dump($data);die;
     }
     //人事
-    public function personnel_matters_staff(){
+    public function personnelMattersStaff(){
         $department = 26509421;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->personnel_matters_staff($data);
         return var_dump($data);die;
     }
     //技术
-    public function skill_staff(){
+    public function skillStaff(){
         $department = 26509422;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     }
     //行业培训部
-    public function industry_training_staff(){
+    public function industryTrainingStaff(){
         $department = 26509424;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     } 
     //公共培训部
-    public function public_staff(){
+    public function publicStaff(){
         $department = 26509425;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     }
     //公共培训一部
-    public function public_one_staff(){
+    public function publicOneStaff(){
         $department = 26429951;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     }
     //技术资源部
-    public function technical_resources_staff(){
+    public function technicalResourcesStaff(){
         $department = 26436766;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     }
     //市场部
-    public function market_staff(){
+    public function marketStaff(){
         $department = 26456742;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     }
     //行业一部
-    public function industry_one_staff(){
+    public function industryOneStaff(){
         $department = 30316407;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     }
     //行业二部
-    public function industry_two_staff(){
+    public function industryTwoStaff(){
         $department = 30318368;
         $data = $this->ding->select_staff($department);
         // $ass = $this->view->skill_staff($data);
         return var_dump($data);die;
     }
     //返回项目表
-    public function project_header(){
+    public function projectHeader(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->project_header_class->select("id,name,money");
@@ -178,7 +179,7 @@ class project_controller
         echo json_encode($msg);
     }
     //返回项目集表
-    public function of_project(){
+    public function ofProject(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->of_project_class->select('id,name');
@@ -202,7 +203,7 @@ class project_controller
         echo json_encode($msg);
     }
     //返回项目模板表
-    public function project_template(){
+    public function projectTemplate(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->project_template_class->select('id,name');
@@ -226,15 +227,15 @@ class project_controller
         echo json_encode($msg);
     }
     //返回职责表
-    public function lecturer_duty(){
+    public function lecturerDuty(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->lecturer_duty_class->select('id,name');
         $msg['data'] = $data;
         $msg['code'] = 0;
         $msg['msg'] = "查询成功";
-        // $msg['end_time'] = $this->getMillisecond();
-        // $msg['during_time'] =  $msg['end_time'] - $msg['stat_time'];
+        $msg['end_time'] = $this->getMillisecond();
+        $msg['during_time'] =  $msg['end_time'] - $msg['stat_time'];
         echo json_encode($msg);
         // return $msg;
     }
@@ -244,5 +245,17 @@ class project_controller
         return (float)sprintf('%.0f',(floatval($t1)+floatval($t2))*1000);
     }
 
-    //安排差旅
+    /**
+     * ================
+     * @Author:    css
+     * @ver:       V1.0
+     * @DataTime:  2018-09-04
+     * @describe:  安排差旅
+     * ================
+     */
+    //长途交通
+    public function long_traffic_card_list(){
+        
+    } 
+    
 }

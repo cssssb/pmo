@@ -9,5 +9,5 @@ final class travel_plan_class{
 		$this->city = \app::load_app_class('city_cost','user');
 		$this->stay = \app::load_app_class('stay_cost','user');
 	
-    }
+		}
 }

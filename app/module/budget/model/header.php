@@ -1,17 +1,23 @@
 <?php
-namespace user;
+namespace budget;
 defined('IN_LION') or exit('No permission resources.');
-\app::load_sys_class('model');
 
-class rule extends \system\model {
+// echo "load ding_member";
+// echo  microtime();
+// echo "\n";
+
+\app::load_sys_class('model',false);
+
+class header extends \system\model {
 	public function __construct() {
 		// return 1;die;
 // new model;
 
 		$this->db_config = \app::load_config('database');
 		$this->db_setting = 'default';
-		$this->table_name = 'meet_cost';
+		$this->table_name = 'project_header';
 		parent::__construct();
 	}
+	
 }
 ?>
