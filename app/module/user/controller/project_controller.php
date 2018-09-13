@@ -171,6 +171,8 @@ class project_controller
         // var_dump($data);die;
         // $data = $this->ding->cssssb();
         // var_dump($data);die;
+
+
         $msg['data'] = $data;
         $msg['code'] = 0;
         $msg['msg'] = "查询成功";
@@ -182,6 +184,7 @@ class project_controller
     public function ofProject(){
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
+        
         $data = $this->of_project_class->select('id,name');
         $msg['data'] = $data;
         $msg['code'] = 0;
