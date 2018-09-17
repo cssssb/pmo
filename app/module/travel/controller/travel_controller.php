@@ -1,5 +1,5 @@
 <?php
-namespace budget;
+namespace travel;
 
 // use system\ding_password;
 
@@ -18,7 +18,7 @@ defined('IN_LION') or exit('No permission resources.');
  * @describe:  V1.0
  * ================
  */
-class plan_controller
+class travel_controller
 {
     /**
      * 构造函数
@@ -29,31 +29,10 @@ class plan_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->lecturer_list = \app::load_service_class('lecturer_plan_class', 'budget');//加载讲师安排
-        $this->travel_plan = \app::load_service_class('travel_plan_class', 'budget');//加载差旅
-        $this->training_cost = \app::load_service_class('training_cost_class', 'budget');//加载实施安排
+        $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
     }
 
-    //添加/修改讲师安排
-    public function add_teacher(){
-        $data = [
-            'header_id'=>1,
-            'lecturer_id'=>1,
-            'tax'=>1,
-            'fee'=>1,
-            'day'=>1,
-            'duty_id'=>1,
-        ];
-        $this->lecturer_list->have_header($data);
-    return $this->lecturer_list->add($data);
-    }
-    //删除(修改状态)
-    public function del_teacher(){
-        $data = $post['id'];
-        // $data =1;
-        return $this->lecturer_list->del($data);
-    }
-
+   
     //差旅
     public function add_province(){
         $data=[
@@ -111,13 +90,6 @@ class plan_controller
             ],
             'header_id'=>1,
         ];
-        // $data['name'] = 1;
-        // $data['go_time'] = 1;
-        // $data['go_ares'] = 1;
-        // $data['end_time'] = 1;
-        // $data['end_ares'] = 1;
-        // $data['pid'] = 1;
-        // $data['now_time'] = date('y-m-d h:i:s',time());
         $pid['header_id'] = $data['header_id'];
         $state['state'] = 1;
         //判断是否之前有此条数据。如果没有就直接添加，如果有就改变原来的有的数据的状态再添加
@@ -126,21 +98,7 @@ class plan_controller
     //    return $data['pid'];die;
         return var_dump($this->travel_plan->common_add($data));
         }
-        //实施安排
-        public function add_training(){
-            $data = [
-                'meet_fee'=>1,
-                'equipment'=>1,
-                'test_fee'=>1,
-                'arder_fee'=>1,
-                'pen_fee'=>1,
-                'serve_fee'=>1,
-                'mail_fee'=>1,
-                'header_id'=>1,
-            ];
-            $this->training_cost->have_header($data);
-            return $this->training_cost->add($data);
-        }
+       
         //差旅列表
         public function list_province(){
             $data['header_id'] =1;
@@ -148,18 +106,6 @@ class plan_controller
         }
         
 
-
-        //讲师列表
-        public function list_teacher(){
-            $data['header_id'] =1;
-            return print_r($this->lecturer_list->list_teacher($data));
-        }
-
-        //实施列表
-        public function list_training(){
-            $data['header_id'] = 1;
-            return print_r($this->training_cost->list_training($data));
-        }
         
         //长途交通删除
         public function del_province(){
@@ -176,28 +122,33 @@ class plan_controller
             $data['id'] = 1;
             return $this->travel_plan->del_stay($data);
         }
-        //讲师金额
-        public function fee_teacher(){
-            //会传一个header_id
-            $header_id = 1;
-            //获取金额
-          $fee = $this->lecturer_list->fee_teacher($header_id);
-          return print_r($fee);
+       
+        public function get_one_province(){
+            $data = 1;
+            return $this->travel_plan->get_one_province($data);
+        }       
+        public function get_one_city(){
+            $data = 1;
+            return $this->travel_plan->get_one_city($data);
+        }       
+        public function get_one_stay(){
+            $data = 1;
+            return $this->travel_plan->get_one_stay($data);
         }
-        //实施费用
-        public function fee_training(){
-            //会传一个header_id
-            $header_id = 1;
-            $fee = $this->training_cost->fee_training($header_id);
-            return print_r($fee);
+        
+        public function edit_province(){
+            $id = 37;
+            $data['fee'] = 100;
+            return var_dump($this->travel_plan->edit_province($id,$data));
+        }       
+        public function edit_city(){
+            $id = 1;
+            $data['fee'] = 100;
+            return $this->travel_plan->edit_city($id,$data);
+        }       
+        public function edit_stay(){
+            $id = 1;
+            $data['fee'] = 100;
+            return $this->travel_plan->edit_stay($id,$data);
         }
-        //差旅费用
-        public function fee_travel(){
-            //会传一个header_id
-            $header_id = 1;
-            $ass = $this->travel_plan->fee_travel($header_id
-        );
-            return print_r($ass);
-        }
-
 }

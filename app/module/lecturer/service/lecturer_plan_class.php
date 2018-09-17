@@ -1,5 +1,5 @@
 <?php
-namespace budget;
+namespace lecturer;
 
 defined('IN_LION') or exit('No permission resources.');
 
@@ -7,15 +7,31 @@ final class lecturer_plan_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('lecturer_plan', 'budget');
+		$this->model = \app::load_app_class('lecturer_plan', 'lecturer');
 
 	}
 
 	public function add($data)
 	{
+		if(!$data['id']){
 		return $this->model->insert($data);
 	}
+		else{
+			return $this->edit($data);
+		}
+	}
 	
+	public function edit($ass){
+		$where['id'] = $ass['id'];
+		$data['state'] = 1;
+		$this->model->update($data,$where);
+		unset($ass['id']);
+		return $this->model->insert($ass);
+	}
+	public function get_one($id){
+		$where['id'] = $id['id'];
+		return $this->model->get_one($where);
+	}
 	public function del($ass)
 	{
 		$data['state'] = 1;

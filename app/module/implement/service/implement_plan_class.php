@@ -1,13 +1,13 @@
 <?php
-namespace budget;
+namespace implement;
 
 defined('IN_LION') or exit('No permission resources.');
 
-final class training_cost_class
+final class implement_plan_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('training_cost', 'budget');//差旅表
+		$this->model = \app::load_app_class('implement_plan', 'implement');//差旅表
 	}
 	/**
 	 * ================
@@ -32,7 +32,7 @@ final class training_cost_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function list_training($where){
+	public function list_implement($where){
 		$where['state'] = 0;
 		return $this->model->select($where);
 	}
@@ -54,7 +54,7 @@ final class training_cost_class
 
 	/**
 	 * ================
-	 * @Function:     fee_training
+	 * @Function:     fee_implement
 	 * @Parameter:    header_id
 	 * @DataTime:     2018-09-13
 	 * @Return:       安排成本
@@ -62,11 +62,31 @@ final class training_cost_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function fee_training($header_id){
+	public function fee_implement($header_id){
 		$where['header_id'] = $header_id;
 		$where['state'] = 0;
 		$data = $this->model->get_one($where);
 		$ass = $data['meet_fee'] + $data['equipment'] + $data['test_fee'] + $data['arder_fee'] + $data['pen_fee'] + $data['serve_fee'] + $data['mail_fee'];
 		return  $ass;
+	}
+
+	/**
+	 * ================
+	 * @Function:     edit_implement
+	 * @Parameter:    header_id
+	 * @DataTime:     2018-09-17
+	 * @Return:       
+	 * @Notes:        修改数据
+	 * @ErrorReason:  null
+	 * ================
+	 */
+	public function get_one($header_id){
+		$where['header_id'] = $header_id;
+		$where['state'] = 0;
+		return 	$this->model->get_one($where);
+	}
+	public function edit_implement($id,$data){
+		$where['id'] = $id;
+		return $this->model->update($data,$where);
 	}
 }

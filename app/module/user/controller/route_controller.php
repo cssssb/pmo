@@ -52,6 +52,24 @@ class route_controller {
      //page_one
     "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
 
+    
+    //安排成本
+    "lecturerAdd"=>$this->r("lecturer","plan","add",[],[]),               //添加、修改讲师成本安排 
+    "lecturerEdit"=>$this->r("lecturer","plan","edit",[],[]),               //添加、修改讲师成本安排 
+    "lecturerDel"=>$this->r("lecturer","plan","del",[],[]),                //删除讲师成本状态
+    "listLecturer"=>$this->r("lecturer","plan","listLecturer",[],[]),       //讲师列表
+    // "budgetIndexAdd"=>$this->r("lecturer","budget","budgetIndexAdd",[],[]),                
+    "budgetIndexAdd"=>$this->r("lecturer","fee","sumCost",[],[]),                //讲师成本金额
+    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),  
+    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
+    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
+    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
+    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
+    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),     
+    
+    
+    //project
+    "addProject"=>$this->r("project","project","addProject",[],[]),                
 
 
 

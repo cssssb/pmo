@@ -1,5 +1,5 @@
 <?php
-namespace budget;
+namespace travel;
 
 defined('IN_LION') or exit('No permission resources.');
 
@@ -7,10 +7,10 @@ final class travel_plan_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('travel_plan', 'budget');//差旅表
-		$this->province = \app::load_app_class('province_cost', 'budget');//长途交通表
-		$this->city = \app::load_app_class('city_cost', 'budget');//市内交通表
-		$this->stay = \app::load_app_class('stay_cost', 'budget');//住宿表
+		$this->model = \app::load_app_class('travel_plan', 'travel');//差旅表
+		$this->province = \app::load_app_class('province_cost', 'travel');//长途交通表
+		$this->city = \app::load_app_class('city_cost', 'travel');//市内交通表
+		$this->stay = \app::load_app_class('stay_cost', 'travel');//住宿表
 
 	}
 	/**
@@ -145,5 +145,30 @@ final class travel_plan_class
 		}else{
 			return false;
 		}
+	}
+	public function get_one_province($id){
+		$where['id'] = $id;
+		return $this->province->get_one($where);
+	}
+	public function get_one_city($id){
+		$where['id'] = $id;
+		return $this->city->get_one($where);
+	}
+	public function get_one_stay($id){
+		$where['id'] = $id;
+		return $this->stay->get_one($where);
+	}
+
+	public function edit_province($id,$data){
+		$where['id'] = $id;
+		return $this->province->update($data,$where);
+	}
+	public function edit_city($id,$data){
+		$where['id'] = $id;
+		return $this->city->update($data,$where);
+	}
+	public function edit_stay($id,$data){
+		$where['id'] = $id;
+		return $this->stay->update($data,$where);
 	}
 }
