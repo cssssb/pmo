@@ -1,5 +1,5 @@
 <?php
-namespace user;
+namespace progam;
 defined('IN_LION') or exit('No permission resources.');
 
 // echo "load ding_member";
@@ -8,7 +8,7 @@ defined('IN_LION') or exit('No permission resources.');
 
 \app::load_sys_class('model',false);
 
-class of_project extends \system\model {
+class progam extends \system\model {
 	public function __construct() {
 		// return 1;die;
 // new model;
@@ -18,6 +18,5 @@ class of_project extends \system\model {
 		$this->table_name = 'progam';
 		parent::__construct();
 	}
-	
 }
 ?>

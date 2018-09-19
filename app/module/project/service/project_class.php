@@ -22,5 +22,20 @@ final class project_class
  */
     public function add_project($data){
         return $this->model->insert($data);
-    }
+	}
+	
+
+	public function get_one($id){
+		$where['id'] = $id;
+		return $this->model->get_one($where);
+	}
+	public function listProject(){
+		return $this->model->listProject();
+	}
+
+	public function edit($id){
+		$where['id'] = $id;
+		$data['state'] = 1;
+		return $this->model->update($data,$where);
+	}
 }

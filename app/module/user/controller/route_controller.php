@@ -69,7 +69,9 @@ class route_controller {
     
     
     //project
-    "addProject"=>$this->r("project","project","addProject",[],[]),                
+    "addProject"=>$this->r("project","project","addProject",[],[]),       //添加||修改         
+    "listProject"=>$this->r("project","project","listProject",[],[]),    //返回项目列表            
+    "getProject"=>$this->r("project","project","getProject",[],[]),      //点击获取修改本条的项目的数据          
 
 
 
