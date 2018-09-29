@@ -43,22 +43,20 @@ class project extends \system\model {
 			header.date as project_date,
 			header.opening_number as project_training_numbers,
 			header.address as project_training_ares,
-			header.lecturer_id,
-			header.process_id,
-			header.travel_id,
 			header.budget_id,
 			header.money,
 			header.budget_tax,
 			header.budget_consulting_fee,
 			header.budget_expects_revenue,
+			header.course_name,
 			sta. NAME AS  project_person_in_charge_name,
 			pro. NAME AS  project_gather_name,
 			tem. NAME AS  project_project_template_name 
 		FROM
 			pmo_project_header AS header
 		LEFT JOIN pmo_staff_table AS sta ON header.staff_id = sta.id
-		LEFT JOIN pmo_progam AS pro ON header.process_id = pro.id
-		LEFT JOIN pmo_project_template AS tem ON header.template_id = tem.id	
+		LEFT JOIN pmo_progam AS pro ON header.progam_id = pro.id
+		LEFT JOIN pmo_project_template AS tem ON header.template_id = tem.id
 		WHERE header.state=0
 		order by date desc
 		";
@@ -75,6 +73,35 @@ class project extends \system\model {
 		$data = $this->fetch_array($all);
 		return $data;
 	}
-	
+	public function get_one_project($id){
+		$sql = "
+		SELECT
+		header.id,
+		header.name as project_name,
+		header.customer_name as project_customer_name,
+		gm.name as gmname,
+
+		staff.name as project_person_in_charge_id,
+		header.staff_id as project_person_in_charge_id,
+		te.name as project_project_template_name,
+		header.template_id as project_project_template_id,
+		header.day_number as project_days,
+		header.opening_number as project_training_numbers,
+		header.address as project_training_ares
+		
+	FROM
+		pmo_project_header AS header
+		LEFT JOIN pmo_staff_table as staff on header.staff_id=staff.id
+		LEFT JOIN pmo_progam as gm on header.progam_id = gm.id
+		LEFT JOIN pmo_project_template as te on header.template_id = te.id
+		
+	where 
+		header.id = $id
+				
+		";
+		$all = $this->query($sql);
+		$data = $this->fetch_array($all);
+		return $data;
+	}
 }
 ?>

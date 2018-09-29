@@ -18,7 +18,7 @@ defined('IN_LION') or exit('No permission resources.');
  * @describe:  V1.0
  * ================
  */
-class travel_fee_controller
+class province_controller
 {
     /**
      * 构造函数
@@ -29,16 +29,29 @@ class travel_fee_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
+        $this->province = \app::load_app_class('province_class', 'travel');//加载差旅
     }
 
-        //差旅费用
-        public function feeTravel(){
-            //会传一个header_id
-            $header_id = 1;
-            $ass = $this->travel_plan->fee_travel($header_id
-        );
-            return print_r($ass);
-        }
+    //list
+    public function listProvince(){
+        $post = $this->post;
+        return $this->province->list_province($post);
+    }
+    //get_one
+    public function getOneProvince(){
+        $post = $this->post;
+        return $this->province->get_one_province($post);
+    }
+    
+    //增/改
+    public function addProvince(){
+        $post = $this->post;
+        return $this->province->add_province($post);
+    }
 
+    //删
+    public function delProvince(){
+        $post = $this->post;
+        return $this->province->del_province($post);
+    }
 }

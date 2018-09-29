@@ -18,7 +18,7 @@ defined('IN_LION') or exit('No permission resources.');
  * @describe:  V1.0
  * ================
  */
-class travel_fee_controller
+class city_controller
 {
     /**
      * 构造函数
@@ -29,16 +29,29 @@ class travel_fee_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
+        $this->city = \app::load_app_class('city_class', 'travel');//加载差旅
+    }
+    //list
+    public function listCity(){
+        $post = $this->post;
+        return $this->city->list_city($post);
+    }
+    //get_one
+    public function getOneCity(){
+        $post = $this->post;
+        return $this->city->get_one_city($post);
+    }
+    
+    //增/改
+    public function addCity(){
+        $post = $this->post;
+        return $this->city->add_city($post);
     }
 
-        //差旅费用
-        public function feeTravel(){
-            //会传一个header_id
-            $header_id = 1;
-            $ass = $this->travel_plan->fee_travel($header_id
-        );
-            return print_r($ass);
-        }
-
+    //删
+    public function delCity(){
+        $post = $this->post;
+        return $this->city->del_city($post);
+    }
+  
 }

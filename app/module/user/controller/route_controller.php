@@ -7,10 +7,10 @@ defined('IN_LION') or exit('No permission resources.');
 class route_controller {
     private $routelist,$host,$base,$finance,$express,$admin,$student;
 	function __construct() {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Connection, User-Agent, Cookie');
-        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
-        header('Content-type: application/json; charset=UTF-8');
+        // header("Access-Control-Allow-Origin: *");
+        // header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Connection, User-Agent, Cookie');
+        // header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
+        // header('Content-type: application/json; charset=UTF-8');
         $this->data = \app::load_app_class('protocol','user');//加载json数据模板
         // $this->host = "localhost";
         $this->host = "http://192.168.4.53:666/";
@@ -40,15 +40,22 @@ class route_controller {
      "marketStaff"    =>$this->r("user","project","marketStaff",[],[]),//市场部
      "industryOneStaff"    =>$this->r("user","project","industryOneStaff",[],[]),//行业一部
      "industryTwoStaff"    =>$this->r("user","project","industryTwoStaff",[],[]),//行业二部
-
+    
+     
      //返回表
      "projectHeader"    =>$this->r("user","project","projectHeader",[],[]),//项目总表
      "ofProject"    =>$this->r("user","project","ofProject",[],[]),//项目集表
-     "contract"    =>$this->r("user","project","contract",[],[]),//合同表
+    //  "contract"    =>$this->r("user","project","contract",[],[]),//合同表
+     "contract"    =>$this->r("contract","contract","contract",[],[]),//合同表/
+     
      "projectTemplate"    =>$this->r("user","project","projectTemplate",[],[]),//项目模板表
      "lecturer"    =>$this->r("user","project","lecturer",[],[]),//讲师表
      "lecturerDuty"    =>$this->r("user","project","lecturerDuty",[],[]),//职责表
+    //  "dutyList"    =>$this->r("lecturer","lecturer_duty","dutyList",[],[]),//职责表
     
+    //"projectHeader"    =>$this->r("project","project","projectHeader",[],[]),//项目总表
+    
+
      //page_one
     "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
 
@@ -59,21 +66,25 @@ class route_controller {
     "lecturerDel"=>$this->r("lecturer","plan","del",[],[]),                //删除讲师成本状态
     "listLecturer"=>$this->r("lecturer","plan","listLecturer",[],[]),       //讲师列表
     // "budgetIndexAdd"=>$this->r("lecturer","budget","budgetIndexAdd",[],[]),                
-    "budgetIndexAdd"=>$this->r("lecturer","fee","sumCost",[],[]),                //讲师成本金额
-    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),  
-    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
-    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
-    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
-    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
-    "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),     
+    "sumCost"=>$this->r("lecturer","fee","sumCost",[],[]),                //讲师成本金额
+
+    "travelMode"=>$this->r("travel","travel_mode","listAll",[],[]),         //添加/修改差旅
+    "addProvince"=>$this->r("travel","plan","addProvince",[],[]),         //添加/修改差旅
+    "listProvince"=>$this->r("travel","plan","listProvince",[],[]),         //差旅列表        
+    "delProvince"=>$this->r("travel","plan","delProvince",[],[]),             //删除长途交通   
+    "delCity"=>$this->r("travel","plan","delCity",[],[]),                 //删除市内交通
+    "delStay"=>$this->r("travel","plan","delStay",[],[]),                //删除住宿
+    "feeTravel"=>$this->r("travel","travel_fee","feeTravel",[],[]),     //差旅费用总和
     
+    "addTraining"=>$this->r("implement","plan","addTraining ",[],[]),     //添加实施安排
+    "listTraining"=>$this->r("implement","plan","listTraining",[],[]),     //实施安排列表
+    "feeTraining"=>$this->r("implement","implement_fee","feeTraining",[],[]),     //计算实施费用
     
     //project
-    "addProject"=>$this->r("project","project","addProject",[],[]),       //添加||修改         
-    "listProject"=>$this->r("project","project","listProject",[],[]),    //返回项目列表            
-    "getProject"=>$this->r("project","project","getProject",[],[]),      //点击获取修改本条的项目的数据          
-
-
+    "addProject"=>$this->r("project","manage","addnewproject",[],[]),       //添加||修改         
+    "listProject"=>$this->r("project","manage","listProject",[],[]),    //返回项目列表            
+    "getProject"=>$this->r("project","manage","getProject",[],[]),      //点击获取修改本条的项目的数据          
+    "getOneProject"=>$this->r("project","manage","getOneProject",[],[]),   //获取一条数据
 
         );
         $this->data->add_data('common_code', $this->data->code);

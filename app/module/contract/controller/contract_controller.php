@@ -1,5 +1,5 @@
 <?php
-namespace travel;
+namespace contract;
 
 // use system\ding_password;
 
@@ -18,7 +18,7 @@ defined('IN_LION') or exit('No permission resources.');
  * @describe:  V1.0
  * ================
  */
-class travel_fee_controller
+class contract_controller
 {
     /**
      * 构造函数
@@ -26,19 +26,18 @@ class travel_fee_controller
     public function __construct()
     {   
         $this->protocol = \app::load_app_class('protocol','user');//加载公共json
-        // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
+        // $this->implement_cost = \app::load_service_class('implement_cost_class', 'budget');//加载实施安排
+        $this->contract = \app::load_service_class('contract_class', 'contract');//加载实施安排
     }
-
-        //差旅费用
-        public function feeTravel(){
-            //会传一个header_id
-            $header_id = 1;
-            $ass = $this->travel_plan->fee_travel($header_id
-        );
-            return print_r($ass);
-        }
+     //返回合同表
+     public function contract(){
+        $data = $this->contract->select('id,name');
+        $msg['data'] = $data;
+        $msg['code'] = 0;
+        $msg['msg'] = "查询成功";
+        echo json_encode($msg);
+    }
 
 }

@@ -11,7 +11,7 @@ final class travel_plan_class
 		$this->province = \app::load_app_class('province_cost', 'travel');//长途交通表
 		$this->city = \app::load_app_class('city_cost', 'travel');//市内交通表
 		$this->stay = \app::load_app_class('stay_cost', 'travel');//住宿表
-
+		
 	}
 	/**
 	 * ================
@@ -24,7 +24,7 @@ final class travel_plan_class
 	 * ================
 	 */
 	public function common_add($data)
-	{
+	{	
 		$province = $data['province'];
 		$city = $data['city'];
 		$stay = $data['stay'];
@@ -88,9 +88,11 @@ final class travel_plan_class
 		$data['stay'] = $this->stay->select($pid);
 		return $data;
 	}
-	public function edit_state($where,$data){
+	public function edit_state($project_id){
+		$where['header_id'] = $project_id;
 		$have = $this->model->get_one($where);
 		if($have){
+			$data['state'] = 1;
 			return  $this->model->update($data,$where);
 		}else{
 			return false;
@@ -171,4 +173,21 @@ final class travel_plan_class
 		$where['id'] = $id;
 		return $this->stay->update($data,$where);
 	}
+	/**
+	 * ================
+	 * @Function:     edit_header_id
+	 * @Parameter:    header_id
+	 * @DataTime:     2018-09-20
+	 * @Return:       bool
+	 * @Notes:        修改表关联id
+	 * @ErrorReason:  null
+	 * ================
+	 */
+	public function edit_header_id($old_id,$id){
+		$where['header_id'] = $old_id;
+		$data['header_id'] = $id;
+		return $this->model->update($data,$where);
+	}
+
+	
 }

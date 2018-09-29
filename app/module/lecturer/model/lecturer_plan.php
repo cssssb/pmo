@@ -18,6 +18,21 @@ class lecturer_plan extends \system\model {
 		$this->table_name = 'lecturer_plan';
 		parent::__construct();
 	}
-	
+	public function get_one_teacher($id){
+		$sql = "
+		SELECT
+			*
+		FROM
+			pmo_lecturer_plan AS tr,
+			pmo_lecturer AS nm
+		WHERE
+			tr.lecturer_id = nm.id
+		AND tr.state = 0
+		AND tr.id = $id
+		AND nm.state = 0";
+		$all = $this->query($sql);
+		$data = $this->fetch_array($all);
+		return $data;
+	}
 }
 ?>

@@ -9,8 +9,5 @@ final class staff_class
 	{
 		$this->model = \app::load_app_class('staff', 'staff');
 	}
-    public function listProject($id){
-		$where['id'] = $id;
-		return $this->model->get_one($where);
-	}
+
 }

@@ -8,34 +8,29 @@ final class lecturer_plan_class
 	public function __construct()
 	{
 		$this->model = \app::load_app_class('lecturer_plan', 'lecturer');
-
+		$this->operation = \app::load_app_class('operation_project', 'project');
 	}
 
 	public function add($data)
 	{
 		if(!$data['id']){
+		$data['time'] = date('y-m-d H:i:s',time());
 		return $this->model->insert($data);
 	}
 		else{
 			return $this->edit($data);
 		}
 	}
-	
-	public function edit($ass){
-		$where['id'] = $ass['id'];
-		$data['state'] = 1;
-		$this->model->update($data,$where);
-		unset($ass['id']);
-		return $this->model->insert($ass);
-	}
+
 	public function get_one($id){
 		$where['id'] = $id['id'];
+		$where['state'] = 0;
 		return $this->model->get_one($where);
 	}
 	public function del($ass)
 	{
-		$data['state'] = 1;
-		$where['id'] = $ass;
+		$data['state'] = 2;
+		$where['id'] = $ass['id'];
 		return $this->model->update($data, $where);
 	}
 	/**
@@ -87,5 +82,91 @@ final class lecturer_plan_class
 			$ass[] = $key['fee']+$key['tax'];
 		}
 		return array_sum($ass);
+	}
+	/**
+	 * ================
+	 * @Function:     edit_header_id
+	 * @Parameter:    header_id
+	 * @DataTime:     2018-09-20
+	 * @Return:       bool
+	 * @Notes:        修改表关联id
+	 * @ErrorReason:  null
+	 * ================
+	 */
+	public function edit_header_id($old_id,$id){
+		$where['header_id'] = $old_id;
+		$data['header_id'] = $id;
+		return $this->model->update($data,$where);
+	}
+	// /**
+	//  * ================
+	//  * @Function:     get_one_teacher			
+	//  * @Parameter:    id
+	//  * @DataTime:     2018-09-27
+	//  * @Return:       data
+	//  * @Notes:        服务层通过id获取这条数据应返回的值
+	//  * @ErrorReason:  null
+	//  * ================
+	//  */
+
+	// public function operation_get_one($ass){
+	// 	$project_id['project_id'] = $ass['id'];
+	// 	$operation = $this->operation->get_one($project_id,'*','id desc');
+	// 	$time = time()-strtotime($operation['time']);
+	// 	//如果操作表里没有或者状态为已成功修改过新增一条数据
+	// 	if(!$operation || $operation['state']==2){
+	// 		$project_id['time'] = date('y-m-d H:i:s',time());
+	// 			$this->operation->insert($project_id);
+	// 			return  $this->get_one_teacher($ass);
+	// 			//如果修改延时可以获取
+	// 		}elseif($operation['state']==1 && $time>180){
+	// 			// return $this->get_one($ass);
+	// 			return $this->get_one_teacher($ass);
+	// 		}
+	// 			return var_dump('false');
+	// }
+
+
+
+
+	public function get_one_teacher($ass){
+		$project_id = $ass['project_id'];
+		$token = $ass['token'];
+		$bool = $this->operation->get_one_operation($project_id,$token);
+		if($bool){
+		return  $this->model->get_one_teacher($id);}
+		return false;
+	}
+	/**
+	 * ================
+	 * @Function:     add_edit
+	 * @Parameter:    id
+	 * @DataTime:     2018-09-27
+	 * @Return:       bool
+	 * @Notes:        服务层通过id获取这条数据修改状态字段，新增数据
+	 * @ErrorReason:  null
+	 * ================
+	 */
+	// private function operation_edit($ass){
+	// 	$project_id['project_id'] = $ass['id'];
+	// 	$operation = $this->operation->get_one($project_id,'*','id desc');
+	// 	if($operation['state']==1){
+	// 		$this->edit($ass);
+	// 		$update['state'] = 2;
+	// 		return $this->operation->update($update,$operation['id']);
+	// 	}
+	// 	return var_dump('false');	
+	// }
+	public  function edit($ass){
+		$project_id = $ass['project_id'];
+		$token = $ass['token'];
+		$bool = $this->operation->del_operation($project_id,$token);
+		if(!$bool){
+			return false;
+		}
+			$data['state'] = 1;
+			$this->model->update($data,$where);
+			unset($ass['id']);
+			return $ass = $this->model->insert($ass);
 	}
 }

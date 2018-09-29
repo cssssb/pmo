@@ -64,8 +64,11 @@ final class ding{
         return $this->demt->select();
     }
 
+    public function del_about(){
+        return $this->about->delete(1);
+    }
     public function add_about_staff($de_data){
-        return $this->about->insert($de_data);
+            return $this->about->insert($de_data);
     }
     public function select_about_staff($department){
         return $this->about->select_about_staff($department);

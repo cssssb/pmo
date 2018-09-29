@@ -156,6 +156,7 @@ class ding_controller
         error_reporting(E_ALL^E_NOTICE);
         $list = $this->ding_about_staff();
         $number = mt_rand(1, 100);
+        $this->ding->del_about();
         foreach ($list as $k) {
             $department_id = implode(",", $k['department']);
             $de_data = [
@@ -197,20 +198,6 @@ class ding_controller
         echo 2;die;
 
         }
-    }
-   
-    //二维数组去重
-    function array_unique_fb($data)
-    {
-        foreach ($array2D as $v) {
-            $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-            $temp[] = $v;
-        }
-        $temp = array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
-        foreach ($temp as $k => $v) {
-            $temp[$k] = explode(',', $v); //再将拆开的数组重新组装
-        }
-        return $temp;
     }
 
     private function http_post_data($url, $data) {  

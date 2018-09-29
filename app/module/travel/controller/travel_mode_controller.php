@@ -18,7 +18,7 @@ defined('IN_LION') or exit('No permission resources.');
  * @describe:  V1.0
  * ================
  */
-class travel_fee_controller
+class travel_mode_controller
 {
     /**
      * 构造函数
@@ -29,16 +29,13 @@ class travel_fee_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
+        $this->travel_mode = \app::load_app_class('travel_mode', 'travel');//加载差旅
     }
 
-        //差旅费用
-        public function feeTravel(){
-            //会传一个header_id
-            $header_id = 1;
-            $ass = $this->travel_plan->fee_travel($header_id
-        );
-            return print_r($ass);
-        }
-
+   public function listAll(){
+       $msg['data'] = $this->travel_mode->select(1);
+       $msg['code'] = 0;
+       $msg['msg'] = '查询成功';
+       echo json_encode($msg);die;
+   }
 }

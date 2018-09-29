@@ -18,7 +18,7 @@ defined('IN_LION') or exit('No permission resources.');
  * @describe:  V1.0
  * ================
  */
-class implement_controller
+class plan_controller
 {
     /**
      * 构造函数
@@ -35,6 +35,7 @@ class implement_controller
         //实施安排
         public function add_implement(){
             $data = [
+                'id'=>1,
                 'meet_fee'=>1,
                 'equipment'=>1,
                 'test_fee'=>1,
@@ -44,8 +45,7 @@ class implement_controller
                 'mail_fee'=>1,
                 'header_id'=>1,
             ];
-            $this->implement->have_header($data);
-            return $this->implement->add($data);
+            return var_dump($this->implement->add($data));
         }
        
         //实施列表
@@ -54,21 +54,24 @@ class implement_controller
             return print_r($this->implement->list_implement($data));
         }
         public function get_one_implement(){
-            $data = 1;
-            return print_r($this->implement->get_one($data));
+            // $data['id'] = 1;
+            $post = $this->post;
+            return print_r($this->implement->get_one($post));
         }
-        public function edit_implement(){
-            $data['meet_fee'] = 2;
-            $data['equipment'] = 2;
-            $data['test_fee'] = 2;
-            $data['arder_fee'] = 2;
-            $data['pen_fee'] = 2;
-            $data['serve_fee'] = 2;
-            $id = 3;
-            return var_dump($this->implement->edit_implement($id,$data));
-        }
+        // public function edit_implement(){
+        //     $data['meet_fee'] = 2;
+        //     $data['equipment'] = 2;
+        //     $data['test_fee'] = 2;
+        //     $data['arder_fee'] = 2;
+        //     $data['pen_fee'] = 2;
+        //     $data['serve_fee'] = 2;
+        //     $id = 3;
+        //     return var_dump($this->implement->edit_implement($id,$data));
+        // }
       
-       
+       public function time(){
+        return var_dump(date('y-m-d H:i:s',time()));
+       }
       
 
 }

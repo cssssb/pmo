@@ -7,7 +7,7 @@ defined('IN_LION') or exit('No permission resources.');
  * ================
  * @Author:    css
  * @ver:       user
- * @DataTime:  2018-09-06
+ * @DataTime:  2018-09-26
  * @describe:  V1.0
  * ================
  */
@@ -17,6 +17,7 @@ class user_controller
     /**
      * 构造函数
      */
+
     public function __construct()
     {   
         $this->post = json_decode(file_get_contents('php://input'),true);
@@ -113,4 +114,5 @@ class user_controller
     }
     private function user_token($data){
     }
+
 }

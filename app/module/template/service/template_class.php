@@ -9,8 +9,5 @@ final class template_class
 	{
 		$this->model = \app::load_app_class('template', 'template');
 	}
-    public function listProject($id){
-		$where['id'] = $id;
-		return $this->model->get_one($where);
-	}
+
 }

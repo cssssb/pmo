@@ -9,12 +9,7 @@ final class progam_class
 	{
 		$this->model = \app::load_app_class('progam', 'progam');
 	}
-    public function listProject($id){
-		$where['id'] = $id;
-		$where['state'] =0;
-		// return var_dump($id);die;
-		return $this->model->get_one($where);
-	}
+   
 	public function add($data){
 		return $this->model->insert($data);
 	}
