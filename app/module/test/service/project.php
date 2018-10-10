@@ -1,20 +1,19 @@
 <?php
-namespace project;
+namespace test;
 
 defined('IN_LION') or exit('No permission resources.');
 
-final class project_class
+final class project
 {
 	public function __construct()
 	{
 		$this->model = \app::load_app_class('project', 'project');
 		$this->operation = \app::load_app_class('operation_project', 'project');
 		$this->lecturer = \app::load_app_class('lecturer_plan', 'lecturer');
-		$this->implement = \app::load_app_class('implement_plan', 'implement');
-		$this->city = \app::load_app_class('city_class', 'travel');
-		$this->stay = \app::load_app_class('stay_class', 'travel');
-		$this->province = \app::load_app_class('province_class', 'travel');
-
+		$this->implement = \app::load_app_class('implement_plan', 'implement');//差旅表
+		$this->city = \app::load_app_class('city_cost', 'travel');
+		$this->stay = \app::load_app_class('stay_cost', 'travel');
+		$this->province = \app::load_app_class('province_cost', 'travel');
 	}
 	/**
 	 * ================
@@ -31,7 +30,6 @@ final class project_class
 		$project_id = $data['id'];
 		$token = $data['token'];
 		$bool = $this->operation->del_operation($project_id,$token);
-		// return var_dump($bool);
 		if($bool){
 		$data['time'] = date('y-m-d H:i:s', time());
 		return $this->model->insert($data);
@@ -69,7 +67,7 @@ final class project_class
 		$this->model->update($state,$where);
 		$return  = $this->model->get_one($where);
 		unset($data['id'],$return['id'],$return['state']);
-		$id = $this->model->insert($return,$id=true);
+		$this->model->insert($return,$id=true);
 		return $this->return_insert_id($old_id,$id);
 	}
 	/**
@@ -138,41 +136,41 @@ final class project_class
 		}
 		return false;
 	}
-	// //弃用
-	// private function new_addproject($data)
-	// {		
-	// 		$where['id'] = $data['id'];
-	// 		$old_id = $data['id'];
-	// 		$get_one = $this->model->get_one($where);
+	//弃用
+	private function new_addproject($data)
+	{		
+			$where['id'] = $data['id'];
+			$old_id = $data['id'];
+			$get_one = $this->model->get_one($where);
 			
-	// 		if (!$get_one['name']&&$get_one['template_id']) {
-	// 			return $this->model->update($data, $where);
-	// 		} elseif ($get_one) {
-	// 			//如果get_one为真。说明是修改,否则是新增  同时触发操作表
-	// 			$state['state'] = 1;
-	// 			$this->model->update($state, $where);
-	// 			unset($data['id']);
-	// 			//10.9
-	// 			/*//未完成关联表id跟着修改
-	// 			**/
-	// 			$insert_id = $this->model->insert($data, $return_insert_id = true);
-	// 			return $this->return_insert_id($old_id, $insert_id);
-	// 		}
-	// 		return false;
+			if (!$get_one['name']&&$get_one['template_id']) {
+				return $this->model->update($data, $where);
+			} elseif ($get_one) {
+				//如果get_one为真。说明是修改,否则是新增  同时触发操作表
+				$state['state'] = 1;
+				$this->model->update($state, $where);
+				unset($data['id']);
+				//10.9
+				/*//未完成关联表id跟着修改
+				**/
+				$insert_id = $this->model->insert($data, $return_insert_id = true);
+				return $this->return_insert_id($old_id, $insert_id);
+			}
+			return false;
 		 
-	// }
+	}
 	
 	private function return_insert_id($old_id, $insert_id)
 	{
 
 
-		$where['header_id'] = $old_id;
-		$data['header_id'] = $insert_id;
+		$oldproject['project_id'] = $where['header_id'] = $old_id;
+		$project['project_id'] = $data['header_id'] = $insert_id;
 		$lecturer = $this->lecturer->update($data, $where);
 		$implement = $this->implement->update($data, $where);
-		$city = $this->city->update($data,$where);
-		$stay = $this->stay->update($data,$where);
-		$province = $this->province->update($data,$where);
+		$city = $this->city->update($project,$oldproject);
+		$stay = $this->stay->update($project,$oldproject);
+		$province = $this->province->update($project,$oldproject);
 		if ($lecturer && $implement && $city && $stay && $province) {
 			return true;
 		} else {

@@ -27,13 +27,13 @@ class plan_controller
     {   
         $this->protocol = \app::load_app_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
-        $post = $this->post;
         // $this->implement_cost = \app::load_service_class('implement_cost_class', 'budget');//加载实施安排
         $this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排
     }
 
         //实施安排
         public function add_implement(){
+            $post = $this->post;
             $data = [
                 'id'=>1,
                 'meet_fee'=>1,
@@ -45,7 +45,14 @@ class plan_controller
                 'mail_fee'=>1,
                 'header_id'=>1,
             ];
-            return var_dump($this->implement->add($data));
+            $ass = $this->implement->add($data);
+            $msg['code'] = 1;
+            $msg['msg'] ='操作成功';
+            if($ass){
+                $msg['code'] = 0;
+                $msg['msg'] = '操作失败';
+            }
+            echo json_encode($msg);die;
         }
        
         //实施列表
@@ -69,9 +76,6 @@ class plan_controller
         //     return var_dump($this->implement->edit_implement($id,$data));
         // }
       
-       public function time(){
-        return var_dump(date('y-m-d H:i:s',time()));
-       }
       
 
 }

@@ -65,15 +65,16 @@ class route_controller {
     "lecturerEdit"=>$this->r("lecturer","plan","edit",[],[]),               //添加、修改讲师成本安排 
     "lecturerDel"=>$this->r("lecturer","plan","del",[],[]),                //删除讲师成本状态
     "listLecturer"=>$this->r("lecturer","plan","listLecturer",[],[]),       //讲师列表
+    "getOneTeacher"=>$this->r("lecturer","plan","getOneTeacher",[],[]),       //一条讲师
     // "budgetIndexAdd"=>$this->r("lecturer","budget","budgetIndexAdd",[],[]),                
     "sumCost"=>$this->r("lecturer","fee","sumCost",[],[]),                //讲师成本金额
 
-    "travelMode"=>$this->r("travel","travel_mode","listAll",[],[]),         //添加/修改差旅
-    "addProvince"=>$this->r("travel","plan","addProvince",[],[]),         //添加/修改差旅
-    "listProvince"=>$this->r("travel","plan","listProvince",[],[]),         //差旅列表        
-    "delProvince"=>$this->r("travel","plan","delProvince",[],[]),             //删除长途交通   
-    "delCity"=>$this->r("travel","plan","delCity",[],[]),                 //删除市内交通
-    "delStay"=>$this->r("travel","plan","delStay",[],[]),                //删除住宿
+    "travelMode"=>$this->r("travel","travel_mode","listAll",[],[]),         //添加/修改差旅方式
+    // "addProvince"=>$this->r("travel","plan","addProvince",[],[]),         //添加/修改差旅
+    // "listProvince"=>$this->r("travel","plan","listProvince",[],[]),         //差旅列表        
+    // "delProvince"=>$this->r("travel","plan","delProvince",[],[]),             //删除长途交通   
+    // "delCity"=>$this->r("travel","plan","delCity",[],[]),                 //删除市内交通
+    // "delStay"=>$this->r("travel","plan","delStay",[],[]),                //删除住宿
     "feeTravel"=>$this->r("travel","travel_fee","feeTravel",[],[]),     //差旅费用总和
     
     "addTraining"=>$this->r("implement","plan","addTraining ",[],[]),     //添加实施安排
@@ -85,6 +86,25 @@ class route_controller {
     "listProject"=>$this->r("project","manage","listProject",[],[]),    //返回项目列表            
     "getProject"=>$this->r("project","manage","getProject",[],[]),      //点击获取修改本条的项目的数据          
     "getOneProject"=>$this->r("project","manage","getOneProject",[],[]),   //获取一条数据
+    
+    //市内交通
+    "ListCity"=>$this->r("travel","city","listCity",[],[]),         //返回市内交通列表
+    "getOneCity"=>$this->r("travel","city","getOneCity",[],[]),         //返回一条市内交通
+    "addCity"=>$this->r("travel","city","addCity",[],[]),         //添加一条
+    "delCity"=>$this->r("travel","city","delCity",[],[]),         //删除一条
+
+    //长途交通
+    "listProvince"=>$this->r("travel","province","listProvince",[],[]),         //返回长途交通列表
+    "getOneProvince"=>$this->r("travel","province","getOneProvince",[],[]),         //返回一条长途交通
+    "addProvince"=>$this->r("travel","province","addProvince",[],[]),         //添加一条
+    "delProvince"=>$this->r("travel","province","delProvince",[],[]),         //删除一条
+    
+    //住宿
+    "listStay"=>$this->r("travel","stay","listStay",[],[]),         //返回住宿列表
+    "getOneStay"=>$this->r("travel","stay","getOneStay",[],[]),         //返回一条住宿
+    "addStay"=>$this->r("travel","stay","addStay",[],[]),         //添加一条
+    "delStay"=>$this->r("travel","stay","delStay",[],[]),         //删除一条
+
 
         );
         $this->data->add_data('common_code', $this->data->code);

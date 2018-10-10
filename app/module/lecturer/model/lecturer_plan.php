@@ -20,16 +20,24 @@ class lecturer_plan extends \system\model {
 	}
 	public function get_one_teacher($id){
 		$sql = "
-		SELECT
-			*
-		FROM
-			pmo_lecturer_plan AS tr,
-			pmo_lecturer AS nm
-		WHERE
-			tr.lecturer_id = nm.id
-		AND tr.state = 0
-		AND tr.id = $id
-		AND nm.state = 0";
+			SELECT
+				tr.id as id,
+				tr.header_id as teacher_arrange,
+				tr.duty_id as teacher_duty_id,
+				dt.name as teacher_duty_name,
+				tr.tax as teacher_income_tax,
+				tr.day as teacher_lecture_days,
+				tr.fee as teacher_lecture_fee,
+				tr.lecturer_id as teacher_name_id,
+				nm.name as teacher_name_name
+			FROM
+				pmo_lecturer_plan as tr
+				left join pmo_lecturer as nm on tr.lecturer_id = nm.id
+				left join pmo_lecturer_duty as  dt on tr.duty_id=dt.id
+			WHERE
+				tr.state=0
+				AND tr.id = $id
+		";
 		$all = $this->query($sql);
 		$data = $this->fetch_array($all);
 		return $data;

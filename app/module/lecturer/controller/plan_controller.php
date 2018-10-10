@@ -35,17 +35,18 @@ class plan_controller
         $this->lecturer_duty = \app::load_service_class('lecturer_duty_class', 'lecturer');//加载职责
     }
 
-    //添加/修改讲师安排
+    //添加讲师安排
     public function add(){
         $post = $this->post;
-        $post['id']?$data["id"]=$post["id"]:true;
-        $post['project_id']?$data["project_id"]=$post["project_id"]:true;
-        $post['lencturer_id']?$data["lencturer_id"]=$post["lencturer_id"]:true;
-        $post['tax']?$data["tax"]=$post["tax"]:true;
-        $post['fee']?$data["fee"]=$post["fee"]:true;
-        $post['day']?$data["day"]=$post["day"]:true;
-        $post['duty_id']?$data["duty_id"]=$post["duty_id"]:true;
-       
+        $post['data']['id']?$data["header_id"]=$post['data']["id"]:true;
+        // $post['project_id']?$data["project_id"]=$post["project_id"]:true;
+        $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
+        $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
+        $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
+        $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
+        $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
+        $post['data']['token']?$data['token'] = $post['data']['token']:true;
+        
          $ass = $this->lecturer_list->add($data);
          if($ass){
              $msg['code'] = 0;
@@ -55,6 +56,27 @@ class plan_controller
              $msg['msg'] = '操作失败';
          }
          echo json_encode($msg);exit;
+    }
+    //9.29修改讲师安排
+    public function edit(){
+        $post = $this->post;
+        $post['data']['id']?$data["id"]=$post['data']["id"]:true;
+        // $post['project_id']?$data["project_id"]=$post["project_id"]:true;
+        $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
+        $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
+        $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
+        $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
+        $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
+        $post['data']['token']?$data['token'] = $post['data']['token']:true;
+        $ass = $this->lecturer_list->edit($data);
+        if($ass){
+            $msg['code'] = 0;
+            $msg['msg'] = '操作成功';
+        }else{
+            $msg['code'] = 1;
+            $msg['msg'] = '操作失败';
+        }
+        echo json_encode($msg);die;
     }
     //删除(修改状态)
     public function del(){
@@ -89,6 +111,7 @@ class plan_controller
                 foreach($ass as $key=>$val){
                     $duty = $this->lecturer_duty->get_one($val['duty_id']);
                     $lecturer_name = $this->lecturer->get_one($val['lecturer_id']);
+                $rng[$key]['id'] = $val['id'];
                 $rng[$key]['teacher_lecture_days'] = $val['day'];
                 $rng[$key]['teacher_duty_id'] = $val['duty_id'];
                 $rng[$key]['teacher_duty_name'] = $duty['name'];
@@ -107,10 +130,19 @@ class plan_controller
             }
             echo json_encode($msg);exit;
         }
-        public function get_one_teacher(){
+        public function getOneTeacher(){
             //获取教师id
             $post = $this->post;
-            return var_dump($this->lecturer_list->get_one_teacher($post));
+            $post['data']['id']?$data['id'] = $post['data']['id']:true;
+            $ass = $this->lecturer_list->get_one_teacher($data);
+            $msg['code'] = 1;
+            $msg['msg'] = '操作失败';
+            if($ass){
+                $msg['data'] = $ass;
+                $msg['code'] = 0;
+                $msg['msg'] = '操作成功';
+            }
+            echo json_encode($msg);die;
         }
 
 }

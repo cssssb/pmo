@@ -79,16 +79,18 @@ class project extends \system\model {
 		header.id,
 		header.name as project_name,
 		header.customer_name as project_customer_name,
-		gm.name as gmname,
-
+		gm.name as  project_gather_name,
+		gm.id as  project_gather_id,
 		staff.name as project_person_in_charge_id,
 		header.staff_id as project_person_in_charge_id,
 		te.name as project_project_template_name,
 		header.template_id as project_project_template_id,
 		header.day_number as project_days,
 		header.opening_number as project_training_numbers,
-		header.address as project_training_ares
-		
+		header.address as project_training_ares,
+		staff.id as project_person_in_charge_id,
+		staff.name as project_person_in_charge_name,
+		header.date as project_date
 	FROM
 		pmo_project_header AS header
 		LEFT JOIN pmo_staff_table as staff on header.staff_id=staff.id

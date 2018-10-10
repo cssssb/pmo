@@ -13,13 +13,28 @@ final class lecturer_plan_class
 
 	public function add($data)
 	{
-		if(!$data['id']){
+		$project_id = $data['id'];
+		$token = $data['token'];
+		$bool = $this->operation->del_operation($project_id,$token);
+		if(!$bool){
+			return false;
+		}
 		$data['time'] = date('y-m-d H:i:s',time());
 		return $this->model->insert($data);
+		
 	}
-		else{
-			return $this->edit($data);
+	public  function edit($ass){
+		$project_id = $ass['id'];
+		$token = $ass['token'];
+		$bool = $this->operation->del_operation($project_id,$token);
+		if(!$bool){
+			return false;
 		}
+			$where['id'] = $ass['id'];
+			$data['state'] = 1;
+			$this->model->update($data,$where);
+			unset($ass['id']);
+			return $ass = $this->model->insert($ass);
 	}
 
 	public function get_one($id){
@@ -47,22 +62,7 @@ final class lecturer_plan_class
 		$where['state'] = 0;
 		return $this->model->select($where);
 	}
-	/**
-	 * ================
-	 * @Function:     
-	 * @Parameter:    
-	 * @DataTime:     2018-09-13
-	 * @Return:       
-	 * @Notes:        验证是否有项目id
-	 * @ErrorReason:  null
-	 * ================
-	 */
-	public function have_header($ass)
-	{
-		$where['header_id'] = $ass['header_id'];
-		$data['state'] = 1;
-		return $this->model->update($data,$where);
-	}
+
 	/**
 	 * ================
 	 * @Function:     fee_teacher
@@ -128,14 +128,11 @@ final class lecturer_plan_class
 
 
 
-
-	public function get_one_teacher($ass){
-		$project_id = $ass['project_id'];
-		$token = $ass['token'];
-		$bool = $this->operation->get_one_operation($project_id,$token);
-		if($bool){
-		return  $this->model->get_one_teacher($id);}
-		return false;
+//9.29
+	public function get_one_teacher($data){
+		$id = $data['id'];
+		return  $this->model->get_one_teacher($id);
+		
 	}
 	/**
 	 * ================
@@ -157,16 +154,5 @@ final class lecturer_plan_class
 	// 	}
 	// 	return var_dump('false');	
 	// }
-	public  function edit($ass){
-		$project_id = $ass['project_id'];
-		$token = $ass['token'];
-		$bool = $this->operation->del_operation($project_id,$token);
-		if(!$bool){
-			return false;
-		}
-			$data['state'] = 1;
-			$this->model->update($data,$where);
-			unset($ass['id']);
-			return $ass = $this->model->insert($ass);
-	}
+
 }

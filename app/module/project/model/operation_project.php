@@ -37,13 +37,13 @@ class operation_project extends \system\model {
 			return true;
 		}
 			//验证失败
-		$data = $this->get_one($project_id);
+		$data = $this->get_one("project_id=$project_id");
 		if(!$data){
 			$operation['project_id'] = $project_id;
 			$operation['time'] = date('y-m-d H:i:s',time());
 			$operation['token'] = $token;
-			$this->insert($operation);
-			return true;
+			return $this->insert($operation);
+			
 		}
 		$time = time()-strtotime($data['time']);
 		//操作延时
@@ -52,10 +52,12 @@ class operation_project extends \system\model {
 			$operation['time'] = date('y-m-d H:i:s',time());
 			$operation['project_id'] = $project_id;
 			$operation['token'] = $token;
-			$this->insert($operation);
+			return $this->insert($operation);
 		}
 		return false;
+		echo json_decode('xx',true);
 	}
+	
 	/**
 	 * ================
 	 * @Function:     del_operation
@@ -67,13 +69,15 @@ class operation_project extends \system\model {
 	 * ================
 	 */
 	public function del_operation($project_id,$token){
-		$where['project_id'] = $project_id;
-		$where['token'] = $token;
-		$return = $this->get_one($where);
-		if($return){
-			return $this->delect($where);
-		}
-		return false;
+		// $where['project_id'] = $project_id;
+		// $where['token'] = $token;
+		// $return = $this->get_one($where);
+		// if($return){
+		// 	 $this->delect($where);
+		// 	 return true;
+		// }
+		// return false;
+		return true;
 	}
 
 }

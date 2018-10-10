@@ -19,6 +19,7 @@ final class province_class
              return false;
          }
          $where['project_id'] = $post['project_id'];
+         $where['state'] = 0;
         return $this->model->select($where);
     }
     //get_one
