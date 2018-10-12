@@ -30,9 +30,9 @@ class project extends \system\model {
 		// $return['project_project_templete_id'] = $ass['templete_id'];//项目模板id
 		// $return['project_project_templete_name'] = $ass['templete_name'];//项目模板名称
 		// $return['project_training_ares'] = $ass['address'];//开班地址
-		// $return['project_training_numbers'] = $ass['opening_number'];//开班人数
+		// $return['project_training_numbers'] = $ass['student_number'];//开班人数
 		$sql = "
-				SELECT
+			SELECT
 			header.id,
 			header.name as project_name,
 			header.progam_id as project_gather_id,
@@ -41,7 +41,7 @@ class project extends \system\model {
 			header.customer_name as project_customer_name,
 			header.day_number as project_days,
 			header.date as project_date,
-			header.opening_number as project_training_numbers,
+			header.student_number as project_training_numbers,
 			header.address as project_training_ares,
 			header.budget_id,
 			header.money,
@@ -54,9 +54,9 @@ class project extends \system\model {
 			tem. NAME AS  project_project_template_name 
 		FROM
 			pmo_project_header AS header
-		LEFT JOIN pmo_staff_table AS sta ON header.staff_id = sta.id
-		LEFT JOIN pmo_progam AS pro ON header.progam_id = pro.id
-		LEFT JOIN pmo_project_template AS tem ON header.template_id = tem.id
+			LEFT JOIN pmo_staff_table AS sta ON header.staff_id = sta.id
+			LEFT JOIN pmo_progam AS pro ON header.progam_id = pro.id
+			LEFT JOIN pmo_project_template AS tem ON header.template_id = tem.id
 		WHERE header.state=0
 		order by date desc
 		";
@@ -86,7 +86,7 @@ class project extends \system\model {
 		te.name as project_project_template_name,
 		header.template_id as project_project_template_id,
 		header.day_number as project_days,
-		header.opening_number as project_training_numbers,
+		header.student_number as project_training_numbers,
 		header.address as project_training_ares,
 		staff.id as project_person_in_charge_id,
 		staff.name as project_person_in_charge_name,

@@ -39,7 +39,7 @@ class plan_controller
 		 $data['date'] = 2;
 		//  $data['template_id'] = 1;
 		 $data['progam_id'] = 2;
-		 $data['opening_number'] = 2;
+		 $data['student_number'] = 2;
 		 $data['address'] = 2;
 		// echo '<pre>'; print_R($data);die;
 		// return var_dump($this->project->add_template($data));

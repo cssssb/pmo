@@ -23,6 +23,16 @@ class route_controller {
     "client_route"    =>$this->r("user","index","check",
                                     ["account"=>"string"],
                                     ["session"=>"string"]),
+
+        
+    //project
+    "addProject"=>$this->r("project","manage","addProject",["project_project_template_id"=>"string"],[]),       //添加项目
+    "editProject"=>$this->r("project","manage","editProject",[],[]),       //修改项目
+    "delProject"=>$this->r("project","manage","delProject",[],[]),       //删除项目
+    "listProject"=>$this->r("project","manage","listProject",[],[]),    //返回项目列表            
+    "getProject"=>$this->r("project","manage","getProject",[],[]),      //点击获取修改本条的项目的数据          
+    "getOneProject"=>$this->r("project","manage","getOneProject",[],[]),   //获取一条数据
+
     //返回数据库员工信息 8.27
      "staffOfDing"    =>$this->r("user","ding","staffOfDing",[],[]),
      "staffSmallList"    =>$this->r("user","project","staffSmallList",[],[]),
@@ -80,12 +90,7 @@ class route_controller {
     "addTraining"=>$this->r("implement","plan","addTraining ",[],[]),     //添加实施安排
     "listTraining"=>$this->r("implement","plan","listTraining",[],[]),     //实施安排列表
     "feeTraining"=>$this->r("implement","implement_fee","feeTraining",[],[]),     //计算实施费用
-    
-    //project
-    "addProject"=>$this->r("project","manage","addnewproject",[],[]),       //添加||修改         
-    "listProject"=>$this->r("project","manage","listProject",[],[]),    //返回项目列表            
-    "getProject"=>$this->r("project","manage","getProject",[],[]),      //点击获取修改本条的项目的数据          
-    "getOneProject"=>$this->r("project","manage","getOneProject",[],[]),   //获取一条数据
+
     
     //市内交通
     "ListCity"=>$this->r("travel","city","listCity",[],[]),         //返回市内交通列表

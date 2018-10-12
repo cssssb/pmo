@@ -13,7 +13,7 @@ final class lecturer_plan_class
 
 	public function add($data)
 	{
-		$project_id = $data['id'];
+		$project_id = $data['header_id'];
 		$token = $data['token'];
 		$bool = $this->operation->del_operation($project_id,$token);
 		if(!$bool){

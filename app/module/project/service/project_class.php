@@ -16,31 +16,30 @@ final class project_class
 		$this->province = \app::load_app_class('province_class', 'travel');
 
 	}
+	
 	/**
 	 * ================
-	 * @Function:     add_template
+	 * @Function:     add_project
 	 * @Parameter:    
 	 * @DataTime:     2018-10-10
-	 * @Return:       bool
-	 * @Notes:        添加项目模板
+	 * @Return:       id
+	 * @Notes:        添加项目
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function add_template($data)
+
+	public function add_project($template_id = 0)
 	{
-		$project_id = $data['id'];
-		$token = $data['token'];
-		$bool = $this->operation->del_operation($project_id,$token);
-		// return var_dump($bool);
-		if($bool){
+		$data['template_id'] = $template_id;
+		$data['unicode']=$this->set_project_unicode();
 		$data['time'] = date('y-m-d H:i:s', time());
-		return $this->model->insert($data);
-		}
+		$data['id'] = $this->model->insert($data,true);
+		return $data;
 		
 	}
 	/**
 	 * ================
-	 * @Function:     add_project
+	 * @Function:     edit_project
 	 * @Parameter:    
 	 * @DataTime:     2018-10-10
 	 * @Return:       bool
@@ -48,7 +47,7 @@ final class project_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function add_project($data){
+	public function edit_project($data){
 		$where['id'] = $data['id'];
 		return $this->model->update($data,$where);
 	}
@@ -63,7 +62,7 @@ final class project_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function edit_project($data){
+	public function edit_project2($data){
 		$old_id = $where['id'] = $data['id'];
 		$state['state'] = 1;
 		$this->model->update($state,$where);
@@ -219,5 +218,15 @@ final class project_class
 		return false;
 			
 		}
+	
+	//返回项目编号
+	private function set_project_unicode($length = 8){
+		$pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';  
+		for($i=0;$i<$length;$i++)   
+		{   
+		$key .= $pattern{mt_rand(0,35)};    //生成php随机数   
+		}   
+		return $key;   
+	}
 
 }

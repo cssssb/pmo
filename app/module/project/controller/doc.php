@@ -52,7 +52,7 @@ class doc
             'day_number'=>100,
             'date'=>100,
             'progam_id'=>100,
-            'opening_number'=>100,
+            'student_number'=>100,
             'address'=>100,
             'template_id'=>100,
         ];

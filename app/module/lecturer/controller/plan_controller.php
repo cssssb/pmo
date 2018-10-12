@@ -38,7 +38,7 @@ class plan_controller
     //添加讲师安排
     public function add(){
         $post = $this->post;
-        $post['data']['id']?$data["header_id"]=$post['data']["id"]:true;
+        $post['data']['header_id']?$data["header_id"]=$post['data']["header_id"]:true;
         // $post['project_id']?$data["project_id"]=$post["project_id"]:true;
         $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
         $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
