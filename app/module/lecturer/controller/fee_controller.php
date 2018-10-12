@@ -36,7 +36,7 @@ class fee_controller
             //会传一个header_id
             // $header_id = 1;
             $post = $this->post;
-            $header_id = $post['project_id'];
+            $header_id['header_id'] = $post['project_id'];
             //获取金额
           $fee = $this->lecturer_list->fee_teacher($header_id);
           return print_r($fee);

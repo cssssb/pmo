@@ -60,7 +60,7 @@ class route_controller {
     "budgetIndexAdd"=>$this->r("budget","budget","budgetIndexAdd",[],[]),                
 
     
-    //安排成本
+    //安排成本 
     "lecturerAdd"=>$this->r("lecturer","plan","add",[],[]),               //添加、修改讲师成本安排 
     "lecturerEdit"=>$this->r("lecturer","plan","edit",[],[]),               //添加、修改讲师成本安排 
     "lecturerDel"=>$this->r("lecturer","plan","del",[],[]),                //删除讲师成本状态
@@ -92,18 +92,21 @@ class route_controller {
     "getOneCity"=>$this->r("travel","city","getOneCity",[],[]),         //返回一条市内交通
     "addCity"=>$this->r("travel","city","addCity",[],[]),         //添加一条
     "delCity"=>$this->r("travel","city","delCity",[],[]),         //删除一条
+    "editCity"=>$this->r("travel","city","editCity",[],[]),         //删除一条
 
     //长途交通
     "listProvince"=>$this->r("travel","province","listProvince",[],[]),         //返回长途交通列表
     "getOneProvince"=>$this->r("travel","province","getOneProvince",[],[]),         //返回一条长途交通
     "addProvince"=>$this->r("travel","province","addProvince",[],[]),         //添加一条
     "delProvince"=>$this->r("travel","province","delProvince",[],[]),         //删除一条
+    "editProvince"=>$this->r("travel","province","editProvince",[],[]),         //删除一条
     
     //住宿
     "listStay"=>$this->r("travel","stay","listStay",[],[]),         //返回住宿列表
     "getOneStay"=>$this->r("travel","stay","getOneStay",[],[]),         //返回一条住宿
     "addStay"=>$this->r("travel","stay","addStay",[],[]),         //添加一条
     "delStay"=>$this->r("travel","stay","delStay",[],[]),         //删除一条
+    "editStay"=>$this->r("travel","stay","editStay",[],[]),         //删除一条
 
 
         );

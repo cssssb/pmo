@@ -34,6 +34,7 @@ final class lecturer_plan_class
 			$data['state'] = 1;
 			$this->model->update($data,$where);
 			unset($ass['id']);
+			$ass['time'] = date('y-m-d H:i:s',time());
 			return $ass = $this->model->insert($ass);
 	}
 
@@ -57,10 +58,10 @@ final class lecturer_plan_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function list_teacher($where)
-	{
-		$where['state'] = 0;
-		return $this->model->select($where);
+	public function list_teacher($data)
+	{	
+		$sql = 'header_id='.$data['header_id'].' and state=0';
+		return $this->model->select($sql);
 	}
 
 	/**
@@ -75,7 +76,7 @@ final class lecturer_plan_class
 	 */
 	public function fee_teacher($project_id){
 		$where['state'] = 0;
-		$where['header_id'] = $project_id;
+		$where['header_id'] = $project_id['header_id'];
 		$data = $this->model->select($where);
 		// $ass =  $data['fee'] * $data['day'];
 		foreach($data as $key){

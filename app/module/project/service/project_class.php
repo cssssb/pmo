@@ -166,13 +166,14 @@ final class project_class
 	{
 
 
-		$where['header_id'] = $old_id;
-		$data['header_id'] = $insert_id;
+		
+		$oldproject['project_id'] = $where['header_id'] = $old_id;
+		$project['project_id'] = $data['header_id'] = $insert_id;
 		$lecturer = $this->lecturer->update($data, $where);
 		$implement = $this->implement->update($data, $where);
-		$city = $this->city->update($data,$where);
-		$stay = $this->stay->update($data,$where);
-		$province = $this->province->update($data,$where);
+		$city = $this->city->update($project,$oldproject);
+		$stay = $this->stay->update($project,$oldproject);
+		$province = $this->province->update($project,$oldproject);
 		if ($lecturer && $implement && $city && $stay && $province) {
 			return true;
 		} else {

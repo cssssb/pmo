@@ -137,28 +137,28 @@ final class project
 		return false;
 	}
 	//弃用
-	private function new_addproject($data)
-	{		
-			$where['id'] = $data['id'];
-			$old_id = $data['id'];
-			$get_one = $this->model->get_one($where);
+	// private function new_addproject($data)
+	// {		
+	// 		$where['id'] = $data['id'];
+	// 		$old_id = $data['id'];
+	// 		$get_one = $this->model->get_one($where);
 			
-			if (!$get_one['name']&&$get_one['template_id']) {
-				return $this->model->update($data, $where);
-			} elseif ($get_one) {
-				//如果get_one为真。说明是修改,否则是新增  同时触发操作表
-				$state['state'] = 1;
-				$this->model->update($state, $where);
-				unset($data['id']);
-				//10.9
-				/*//未完成关联表id跟着修改
-				**/
-				$insert_id = $this->model->insert($data, $return_insert_id = true);
-				return $this->return_insert_id($old_id, $insert_id);
-			}
-			return false;
+	// 		if (!$get_one['name']&&$get_one['template_id']) {
+	// 			return $this->model->update($data, $where);
+	// 		} elseif ($get_one) {
+	// 			//如果get_one为真。说明是修改,否则是新增  同时触发操作表
+	// 			$state['state'] = 1;
+	// 			$this->model->update($state, $where);
+	// 			unset($data['id']);
+	// 			//10.9
+	// 			/*//未完成关联表id跟着修改
+	// 			**/
+	// 			$insert_id = $this->model->insert($data, $return_insert_id = true);
+	// 			return $this->return_insert_id($old_id, $insert_id);
+	// 		}
+	// 		return false;
 		 
-	}
+	// }
 	
 	private function return_insert_id($old_id, $insert_id)
 	{

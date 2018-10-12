@@ -12,19 +12,20 @@ final class city_class
     }
      //list
      public function list_city($post){
-         $project_id = $post['project_id'];
+         $project_id = $post['id'];
          $token = $post['token'];
          $bool = $this->operation->get_one_operation($project_id,$token);
          if(!$bool){
              return false;
          }
-         $where['project_id'] = $post['project_id'];
-         $where['state'] = 0;
-        return $this->model->select($where);
+        //  $where['id'] = $post['project_id'];
+        //  $where['state'] = 0;
+        //  $sql = 'project_id = '.$project_id['id'].' and state=0';
+        return $this->model->select(1);
     }
     //get_one
     public function get_one_city($post){
-        $project_id = $post['project_id'];
+        $project_id = $post['id'];
         $token = $post['token'];
         $bool = $this->operation->get_one_operation($project_id,$token);
         if(!$bool){
@@ -36,15 +37,13 @@ final class city_class
     
     //增/改
     public function add_city($post){
-        if($post['id']){
-            return $this->edit_city($post);
-        }
+        
         return $this->model->insert($post);
     }
 
     //删
     public function del_city($post){
-        $project_id = $post['project_id'];
+        $project_id = $post['id'];
         $token = $post['token'];
         $bool = $this->operation->del_operation($project_id,$token);
         if(!$bool){
@@ -56,7 +55,7 @@ final class city_class
     }
     //改
     public function edit_city($post){
-        $project_id = $post['project_id'];
+        $project_id = $post['id'];
         $token = $post['token'];
         $bool = $this->operation->del_operation($project_id,$token);
         if(!$bool){
@@ -64,8 +63,11 @@ final class city_class
         }
         $where['id'] = $post['id'];
         $data['state'] = 1;
-        $this->update($data,$where);
-        unser($post['id']);
+        $this->model->update($data,$where);
+        unset($post['id']);
         return $this->model->insert($post);
+    }
+    public function test(){
+        echo 1;
     }
 }

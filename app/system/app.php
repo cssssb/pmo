@@ -29,7 +29,10 @@ class app
             // 获取控制器名
 			array_shift($url_array);
 			$controller_name = $url_array[0];
-			$controller = $controller_name . '_controller';
+			if($controller_name != 'doc'){
+			$controller = $controller_name . '_controller';}else{
+				$controller = $controller_name;
+			}
             // 获取动作名
 			array_shift($url_array);
 			$action = $url_array[0];
@@ -58,7 +61,16 @@ class app
 			}
 		}
 	}
-
+	/**
+	 * 加载控制器类
+	 * @param string $classname 类名
+	 * @param string $module 模块名称
+	 */
+	public static function load_cont_class($classname, $module){
+		$path = MODULE_PATH . $module  . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR;
+		$namespace = $module;
+		return self::_load_class($classname.'_controller', $path, $namespace, true);
+	}
 	/**
 	 * 加载模块类
 	 * @param string $classname 类名

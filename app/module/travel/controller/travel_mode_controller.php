@@ -29,7 +29,7 @@ class travel_mode_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->travel_mode = \app::load_app_class('travel_mode', 'travel');//加载差旅
+        $this->travel_mode = \app::load_service_class('travel_mode', 'travel');//加载差旅
     }
 
    public function listAll(){

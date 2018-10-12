@@ -29,6 +29,7 @@ class operation_project extends \system\model {
 	 * ================
 	 */	
 	public function get_one_operation($project_id,$token){
+		return true;
 		$where['project_id'] = $project_id;
 		$where['token'] = $token;
 		$return = $this->get_one($where);

@@ -57,11 +57,12 @@ class plan_controller
          }
          echo json_encode($msg);exit;
     }
+   
     //9.29修改讲师安排
     public function edit(){
         $post = $this->post;
         $post['data']['id']?$data["id"]=$post['data']["id"]:true;
-        // $post['project_id']?$data["project_id"]=$post["project_id"]:true;
+        $post['data']['header_id']?$data["header_id"]=$post['data']["header_id"]:true;
         $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
         $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
         $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
@@ -82,8 +83,8 @@ class plan_controller
     public function del(){
         // $data = $post['id'];
         // $data =2;
-        $post = $this->post();
-        $data = $post['id'];
+        $post = $this->post;
+        $data['id'] = $post['id'];
         $ass =  $this->lecturer_list->del($data);
         if($ass){
             $msg['code'] = 0;
@@ -119,7 +120,7 @@ class plan_controller
                 $rng[$key]['teacher_income_tax'] = $val['tax'];
                 $rng[$key]['teacher_name_id'] = $val['lecturer_id'];
                 $rng[$key]['teacher_name_name'] = $lecturer_name['name'];
-                $rng[$key]['teacher_arrange'] = $val['header_id'];
+                $rng[$key]['header_id'] = $val['header_id'];
             }
                 $msg['data']['lecturer'] = $rng;
                 $msg['code'] = 0;

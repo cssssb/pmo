@@ -54,27 +54,53 @@ class plan_controller
             }
             echo json_encode($msg);die;
         }
-       
         //实施列表
         public function list_implement(){
-            $data['header_id'] = 1;
-            return print_r($this->implement->list_implement($data));
+            $post = $this->post;
+            // $data['header_id'] = 1;
+            // return print_r($this->implement->list_implement($data));
+            $data['header_id'] = $post['id'];
+            $ass = $this->implement->list_implement($data);
+            $msg['code'] = 1;
+            $msg['msg'] = '查询失败';
+            if($ass){
+                $msg['code'] = 0;
+                $msg['msg'] = '查询成功';
+            }
+            echo json_encode($msg);die;
         }
         public function get_one_implement(){
             // $data['id'] = 1;
             $post = $this->post;
             return print_r($this->implement->get_one($post));
+            $ass = $this->implement->get_one($post);
+            $msg['code'] = 1;
+            $msg['msg'] = '查询失败';
+            if($ass){
+                $msg['code'] = 0;
+                $msg['msg'] = '查询成功';
+            }
+            echo json_encode($msg);die;
         }
-        // public function edit_implement(){
-        //     $data['meet_fee'] = 2;
-        //     $data['equipment'] = 2;
-        //     $data['test_fee'] = 2;
-        //     $data['arder_fee'] = 2;
-        //     $data['pen_fee'] = 2;
-        //     $data['serve_fee'] = 2;
-        //     $id = 3;
-        //     return var_dump($this->implement->edit_implement($id,$data));
-        // }
+        public function edit_implement(){
+            $data['meet_fee'] = 2;
+            $data['equipment'] = 2;
+            $data['test_fee'] = 2;
+            $data['arder_fee'] = 2;
+            $data['pen_fee'] = 2;
+            $data['serve_fee'] = 2;
+            $data['id'] = 3;
+            return var_dump($this->implement->edit_implement($data));
+            $post = $this->post;
+            $ass = $this->implement->edit_implement($post);
+            $msg['code'] = 1;
+            $msg['msg'] = '操作失败';
+            if($ass){
+                $msg['code'] = 0;
+                $msg['msg'] = '操作成功';
+            }
+            echo json_encode($msg);die;
+        }
       
       
 

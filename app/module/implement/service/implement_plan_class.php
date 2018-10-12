@@ -37,9 +37,9 @@ final class implement_plan_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function list_implement($where){
-		$where['state'] = 0;
-		return $this->model->select($where);
+	public function list_implement($data){
+		$sql = 'header_id='.$data['header_id'].' and state=0';
+		return $this->model->select($sql);
 	}
 
 
@@ -54,7 +54,7 @@ final class implement_plan_class
 	 * ================
 	 */
 	public function fee_implement($header_id){
-		$where['header_id'] = $header_id;
+		$where['header_id'] = $header_id['header_id'];
 		$where['state'] = 0;
 		$data = $this->model->get_one($where);
 		$ass = $data['meet_fee'] + $data['equipment'] + $data['test_fee'] + $data['arder_fee'] + $data['pen_fee'] + $data['serve_fee'] + $data['mail_fee'];

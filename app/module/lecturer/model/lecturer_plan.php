@@ -22,7 +22,7 @@ class lecturer_plan extends \system\model {
 		$sql = "
 			SELECT
 				tr.id as id,
-				tr.header_id as teacher_arrange,
+				tr.header_id as header_id,
 				tr.duty_id as teacher_duty_id,
 				dt.name as teacher_duty_name,
 				tr.tax as teacher_income_tax,

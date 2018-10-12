@@ -16,6 +16,12 @@ class province_cost extends \system\model {
 		$this->table_name = 'province_cost';
 		parent::__construct();
 	}
-	
+	public function list_travel($project_id){
+		$sql = "
+		
+		";
+		$all = $this->query($sql);
+		$data = $this->fetch_array($all);
+	}
 }
 ?>

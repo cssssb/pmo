@@ -29,7 +29,7 @@ class city_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->city = \app::load_app_class('city_class', 'travel');//加载差旅
+        $this->city = \app::load_service_class('city_class', 'travel');//加载差旅
     }
     //list
     public function listCity(){
@@ -45,13 +45,32 @@ class city_controller
     //增/改
     public function addCity(){
         $post = $this->post;
-        return $this->city->add_city($post);
+        $ass =  $this->city->add_city($post);
+        $msg['code'] = 1;
+        $msg['msg'] = '添加失败';
+        if($ass){
+            $msg['code'] = 0;
+            $msg['msg'] = '添加成功';
+        }
+        echo json_encode($msg);die;
     }
-
+    public function editCity(){
+        $post = $this->post;
+        return $this->city->edit_city($post);
+    }
     //删
     public function delCity(){
         $post = $this->post;
-        return $this->city->del_city($post);
+        $ass = $this->city->del_city($post);
+        $msg['code'] = 1;
+        $msg['msg'] = '删除失败';
+        if($ass){
+            $msg['code'] = 0;
+            $msg['msg'] = '删除成功';
+        }
+        echo json_encode($msg);die;
     }
-  
+    public function test(){
+        return 123;
+    }
 }

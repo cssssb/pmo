@@ -29,7 +29,7 @@ class stay_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
-        $this->stay = \app::load_app_class('stay_class', 'travel');//加载差旅
+        $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
     }
 
     //list
@@ -46,12 +46,29 @@ class stay_controller
     //增/改
     public function addStay(){
         $post = $this->post;
-        return $this->stay->add_stay($post);
+        $ass = $this->stay->add_stay($post);
+        $msg['code'] = 1;
+        $msg['msg'] = '添加失败';
+        if($ass){
+            $msg['code'] = 0;
+            $msg['msg'] = '添加成功';
+        }
+        echo json_encode($msg);die;
     }
-
+    public function editStay(){
+        $post = $this->post;
+        return $this->stay->edit_stay($post);
+    }
     //删
     public function delStay(){
         $post = $this->post;
-        return $this->stay->del_stay($post);
+        $ass =  $this->stay->del_stay($post);
+        $msg['code'] = 1;
+        $msg['msg'] = '删除失败';
+        if($ass){
+            $msg['code'] = 0;
+            $msg['msg'] = '删除成功';
+        }
+        echo json_encode($msg);die;
     }
 }
