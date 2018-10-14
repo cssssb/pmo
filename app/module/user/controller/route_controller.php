@@ -118,7 +118,7 @@ class route_controller
 
         );
         $this->data->add_data('common_code', $this->data->codelist);
-        $this->data->set_code(10101);
+        $this->data->set_code(1001);
         $this->data->add_data('routelist', $this->routelist);
         $this->data->output();
     }
