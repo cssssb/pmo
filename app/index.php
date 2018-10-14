@@ -15,7 +15,6 @@ define('MODULE_PATH', dirname(__FILE__).DIRECTORY_SEPARATOR."module".DIRECTORY_S
 
 //开启调试模式
 define('SYSTEM_DEBUG',true);
-
 //加载框架
 require SYSTEM_PATH.'app.php';
 

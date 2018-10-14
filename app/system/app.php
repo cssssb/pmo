@@ -3,9 +3,16 @@
 /**
  * ================
  * @Author:    lion
- * @ver:       1.0
- * @DataTime:  2018-07-07
+ * @ver:       1.1
+ * @DataTime:  2018-10-13
  * @describe:  框架入口
+ * @func 
+ * 	1 : load_config("文件名","键值","默认值");
+ * 	2 : load_cont_class("控制器类名","模块名");
+ * 	3 : load_app_class("模型类名","模块名");
+ * 	4 : load_view_class("视图类名","模块名");
+ * 	5 : load_service_class("服务类名","模块名");
+ * 	6 : load_sys_class("系统类名");
  * ================
  */
 define('IN_LION', true);
@@ -158,11 +165,10 @@ class app
 	 * @param string $default  默认配置。当获取配置项目失败时该值发生作用。
 	 * @param boolean $reload 强制重新加载。
 	 */
-	// public static function load_config($file, $key = '', $default = '') {
-	public static function load_config($file, $key='', $default='')
+	public static function load_config($file, $key='', $default='', $reload = false)
 	{
 		static $configs = array();
-		if (isset($configs[$file])) {
+		if (!$reload && isset($configs[$file])) {
 			if (empty($key)) {
 				return $configs[$file];
 			} elseif (isset($configs[$file][$key])) {
