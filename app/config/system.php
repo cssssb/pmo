@@ -1,5 +1,5 @@
 <?php
     return array(
         //网站路径
-        'web_path' => 'http://api.csst.com.cn/',
+        'web_path' => 'http://192.168.53:666/',
     );
