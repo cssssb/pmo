@@ -66,9 +66,9 @@ final class protocol
     }
 
     //简单输出
-    final public function out($code,$data)
+    final public function out($code,$data,$codelist = "")
     {
-        $this->set_code($code);
+        $this->set_code($code,$codelist);
         $this->add_data($data);
         echo $this->json_out($this->body);
     }
