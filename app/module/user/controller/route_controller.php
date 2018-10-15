@@ -18,7 +18,7 @@ class route_controller
     private $student;
     public function __construct()
     {
-        $this->host = app::load_config('system', 'web_path');//加载host配置
+        $this->host = app::load_config('web_path');//加载host配置
         $this->data = app::load_sys_class('protocol');//加载json数据模板
     }
 
