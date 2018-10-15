@@ -4,7 +4,7 @@ defined('IN_LION') or exit('No permission resources.');
 
 final class user_class{
     public function __construct() {
-		$this->model = \app::load_app_class('user','user');
+		$this->model = \app::load_model_class('user','user');
 	
     }
    public function get_one($where){

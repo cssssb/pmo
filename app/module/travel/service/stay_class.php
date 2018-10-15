@@ -7,8 +7,8 @@ final class stay_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('stay_cost', 'travel');//差旅表
-		$this->operation = \app::load_app_class('operation_project', 'project');
+		$this->model = \app::load_model_class('stay_cost', 'travel');//差旅表
+		$this->operation = \app::load_model_class('operation_project', 'project');
     }
      //list
      public function list_stay($post){

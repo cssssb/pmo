@@ -7,7 +7,7 @@ final class lecturer_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('lecturer', 'lecturer');
+		$this->model = \app::load_model_class('lecturer', 'lecturer');
 
 	}
 

@@ -25,7 +25,7 @@ class province_controller
      */
     public function __construct()
     {   
-        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
+        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->city = \app::load_service_class('city_class', 'travel');//加载差旅

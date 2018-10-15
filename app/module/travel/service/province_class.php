@@ -7,8 +7,8 @@ final class province_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('province_cost', 'travel');//差旅表
-		$this->operation = \app::load_app_class('operation_project', 'project');
+		$this->model = \app::load_model_class('province_cost', 'travel');//差旅表
+		$this->operation = \app::load_model_class('operation_project', 'project');
     }
     //list
     public function list_travel($project_id){

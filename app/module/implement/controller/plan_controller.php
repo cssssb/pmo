@@ -25,7 +25,7 @@ class plan_controller
      */
     public function __construct()
     {   
-        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
+        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
         // $this->implement_cost = \app::load_service_class('implement_cost_class', 'budget');//加载实施安排
         $this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排

@@ -25,7 +25,7 @@ class implement_fee_controller
      */
     public function __construct()
     {   
-        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
+        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->post;
         // $this->training_cost = \app::load_service_class('training_cost_class', 'budget');//加载实施安排

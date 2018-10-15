@@ -7,10 +7,10 @@ final class travel_plan_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('travel_plan', 'travel');//差旅表
-		$this->province = \app::load_app_class('province_cost', 'travel');//长途交通表
-		$this->city = \app::load_app_class('city_cost', 'travel');//市内交通表
-		$this->stay = \app::load_app_class('stay_cost', 'travel');//住宿表
+		$this->model = \app::load_model_class('travel_plan', 'travel');//差旅表
+		$this->province = \app::load_model_class('province_cost', 'travel');//长途交通表
+		$this->city = \app::load_model_class('city_cost', 'travel');//市内交通表
+		$this->stay = \app::load_model_class('stay_cost', 'travel');//住宿表
 		
 	}
 	/**

@@ -7,7 +7,7 @@ final class one_page_class
 {
   public function __construct()
   {
-    $this->model = \app::load_app_class('one_page', 'budget');
+    $this->model = \app::load_model_class('one_page', 'budget');
 
   }
   public function select($where = '1', $limit)

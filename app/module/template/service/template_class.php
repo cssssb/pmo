@@ -7,7 +7,7 @@ final class template_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('template', 'template');
+		$this->model = \app::load_model_class('template', 'template');
 	}
 
 }

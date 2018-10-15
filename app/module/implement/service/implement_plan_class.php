@@ -7,8 +7,8 @@ final class implement_plan_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('implement_plan', 'implement');//差旅表
-		$this->operation = \app::load_app_class('operation_project', 'project');
+		$this->model = \app::load_model_class('implement_plan', 'implement');//差旅表
+		$this->operation = \app::load_model_class('operation_project', 'project');
 	}
 	/**
 	 * ================

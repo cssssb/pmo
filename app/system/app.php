@@ -9,7 +9,7 @@
  * @func 
  * 	1 : load_config("文件名","键值","默认值");
  * 	2 : load_cont_class("控制器类名","模块名");
- * 	3 : load_app_class("模型类名","模块名");
+ * 	3 : load_model_class("模型类名","模块名");
  * 	4 : load_view_class("视图类名","模块名");
  * 	5 : load_service_class("服务类名","模块名");
  * 	6 : load_sys_class("系统类名");
@@ -83,7 +83,7 @@ class app
 	 * @param string $classname 类名
 	 * @param string $module 模块名称
 	 */
-	public static function load_app_class($classname, $module)
+	public static function load_model_class($classname, $module)
 	{
 		$path = MODULE_PATH . $module . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
 		$namespace = $module;

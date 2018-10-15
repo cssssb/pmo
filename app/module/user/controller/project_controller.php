@@ -19,7 +19,7 @@ class project_controller
      */
     public function __construct()
     {   
-        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
+        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->ding = \app::load_service_class('ding', 'user');//部门 || 
         $this->project_header_class = \app::load_service_class('project_header_class', 'user');//项目表
         $this->of_project_class = \app::load_service_class('of_project_class', 'user');//项目集表

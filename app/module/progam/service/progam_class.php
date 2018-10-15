@@ -7,7 +7,7 @@ final class progam_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('progam', 'progam');
+		$this->model = \app::load_model_class('progam', 'progam');
 	}
    
 	public function add($data){

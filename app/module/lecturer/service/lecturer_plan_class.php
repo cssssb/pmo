@@ -7,8 +7,8 @@ final class lecturer_plan_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('lecturer_plan', 'lecturer');
-		$this->operation = \app::load_app_class('operation_project', 'project');
+		$this->model = \app::load_model_class('lecturer_plan', 'lecturer');
+		$this->operation = \app::load_model_class('operation_project', 'project');
 	}
 
 	public function add($data)

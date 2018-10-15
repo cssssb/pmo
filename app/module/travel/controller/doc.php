@@ -25,7 +25,7 @@ class doc
      */
     public function __construct()
     {   
-        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
+        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->city = \app::load_cont_class('city', 'travel');//加载差旅
     }
     //list

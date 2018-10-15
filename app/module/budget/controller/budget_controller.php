@@ -26,7 +26,7 @@ class budget_controller
      */
     public function __construct()
     {   
-        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
+        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->header = \app::load_service_class('header_class', 'budget');//加载头class
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->one_page = \app::load_service_class('one_page_class', 'budget');//加载头class

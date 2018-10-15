@@ -18,7 +18,7 @@ class duty_controller
      */
     public function __construct()
     {   
-        $this->protocol = \app::load_app_class('protocol','user');//加载公共json
+        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->lecturer_duty = \app::load_service_class('lecturer_duty_class', 'lecturer');//加载讲师安排
     }

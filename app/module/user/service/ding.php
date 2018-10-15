@@ -6,9 +6,9 @@ defined('IN_LION') or exit('No permission resources.');
 // echo "\n";
 final class ding{
     public function __construct() {
-		$this->model = \app::load_app_class('ding_member','user');
-		$this->demt = \app::load_app_class('ding_department','user');
-		$this->about = \app::load_app_class('ding_about_staff','user');
+		$this->model = \app::load_model_class('ding_member','user');
+		$this->demt = \app::load_model_class('ding_department','user');
+		$this->about = \app::load_model_class('ding_about_staff','user');
 	
     }
     public function cssssb(){

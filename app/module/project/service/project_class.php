@@ -7,13 +7,13 @@ final class project_class
 {
 	public function __construct()
 	{
-		$this->model = \app::load_app_class('project', 'project');
-		$this->operation = \app::load_app_class('operation_project', 'project');
-		$this->lecturer = \app::load_app_class('lecturer_plan', 'lecturer');
-		$this->implement = \app::load_app_class('implement_plan', 'implement');
-		$this->city = \app::load_app_class('city_class', 'travel');
-		$this->stay = \app::load_app_class('stay_class', 'travel');
-		$this->province = \app::load_app_class('province_class', 'travel');
+		$this->model = \app::load_model_class('project', 'project');
+		$this->operation = \app::load_model_class('operation_project', 'project');
+		$this->lecturer = \app::load_model_class('lecturer_plan', 'lecturer');
+		$this->implement = \app::load_model_class('implement_plan', 'implement');
+		$this->city = \app::load_model_class('city_class', 'travel');
+		$this->stay = \app::load_model_class('stay_class', 'travel');
+		$this->province = \app::load_model_class('province_class', 'travel');
 
 	}
 	
