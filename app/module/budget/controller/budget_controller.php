@@ -26,6 +26,7 @@ class budget_controller
      */
     public function __construct()
     {   
+        $this->data = \app::load_sys_class('protocol');//加载json数据模板
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->header = \app::load_service_class('header_class', 'budget');//加载头class
         $this->post = json_decode(file_get_contents('php://input'),true);
@@ -33,7 +34,7 @@ class budget_controller
     }
     
     public function budgetIndexAdd(){
-        $post = $this->post;
+        $post = $this->data->get_post();
         
         $data = $this->one_page->insert($post);
        if($data){

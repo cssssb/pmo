@@ -25,6 +25,7 @@ class progam_controller
      */
     public function __construct()
     {   
+        $this->data = \app::load_sys_class('protocol');//加载json数据模板
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
@@ -36,17 +37,17 @@ class progam_controller
         echo json_encode($this->progam->add($id));exit;
     }
     public function del(){
-        $post = $this->post;
+        $post = $this->data->get_post();
         $id = $post['data']['id'];
         echo json_encode($this->progam->del($id));exit;
     }
     public function edit(){
-        $post = $this->post;
+        $post = $this->data->get_post();
         $id = $post['data']['id'];
         echo json_encode($this->progam->edit($id));exit;
     }
     public function get_one(){
-        $post = $this->post;
+        $post = $this->data->get_post();
         $id = $post['data']['id'];
         echo json_encode($this->progam->get_one($id));exit;
     }

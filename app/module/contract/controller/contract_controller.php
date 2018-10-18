@@ -25,9 +25,10 @@ class contract_controller
      */
     public function __construct()
     {   
+        $this->data = \app::load_sys_class('protocol');//加载json数据模板
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
-        $post = $this->post;
+        $post = $this->data->get_post();
         // $this->implement_cost = \app::load_service_class('implement_cost_class', 'budget');//加载实施安排
         $this->contract = \app::load_service_class('contract_class', 'contract');//加载实施安排
     }

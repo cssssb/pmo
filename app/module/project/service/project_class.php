@@ -128,14 +128,9 @@ final class project_class
 	 * ================
 	 */
 	public function operation_project_add($data){
-		$project_id = $data['id'];
-		$token = $data['token'];
-		$bool = $this->operation->del_operation($project_id,$token);
-		// return var_dump($bool);
-		if($bool){
+		
 			return $this->new_addproject($data);
-		}
-		return false;
+		
 	}
 	// //弃用
 	// private function new_addproject($data)
@@ -166,8 +161,8 @@ final class project_class
 
 
 		
-		$oldproject['project_id'] = $where['header_id'] = $old_id;
-		$project['project_id'] = $data['header_id'] = $insert_id;
+		$oldproject['parent_id'] = $where['parent_id'] = $old_id;
+		$project['parent_id'] = $data['parent_id'] = $insert_id;
 		$lecturer = $this->lecturer->update($data, $where);
 		$implement = $this->implement->update($data, $where);
 		$city = $this->city->update($project,$oldproject);
@@ -207,26 +202,24 @@ final class project_class
 	 * ================
 	 */
 	
-	public function get_one_project($ass){
-		$id = $ass['id'];
-		$token = $ass['token'];
-		$bool = $this->operation->get_one_operation($id,$token);
-
-		if($bool){
+	public function get_one_project($id){
+		
 			return $this->model->get_one_project($id);
-		}
-		return false;
+		
 			
 		}
 	
 	//返回项目编号
-	private function set_project_unicode($length = 8){
-		$pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';  
-		for($i=0;$i<$length;$i++)   
-		{   
-		$key .= $pattern{mt_rand(0,35)};    //生成php随机数   
-		}   
-		return $key;   
+	private function set_project_unicode($length = 5){
+		 $str = null;
+      $strPol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";//大小写字母以及数字
+      $max = strlen($strPol)-1;
+      
+      for($i=0;$i<$length;$i++){
+         $str.=$strPol[rand(0,$max)];
+      }
+      return $str;
+
 	}
 
 }

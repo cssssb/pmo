@@ -27,13 +27,9 @@ final class project
 	 */
 	public function add_template($data)
 	{
-		$project_id = $data['id'];
-		$token = $data['token'];
-		$bool = $this->operation->del_operation($project_id,$token);
-		if($bool){
+		
 		$data['time'] = date('y-m-d H:i:s', time());
 		return $this->model->insert($data);
-		}
 		
 	}
 	/**
@@ -127,14 +123,8 @@ final class project
 	 * ================
 	 */
 	public function operation_project_add($data){
-		$project_id = $data['id'];
-		$token = $data['token'];
-		$bool = $this->operation->del_operation($project_id,$token);
-		// return var_dump($bool);
-		if($bool){
+	
 			return $this->new_addproject($data);
-		}
-		return false;
 	}
 	//弃用
 	// private function new_addproject($data)
@@ -164,8 +154,8 @@ final class project
 	{
 
 
-		$oldproject['project_id'] = $where['header_id'] = $old_id;
-		$project['project_id'] = $data['header_id'] = $insert_id;
+		$oldproject['parent_id'] = $where['parent_id'] = $old_id;
+		$project['parent_id'] = $data['parent_id'] = $insert_id;
 		$lecturer = $this->lecturer->update($data, $where);
 		$implement = $this->implement->update($data, $where);
 		$city = $this->city->update($project,$oldproject);
@@ -207,13 +197,8 @@ final class project
 	
 	public function get_one_project($ass){
 		$id = $ass['id'];
-		$token = $ass['token'];
-		$bool = $this->operation->get_one_operation($id,$token);
 
-		if($bool){
 			return $this->model->get_one_project($id);
-		}
-		return false;
 			
 		}
 

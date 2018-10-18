@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `pmo_budget`;
 CREATE TABLE `pmo_budget`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `budget_project_name` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
-  `header_id` int(11) NULL DEFAULT NULL,
+  `parent_id` int(11) NULL DEFAULT NULL,
   `budget_tax` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '税率',
   `budget_consulting_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '咨询费用',
   `budget_expects_revenue` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '预计收入',
@@ -51,7 +51,7 @@ CREATE TABLE `pmo_city_cost`  (
   `short_fee_card_people` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '人员',
   `short_fee_type` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用名称',
   `short_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用',
-  `header_id` int(11) NULL DEFAULT NULL,
+  `parent_id` int(11) NULL DEFAULT NULL,
   `now_time` datetime(0) NOT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
@@ -223,7 +223,7 @@ CREATE TABLE `pmo_implement_plan`  (
   `pen_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文具',
   `serve_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '服务费',
   `mail_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '快递费',
-  `header_id` int(11) NULL DEFAULT NULL,
+  `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   `time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -292,7 +292,7 @@ INSERT INTO `pmo_lecturer_duty` VALUES (6, '无', 0);
 DROP TABLE IF EXISTS `pmo_lecturer_plan`;
 CREATE TABLE `pmo_lecturer_plan`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `header_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
+  `parent_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
   `lecturer_id` int(11) NULL DEFAULT NULL COMMENT '讲师表id(暂时无用)',
   `tax` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '税',
   `fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '讲课费',
@@ -376,7 +376,7 @@ CREATE TABLE `pmo_model_list`  (
 DROP TABLE IF EXISTS `pmo_operation_project`;
 CREATE TABLE `pmo_operation_project`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) NULL DEFAULT NULL,
+  `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 1 COMMENT '0为可修改，1为锁不可修改',
   `time` datetime(0) NULL DEFAULT NULL,
   `token` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -410,7 +410,7 @@ INSERT INTO `pmo_operation_project` VALUES (41, 103, 1, '2018-10-09 11:32:25', '
 DROP TABLE IF EXISTS `pmo_process_plan`;
 CREATE TABLE `pmo_process_plan`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `header_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
+  `parent_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
   `meet_id` int(11) NULL DEFAULT NULL COMMENT '会场id',
   `training_id` int(11) NULL DEFAULT NULL COMMENT '培训成本id',
   PRIMARY KEY (`id`) USING BTREE
@@ -519,7 +519,7 @@ CREATE TABLE `pmo_province_cost`  (
   `long_fee_card_end_time` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束时间',
   `long_fee_card_end_place` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束地点',
   `state` tinyint(3) NULL DEFAULT 0,
-  `header_id` int(11) NULL DEFAULT NULL,
+  `parent_id` int(11) NULL DEFAULT NULL,
   `now_time` datetime(0) NOT NULL,
   `fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用',
   `long_fee_card_vehicle_name` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -670,7 +670,7 @@ CREATE TABLE `pmo_stay_cost`  (
   `hotel_expense_people` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '住宿费人姓名',
   `hotel_expense_days` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '天数',
   `hotel_expense_total` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '总价',
-  `header_id` int(11) NULL DEFAULT NULL,
+  `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   `now_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE

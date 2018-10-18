@@ -3,7 +3,7 @@
 pmo_project_header
 id
 project_name            项目名称
-of_project_id           所属项目集id
+of_parent_id           所属项目集id
 staff_id                实施负责人(员工表)id
 template_id             项目模板id
 corporate_name          公司名称

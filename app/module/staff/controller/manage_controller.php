@@ -1,5 +1,5 @@
 <?php
-namespace project;
+namespace staff;
 
 //namespace 模块名
 use \app;
@@ -13,7 +13,7 @@ defined('IN_LION') or exit('No permission resources.');
  * @describe:  getBYProjectzd;edit;
  * ================
  */
-class type_controller
+class manage_controller
 {
     private $data;
     /**
@@ -24,15 +24,15 @@ class type_controller
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         //todo 加载相关模块
         // $this->type = app::load_service_class('type', 'project');//
-		$this->project = \app::load_service_class('project_class', 'project');//加载项目大表
+		$this->staff = \app::load_service_class('staff_class', 'staff');//加载项目大表
     }
     public function list()
     {
         /**
          * ================
-         * @Author:    lion
+         * @Author:    css
          * @ver:       0.1
-         * @DataTime:  2018-10-14
+         * @DataTime:  2018-10-16
          * @describe:  list function
          * ================
          */
@@ -43,7 +43,7 @@ class type_controller
         //处理post
         //调用业务层函数
         // example $this->service->function();
-        $data = $this->project->listProject();
+        $data = $this->staff->small_list();
         $data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
@@ -54,7 +54,7 @@ class type_controller
             //     $this->data->out(code, $data);
             //     break;
             default:
-                $this->data->out(1001, $data);
+                $this->data->out(2001, $data);
             }
     }
 }

@@ -22,22 +22,23 @@ class route_controller
         $this->data = app::load_sys_class('protocol');//加载json数据模板
     }
 
-    public function client_route()
+    public function client_route2()
     {
         $this->routelist = array(
     //客户端路由表
     "client_route"    =>$this->r("user", "user", "client_route", ["account"=>"string"], ["session"=>"string"]),
     //project
-    "addProject"=>$this->r("project", "manage", "addProject", ["project_project_template_id"=>"string"], []),       //添加项目
-    "editProject"=>$this->r("project", "manage", "editProject", [], []),       //修改项目
-    "delProject"=>$this->r("project", "manage", "delProject", [], []),       //删除项目
-    "listProject"=>$this->r("project", "manage", "listProject", [], []),    //返回项目列表
-    "getProject"=>$this->r("project", "manage", "getProject", [], []),      //点击获取修改本条的项目的数据
-    "getOneProject"=>$this->r("project", "manage", "getOneProject", [], []),   //获取一条数据
+    "project_manage_add"=>$this->r("project", "manage", "add", ["project_project_template_id"=>"string"], [],'1.0'),       //添加项目
+    "project_data_edit"=>$this->r("project", "data", "edit", ["id"=>"string"], [],'1.0'),       //修改项目
+    // "delProject"=>$this->r("project", "manage", "delProject", [], []),       //删除项目
+    "project_manage_list"=>$this->r("project", "manage", "list", ["id=>string"], [],'1.0'),    //返回项目列表
+    // "getProject"=>$this->r("project", "manage", "getProject", [], []),      //点击获取修改本条的项目的数据
+    "project_data_getByProjectId"=>$this->r("project", "data", "getByProjectId", ["id"=>"string"], [],'1.0'),   //获取一条数据
 
     //返回数据库员工信息 8.27
      "staffOfDing"    =>$this->r("user", "ding", "staffOfDing", [], []),
-     "staffSmallList"    =>$this->r("user", "project", "staffSmallList", [], []),
+    //  "staffSmallList"    =>$this->r("user", "project", "staffSmallList", [], []),
+     "staff_manage_list"    =>$this->r("staff", "manage", "list", [], [],'1.0'),
      "csstDepartmentList"    =>$this->r("user", "project", "csstDepartmentList", [], []),
      "budgetAllList"    =>$this->r("user", "project", "budgetAllList", [], []),
      //返回各部门
@@ -56,13 +57,14 @@ class route_controller
      
      //返回表
      "projectHeader"    =>$this->r("user", "project", "projectHeader", [], []),//项目总表
-     "ofProject"    =>$this->r("user", "project", "ofProject", [], []),//项目集表
+     "program_manage_list"    =>$this->r("program", "manage", "list", [], [],'1.0'),//项目集表
+     "program_manage_add"    =>$this->r("program", "manage", "add", [], [],'0.1'),//项目集新增
     //  "contract"    =>$this->r("user","project","contract",[],[]),//合同表
      "contract"    =>$this->r("contract", "contract", "contract", [], []),//合同表/
      
-     "projectTemplate"    =>$this->r("user", "project", "projectTemplate", [], []),//项目模板表
-     "lecturer"    =>$this->r("user", "project", "lecturer", [], []),//讲师表
-     "lecturerDuty"    =>$this->r("user", "project", "lecturerDuty", [], []),//职责表
+     "project_type_list"    =>$this->r("user", "project", "projectTemplate", [], [],'1.0'),//项目模板表
+     "lecturer_manage_list"    =>$this->r("lecturer", "manage", "list", [], [],'1.0'),//讲师表
+     "lecturer_duty_list"    =>$this->r("lecturer", "duty", "list", [], [],'1.0'),//职责表
     //  "dutyList"    =>$this->r("lecturer","lecturer_duty","dutyList",[],[]),//职责表
     
     //"projectHeader"    =>$this->r("project","project","projectHeader",[],[]),//项目总表
@@ -73,11 +75,11 @@ class route_controller
 
     
     //安排成本
-    "lecturerAdd"=>$this->r("lecturer", "plan", "add", [], []),               //添加、修改讲师成本安排
-    "lecturerEdit"=>$this->r("lecturer", "plan", "edit", [], []),               //添加、修改讲师成本安排
-    "lecturerDel"=>$this->r("lecturer", "plan", "del", [], []),                //删除讲师成本状态
-    "listLecturer"=>$this->r("lecturer", "plan", "listLecturer", [], []),       //讲师列表
-    "getOneTeacher"=>$this->r("lecturer", "plan", "getOneTeacher", [], []),       //一条讲师
+    "lecturer_plan_add"=>$this->r("lecturer", "plan", "add", [], [],'1.0'),               //添加、修改讲师成本安排
+    "lecturer_plan_edit"=>$this->r("lecturer", "plan", "edit", [], [],'1.0'),               //添加、修改讲师成本安排
+    "lecturer_plan_del"=>$this->r("lecturer", "plan", "del", [], [],'1.0'),                //删除讲师成本状态
+    "lecturer_plan_getByProjectId"=>$this->r("lecturer", "plan", "getByProjectId", [], []),       //讲师列表
+    // "getOneTeacher"=>$this->r("lecturer", "plan", "getOneTeacher", [], []),       //一条讲师
     // "budgetIndexAdd"=>$this->r("lecturer","budget","budgetIndexAdd",[],[]),
     "sumCost"=>$this->r("lecturer", "fee", "sumCost", [], []),                //讲师成本金额
 
@@ -90,7 +92,7 @@ class route_controller
     "feeTravel"=>$this->r("travel", "travel_fee", "feeTravel", [], []),     //差旅费用总和
     
     "addTraining"=>$this->r("implement", "plan", "addTraining ", [], []),     //添加实施安排
-    "listTraining"=>$this->r("implement", "plan", "listTraining", [], []),     //实施安排列表
+    "implement_plan_getBuProjectId"=>$this->r("implement", "plan", "getBuProjectId", [], [],'1.0'),     //获取实施安排
     "feeTraining"=>$this->r("implement", "implement_fee", "feeTraining", [], []),     //计算实施费用
 
     
@@ -128,7 +130,7 @@ class route_controller
         return ["url"=>$this->host."/".$c."/".$b. "/".$a,"request"=>$request,"response.data"=>$response,"version"=>$version];
     }
 
-    public function client_route2()
+    public function client_route()
     {
         $routelist = app::load_config('route', 'default_routelist');//加载route
         foreach ($routelist as $key => $route) {

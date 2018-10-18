@@ -52,7 +52,7 @@ class user_controller
     public function login(){
         // $username = preg_match("/^[\x{4e00}-\x{9fa5}]{2,30}$/u", $_POST['username']);
             //code_user 登录注册可用
-        $post = $this->post;
+        $post = $this->data->get_post();
         // $username = $post['username'];
         // $password = $post['password'];
         $username = '123456';
@@ -100,7 +100,7 @@ class user_controller
 
     //获取token判断用哪个自定义函数
     public function index(){
-        $post = $this->post;
+        $post = $this->data->get_post();
         $token = $post['token'];
         $token = 'vproYbNm0n';
         $data = $this->user->admin($token);

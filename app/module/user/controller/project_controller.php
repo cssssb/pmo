@@ -19,6 +19,7 @@ class project_controller
      */
     public function __construct()
     {   
+    $this->data = \app::load_sys_class('protocol');//加载json数据模板
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->ding = \app::load_service_class('ding', 'user');//部门 || 
         $this->project_header_class = \app::load_service_class('project_header_class', 'user');//项目表
@@ -210,12 +211,13 @@ class project_controller
         $msg = [];
         $msg['stat_time'] = $this->getMillisecond();
         $data = $this->project_template_class->select('id,name');
-        $msg['data'] = $data;
-        $msg['code'] = 0;
-        $msg['msg'] = "查询成功";
-        $msg['end_time'] = $this->getMillisecond();
-        $msg['during_time'] =  $msg['end_time'] - $msg['stat_time'];
-        echo json_encode($msg);
+        // $msg['data'] = $data;
+        // $msg['code'] = 0;
+        // $msg['msg'] = "查询成功";
+        // $msg['end_time'] = $this->getMillisecond();
+        // $msg['during_time'] =  $msg['end_time'] - $msg['stat_time'];
+        // echo json_encode($msg);
+        $this->data->out(2001,$data);
     }
     //返回讲师表
     public function lecturer(){

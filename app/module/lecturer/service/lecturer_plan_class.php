@@ -13,23 +13,13 @@ final class lecturer_plan_class
 
 	public function add($data)
 	{
-		$project_id = $data['header_id'];
-		$token = $data['token'];
-		$bool = $this->operation->del_operation($project_id,$token);
-		if(!$bool){
-			return false;
-		}
+		
 		$data['time'] = date('y-m-d H:i:s',time());
 		return $this->model->insert($data);
 		
 	}
 	public  function edit($ass){
-		$project_id = $ass['id'];
-		$token = $ass['token'];
-		$bool = $this->operation->del_operation($project_id,$token);
-		if(!$bool){
-			return false;
-		}
+	
 			$where['id'] = $ass['id'];
 			$data['state'] = 1;
 			$this->model->update($data,$where);
@@ -60,23 +50,23 @@ final class lecturer_plan_class
 	 */
 	public function list_teacher($data)
 	{	
-		$sql = 'header_id='.$data['header_id'].' and state=0';
+		$sql = 'parent_id='.$data['parent_id'].' and state=0';
 		return $this->model->select($sql);
 	}
 
 	/**
 	 * ================
 	 * @Function:     fee_teacher
-	 * @Parameter:    header_id
+	 * @Parameter:    parent_id
 	 * @DataTime:     2018-09-13
 	 * @Return:       讲师成本
 	 * @Notes:        
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function fee_teacher($project_id){
+	public function fee_teacher($parent_id){
 		$where['state'] = 0;
-		$where['header_id'] = $project_id['header_id'];
+		$where['parent_id'] = $parent_id['parent_id'];
 		$data = $this->model->select($where);
 		// $ass =  $data['fee'] * $data['day'];
 		foreach($data as $key){
@@ -86,17 +76,17 @@ final class lecturer_plan_class
 	}
 	/**
 	 * ================
-	 * @Function:     edit_header_id
-	 * @Parameter:    header_id
+	 * @Function:     edit_parent_id
+	 * @Parameter:    parent_id
 	 * @DataTime:     2018-09-20
 	 * @Return:       bool
 	 * @Notes:        修改表关联id
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function edit_header_id($old_id,$id){
-		$where['header_id'] = $old_id;
-		$data['header_id'] = $id;
+	public function edit_parent_id($old_id,$id){
+		$where['parent_id'] = $old_id;
+		$data['parent_id'] = $id;
 		return $this->model->update($data,$where);
 	}
 	// /**
@@ -111,13 +101,13 @@ final class lecturer_plan_class
 	//  */
 
 	// public function operation_get_one($ass){
-	// 	$project_id['project_id'] = $ass['id'];
-	// 	$operation = $this->operation->get_one($project_id,'*','id desc');
+	// 	$parent_id['parent_id'] = $ass['id'];
+	// 	$operation = $this->operation->get_one($parent_id,'*','id desc');
 	// 	$time = time()-strtotime($operation['time']);
 	// 	//如果操作表里没有或者状态为已成功修改过新增一条数据
 	// 	if(!$operation || $operation['state']==2){
-	// 		$project_id['time'] = date('y-m-d H:i:s',time());
-	// 			$this->operation->insert($project_id);
+	// 		$parent_id['time'] = date('y-m-d H:i:s',time());
+	// 			$this->operation->insert($parent_id);
 	// 			return  $this->get_one_teacher($ass);
 	// 			//如果修改延时可以获取
 	// 		}elseif($operation['state']==1 && $time>180){
@@ -146,8 +136,8 @@ final class lecturer_plan_class
 	 * ================
 	 */
 	// private function operation_edit($ass){
-	// 	$project_id['project_id'] = $ass['id'];
-	// 	$operation = $this->operation->get_one($project_id,'*','id desc');
+	// 	$parent_id['parent_id'] = $ass['id'];
+	// 	$operation = $this->operation->get_one($parent_id,'*','id desc');
 	// 	if($operation['state']==1){
 	// 		$this->edit($ass);
 	// 		$update['state'] = 2;

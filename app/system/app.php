@@ -69,7 +69,7 @@ class app
 		}
 	}
 	/**
-	 * 加载控制器类
+	 * doc专用加载控制器类
 	 * @param string $classname 类名
 	 * @param string $module 模块名称
 	 */

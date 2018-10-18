@@ -28,4 +28,7 @@ final class progam_class
 		$where['state'] = 0;
 		return $this->model->get_one($where);
 	}
+	public function select(){
+        return $this->model->select(1,'id,name');
+    }
 }

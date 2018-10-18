@@ -58,7 +58,7 @@ final class db_mysqli {
 	 */
 	public function connect() {
 		$this->link = new \mysqli($this->config['hostname'], $this->config['username'], $this->config['password'], $this->config['database'], $this->config['port']?intval($this->config['port']):3306);
-		// $this->link = mysqli_connect('localhost', 'root',  'root', 'pmo', 3306);
+		// $this->link =new \mysqli('localhost', 'root',  'route', 'pmo_c', 3306);
 		if(mysqli_connect_error()){
 			$this->halt('Can not connect to MySQL server');
 			return false;

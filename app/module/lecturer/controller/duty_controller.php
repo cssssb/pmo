@@ -18,20 +18,23 @@ class duty_controller
      */
     public function __construct()
     {   
+        $this->data = \app::load_sys_class('protocol');//加载json数据模板
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->lecturer_duty = \app::load_service_class('lecturer_duty_class', 'lecturer');//加载讲师安排
     }
 
-    public function dutyList(){
+    public function list(){
         $data = $this->lecturer_duty->of_list();
-        if($data){
-        $msg['code'] = 0;
-        $msg['data'] = $data;
-        $msg['msg'] = '返回列表成功';
-    }else{
-        $msg['code'] = 1;
-        $msg['msg'] = '返回列表失败';
-    }
+      
+    $data?$cond = 0:$cond = 1;
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002);
+                break;
+          
+            default:
+                $this->data->out(2001, $data);
+            }
     }
 }

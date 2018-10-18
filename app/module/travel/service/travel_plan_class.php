@@ -72,7 +72,7 @@ final class travel_plan_class
 	/**
 	 * ================
 	 * @Function:     
-	 * @Parameter:    header_id
+	 * @Parameter:    parent_id
 	 * @DataTime:     2018-09-13
 	 * @Return:       
 	 * @Notes:        返回差旅费用列表
@@ -88,8 +88,8 @@ final class travel_plan_class
 		$data['stay'] = $this->stay->select($pid);
 		return $data;
 	}
-	public function edit_state($project_id){
-		$where['header_id'] = $project_id;
+	public function edit_state($parent_id){
+		$where['parent_id'] = $parent_id;
 		$have = $this->model->get_one($where);
 		if($have){
 			$data['state'] = 1;
@@ -100,9 +100,9 @@ final class travel_plan_class
 
 	}
 
-	public function del_province($header_id,$user_id){
+	public function del_province($parent_id,$user_id){
 		$data['state'] = 2;
-		$where['header_id']=$header_id;
+		$where['parent_id']=$parent_id;
 		return $this->province->update($data,$where);
 	}
 	public function del_city($where){
@@ -116,15 +116,15 @@ final class travel_plan_class
 	/**
 	 * ================
 	 * @Function:     fee_travel
-	 * @Parameter:    header_id
+	 * @Parameter:    parent_id
 	 * @DataTime:     2018-09-13
 	 * @Return:       fee
 	 * @Notes:        返回长途交通、市内交通、住宿成本总和
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function fee_travel($header_id){
-		$where['header_id'] = $header_id; 
+	public function fee_travel($parent_id){
+		$where['parent_id'] = $parent_id; 
 		$where['state'] = 0; 
 		$data = $this->model->get_one($where);
 		$ass['pid'] = $data['id'];
@@ -175,17 +175,17 @@ final class travel_plan_class
 	}
 	/**
 	 * ================
-	 * @Function:     edit_header_id
-	 * @Parameter:    header_id
+	 * @Function:     edit_parent_id
+	 * @Parameter:    parent_id
 	 * @DataTime:     2018-09-20
 	 * @Return:       bool
 	 * @Notes:        修改表关联id
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function edit_header_id($old_id,$id){
-		$where['header_id'] = $old_id;
-		$data['header_id'] = $id;
+	public function edit_parent_id($old_id,$id){
+		$where['parent_id'] = $old_id;
+		$data['parent_id'] = $id;
 		return $this->model->update($data,$where);
 	}
 

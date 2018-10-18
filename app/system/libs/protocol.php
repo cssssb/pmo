@@ -52,8 +52,14 @@ final class protocol
     final public function add_data($key, $value="")
     {
         if(is_array($key)){
+        //     if(count($key) == count($key,1)){
+        //         $this->body['data'] = $key;
+        //         return $this->body;
+        //    }else{
             $this->body['data'] = array_merge_recursive($this->body['data'], $key);
             return $this->body;
+        //    }
+            
         }else{
             $this->body["data"]["$key"]= $value;
             return $this->body;
@@ -66,7 +72,7 @@ final class protocol
     }
 
     //简单输出
-    final public function out($code,$data,$codelist = "")
+    final public function out($code,$data="",$codelist = "")
     {
         $this->set_code($code,$codelist);
         $this->add_data($data);
@@ -74,6 +80,6 @@ final class protocol
     }
     
     final private function json_out($data){
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);exit;
     }
 }

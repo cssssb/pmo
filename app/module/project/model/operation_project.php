@@ -21,16 +21,16 @@ class operation_project extends \system\model {
 	/**
 	 * ================
 	 * @Function:     del_operation
-	 * @Parameter:    project_id token
+	 * @Parameter:    parent_id token
 	 * @DataTime:     2018-09-28
 	 * @Return:       bool
 	 * @Notes:        添加操作
 	 * @ErrorReason:  null
 	 * ================
 	 */	
-	public function get_one_operation($project_id,$token){
+	public function get_one_operation($parent_id,$token){
 		return true;
-		$where['project_id'] = $project_id;
+		$where['parent_id'] = $parent_id;
 		$where['token'] = $token;
 		$return = $this->get_one($where);
 		if($return){
@@ -38,9 +38,9 @@ class operation_project extends \system\model {
 			return true;
 		}
 			//验证失败
-		$data = $this->get_one("project_id=$project_id");
+		$data = $this->get_one("parent_id=$parent_id");
 		if(!$data){
-			$operation['project_id'] = $project_id;
+			$operation['parent_id'] = $parent_id;
 			$operation['time'] = date('y-m-d H:i:s',time());
 			$operation['token'] = $token;
 			return $this->insert($operation);
@@ -49,9 +49,9 @@ class operation_project extends \system\model {
 		$time = time()-strtotime($data['time']);
 		//操作延时
 		if($time>180){
-			$this->delete($project_id);
+			$this->delete($parent_id);
 			$operation['time'] = date('y-m-d H:i:s',time());
-			$operation['project_id'] = $project_id;
+			$operation['parent_id'] = $parent_id;
 			$operation['token'] = $token;
 			return $this->insert($operation);
 		}
@@ -62,15 +62,15 @@ class operation_project extends \system\model {
 	/**
 	 * ================
 	 * @Function:     del_operation
-	 * @Parameter:    project_id token
+	 * @Parameter:    parent_id token
 	 * @DataTime:     2018-09-28
 	 * @Return:       bool
 	 * @Notes:        
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function del_operation($project_id,$token){
-		// $where['project_id'] = $project_id;
+	public function del_operation($parent_id,$token){
+		// $where['parent_id'] = $parent_id;
 		// $where['token'] = $token;
 		// $return = $this->get_one($where);
 		// if($return){

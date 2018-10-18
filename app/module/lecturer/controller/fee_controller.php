@@ -25,6 +25,7 @@ class fee_controller
      */
     public function __construct()
     {   
+        $this->data = \app::load_sys_class('protocol');//加载json数据模板
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->lecturer_list = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
@@ -33,12 +34,12 @@ class fee_controller
 
         //讲师金额
         public function sumCost(){
-            //会传一个header_id
-            // $header_id = 1;
-            $post = $this->post;
-            $header_id['header_id'] = $post['project_id'];
+            //会传一个parent_id
+            // $parent_id = 1;
+            $post = $this->data->get_post();
+            $parent_id['parent_id'] = $post['parent_id'];
             //获取金额
-          $fee = $this->lecturer_list->fee_teacher($header_id);
+          $fee = $this->lecturer_list->fee_teacher($parent_id);
           return print_r($fee);
         }
         public function ass(){

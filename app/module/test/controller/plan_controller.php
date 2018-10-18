@@ -54,7 +54,7 @@ class plan_controller
 	public function lecturer(){
 		$this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
 		$data["id"] = 30;
-		$data["header_id"] = 94;
+		$data["parent_id"] = 94;
 		$data["lecturer_id"] = 1;
 		$data["tax"] = '王二丫';
 		$data["fee"] = '崔思思';
@@ -80,7 +80,7 @@ class plan_controller
 			'pen_fee'=>1,
 			'serve_fee'=>1,
 			'mail_fee'=>1,
-			'header_id'=>1,
+			'parent_id'=>1,
 		];
 		// return var_dump($this->implement->add($data));
 		// return var_dump($this->implement->edit_implement($data));

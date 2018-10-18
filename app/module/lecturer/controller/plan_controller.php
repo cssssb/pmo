@@ -25,6 +25,7 @@ class plan_controller
      */
     public function __construct()
     {   
+        $this->data = \app::load_sys_class('protocol');//加载json数据模板
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
@@ -37,75 +38,100 @@ class plan_controller
 
     //添加讲师安排
     public function add(){
-        $post = $this->post;
-        $post['data']['header_id']?$data["header_id"]=$post['data']["header_id"]:true;
-        // $post['project_id']?$data["project_id"]=$post["project_id"]:true;
+        $post = $this->data->get_post();
+        $post['data']['parent_id']?$data["parent_id"]=$post['data']["parent_id"]:true;
+        // $post['parent_id']?$data["parent_id"]=$post["parent_id"]:true;
         $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
         $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
         $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
         $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
         $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
-        $post['data']['token']?$data['token'] = $post['data']['token']:true;
-        
+        // $data['parent_id'] = 1;
+        // $data['lecturer_id'] = 1;
+        // $data['tax'] = 1;
+        // $data['day'] = 1;
+        // $data['fee'] = 1;
+        // $data['duty_id'] = 1;
          $ass = $this->lecturer_list->add($data);
-         if($ass){
-             $msg['code'] = 0;
-             $msg['msg'] = '操作成功';
-         }else{
-             $msg['code'] = 1;
-             $msg['msg'] = '操作失败';
-         }
-         echo json_encode($msg);exit;
+         
+        $ass?$cond = 0:$cond = 1;
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2004);
+                break;
+          
+            default:
+                $this->data->out(2003, $post['data']);
+            }
     }
    
     //9.29修改讲师安排
     public function edit(){
-        $post = $this->post;
+        $post = $this->data->get_post();
         $post['data']['id']?$data["id"]=$post['data']["id"]:true;
-        $post['data']['header_id']?$data["header_id"]=$post['data']["header_id"]:true;
+        $post['data']['parent_id']?$data["parent_id"]=$post['data']["parent_id"]:true;
         $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
         $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
         $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
         $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
         $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
-        $post['data']['token']?$data['token'] = $post['data']['token']:true;
-        $ass = $this->lecturer_list->edit($data);
-        if($ass){
-            $msg['code'] = 0;
-            $msg['msg'] = '操作成功';
-        }else{
-            $msg['code'] = 1;
-            $msg['msg'] = '操作失败';
+
+        // $data['id'] = 61;
+        // $data['parent_id'] = 2;
+        // $data['lecturer_id'] = 2;
+        // $data['tax'] = 2;
+        // $data['day'] = 2;
+        // $data['fee'] = 2;
+        // $data['duty_id'] = 2;
+        if(!$data['id']){
+            $this->data->out(3901);
         }
-        echo json_encode($msg);die;
+        $ass = $this->lecturer_list->edit($data);
+      
+        $ass?$cond = 0:$cond = 1;
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2006);
+                break;
+          
+            default:
+                $this->data->out(2005, $post['data']);
+            }
     }
     //删除(修改状态)
     public function del(){
         // $data = $post['id'];
         // $data =2;
-        $post = $this->post;
+        $post = $this->data->get_post();
         $data['id'] = $post['id'];
-        $ass =  $this->lecturer_list->del($data);
-        if($ass){
-            $msg['code'] = 0;
-            $msg['msg'] = '操作成功';
-        }else{
-            $msg['code'] = 1;
-            $msg['msg'] = '操作失败';
+        if(!$post['id']){
+            $this->data->out(3901);
         }
-        echo json_encode($msg);exit;
+        $ass =  $this->lecturer_list->del($data);
+        $ass?$cond = 0:$cond = 1;
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2009);
+                break;
+          
+            default:
+                $this->data->out(2008, $post['data']);
+            }
 
     }
    
 
         //讲师列表
-        public function listLecturer(){
-            // $data['header_id'] =1;
+        public function getByProjectId(){
+            // $data['parent_id'] =1;
                 //             teacher_arrange 讲师安排
                 //             teacher_name_name  讲师姓名
                 //             teacher_name_id  讲师姓名
-            $post = $this->post;
-            $data['header_id'] = $post['id'];
+            $post = $this->data->get_post();
+            $data['parent_id'] = $post['id'];
+            if(!$post['id']){
+                $this->data->out(3901);
+            }
             $ass = $this->lecturer_list->list_teacher($data);
          
             if($ass){
@@ -120,20 +146,22 @@ class plan_controller
                 $rng[$key]['teacher_income_tax'] = $val['tax'];
                 $rng[$key]['teacher_name_id'] = $val['lecturer_id'];
                 $rng[$key]['teacher_name_name'] = $lecturer_name['name'];
-                $rng[$key]['header_id'] = $val['header_id'];
+                $rng[$key]['parent_id'] = $val['parent_id'];
+            }}
+               $rng?$cond = 0:$cond = 1;
+               $return['lecturer'] = $rng;
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002);
+                break;
+          
+            default:
+                $this->data->out(2001, $return);
             }
-                $msg['data']['lecturer'] = $rng;
-                $msg['code'] = 0;
-                $msg['msg'] = '查询成功';
-            }else{
-                $msg['code'] = 0;
-                $msg['msg'] = '查询无数据';
-            }
-            echo json_encode($msg);exit;
         }
         public function getOneTeacher(){
             //获取教师id
-            $post = $this->post;
+            $post = $this->data->get_post();
             $post['data']['id']?$data['id'] = $post['data']['id']:true;
             $ass = $this->lecturer_list->get_one_teacher($data);
             $msg['code'] = 1;

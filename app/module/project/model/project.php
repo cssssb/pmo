@@ -99,7 +99,7 @@ class project extends \system\model {
 		
 	where 
 		header.id = $id
-				
+				limit 1
 		";
 		$all = $this->query($sql);
 		$data = $this->fetch_array($all);

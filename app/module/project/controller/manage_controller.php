@@ -26,7 +26,8 @@ class manage_controller
 	public function __construct()
 	{
 		$this->protocol = \app::load_model_class('protocol', 'user');//加载公共json
-        // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
+        $this->data = \app::load_sys_class('protocol');//加载json数据模板
+		// $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
 		$this->post = json_decode(file_get_contents('php://input'), true);
 		$this->project = \app::load_service_class('project_class', 'project');//加载项目大表
 		$this->progam = \app::load_service_class('progam_class', 'progam');//加载所属项目
@@ -38,23 +39,39 @@ class manage_controller
 	}
 
 
-	public function listProject()
+	public function list()
 	{
-		$data = $this->project->listProject();
-		if($data){
-			$msg['code'] = 0;
-			$msg['msg'] = '查询列表成功';
-			$msg['data'] = $data;
-		}else{
-			$msg['code'] = 1;
-			$msg['msg'] = '查询列表失败';
-		}
-		echo json_encode($msg);exit;
+		/**
+         * ================
+         * @Author:    css
+         * @ver:       0.1
+         * @DataTime:  2018-10-16
+         * @describe:  list function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $cond = 0;//默认成功
+        //调用业务层函数
+        // example $this->service->function();
+        $data = $this->project->listProject();
+        $data?$cond = 0:$cond = 1;
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002);
+                break;
+            // case   2:
+            //     $this->data->out(code, $data);
+            //     break;
+            default:
+                $this->data->out(2001, $data);
+            }
+		
 	}
 
 	//@todo
 	public function delProject(){
-		$post = $this->post;
+		$post = $this->data->get_post();
 		// $id = 45;
 		$data = $this->project->delProject($post);
 		if($data){
@@ -67,7 +84,7 @@ class manage_controller
 	}
 	/**
 	 * ================
-	 * @Function:     addProject
+	 * @Function:     add
 	 * @Parameter:    
 	 * @DataTime:     2018-10-10
 	 * @Return:       bool
@@ -75,18 +92,24 @@ class manage_controller
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function addProject(){
-		$post = $this->post;
+	public function add(){
+		$post = $this->data->get_post();
+		
 		$template_id = $post['data']['project_project_template_id']?(int)$post['data']['project_project_template_id']:0;
+		
+		// $template_id = 1;
 		$ass = $this->project->add_project($template_id);
-		$msg['code'] = 1;
-		$msg['msg'] = '操作失败';
-		if($ass){
-			$msg['code'] = 0;
-			$msg['msg'] = '操作成功';
-			$msg['data'] = $ass;
+		$cond = 0;
+		$ass?$cond=0:$cond=1;
+		switch ($cond) {
+			case 1:
+				$this->data->out(2004);
+				break;
+			
+			default:
+				$this->data->out(2003,$ass);
+				break;
 		}
-		echo json_encode($msg);die;
 	}
 	/**
 	 * ================
@@ -98,33 +121,33 @@ class manage_controller
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function editProject(){
+	// public function editProject(){
 		
-		$post = $this->post;
-		$msg['code'] = 1;
-		$msg['msg'] = '操作失败';
+	// 	$post = $this->data->get_post();
+	// 	$msg['code'] = 1;
+	// 	$msg['msg'] = '操作失败';
 
-		if(!$this->checkproject($post['data']['id'])){
-			$this->o->output($msg);
-		}
+	// 	if(!$this->checkproject($post['data']['id'])){
+	// 		$this->o->output($msg);
+	// 	}
 		
-		$post['data']['id'] ? $data['id'] = $post['data']['id'] : true;
-		$post['data']['project_name'] ? $data['name'] = $post['data']['project_name'] : true;
-		$post['data']['project_gather'] ? $data['progam_id'] = $post['data']['project_gather'] : true;
-		$post['data']['project_person_in_charge_id'] ? $data['staff_id'] = $post['data']['project_person_in_charge_id'] : true;
-		$post['data']['project_customer_name'] ? $data['customer_name'] = $post['data']['project_customer_name'] : true;
-		$post['data']['project_days'] ? $data['day_number'] = $post['data']['project_days'] : true;
-		$post['data']['project_date'] ? $data['date'] = $post['data']['project_date'] : true;
-		$post['data']['project_gather_id'] ? $data['progam_id'] = $post['data']['project_gather_id'] : true;
-		$post['data']['project_training_numbers'] ? $data['student_number'] = $post['data']['project_training_numbers'] : true;
-		$post['data']['project_training_ares'] ? $data['address'] = $post['data']['project_training_ares'] : true;
-		$ass = $this->project->edit_project($data);
-		if($ass){
-			$msg['code'] = 0;
-			$msg['msg'] = '操作成功';
-		}
-		echo json_encode($msg);die;
-	}
+	// 	$post['data']['id'] ? $data['id'] = $post['data']['id'] : true;
+	// 	$post['data']['project_name'] ? $data['name'] = $post['data']['project_name'] : true;
+	// 	$post['data']['project_gather'] ? $data['progam_id'] = $post['data']['project_gather'] : true;
+	// 	$post['data']['project_person_in_charge_id'] ? $data['staff_id'] = $post['data']['project_person_in_charge_id'] : true;
+	// 	$post['data']['project_customer_name'] ? $data['customer_name'] = $post['data']['project_customer_name'] : true;
+	// 	$post['data']['project_days'] ? $data['day_number'] = $post['data']['project_days'] : true;
+	// 	$post['data']['project_date'] ? $data['date'] = $post['data']['project_date'] : true;
+	// 	$post['data']['project_gather_id'] ? $data['progam_id'] = $post['data']['project_gather_id'] : true;
+	// 	$post['data']['project_training_numbers'] ? $data['student_number'] = $post['data']['project_training_numbers'] : true;
+	// 	$post['data']['project_training_ares'] ? $data['address'] = $post['data']['project_training_ares'] : true;
+	// 	$ass = $this->project->edit_project($data);
+	// 	if($ass){
+	// 		$msg['code'] = 0;
+	// 		$msg['msg'] = '操作成功';
+	// 	}
+	// 	echo json_encode($msg);die;
+	// }
 
 	/**
 	 * ================
@@ -137,7 +160,7 @@ class manage_controller
 	 * ================
 	 */
 	// public function editProject(){
-	// 	$post = $this->post;
+	// 	$post = $this->data->get_post();
 	// 	$post['data']['id'] ? $data['id'] = $post['data']['id'] : true;
 	// 	$post['data']['project_name'] ? $data['name'] = $post['data']['project_name'] : true;
 	// 	$post['data']['project_gather'] ? $data['progam_id'] = $post['data']['project_gather'] : true;
@@ -164,7 +187,7 @@ class manage_controller
 	//获取一条项目数据
 	public function getOneProject(){
 		//获取id
-		$post = $this->post;
+		$post = $this->data->get_post();
 		// $post['id'] = 88;
 		// $post['token'] = 123456;
 		$data = $this->project->get_one_project($post);
@@ -180,7 +203,7 @@ class manage_controller
 			}
 	}
 	//@todo 验证项目
-	private function checkproject($project_id){
+	private function checkproject($parent_id){
 		return true;
 	}
 }

@@ -11,32 +11,22 @@ final class province_class
 		$this->operation = \app::load_model_class('operation_project', 'project');
     }
     //list
-    public function list_travel($project_id){
-        return $this->model->list_travel($project_id);
+    public function list_travel($parent_id){
+        return $this->model->list_travel($parent_id);
     }
      //list
-     public function list_province($post){
-         $project_id = $post['id'];
-         $token = $post['token'];
-         $bool = $this->operation->get_one_operation($project_id,$token);
-         if(!$bool){
-             return false;
-         }
-        //  $where['project_id'] = $post['id'];
+     public function list_province($parent_id){
+     
+        //  $where['parent_id'] = $post['id'];
         //  $where['state'] = 0;
-        //  $sql = 'project_id = '.$project_id['id'].' and state=0';
+         $sql = 'parent_id = '.$parent_id.' and state=0';
 
-        return $this->model->select(1);
+        return $this->model->select($sql);
     }
     //get_one
     public function get_one_province($post){
-        $project_id = $post['id'];
-        $token = $post['token'];
-        $bool = $this->operation->get_one_operation($project_id,$token);
-        if(!$bool){
-            return false;
-        }
-        $where['project_id'] = $post['project_id'];
+        
+        $where['parent_id'] = $post['parent_id'];
         return $this->model->get_one($where);
     }
     
@@ -48,24 +38,14 @@ final class province_class
 
     //删
     public function del_province($post){
-        $project_id = $post['id'];
-        $token = $post['token'];
-        $bool = $this->operation->del_operation($project_id,$token);
-        if(!$bool){
-            return false;
-        }
+        
         $where['id'] = $post['id'];
         $data['state'] = 2;
         return $this->model->update($data,$where);
     }
     //改
     public function edit_province($post){
-        $project_id = $post['id'];
-        $token = $post['token'];
-        $bool = $this->operation->del_operation($project_id,$token);
-        if(!$bool){
-            return false;
-        }
+       
         $where['id'] = $post['id'];
         $data['state'] = 1;
         $this->model->update($data,$where);
