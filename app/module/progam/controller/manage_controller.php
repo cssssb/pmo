@@ -49,7 +49,10 @@ class manage_controller
         $post = $this->data->get_post();//获得post
         $cond = 0;//默认成功
         // $post['id'] = 93;
-        unset($post['data']['add_project_gather_charge_name']);
+        if(!$post['data']['add_program_manage_name']){
+            $this->data->out(2011);
+        }
+        unset($post['data']['add_program_manage_sale_name']);
 		$data = $this->progam->add($post['data']);
         $data?$cond = 0:$cond = 1;
         switch ($cond) {

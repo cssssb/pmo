@@ -24,7 +24,7 @@ class lecturer extends \system\model {
 				*
 			FROM
 				pmo_lecturer as tr
-				left join pmo_lecturer_coop as nm on tr.coop_id = nm.add_a_teacher_cooperation_model_id
+				left join pmo_lecturer_coop as nm on tr.coop_id = nm.teacher_cooperation_model_id
 			WHERE
 				tr.state=0
 				

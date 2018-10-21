@@ -53,9 +53,9 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $data['name'] = $post['data']['add_a_teacher_message'];
-        $data['unit_price'] = $post['data']['add_a_teacher_price'];
-        $data['coop_id'] = $post['data']['add_a_teacher_cooperation_model_id'];
+        $data['name'] = $post['data']['teacher_name'];
+        $data['unit_price'] = $post['data']['teacher_price'];
+        $data['coop_id'] = $post['data']['teacher_cooperation_model_id'];
         if(!$data['name']){
             $this->data->out(2010);
         }
@@ -83,8 +83,8 @@ class manage_controller
         
         $ass = $this->lecturer->cooperation_list();
         foreach($ass as $k){
-            $datas['id'] = $k['add_a_teacher_cooperation_model_id'];
-            $datas['name'] = $k['add_a_teacher_cooperation_model'];
+            $datas['id'] = $k['teacher_cooperation_model_id'];
+            $datas['name'] = $k['teacher_cooperation_model_name'];
             $data[] = $datas;
         }
         //开始输出

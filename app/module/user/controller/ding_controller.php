@@ -36,20 +36,18 @@ class ding_controller
     public function ding_token()
     {
         $ch = curl_init();
-        $file = 'ding_password';
-        
-        // $corps = \app::load_config($file);
-        // $corp = $corps->ding_password();
         $corpid = 'ding33c0349684398ce235c2f4657eb6378f';
         $corpsecret = 'm6Pk3bGwq3BdwEwEvMgwt-0O5194aSR0kNG0zEcIhcNlDyHbjdXzqra-VbrT2xIk';
         $url = "https://oapi.dingtalk.com/gettoken?corpid=" . $corpid . "&corpsecret=" . $corpsecret;
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $data = curl_exec($ch);
         curl_close($ch);
 
-         return json_decode($data, true)["access_token"];
+         echo json_decode($data, true)["access_token"];die;
 
         if ($data === false) {
             return "CURL Error:" . curl_error($ch);
@@ -63,6 +61,8 @@ class ding_controller
         $ch = curl_init();
         // $url =  "https://oapi.dingtalk.com/user/list?access_token=32963d3d918d3452bb7dc3d99c96213e&department_id=26509421";
         $url = "https://oapi.dingtalk.com/department/list?access_token=" . $token;
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -108,6 +108,8 @@ class ding_controller
         foreach ($member as $members) {
             $ch = curl_init();
             $url = "https://oapi.dingtalk.com/user/list?access_token=" . $token . "&department_id=" . $members['id'];
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -132,6 +134,8 @@ class ding_controller
         foreach($member as $members){
             $ch = curl_init();
             $url = "https://oapi.dingtalk.com/user/list?access_token=" . $token . "&department_id=" . $members['department_id'];
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);    
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, 0);

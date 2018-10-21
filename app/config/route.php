@@ -35,10 +35,14 @@ return array(
 
         "user_account_login"=>["user","account","login",["account"=>"string","password"=>"string"],[],'1.0'],//用户登录
         "lecturer_manage_add"=>["lecturer","manage","add",
-        ["add_a_teacher_cooperation_model_id"=>"string",
-        "add_a_teacher_cooperation_model_name"=>"string",
-        "add_a_teacher_message"=>"string",
-        "add_a_teacher_price"=>"string",
+        [
+        // "teacher_cooperation_model_id"=>"string",
+        // "add_a_teacher_cooperation_model_name"=>"string",
+        // "add_a_teacher_message"=>"string",
+        // "add_a_teacher_price"=>"string",
+        "teacher_name"=>"string",
+        "teacher_price"=>"string",
+        "teacher_cooperation_model_id"=>"string",
         ]
         ,[
             "id"=>"string",
