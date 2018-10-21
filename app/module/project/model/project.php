@@ -34,31 +34,27 @@ class project extends \system\model {
 		$sql = "
 			SELECT
 			header.id,
-			header.name as project_name,
+			body.project_name,
 			header.progam_id as project_gather_id,
 			header.staff_id as project_person_in_charge_id,
 			header.template_id as project_project_template_id,
-			header.customer_name as project_customer_name,
-			header.day_number as project_days,
-			header.date as project_date,
-			header.student_number as project_training_numbers,
-			header.address as project_training_ares,
+			body.project_customer_name,
+			body.project_days,
+			body.project_date,
+			body.project_training_numbers,
+			body.project_training_ares,
 			header.budget_id,
-			header.money,
-			header.budget_tax,
-			header.budget_consulting_fee,
-			header.budget_expects_revenue,
-			header.course_name,
 			sta. NAME AS  project_person_in_charge_name,
-			pro. NAME AS  project_gather_name,
+			pro.add_program_manage_name AS  project_gather_name,
 			tem. NAME AS  project_project_template_name 
 		FROM
 			pmo_project_header AS header
 			LEFT JOIN pmo_staff_table AS sta ON header.staff_id = sta.id
 			LEFT JOIN pmo_progam AS pro ON header.progam_id = pro.id
 			LEFT JOIN pmo_project_template AS tem ON header.template_id = tem.id
+			LEFT JOIN pmo_project_body AS body ON header.id = body.parent_id
 		WHERE header.state=0
-		order by date desc
+		order by body.project_date desc
 		";
 		//date  名字 as project_date
 		$all = $this->query($sql);
@@ -77,26 +73,30 @@ class project extends \system\model {
 		$sql = "
 		SELECT
 		header.id,
-		header.name as project_name,
-		header.customer_name as project_customer_name,
-		gm.name as  project_gather_name,
+		body.project_name,
+		body.project_customer_name,
+		gm.add_program_manage_name as  project_gather_name,
 		gm.id as  project_gather_id,
 		staff.name as project_person_in_charge_id,
 		header.staff_id as project_person_in_charge_id,
 		te.name as project_project_template_name,
 		header.template_id as project_project_template_id,
-		header.day_number as project_days,
-		header.student_number as project_training_numbers,
-		header.address as project_training_ares,
+		body.project_days,
+		body.project_training_numbers,
+		body.project_training_ares,
 		staff.id as project_person_in_charge_id,
 		staff.name as project_person_in_charge_name,
-		header.date as project_date
+		body.project_date,
+		header.unicode,
+		lala.name as project_leader_name,
+		lala.id as project_leader_id
 	FROM
 		pmo_project_header AS header
 		LEFT JOIN pmo_staff_table as staff on header.staff_id=staff.id
+		LEFT JOIN pmo_staff_table as lala on header.project_leader_id=lala.id
 		LEFT JOIN pmo_progam as gm on header.progam_id = gm.id
 		LEFT JOIN pmo_project_template as te on header.template_id = te.id
-		
+	  LEFT JOIN pmo_project_body as body on header.template_id = body.id
 	where 
 		header.id = $id
 				limit 1

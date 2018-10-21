@@ -29,6 +29,16 @@ final class progam_class
 		return $this->model->get_one($where);
 	}
 	public function select(){
-        return $this->model->select(1,'id,name');
+		$ass = $this->model->select(1,'id,add_program_manage_name');
+		// $data['name'] = $ass['add_program_manage_name'];
+		// $data['id'] = $ass['id'];
+		foreach($ass as $k){
+			
+			$data['name'] =  $k['add_program_manage_name'];
+			$data['id'] =  $k['id'];
+			$datas[] = $data;
+		}
+
+		return $datas;
     }
 }

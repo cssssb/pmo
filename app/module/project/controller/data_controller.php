@@ -48,15 +48,16 @@ class data_controller
         $post = $this->data->get_post();
         $cond = 0;
         $post['data']['parent_id'] ? $data['id'] = $post['data']['parent_id'] : true;
-		$post['data']['project_name'] ? $data['name'] = $post['data']['project_name'] : true;
+		$post['data']['project_name'] ? $pro['project_name'] = $post['data']['project_name'] : true;
 		$post['data']['project_gather'] ? $data['progam_id'] = $post['data']['project_gather'] : true;
 		$post['data']['project_person_in_charge_id'] ? $data['staff_id'] = $post['data']['project_person_in_charge_id'] : true;
-		$post['data']['project_customer_name'] ? $data['customer_name'] = $post['data']['project_customer_name'] : true;
-		$post['data']['project_days'] ? $data['day_number'] = $post['data']['project_days'] : true;
-		$post['data']['project_date'] ? $data['date'] = $post['data']['project_date'] : true;
+		$post['data']['project_customer_name'] ? $pro['project_customer_name'] = $post['data']['project_customer_name'] : true;
+		$post['data']['project_days'] ? $pro['project_days'] = $post['data']['project_days'] : true;
+		$post['data']['project_date'] ? $pro['project_date'] = $post['data']['project_date'] : true;
 		$post['data']['project_gather_id'] ? $data['progam_id'] = $post['data']['project_gather_id'] : true;
-		$post['data']['project_training_numbers'] ? $data['student_number'] = $post['data']['project_training_numbers'] : true;
-		$post['data']['project_training_ares'] ? $data['address'] = $post['data']['project_training_ares'] : true;
+		$post['data']['project_training_numbers'] ? $pro['project_training_numbers'] = $post['data']['project_training_numbers'] : true;
+		$post['data']['project_training_ares'] ? $pro['project_training_ares'] = $post['data']['project_training_ares'] : true;
+		$post['data']['project_leader_id'] ? $data['project_leader_id'] = $post['data']['project_leader_id'] : true;
         // $data['id'] = 117;
         // $data['name'] = 1;
         // $data['progam_id'] = 1;
@@ -70,7 +71,7 @@ class data_controller
         if(!$data['id']){
             $this->data->out(3901);
         }
-        $ass = $this->project->edit_project($data);
+        $ass = $this->project->edit_project($data,$pro);
         $ass?$cond=0:$cond=1;
         
         switch($cond){
@@ -79,7 +80,7 @@ class data_controller
             break;
             
         default:
-            $this->data->out(2005,$data);
+            $this->data->out(2005,$ass);
         }
     }
 }

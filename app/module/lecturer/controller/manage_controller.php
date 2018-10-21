@@ -30,7 +30,7 @@ class manage_controller
         $post = $this->data->get_post();//获得post
         $cond = 0;//默认成功
         // $post['id'] = 93;
-		$data = $this->lecturer->of_list();
+		$data = $this->lecturer->of_list(1);
         $data?$cond = 0:$cond = 1;
         switch ($cond) {
             case   1://异常1
@@ -41,6 +41,60 @@ class manage_controller
                 $this->data->out(2001, $data);
             }
        
+    }
+    public function add()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       0.1
+         * @DataTime:  2018-10-20
+         * @describe:  add function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data['name'] = $post['data']['add_a_teacher_message'];
+        $data['unit_price'] = $post['data']['add_a_teacher_price'];
+        $data['coop_id'] = $post['data']['add_a_teacher_cooperation_model_id'];
+        if(!$data['name']){
+            $this->data->out(2010);
+        }
+        $ass = $this->lecturer->add($data);
+        $ass?$cond = 0:$cond = 1;
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2004);
+                break;
+            default:
+                $this->data->out(2003,$post['data']);
+            }
+    }
+    public function cooperation()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       
+         * @DataTime:  2018-10-21
+         * @describe:  cooperation function
+         * ================
+         */
+        
+        $ass = $this->lecturer->cooperation_list();
+        foreach($ass as $k){
+            $datas['id'] = $k['add_a_teacher_cooperation_model_id'];
+            $datas['name'] = $k['add_a_teacher_cooperation_model'];
+            $data[] = $datas;
+        }
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
     }
    
 }

@@ -43,7 +43,6 @@ class inCityTraffic_controller
         * ================
         */
        $post = $this->data->get_post();//获得post
-       
        $ass =  $this->city->add_city($post['data']);
        $ass?$cond = 0:$cond = 1;
        

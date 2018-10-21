@@ -18,6 +18,20 @@ class lecturer extends \system\model {
 		$this->table_name = 'lecturer';
 		parent::__construct();
 	}
-	
+	public function of_list(){
+		$sql = "
+			SELECT
+				*
+			FROM
+				pmo_lecturer as tr
+				left join pmo_lecturer_coop as nm on tr.coop_id = nm.add_a_teacher_cooperation_model_id
+			WHERE
+				tr.state=0
+				
+		";
+		$all = $this->query($sql);
+		$data = $this->fetch_array($all);
+		return $data;
+	}
 }
 ?>

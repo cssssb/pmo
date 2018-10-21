@@ -1,5 +1,5 @@
 <?php
-namespace user;
+namespace lecturer;
 defined('IN_LION') or exit('No permission resources.');
 use \app;
 use \system\model;
@@ -7,16 +7,16 @@ use \system\model;
 /**
  * ================
  * @Author:    lion
- * @ver:       0.1
- * @DataTime:  2018-10-18
- * @describe:  admin_user model class
+ * @ver:       1.0
+ * @DataTime:  2018-10-21
+ * @describe:  lecturer_coop model class
  * ================
  */
-class user extends model {
+class coop extends model {
     public function __construct() {
         $this->db_config = app::load_config('database');
         $this->db_setting = 'default';
-        $this->table_name = 'user';
+        $this->table_name = 'lecturer_coop';
         parent::__construct();
     }
     

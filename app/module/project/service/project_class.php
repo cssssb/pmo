@@ -11,9 +11,10 @@ final class project_class
 		$this->operation = \app::load_model_class('operation_project', 'project');
 		$this->lecturer = \app::load_model_class('lecturer_plan', 'lecturer');
 		$this->implement = \app::load_model_class('implement_plan', 'implement');
-		$this->city = \app::load_model_class('city_class', 'travel');
-		$this->stay = \app::load_model_class('stay_class', 'travel');
-		$this->province = \app::load_model_class('province_class', 'travel');
+		$this->body = \app::load_model_class('body', 'project');
+		// $this->city = \app::load_model_class('city_class', 'travel');
+		// $this->stay = \app::load_model_class('stay_class', 'travel');
+		// $this->province = \app::load_model_class('province_class', 'travel');
 
 	}
 	
@@ -47,9 +48,13 @@ final class project_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function edit_project($data){
-		$where['id'] = $data['id'];
-		return $this->model->update($data,$where);
+	public function edit_project($data,$pro){
+		$prow['parent_id']=$where['id'] = $data['id'];
+		$header = $this->model->update($data,$where);
+		$body = $this->body->update($pro,$prow);
+		if($header&&$body){
+			return [$data,$pro];
+		}
 	}
 
 	/**
@@ -156,24 +161,24 @@ final class project_class
 		 
 	// }
 	
-	private function return_insert_id($old_id, $insert_id)
-	{
+	// private function return_insert_id($old_id, $insert_id)
+	// {
 
 
 		
-		$oldproject['parent_id'] = $where['parent_id'] = $old_id;
-		$project['parent_id'] = $data['parent_id'] = $insert_id;
-		$lecturer = $this->lecturer->update($data, $where);
-		$implement = $this->implement->update($data, $where);
-		$city = $this->city->update($project,$oldproject);
-		$stay = $this->stay->update($project,$oldproject);
-		$province = $this->province->update($project,$oldproject);
-		if ($lecturer && $implement && $city && $stay && $province) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+	// 	$oldproject['parent_id'] = $where['parent_id'] = $old_id;
+	// 	$project['parent_id'] = $data['parent_id'] = $insert_id;
+	// 	$lecturer = $this->lecturer->update($data, $where);
+	// 	$implement = $this->implement->update($data, $where);
+	// 	$city = $this->city->update($project,$oldproject);
+	// 	$stay = $this->stay->update($project,$oldproject);
+	// 	$province = $this->province->update($project,$oldproject);
+	// 	if ($lecturer && $implement && $city && $stay && $province) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// }
 	/**
 	 * ================
 	 * @Function:     delProject

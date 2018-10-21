@@ -49,6 +49,8 @@ class plan_controller
             //处理post
             //调用业务层函数
             //example $this->service->function();
+            // return var_dump($post);
+            // $post = $_POST;
             if(!$post['id']){
                 $this->data->out(3901);}
         $province = $this->province->list_province($post['id']);

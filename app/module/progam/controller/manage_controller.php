@@ -49,15 +49,16 @@ class manage_controller
         $post = $this->data->get_post();//获得post
         $cond = 0;//默认成功
         // $post['id'] = 93;
-		$data = $this->progam->select();
+        unset($post['data']['add_project_gather_charge_name']);
+		$data = $this->progam->add($post['data']);
         $data?$cond = 0:$cond = 1;
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2004);
                 break;
           
             default:
-                $this->data->out(2001, $data);
+                $this->data->out(2003, $post['data']);
             }
        
     }

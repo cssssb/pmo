@@ -42,5 +42,6 @@ class lecturer_plan extends \system\model {
 		$data = $this->fetch_array($all);
 		return $data;
 	}
+	
 }
 ?>
