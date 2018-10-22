@@ -24,8 +24,10 @@ class type_controller
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         //todo 加载相关模块
         // $this->type = app::load_service_class('type', 'project');//
-		$this->project = \app::load_service_class('project_class', 'project');//加载项目大表
+        $this->project = \app::load_service_class('project_class', 'project');//加载项目大表
+        $this->code = app::load_cont_class('common','user');//加载住宿
     }
+    
     public function list()
     {
         /**

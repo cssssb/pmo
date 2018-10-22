@@ -22,7 +22,9 @@ class manage_controller
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         //todo 加载相关模块
-		$this->lecturer = \app::load_service_class('lecturer_class', 'lecturer');//加载项目大表
+        $this->lecturer = \app::load_service_class('lecturer_class', 'lecturer');//加载项目大表
+        $this->code = \app::load_cont_class('common','user');//加载token
+       
     }
     public function list()
     {

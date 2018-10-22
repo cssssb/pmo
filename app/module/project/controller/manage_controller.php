@@ -2,7 +2,7 @@
 namespace project;
 
 // use system\ding_password;
-
+use \app;
 
 // echo "load ding_controller";
 // echo  microtime();
@@ -36,6 +36,7 @@ class manage_controller
 		$this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排预算
 		$this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载安排预算
 		$this->travel = \app::load_service_class('travel_plan_class', 'travel');//加载差旅预算
+		$this->code = app::load_cont_class('common','user');//加载token
 	}
 
 

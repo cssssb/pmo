@@ -34,6 +34,8 @@ class plan_controller
         $this->province = \app::load_service_class('province_class', 'travel');//加载差旅
         $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
         $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
+        $this->code = \app::load_cont_class('common','user');//加载token
+       
     }
         public function getByProjectId()
         {

@@ -29,6 +29,8 @@ class longTrafficType_controller
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->travel_mode = \app::load_model_class('travel_mode', 'travel');//加载差旅
+        $this->code = \app::load_cont_class('common','user');//加载token
+       
     }
 
   

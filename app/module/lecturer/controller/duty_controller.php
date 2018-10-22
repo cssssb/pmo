@@ -22,6 +22,8 @@ class duty_controller
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->lecturer_duty = \app::load_service_class('lecturer_duty_class', 'lecturer');//加载讲师安排
+        $this->code = \app::load_cont_class('common','user');//加载token
+       
     }
 
     public function list(){

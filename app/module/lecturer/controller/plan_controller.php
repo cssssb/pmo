@@ -34,6 +34,8 @@ class plan_controller
         $this->training_cost = \app::load_service_class('training_cost_class', 'budget');//加载实施安排
         $this->lecturer = \app::load_service_class('lecturer_class', 'lecturer');//加载老师姓名
         $this->lecturer_duty = \app::load_service_class('lecturer_duty_class', 'lecturer');//加载职责
+        $this->code = \app::load_cont_class('common','user');//加载token
+       
     }
 
     //添加讲师安排

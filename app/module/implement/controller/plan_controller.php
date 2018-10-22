@@ -30,6 +30,8 @@ class plan_controller
         $this->post = json_decode(file_get_contents('php://input'),true);
         // $this->implement_cost = \app::load_service_class('implement_cost_class', 'budget');//加载实施安排
         $this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排
+        $this->code = \app::load_cont_class('common','user');//加载token
+       
     }
 
         //实施安排

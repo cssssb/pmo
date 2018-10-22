@@ -31,6 +31,8 @@ class hotel_controller
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->data->get_post();
         $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
+        $this->code = \app::load_cont_class('common','user');//加载token
+       
     }
 
     public function add()
