@@ -33,7 +33,7 @@ final class province_class
     //增/改
     public function add_province($post){
       
-        return $this->model->insert($post);
+        return $this->model->insert($post,1);
     }
 
     //删

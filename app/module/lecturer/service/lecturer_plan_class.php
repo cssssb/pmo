@@ -15,7 +15,7 @@ final class lecturer_plan_class
 	{
 		
 		$data['time'] = date('y-m-d H:i:s',time());
-		return $this->model->insert($data);
+		return $this->model->insert($data,1);
 		
 	}
 	public  function edit($ass){

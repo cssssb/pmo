@@ -26,7 +26,6 @@ class plan_controller
     public function __construct()
     {   
         $this->data = \app::load_sys_class('protocol');//加载json数据模板
-        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $post = $this->data->get_post();
@@ -35,6 +34,9 @@ class plan_controller
         $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
         $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
         $this->code = \app::load_cont_class('common','user');//加载token
+        $this->operation = \app::load_service_class('operation_class','operation');//加载操作
+        $this->project = \app::load_service_class('project_class','project');//加载项目
+        
        
     }
         public function getByProjectId()
@@ -82,6 +84,8 @@ class plan_controller
                 $province_a['long_fee_card_end_time'] = $key['long_fee_card_end_time'];//结束时间
                 $province_a['long_fee_card_end_place'] = $key['long_fee_card_end_place'];//结束地点
                 $province_a['long_fee_card_vehicle_name'] = $key['long_fee_card_vehicle_name'];//结束地点
+                $province_a['long_fee_card_fee'] = $key['long_fee_card_fee'];//钱
+                
                 // $province_a['long_fee_card_start_place'] = $key['fee'];
                 $province_a['id'] = $key['id'];
                 $province_a['parent_id'] = $key['parent_id'];
@@ -92,9 +96,12 @@ class plan_controller
             $data['province'] = $province_b;
             //开始输出
             $data?$cond = 0:$cond = 1;
+            $project_name = $this->project->get_one($post['id']);
+            $data['unicode'] = $project_name['unicode'];
+            $data['project_name'] = $this->project->project_name($post['id']);
             switch ($cond) {
                 case   1://异常1
-                    $this->data->out(2002);
+                    $this->data->out(2002,$data);
                     break;
                 default:
                     $this->data->out(2001,$data);

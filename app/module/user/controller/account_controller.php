@@ -55,7 +55,7 @@ class account_controller
         } elseif (19 < $strlen_password) {
             $cond = 7;
         }
-         $cond = $this->user->login($post['account'],$post['password']);
+         $cond = $this->user->login($post['account'],substr(md5($post['password']),0,8));
         //  var_dump($code);die;
         //开始输出
         switch ($cond) {
@@ -83,5 +83,11 @@ class account_controller
             default://登录成功
                 $this->data->out(3008,['token'=>$cond]);
             }
+    }
+     //分配账号密码器
+    public function admin_user(){
+        $password = '123456';
+        $password_user = substr(md5($password),0,8);
+        echo $password_user;
     }
 } 

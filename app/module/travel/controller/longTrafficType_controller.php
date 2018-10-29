@@ -51,7 +51,7 @@ class longTrafficType_controller
        //开始输出
        switch ($cond) {
            case   1://异常1
-               $this->data->out(2002);
+               $this->data->out(2002,[]);
                break;
            default:
                $this->data->out(2001,$ass);

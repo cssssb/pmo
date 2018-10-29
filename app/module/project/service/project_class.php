@@ -49,9 +49,13 @@ final class project_class
 	 * ================
 	 */
 	public function edit_project($data,$pro){
-		$prow['parent_id']=$where['id'] = $data['id'];
-		$header = $this->model->update($data,$where);
-		$body = $this->body->update($pro,$prow);
+		$header = $this->model->update($data,'id='.$data['id']);
+		$have = $this->body->get_one('parent_id = '.$data['id']);
+		if($have){
+		$body = $this->body->update($pro,'parent_id='.$data['id']);}else{
+			$pro['parent_id'] = $data['id'];
+			$body = $this->body->insert($pro);
+		}
 		if($header&&$body){
 			return [$data,$pro];
 		}
@@ -215,16 +219,42 @@ final class project_class
 		}
 	
 	//返回项目编号
-	private function set_project_unicode($length = 5){
-		 $str = null;
-      $strPol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";//大小写字母以及数字
-      $max = strlen($strPol)-1;
+	private function set_project_unicode(){
+	// 	 $str = null;
+    //   $strPol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";//大小写字母以及数字
+    //   $max = strlen($strPol)-1;
       
-      for($i=0;$i<$length;$i++){
-         $str.=$strPol[rand(0,$max)];
-      }
-      return $str;
-
+    //   for($i=0;$i<$length;$i++){
+    //      $str.=$strPol[rand(0,$max)];
+    //   }
+    //   return $str;
+	$date = date('Ym',time());
+	$like = date('Y-m',time());
+	$where = "time like '$like%'";
+	$number = $this->model->count($where);
+	if(strlen($number)<10){
+		$numbers = '00'.$number;
+	}elseif(strlen($number)<100){
+		$numbers = '0'.$number;
 	}
-
+	$str = $date.$numbers;
+	return $str;
+	}
+	//10/25获取项目的课程名称
+	public function project_name($parent_id){
+		$where['parent_id'] = $parent_id;
+		$return = $this->body->get_one($where,'project_name');
+		return $return['project_name'];
+	}
+	public function test(){
+		$date = date('Ym',time());
+		$number = $this->model->count();
+		if(strlen($number)<10){
+			$numbers = '00'.$number;
+		}elseif(strlen($number)<100){
+			$numbers = '0'.$number;
+		}
+		$str = $date.$numbers;
+		return var_dump($str);
+	}
 }

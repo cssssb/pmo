@@ -26,53 +26,58 @@ class plan_controller
     public function __construct()
     {   
         $this->data = \app::load_sys_class('protocol');//加载json数据模板
-        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         $this->post = json_decode(file_get_contents('php://input'),true);
         // $this->implement_cost = \app::load_service_class('implement_cost_class', 'budget');//加载实施安排
         $this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排
         $this->code = \app::load_cont_class('common','user');//加载token
+        $this->operation = \app::load_service_class('operation_class','operation');//加载操作
+        $this->room = \app::load_service_class('implement_room_class','implement');//加载会场
+        $this->project = \app::load_service_class('project_class','project');//加载项目
        
     }
 
-        //实施安排
-        public function add(){
-            $post = $this->data->get_post();
-            $data = [
-                'id'=>1,
-                'meet_fee'=>1,
-                'equipment'=>1,
-                'test_fee'=>1,
-                'arder_fee'=>1,
-                'pen_fee'=>1,
-                'serve_fee'=>1,
-                'mail_fee'=>1,
-                'parent_id'=>1,
-            ];
-            $ass = $this->implement->add($data);
-            $msg['code'] = 1;
-            $msg['msg'] ='操作成功';
-            if($ass){
-                $msg['code'] = 0;
-                $msg['msg'] = '操作失败';
-            }
-            echo json_encode($msg);die;
-        }
         //实施列表
         public function getByProjectId(){
             $post = $this->data->get_post();
-            $data['parent_id'] = $post['id'];
+            $parent_id = $post['id'];
             if(!$post['id']){
                 $this->data->out(3901);
             }
-            $ass = $this->implement->get_one($data['parent_id']);
+            $css = $this->implement->get_one($parent_id);
+            if($css){
+                $ass['implement'][] = $css;
+            }else{
+                $ass['implement'][] = ['parent_id'=>$parent_id];
+            }
+            $data = $this->room->get_project($parent_id);
+            if($data){
+                $ass['venue'] = $data;
+            }else{
+                $return = [
+					// 'venue_fee'=>'',
+					// 'examination_fee'=>'',
+					// 'tea_break'=>'',
+					// 'stationery'=>'',
+					// 'hospitality'=>'',
+					// 'postage'=>'',
+					// 'material_cost'=>'',
+					// 'equipment_cost'=>'',
+					// 'parent_id'=>$parent_id
+				];
+                $ass['venue'] = [];
+
+            }
             $ass?$cond = 0:$cond = 1;
+            $project_name = $this->project->get_one($parent_id);
+            $ass['unicode'] = $project_name['unicode'];
+            $ass['project_name'] = $this->project->project_name($parent_id);
             switch ($cond) {
                 case   1://异常1
-                    $this->data->out(2002);
+                    $this->data->out(2002,$ass);
                     break;
               
                 default:
-                    $this->data->out(2001, $ass);
+                    $this->data->out(2001,$ass);
                 }
         }
         public function list()
@@ -101,39 +106,6 @@ class plan_controller
                     $this->data->out(1001, $data);
                 }
         }
-        public function get_one_implement(){
-            // $data['id'] = 1;
-            $post = $this->data->get_post();
-            return print_r($this->implement->get_one($post));
-            $ass = $this->implement->get_one($post);
-            $msg['code'] = 1;
-            $msg['msg'] = '查询失败';
-            if($ass){
-                $msg['code'] = 0;
-                $msg['msg'] = '查询成功';
-            }
-            echo json_encode($msg);die;
-        }
-        // public function edit(){
-        //     // $data['meet_fee'] = 2;
-        //     // $data['equipment'] = 2;
-        //     // $data['test_fee'] = 2;
-        //     // $data['arder_fee'] = 2;
-        //     // $data['pen_fee'] = 2;
-        //     // $data['serve_fee'] = 2;
-        //     // $data['id'] = 3;
-        //     // return var_dump($this->implement->edit_implement($data));
-        //     $post = $this->data->get_post();
-            
-        //     $ass = $this->implement->edit_implement($post);
-        //     $msg['code'] = 1;
-        //     $msg['msg'] = '操作失败';
-        //     if($ass){
-        //         $msg['code'] = 0;
-        //         $msg['msg'] = '操作成功';
-        //     }
-        //     echo json_encode($msg);die;
-        // }
       public function edit()
       {
           /**

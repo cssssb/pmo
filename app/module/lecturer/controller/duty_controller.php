@@ -32,7 +32,7 @@ class duty_controller
     $data?$cond = 0:$cond = 1;
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,[]);
                 break;
           
             default:

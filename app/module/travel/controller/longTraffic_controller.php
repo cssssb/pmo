@@ -29,7 +29,6 @@ class longTraffic_controller
         $this->protocol = \app::load_model_class('protocol','user');//加载公共json
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
-        $this->province = \app::load_service_class('province_class', 'travel');//加载差旅
         $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
         $this->province = \app::load_service_class('province_class', 'travel');//加载差旅
         $this->code = \app::load_cont_class('common','user');//加载token
@@ -56,6 +55,7 @@ class longTraffic_controller
                 $this->data->out(2004);
                 break;
             default:
+            $post['data']['id'] = (string)$ass;
                 $this->data->out(2003,$post['data']);
             }
     }

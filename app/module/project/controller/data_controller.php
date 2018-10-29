@@ -24,20 +24,26 @@ class data_controller
         //todo 加载相关模块
         // $this->type = app::load_service_class('type', 'project');//
         $this->project = \app::load_service_class('project_class', 'project');//加载项目大表
+        $this->address = \app::load_service_class('address_class', 'project');//加载地址
         $this->code = app::load_cont_class('common','user');//加载token
-       
+        $this->operation = app::load_service_class('operation_class','operation');//加载操作
+
+        // die;
     }
     public function getByProjectId()
     {
+
         //获取一条项目信息
         $post = $this->data->get_post();//获得post
         $cond = 0;//默认成功
         // $post['id'] = 93;
 		$data = $this->project->get_one_project($post['id']);
         $data?$cond = 0:$cond = 1;
+        if($data){
+        $data[0]['project_training_ares_name'] = $this->address->connect($data[0]['project_training_ares_id']);}
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,[]);
                 break;
           
             default:
@@ -55,21 +61,16 @@ class data_controller
 		$post['data']['project_person_in_charge_id'] ? $data['staff_id'] = $post['data']['project_person_in_charge_id'] : true;
 		$post['data']['project_customer_name'] ? $pro['project_customer_name'] = $post['data']['project_customer_name'] : true;
 		$post['data']['project_days'] ? $pro['project_days'] = $post['data']['project_days'] : true;
-		$post['data']['project_date'] ? $pro['project_date'] = $post['data']['project_date'] : true;
+		$post['data']['project_start_date'] ? $pro['project_start_date'] = $post['data']['project_start_date'] : true;
+		$post['data']['project_end_date'] ? $pro['project_end_date'] = $post['data']['project_end_date'] : true;
+		$post['data']['project_income'] ? $pro['project_income'] = $post['data']['project_income'] : true;
+		$post['data']['project_tax_rate'] ? $pro['project_tax_rate'] = $post['data']['project_tax_rate'] : true;
 		$post['data']['project_gather_id'] ? $data['progam_id'] = $post['data']['project_gather_id'] : true;
 		$post['data']['project_training_numbers'] ? $pro['project_training_numbers'] = $post['data']['project_training_numbers'] : true;
-		$post['data']['project_training_ares'] ? $pro['project_training_ares'] = $post['data']['project_training_ares'] : true;
+		$post['data']['project_training_ares_id'] ? $pro['project_training_ares'] = $post['data']['project_training_ares_id'] : true;
 		$post['data']['project_leader_id'] ? $data['project_leader_id'] = $post['data']['project_leader_id'] : true;
-        // $data['id'] = 117;
-        // $data['name'] = 1;
-        // $data['progam_id'] = 1;
-        // $data['staff_id'] = 1;
-        // $data['customer_name'] = 1;
-        // $data['day_number'] = 1;
-        // $data['date'] = date('Y-m-d H:i:s',time());
-        // $data['progam_id'] = 1;
-        // $data['student_number'] = 1;
-        // $data['address'] = 1;
+		$post['data']['institutional_consulting_fees'] ? $pro['institutional_consulting_fees'] = $post['data']['institutional_consulting_fees'] : true;
+		$post['data']['personal_consulting_fees'] ? $pro['personal_consulting_fees'] = $post['data']['personal_consulting_fees'] : true;
         if(!$data['id']){
             $this->data->out(3901);
         }

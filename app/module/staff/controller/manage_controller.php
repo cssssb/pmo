@@ -50,7 +50,7 @@ class manage_controller
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,[]);
                 break;
             // case   2:
             //     $this->data->out(code, $data);

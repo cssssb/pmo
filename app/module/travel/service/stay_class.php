@@ -28,7 +28,7 @@ final class stay_class
     //增/改
     public function add_stay($post){
        
-        return $this->model->insert($post);
+        return $this->model->insert($post,1);
     }
 
     //删

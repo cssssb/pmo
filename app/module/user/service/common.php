@@ -19,7 +19,7 @@ final class common
     public function __construct()
     {
         $this->model = app::load_model_class('user', 'user');
-        $this->code();
+        // $this->code();
     }
     public function code($token){
         $where['token'] = $token;

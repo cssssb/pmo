@@ -36,9 +36,11 @@ class manage_controller
 		$this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排预算
 		$this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载安排预算
 		$this->travel = \app::load_service_class('travel_plan_class', 'travel');//加载差旅预算
-		$this->code = app::load_cont_class('common','user');//加载token
+		// $this->code = app::load_cont_class('common','user');//加载token
 	}
-
+	public function test(){
+		return $this->project->test();
+	}
 
 	public function list()
 	{
@@ -55,11 +57,11 @@ class manage_controller
         //调用业务层函数
         // example $this->service->function();
         $data = $this->project->listProject();
-        $data?$cond = 0:$cond = 1;
+		$data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,[]);
                 break;
             // case   2:
             //     $this->data->out(code, $data);
@@ -108,82 +110,24 @@ class manage_controller
 				break;
 			
 			default:
+			//10/24  乌龙
+				// $data = [
+				// 	'venue_fee'=>'100',
+				// 	'examination_fee'=>'100',
+				// 	'tea_break'=>'100',
+				// 	'stationery'=>'100',
+				// 	'hospitality'=>'100',
+				// 	'postage'=>'100',
+				// 	'material_cost'=>'100',
+				// 	'equipment_cost'=>'100',
+				// 	'parent_id'=>$ass['id']
+				// ];
+				// $this->implement->add($data);
 				$this->data->out(2003,$ass);
 				break;
 		}
 	}
-	/**
-	 * ================
-	 * @Function:     editProject
-	 * @Parameter:    
-	 * @DataTime:     2018-10-10
-	 * @Return:       bool
-	 * @Notes:        修改项目接口
-	 * @ErrorReason:  null
-	 * ================
-	 */
-	// public function editProject(){
-		
-	// 	$post = $this->data->get_post();
-	// 	$msg['code'] = 1;
-	// 	$msg['msg'] = '操作失败';
 
-	// 	if(!$this->checkproject($post['data']['id'])){
-	// 		$this->o->output($msg);
-	// 	}
-		
-	// 	$post['data']['id'] ? $data['id'] = $post['data']['id'] : true;
-	// 	$post['data']['project_name'] ? $data['name'] = $post['data']['project_name'] : true;
-	// 	$post['data']['project_gather'] ? $data['progam_id'] = $post['data']['project_gather'] : true;
-	// 	$post['data']['project_person_in_charge_id'] ? $data['staff_id'] = $post['data']['project_person_in_charge_id'] : true;
-	// 	$post['data']['project_customer_name'] ? $data['customer_name'] = $post['data']['project_customer_name'] : true;
-	// 	$post['data']['project_days'] ? $data['day_number'] = $post['data']['project_days'] : true;
-	// 	$post['data']['project_date'] ? $data['date'] = $post['data']['project_date'] : true;
-	// 	$post['data']['project_gather_id'] ? $data['progam_id'] = $post['data']['project_gather_id'] : true;
-	// 	$post['data']['project_training_numbers'] ? $data['student_number'] = $post['data']['project_training_numbers'] : true;
-	// 	$post['data']['project_training_ares'] ? $data['address'] = $post['data']['project_training_ares'] : true;
-	// 	$ass = $this->project->edit_project($data);
-	// 	if($ass){
-	// 		$msg['code'] = 0;
-	// 		$msg['msg'] = '操作成功';
-	// 	}
-	// 	echo json_encode($msg);die;
-	// }
-
-	/**
-	 * ================
-	 * @Function:     editProject
-	 * @Parameter:    
-	 * @DataTime:     2018-10-10
-	 * @Return:       bool	
-	 * @Notes:        编辑接口
-	 * @ErrorReason:  null
-	 * ================
-	 */
-	// public function editProject(){
-	// 	$post = $this->data->get_post();
-	// 	$post['data']['id'] ? $data['id'] = $post['data']['id'] : true;
-	// 	$post['data']['project_name'] ? $data['name'] = $post['data']['project_name'] : true;
-	// 	$post['data']['project_gather'] ? $data['progam_id'] = $post['data']['project_gather'] : true;
-	// 	$post['data']['project_person_in_charge_id'] ? $data['staff_id'] = $post['data']['project_person_in_charge_id'] : true;
-	// 	$post['data']['project_customer_name'] ? $data['customer_name'] = $post['data']['project_customer_name'] : true;
-	// 	$post['data']['project_days'] ? $data['day_number'] = $post['data']['project_days'] : true;
-	// 	$post['data']['project_date'] ? $data['date'] = $post['data']['project_date'] : true;
-	// 	$post['data']['project_project_template_id'] ? $data['template_id'] = $post['data']['project_project_template_id'] : true;
-	// 	$post['data']['project_gather_id'] ? $data['progam_id'] = $post['data']['project_gather_id'] : true;
-	// 	$post['data']['project_training_numbers'] ? $data['student_number'] = $post['data']['project_training_numbers'] : true;
-	// 	$post['data']['project_training_ares'] ? $data['address'] = $post['data']['project_training_ares'] : true;
-		
-	// 	$ass = $this->project->editProject($data);
-	// 	// return var_dump($ass);die;
-	// 	$msg['code'] = 1;
-	// 	$msg['msg'] = '操作失败';
-	// 	if($ass){
-	// 		$msg['code'] = 0;
-	// 		$msg['msg'] = '操作成功';
-	// 	}
-	// 	echo json_encode($msg);
-	// }
 
 	//获取一条项目数据
 	public function getOneProject(){

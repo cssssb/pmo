@@ -28,7 +28,7 @@ final class city_class
     //增/改
     public function add_city($post){
         
-        return $this->model->insert($post);
+        return $this->model->insert($post,1);
     }
 
     //删

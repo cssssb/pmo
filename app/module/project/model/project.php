@@ -32,29 +32,35 @@ class project extends \system\model {
 		// $return['project_training_ares'] = $ass['address'];//开班地址
 		// $return['project_training_numbers'] = $ass['student_number'];//开班人数
 		$sql = "
-			SELECT
-			header.id,
-			body.project_name,
-			header.progam_id as project_gather_id,
-			header.staff_id as project_person_in_charge_id,
-			header.template_id as project_project_template_id,
-			body.project_customer_name,
-			body.project_days,
-			body.project_date,
-			body.project_training_numbers,
-			body.project_training_ares,
-			header.budget_id,
-			sta. NAME AS  project_person_in_charge_name,
-			pro.add_program_manage_name AS  project_gather_name,
-			tem. NAME AS  project_project_template_name 
-		FROM
-			pmo_project_header AS header
-			LEFT JOIN pmo_staff_table AS sta ON header.staff_id = sta.id
-			LEFT JOIN pmo_progam AS pro ON header.progam_id = pro.id
-			LEFT JOIN pmo_project_template AS tem ON header.template_id = tem.id
-			LEFT JOIN pmo_project_body AS body ON header.id = body.parent_id
-		WHERE header.state=0
-		order by body.project_date desc
+		SELECT
+		header.id,
+		body.project_name,
+		header.progam_id as project_gather_id,
+		header.staff_id as project_person_in_charge_id,
+		header.template_id as project_project_template_id,
+		body.project_customer_name,
+		body.project_days,
+		body.project_date,
+		body.project_training_numbers,
+		header.budget_id,
+		sta. NAME AS  project_person_in_charge_name,
+		pro.add_program_manage_name AS  project_gather_name,
+		tem. NAME AS  project_project_template_name,
+		concat(
+				ares1.name,
+				ares2.name,
+				address.`name`) as project_training_ares
+			FROM
+				pmo_project_header AS header
+				LEFT JOIN pmo_staff_table AS sta ON header.staff_id = sta.id
+				LEFT JOIN pmo_progam AS pro ON header.progam_id = pro.id
+				LEFT JOIN pmo_project_template AS tem ON header.template_id = tem.id
+				LEFT JOIN pmo_project_body AS body ON header.id = body.parent_id
+				LEFT JOIN pmo_address AS address ON address.id = body.project_training_ares
+				LEFT JOIN pmo_ares AS ares1 ON ares1.id = address.province_id
+		LEFT JOIN pmo_ares AS ares2 ON ares2.id = address.city_id
+			WHERE header.state=0
+			order by body.project_date desc
 		";
 		//date  名字 as project_date
 		$all = $this->query($sql);
@@ -83,20 +89,26 @@ class project extends \system\model {
 		header.template_id as project_project_template_id,
 		body.project_days,
 		body.project_training_numbers,
-		body.project_training_ares,
+		body.project_training_ares as project_training_ares_id,
 		staff.id as project_person_in_charge_id,
 		staff.name as project_person_in_charge_name,
 		body.project_date,
 		header.unicode,
 		lala.name as project_leader_name,
-		lala.id as project_leader_id
+		lala.id as project_leader_id,
+		body.project_tax_rate,
+		body.project_income,
+		body.project_end_date,
+		body.project_start_date,
+		body.institutional_consulting_fees,
+		body.personal_consulting_fees
 	FROM
 		pmo_project_header AS header
 		LEFT JOIN pmo_staff_table as staff on header.staff_id=staff.id
 		LEFT JOIN pmo_staff_table as lala on header.project_leader_id=lala.id
 		LEFT JOIN pmo_progam as gm on header.progam_id = gm.id
 		LEFT JOIN pmo_project_template as te on header.template_id = te.id
-	  LEFT JOIN pmo_project_body as body on header.template_id = body.id
+	  LEFT JOIN pmo_project_body as body on header.id = body.parent_id
 	where 
 		header.id = $id
 				limit 1

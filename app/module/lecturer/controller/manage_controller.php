@@ -36,7 +36,7 @@ class manage_controller
         $data?$cond = 0:$cond = 1;
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,[]);
                 break;
           
             default:
@@ -92,7 +92,7 @@ class manage_controller
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,[]);
                 break;
             default:
                 $this->data->out(2001,$data);

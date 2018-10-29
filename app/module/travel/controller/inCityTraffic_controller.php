@@ -54,6 +54,7 @@ class inCityTraffic_controller
                $this->data->out(2004);
                break;
            default:
+               $post['data']['id'] = (string)$ass;
                $this->data->out(2003,$post['data']);
            }
    }

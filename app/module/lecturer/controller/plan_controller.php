@@ -35,6 +35,8 @@ class plan_controller
         $this->lecturer = \app::load_service_class('lecturer_class', 'lecturer');//加载老师姓名
         $this->lecturer_duty = \app::load_service_class('lecturer_duty_class', 'lecturer');//加载职责
         $this->code = \app::load_cont_class('common','user');//加载token
+        $this->operation = \app::load_service_class('operation_class','operation');//加载操作
+        $this->project = \app::load_service_class('project_class','project');//加载项目
        
     }
 
@@ -63,6 +65,7 @@ class plan_controller
                 break;
           
             default:
+                $post['data']['id'] = (string)$ass;
                 $this->data->out(2003, $post['data']);
             }
     }
@@ -152,9 +155,13 @@ class plan_controller
             }}
                $rng?$cond = 0:$cond = 1;
                $return['lecturer'] = $rng;
+               $project_name = $this->project->get_one($post['id']);
+               $return['unicode'] = $project_name['unicode'];
+               $return['project_name'] = $this->project->project_name($post['id']);
+               
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,$return);
                 break;
           
             default:
