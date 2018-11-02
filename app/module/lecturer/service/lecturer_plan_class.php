@@ -64,7 +64,7 @@ final class lecturer_plan_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function fee_teacher($parent_id){
+	public function get_fee($parent_id){
 		$where['state'] = 0;
 		$where['parent_id'] = $parent_id['parent_id'];
 		$data = $this->model->select($where);

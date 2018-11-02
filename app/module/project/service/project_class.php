@@ -108,7 +108,15 @@ final class project_class
 	 */
 	public function listProject()
 	{
-		return $this->model->listProject();
+		$data = $this->model->listProject();
+		foreach($data as $key=>$val){
+			$data[$key]['project_traing_ares']['province'] = $val['province'];
+			$data[$key]['project_traing_ares']['city'] = $val['city'];
+			$data[$key]['project_traing_ares']['address'] = $val['address'];
+			$data[$key]['project_date']['start'] = $val['project_start_date'];
+			$data[$key]['project_date']['end'] = $val['project_end_date'];
+		}
+		return $data;
 	}
 
 	/**
@@ -141,48 +149,7 @@ final class project_class
 			return $this->new_addproject($data);
 		
 	}
-	// //弃用
-	// private function new_addproject($data)
-	// {		
-	// 		$where['id'] = $data['id'];
-	// 		$old_id = $data['id'];
-	// 		$get_one = $this->model->get_one($where);
-			
-	// 		if (!$get_one['name']&&$get_one['template_id']) {
-	// 			return $this->model->update($data, $where);
-	// 		} elseif ($get_one) {
-	// 			//如果get_one为真。说明是修改,否则是新增  同时触发操作表
-	// 			$state['state'] = 1;
-	// 			$this->model->update($state, $where);
-	// 			unset($data['id']);
-	// 			//10.9
-	// 			/*//未完成关联表id跟着修改
-	// 			**/
-	// 			$insert_id = $this->model->insert($data, $return_insert_id = true);
-	// 			return $this->return_insert_id($old_id, $insert_id);
-	// 		}
-	// 		return false;
-		 
-	// }
 	
-	// private function return_insert_id($old_id, $insert_id)
-	// {
-
-
-		
-	// 	$oldproject['parent_id'] = $where['parent_id'] = $old_id;
-	// 	$project['parent_id'] = $data['parent_id'] = $insert_id;
-	// 	$lecturer = $this->lecturer->update($data, $where);
-	// 	$implement = $this->implement->update($data, $where);
-	// 	$city = $this->city->update($project,$oldproject);
-	// 	$stay = $this->stay->update($project,$oldproject);
-	// 	$province = $this->province->update($project,$oldproject);
-	// 	if ($lecturer && $implement && $city && $stay && $province) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
 	/**
 	 * ================
 	 * @Function:     delProject
@@ -256,5 +223,8 @@ final class project_class
 		}
 		$str = $date.$numbers;
 		return var_dump($str);
+	}
+	public function list_lecturer($parent_id){
+		return $this->model->list_lecturer($parent_id);
 	}
 }

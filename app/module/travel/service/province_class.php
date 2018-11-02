@@ -52,4 +52,13 @@ final class province_class
         unset($post['id']);
         return $this->model->insert($post);
     }
+    public function get_fee($parent_id){
+        $where['parent_id'] = $parent_id;
+        $where['state'] = 0;
+        $data = $this->model->select($where);
+        foreach($data as $key){
+            $fe[] = $key['long_fee_card_fee'];
+        }
+        return array_sum($fe);
+    }
 }

@@ -33,15 +33,18 @@ final class operation_class
      * @ErrorReason:   
      * ================
      */         
-    public function index($token,$parent_id){
+    public function index(){
         $post = $this->data->get_post();//获得post
         // echo json_encode($post);die;
         $token = $post['token'];
 
         if($post['id']){
             $parent_id = $post['id'];
-        }else{
-            $parent_id = $post['data']['parent_id'];}
+            $project = $this->model->get_one('parent_id='.$parent_id);
+        }elseif($post['parent_id']){
+            $parent_id = $post['data']['parent_id'];
+            $project = $this->model->get_one('parent_id='.$parent_id);
+        }
             
         //把通过token查询变成用户id查询
         $user = $this->user->get_one("token='$token'");
@@ -50,7 +53,7 @@ final class operation_class
             
         }
         //查看操作表里有无此数据
-        $project = $this->model->get_one('parent_id='.$parent_id);
+       
     
         //如果没有数据就添加
         if(!$project){

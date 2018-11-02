@@ -8,6 +8,7 @@ final class implement_plan_class
 	public function __construct()
 	{
 		$this->model = \app::load_model_class('implement_plan', 'implement');//差旅表
+		$this->room = \app::load_model_class('implement_room','implement');
 		$this->operation = \app::load_model_class('operation_project', 'project');
 	}
 	/**
@@ -53,11 +54,20 @@ final class implement_plan_class
 	 * @ErrorReason:  null
 	 * ================
 	 */
-	public function fee_implement($parent_id){
+	public function get_fee($parent_id){
 		$where['parent_id'] = $parent_id['parent_id'];
 		$where['state'] = 0;
 		$data = $this->model->get_one($where);
-		$ass = $data['meet_fee'] + $data['equipment'] + $data['test_fee'] + $data['arder_fee'] + $data['pen_fee'] + $data['serve_fee'] + $data['mail_fee'];
+		$vebue_fee = $this->room->select($where);
+
+		foreach($vebue_fee as $key){
+			$fee[] = $key['total_price'];
+		}
+
+		$room_fee = array_sum($fee);
+		// return $room_fee;die;测试通过
+
+		$ass = $data['examination_fee'] + $data['tea_break'] + $data['stationery'] + $data['hospitality'] + $data['postage'] + $data['material_cost'] + $data['equipment_cost'] + $room_fee;
 		return  $ass;
 	}
 

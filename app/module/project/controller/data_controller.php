@@ -39,7 +39,7 @@ class data_controller
         // $post['id'] = 93;
 		$data = $this->project->get_one_project($post['id']);
         $data?$cond = 0:$cond = 1;
-        if($data){
+        if($data[0]['project_training_ares_id']){
         $data[0]['project_training_ares_name'] = $this->address->connect($data[0]['project_training_ares_id']);}
         switch ($cond) {
             case   1://异常1

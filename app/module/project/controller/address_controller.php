@@ -23,8 +23,8 @@ class address_controller
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         //todo 加载相关模块
-        // $this->code = \app::load_cont_class('common','user');//加载token
-        // $this->operation = \app::load_service_class('operation_class','operation');//加载操作
+        $this->code = \app::load_cont_class('common','user');//加载token
+        $this->operation = \app::load_service_class('operation_class','operation');//加载操作
         $this->address = app::load_service_class('address_class', 'project');//
     }
     public function list()
@@ -38,7 +38,7 @@ class address_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $post['id'] = 1;
+        // $post['id'] = 1;
         $data = $this->address->list($post['id']);
         $data?$cond = 0:$cond = 1;
         

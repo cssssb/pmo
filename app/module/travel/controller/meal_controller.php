@@ -1,78 +1,72 @@
 <?php
 namespace travel;
 
-// use system\ding_password;
-
-
-// echo "load ding_controller";
-// echo  microtime();
-// echo "\n";
+//namespace 模块名
+use \app;
 
 defined('IN_LION') or exit('No permission resources.');
-
 /**
  * ================
  * @Author:    css
- * @ver:       ding_user
- * @DataTime:  2018-08-21
- * @describe:  V1.0
+ * @ver:       1.0
+ * @DataTime:  2018-10-29
+ * @describe:  travel_meal controller class
  * ================
  */
-class hotel_controller
+class meal_controller
 {
+    private $data,$meal;
     /**
      * 构造函数
      */
     public function __construct()
-    {   
-        $this->data = \app::load_sys_class('protocol');//加载json数据模板
-        $this->protocol = \app::load_model_class('protocol','user');//加载公共json
-        // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
-        $this->post = json_decode(file_get_contents('php://input'),true);
-        $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
-        $this->code = \app::load_cont_class('common','user');//加载token
-       
+    {
+        $this->data = app::load_sys_class('protocol');//加载json数据模板
+        $this->code = app::load_cont_class('common','user');//加载token
+        $this->operation = app::load_service_class('operation_class','operation');//加载操作
+        //todo 加载相关模块
+        $this->meal = app::load_service_class('meal_class', 'travel');//
     }
-
     public function add()
     {
         /**
          * ================
          * @Author:    css
          * @ver:       1.0
-         * @DataTime:  2018-10-17
+         * @DataTime:  2018-10-29
          * @describe:  add function
          * ================
          */
         $post = $this->data->get_post();//获得post
-        
-        $ass =  $this->stay->add_stay($post['data']);
-        $ass?$cond = 0:$cond = 1;
+        unset($post['data']['meal_fee_people_name']);
+        $data = $this->meal->add_meal($post['data']);
+        $data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2004);
+                $this->data->out(2004,$post['data']);
                 break;
             default:
-                $post['data']['id'] = (string)$ass;
                 $this->data->out(2003,$post['data']);
             }
     }
-     public function edit()
+    public function edit()
      {
          /**
           * ================
           * @Author:    css
           * @ver:       
-          * @DataTime:  2018-10-17
+          * @DataTime:  2018-10-29
           * @describe:  edit function
           * ================
           */
          $post = $this->data->get_post();//获得post
+
          if(!$post['data']['id']){
              $this->data->out(3901);}
-            $ass = $this->stay->edit_stay($post['data']);
+        unset($post['data']['meal_fee_people_name']);
+            $ass = $this->meal->edit_meal($post['data']);
             $ass?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
@@ -96,7 +90,7 @@ class hotel_controller
          $post = $this->data->get_post();//获得post
          if(!$post['id']){
              $this->data->out(3901);}
-         $ass = $this->stay->del_stay($post);
+         $ass = $this->meal->del_meal($post);
          $ass?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
@@ -107,4 +101,35 @@ class hotel_controller
                  $this->data->out(2008,$post['id']);
              }
             }
+    public function people()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2018-10-29
+         * @describe:  people function
+         * ================
+         */
+        // echo 1;die;
+
+        $post = $this->data->get_post();//获得post
+        $data = $this->meal->people();
+        
+        $data?$cond = 0:$cond = 1;
+        foreach($data as $key){
+            $return['id'] = $key['meal_fee_people_id']; 
+            $return['name'] = $key['meal_fee_people_name']; 
+            $returns[] = $return; 
+        }
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$returns);
+            }
+    }
 }

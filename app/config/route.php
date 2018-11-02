@@ -8,7 +8,7 @@ return array(
         [], [], "1.0"],
         "project_manage_add" => ["project", "manage", "add", ["project_project_template_id" => "string"], [], '1.0'],       //添加项目
         "project_data_edit" => ["project", "data", "edit", ["id" => "string"], [], '1.0'],       //修改项目
-        "project_manage_list" => ["project", "manage", "list", [], [], '1.0'],    //返回项目列表
+        "project_manage_list" => ["project", "manage", "list", [], [], '2.0'],    //返回项目列表
         "project_data_getByProjectId" => ["project", "data", "getByProjectId", ["id" => "string"], [], '1.0'],   //获取一条数据
         "staff_manage_list" => ["staff", "manage", "list", [], [], '1.0'],   //获取实施负责人
         "program_manage_list" => ["progam", "manage", "list", [], [], '1.0'],//项目集表
@@ -22,7 +22,7 @@ return array(
         "lecturer_plan_del" => ["lecturer", "plan", "del", ["id" => "string"], [], '1.0'],                //删除讲师成本状态
         "implement_plan_getByProjectId" => ["implement", "plan", "getByProjectId", [], [], '1.0'],     //获取实施安排
         "implement_plan_edit" => ["implement", "plan", "edit", [], [], '1.0'],     //实施安排修改
-        "travel_plan_getByProjectId" => ["travel", "plan", "getByProjectId", [], [], '0.1'],         //差旅安排
+        "travel_plan_getByProjectId" => ["travel", "plan", "getByProjectId", [], [], '1.0'],         //差旅安排
         "travel_inCityTraffic_add" => ["travel", "inCityTraffic", "add", [], [], '1.0'],        //市内交通
         "travel_inCityTraffic_edit" => ["travel", "inCityTraffic", "edit", ["id" => "string"], [], '1.0'],        
         "travel_inCityTraffic_del" => ["travel", "inCityTraffic", "del", ["id" => "string"], [], '1.0'],        
@@ -63,9 +63,12 @@ return array(
         "project_address_del"=>["project","address","del",[],[],'1.0'],//删除
 
         //10.29
-        "travel_meal_add" => ["travel", "meal", "add", [], [], '0.1'],        //添加餐费
-        "travel_meal_edit" => ["travel", "meal", "edit", [], [], '0.1'],        //修改餐费
-        "travel_meal_del" => ["travel", "meal", "del", [], [], '0.1'],        //删除餐费
+        "travel_meal_people" => ["travel", "meal", "people", [], [], '1.0'],        //人员列表
+        "travel_meal_add" => ["travel", "meal", "add", [], [], '1.0'],        //添加餐费
+        "travel_meal_edit" => ["travel", "meal", "edit", [], [], '1.0'],        //修改餐费
+        "travel_meal_del" => ["travel", "meal", "del", [], [], '1.0'],        //删除餐费
+        //11.1
+        "examine_manage_commit" => ["examine", "manage", "commit", [], [], '0.1'],        //提交项目审批
 
     ),
 );

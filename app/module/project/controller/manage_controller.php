@@ -30,18 +30,24 @@ class manage_controller
 		// $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
 		$this->post = json_decode(file_get_contents('php://input'), true);
 		$this->project = \app::load_service_class('project_class', 'project');//加载项目大表
-		$this->progam = \app::load_service_class('progam_class', 'progam');//加载所属项目
-		$this->staff = \app::load_service_class('staff_class', 'staff');//加载负责人id
-		$this->template = \app::load_service_class('template_class', 'template');//加载项目模板id
-		$this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排预算
-		$this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载安排预算
-		$this->travel = \app::load_service_class('travel_plan_class', 'travel');//加载差旅预算
-		// $this->code = app::load_cont_class('common','user');//加载token
+		$this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排
+		$this->room = \app::load_service_class('implement_room_class','implement');//加载会场
+        $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
+        $this->city = \app::load_service_class('city_class', 'travel');//加载室内交通
+        $this->meal = \app::load_service_class('meal_class', 'travel');//加载餐费
+        $this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
+        $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
+		
+		$this->code = app::load_cont_class('common','user');//加载token
+        $this->operation = \app::load_service_class('operation_class','operation');//加载操作
+
 	}
 	public function test(){
-		return $this->project->test();
+		$a = '123456';
+		$md51 = md5($a);
+		$md52 = md5($md51);
+		echo $md51.'========'.$md52;
 	}
-
 	public function list()
 	{
 		/**
@@ -56,7 +62,65 @@ class manage_controller
         $cond = 0;//默认成功
         //调用业务层函数
         // example $this->service->function();
-        $data = $this->project->listProject();
+		$data = $this->project->listProject();
+		foreach($data as $key=>$val){
+		//labor_cost  人工成本 计算方式为 讲师费加税的总和 1.0
+		$data[$key]['labor_cost'] = $this->lecturer->get_fee($val['id']);
+		if(!$data[$key]['labor_cost']){
+			$data[$key]['labor_cost'] = 0;
+		}
+		//implementation_cost 实施成本 计算方式为几个预算的和  还需要加上会场费1.0
+		$data[$key]['implementation_cost'] = $this->implement->get_fee($val['id']); 
+		if(!$data[$key]['implementation_cost']){
+			$data[$key]['implementation_cost'] = 0;
+		}
+		$data[$key]['stay'] = $this->stay->get_fee($val['id']);//住宿1.0
+		if(!$data[$key]['stay']){
+			$data[$key]['stay'] = 0;
+		}
+		$data[$key]['city'] = $this->city->get_fee($val['id']);//市内交通1.0
+		if(!$data[$key]['city']){
+			$data[$key]['city'] = 0;
+		}
+		$data[$key]['province'] = $this->province->get_fee($val['id']);//长途交通1.0
+		if(!$data[$key]['province']){
+			$data[$key]['province'] = 0;
+		}
+		$data[$key]['meal'] = $this->meal->get_fee($val['id']);//餐费1.0
+		if(!$data[$key]['meal']){
+			$data[$key]['meal'] = 0;
+		}
+		//travel_cost 差旅成本 计算方式为长途交通、市内交通、住宿、餐饮相加
+		$data[$key]['travel_cost'] = $data[$key]['stay'] + $data[$key]['city'] + $data[$key]['province'] + $data[$key]['meal']; 
+		if(!$data[$key]['travel_cost']){
+			$data[$key]['travel_cost'] = 0;
+		}
+		$data[$key]['lecturer'] = $this->project->list_lecturer($val['id']);
+		$data[$key]['implement'] = $this->implement->get_one($val['id']);
+		$data[$key]['venue'] = $this->room->get_project($val['id']);
+		// 咨询成本1.0
+		$data[$key]['consulting_cost'] = $data[$key]['institutional_consulting_fees'] + $data[$key]['personal_consulting_fees'];
+		if(!$data[$key]['consulting_cost']){
+			$data[$key]['consulting_cost'] = 0;
+		}
+		//成本合计  讲师 + 实施 + 差旅  1.0
+		$data[$key]['costing'] = $data[$key]['labor_cost'] + $data[$key]['implementation_cost'] + $data[$key]['travel_cost'];
+		if(!$data[$key]['costing']){
+			$data[$key]['costing'] = 0;
+		}
+	
+		//预计收入  1.0
+		$data[$key]['expected_income'] = $data[$key]['project_income'];
+		//项目利润 1.0
+		$data[$key]['project_profit'] = $data[$key]['project_income'] - $data[$key]['costing'];
+		//毛利率
+		if($data[$key]['expected_income']&&$data[$key]['project_profit']){
+		$data[$key]['gross_interest_rate'] =round($data[$key]['project_profit']/$data[$key]['expected_income']*100,2).'%';
+		//去合作费毛利率 
+		$data[$key]['cooperative_gross_margin'] = round($data[$key]['project_profit']/($data[$key]['expected_income']-$data[$key]['consulting_cost'])*100,2).'%';
+	}
+		
+	}
 		$data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
@@ -110,19 +174,6 @@ class manage_controller
 				break;
 			
 			default:
-			//10/24  乌龙
-				// $data = [
-				// 	'venue_fee'=>'100',
-				// 	'examination_fee'=>'100',
-				// 	'tea_break'=>'100',
-				// 	'stationery'=>'100',
-				// 	'hospitality'=>'100',
-				// 	'postage'=>'100',
-				// 	'material_cost'=>'100',
-				// 	'equipment_cost'=>'100',
-				// 	'parent_id'=>$ass['id']
-				// ];
-				// $this->implement->add($data);
 				$this->data->out(2003,$ass);
 				break;
 		}

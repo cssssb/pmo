@@ -32,6 +32,7 @@ class plan_controller
         $this->city = \app::load_service_class('city_class', 'travel');//加载差旅
         $this->province = \app::load_service_class('province_class', 'travel');//加载差旅
         $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
+        $this->meal = \app::load_service_class('meal_class', 'travel');//加载餐费
         $this->travel_plan = \app::load_service_class('travel_plan_class', 'travel');//加载差旅
         $this->code = \app::load_cont_class('common','user');//加载token
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
@@ -60,7 +61,8 @@ class plan_controller
         $province = $this->province->list_province($post['id']);
         $city = $this->city->list_city($post['id']);
         $stay = $this->stay->list_stay($post['id']);
-      
+        $meal = $this->meal->list_meal($post['id']);
+            
             foreach($city as $key){
                 $city_a['short_fee_card_people'] = $key['short_fee_card_people'];
                 $city_a['short_fee_type'] = $key['short_fee_type'];
@@ -94,6 +96,7 @@ class plan_controller
             $data['stay'] = $stay_b;
             $data['city'] = $city_b;
             $data['province'] = $province_b;
+            $data['meal'] = $meal;
             //开始输出
             $data?$cond = 0:$cond = 1;
             $project_name = $this->project->get_one($post['id']);

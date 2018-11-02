@@ -37,8 +37,7 @@ class travel_fee_controller
         public function feeTravel(){
             //会传一个parent_id
             $parent_id = 1;
-            $ass = $this->travel_plan->fee_travel($parent_id
-        );
+            $ass = $this->travel_plan->fee_travel($parent_id);
             return print_r($ass);
         }
 

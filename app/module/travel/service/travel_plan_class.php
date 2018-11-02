@@ -135,6 +135,7 @@ final class travel_plan_class
 		$fee_provibce = $this->fee_foreach($province);
 		$fee_city = $this->fee_foreach($city);
 		$fee_stay = $this->fee_foreach($stay);
+		$fee_meal = $this->fee_foreach($stay);
 		return $fee_stay+$fee_city+$fee_provibce;
 	}
 	private function fee_foreach($data=null){
@@ -147,6 +148,19 @@ final class travel_plan_class
 		}else{
 			return false;
 		}
+	}
+	/**
+	 * ================
+	 * @Author:        css
+	 * @Parameter:     get_fee
+	 * @DataTime:      2018-10-31
+	 * @Return:        fee
+	 * @Notes:         返回差旅安排总和
+	 * @ErrorReason:   
+	 * ================
+	 */
+	public function get_fee($parent_id){
+		
 	}
 	public function get_one_province($id){
 		$where['id'] = $id;

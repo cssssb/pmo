@@ -13,7 +13,7 @@ class province_cost extends \system\model {
 
 		$this->db_config = \app::load_config('database');
 		$this->db_setting = 'default';
-		$this->table_name = 'province_cost';
+		$this->table_name = 'travel_province';
 		parent::__construct();
 	}
 }

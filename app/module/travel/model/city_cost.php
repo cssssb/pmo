@@ -13,7 +13,7 @@ class city_cost extends \system\model {
 
 		$this->db_config = \app::load_config('database');
 		$this->db_setting = 'default';
-		$this->table_name = 'city_cost';
+		$this->table_name = 'travel_city';
 		parent::__construct();
 	}
 	
