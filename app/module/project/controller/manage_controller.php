@@ -42,12 +42,7 @@ class manage_controller
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
 
 	}
-	public function test(){
-		$a = '123456';
-		$md51 = md5($a);
-		$md52 = md5($md51);
-		echo $md51.'========'.$md52;
-	}
+
 	public function list()
 	{
 		/**
@@ -96,6 +91,7 @@ class manage_controller
 			$data[$key]['travel_cost'] = 0;
 		}
 		$data[$key]['lecturer'] = $this->project->list_lecturer($val['id']);
+		$data[$key]['lecturers'] = $this->project->list_lecturer($val['id']);
 		$data[$key]['implement'] = $this->implement->get_one($val['id']);
 		$data[$key]['venue'] = $this->room->get_project($val['id']);
 		// 咨询成本1.0
@@ -103,21 +99,25 @@ class manage_controller
 		if(!$data[$key]['consulting_cost']){
 			$data[$key]['consulting_cost'] = 0;
 		}
-		//成本合计  讲师 + 实施 + 差旅  1.0
-		$data[$key]['costing'] = $data[$key]['labor_cost'] + $data[$key]['implementation_cost'] + $data[$key]['travel_cost'];
+		//成本合计  讲师 + 实施 + 差旅 + 咨询成本 1.0
+		$data[$key]['costing'] = $data[$key]['labor_cost'] + $data[$key]['implementation_cost'] + $data[$key]['travel_cost'] + $data[$key]['consulting_cost'];
 		if(!$data[$key]['costing']){
 			$data[$key]['costing'] = 0;
 		}
 	
 		//预计收入  1.0
 		$data[$key]['expected_income'] = $data[$key]['project_income'];
+		if(!$data[$key]['expected_income']){
+			$data[$key]['expected_income'] = 0;
+		}
 		//项目利润 1.0
 		$data[$key]['project_profit'] = $data[$key]['project_income'] - $data[$key]['costing'];
+		if(!$data[$key]['project_profit']){
+			$data[$key]['project_profit'] = 0;
+		}
 		//毛利率
 		if($data[$key]['expected_income']&&$data[$key]['project_profit']){
 		$data[$key]['gross_interest_rate'] =round($data[$key]['project_profit']/$data[$key]['expected_income']*100,2).'%';
-		//去合作费毛利率 
-		$data[$key]['cooperative_gross_margin'] = round($data[$key]['project_profit']/($data[$key]['expected_income']-$data[$key]['consulting_cost'])*100,2).'%';
 	}
 		
 	}

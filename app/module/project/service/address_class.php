@@ -27,6 +27,7 @@ final class address_class
         $data = $this->model->list($where);
         foreach($data as $key){
             $name['name'] = $key['province_name'].'--'.$key['city_name'].'--'.$key['name'];
+            $name['id'] = $key['id'];
             $return[] = $name;
         }
         return $return;

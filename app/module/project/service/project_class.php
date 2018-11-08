@@ -227,4 +227,19 @@ final class project_class
 	public function list_lecturer($parent_id){
 		return $this->model->list_lecturer($parent_id);
 	}
+	/**
+	 * ================
+	 * @Author:        css
+	 * @Parameter:     examine_fee
+	 * @DataTime:      2018-11-05
+	 * @Return:        data
+	 * @Notes:         返回项目收入
+	 * @ErrorReason:   null
+	 * ================
+	 */
+	public function get_body($parent_id){
+		$where['parent_id'] = $parent_id;
+		$where['state'] = 0;
+		return $this->body->get_one($where);
+	}
 }

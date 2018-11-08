@@ -24,6 +24,8 @@ class common_controller
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         //todo 加载相关模块
         $this->common = app::load_service_class('common', 'user');//
+        $this->examine = app::load_service_class('examine_project_class', 'examine');//
+        $this->examine->index();
         $this->code();
     }
     public function code()

@@ -45,6 +45,7 @@ class plan_controller
             }
             $css = $this->implement->get_one($parent_id);
             if($css){
+                unset($css['id']);
                 $ass['implement'][] = $css;
             }else{
                 $ass['implement'][] = ['parent_id'=>$parent_id];

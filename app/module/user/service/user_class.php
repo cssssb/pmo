@@ -44,4 +44,5 @@ final class user_class{
         $name = substr(str_shuffle($str), 26, 10);
         return $name;
     }
+
 }

@@ -27,7 +27,7 @@ final class implement_room_class
     }
     public function edit($data){
         $state['state'] = 1;
-        $where['parent_id'] = $data['parent_id'];
+        $where['id'] = $data['id'];
         $this->model->update($state,$where);
         unset($data['id']);
         $data['time'] = date('y-m-d H:i:s',time());
