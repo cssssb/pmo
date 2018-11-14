@@ -24,7 +24,6 @@
     点击需要我审批的接口，发送账户token 获取到用户角色再获取到有无审批权限，权限通过可以操作审批表，
     获取到预算通过第一级和自动通过的项目进行审批，操作通过或不通过
 其余审批者同上
-   
 关于3
     有一个在控制器里加载的公共服务。这个服务会在项目不允许动的情况下终止服务，弹出提示：此条项目正在审核
 中，不可修改/此条项目已生成决算，不可修改
@@ -40,6 +39,7 @@
 审批者：
 点击我的审批：发送token，
 
+
 审批节点：
 
 xx审批了xx项目的xx 通过/未通过 
@@ -52,6 +52,147 @@ xx审批了xx项目的xx 通过/未通过
     此条项目作废，重新输入所有的安排，重新进行提交
 }
 2，{
+    //作废
     此条项目通过的继续通过，此条项目进行整改模式，可以操作未通过项的计划，继续提交
 }
 4，xx审批了项目xx  通过/未通过
+
+
+
+
+审批流：
+xx用户获取到xx项目进行审批 按项目实施负责人id获取用户id 获取钉钉部门职位树形结构逐层审批
+发送： parent_id /  token / type_id / notes
+接收：bool （行为的ture,false）
+获取type_id 判断审批流程
+获取parent_id获取项目实施负责人id，通过角色职位树形结构获取下一步审批人
+获取token查找登录用户id 生成添加项目人id
+
+用户登录后点击需要我审批的项目：
+发送： token /
+获取：在审批流下节奏节点到了自己的职位树状点的项目的parent_id/type_id/notes /executor_name[]/executor_id[]
+list{
+    {
+        id:1,
+        parent_id:1,
+        type_id:1,
+        notes:'十一月三十日北京海淀学院南路项目经理课程',
+        executor_name:'张三-赵四-王五',
+        executor_id:'1,2,3',
+    }
+}
+点击审批通过或否，
+发送：token/pass(1/2)/parent_id/type_id/notes
+获取:bool
+
+从这里可以得出，需要的几个类
+部门职位树形结构类 
+用户账号类            并且部门职员与用户账号是有关联的
+审批项目类
+审批节点类
+
+//实际操作阶段
+
+预算操作情况：
+            进入职位树状图
+创建项目->提交预算->主管审批通过->xxx都通过之后->xx未通过    （如果有忘填项目则作废重填）  
+则：
+    pmo_examine_project     审核项目表state=1，此条项目作废，重新提交重新审核，以及此条项目可进行修改操作
+    pmo_examine_project_fee 项目fee静态记录表 parent_id的项目记录state=1数据作废
+    pmo_examine_flow        项目节点表，关于这条项目的id，type=这个的 state=2项目作废
+    pmo_examine_notes       项目进程表，parent_id 的  state=2 此条数据作废
+    
+    重新填写，重新提交
+
+创建项目->提交预算->主管审批通过->xxx都通过之后
+则：
+    pmo_examine_project     审核项目表state=0，此条项目可进行修改操作 process =1 申请人id,
+    pmo_examine_project_fee 状态不变
+    pmo_examine_flow        项目节点表
+    pmo_examine_notes       项目进程表，pass=1 type=1
+    
+    
+
+决算操作情况：
+
+点击提交决算
+则：
+    发送：parent_id/token/type_id/notes
+    pmo_examine_project 生成一条parent_id为xx的数据，type_id=2，
+    pmo_examine_project_fee  生成一条数据 parent_id=xxx,type=2,
+
+进入审核阶段若通过
+则:
+    获取:tokne(审核人)/parent_id/type_id/
+    pmo_examine_notes       项目进程表，pass=1 type=2 admin_user
+    pmo_examine_flow        项目节点表//无用废弃暂时先。
+    通过用户职位树状结构找到上级继续进行审核
+若不通过
+     获取:tokne(审核人)/parent_id/type_id/
+    pmo_examine_notes       项目进程表，pass=1 type=2 admin_user
+    终止行为 pmo_examine_project 中parent_id=xx and type_id=2 的 state = 2决算失败
+若全都通过但是发现有需要加费用的情况
+
+
+    这种操作需要多一个表，用于决算期间费用的增加
+    表里的字段有：id/parent_id/time/user_id/notes/state:0未审核，1通过审核，2未通过审核
+    ！！！！！！！！！！！！！会修改之前的代码！！！！！！！！！！！！！！！！！！！！！
+    讲师预算、实施预算、差旅预算多个表添加费用增加的字段
+   
+在进行需要加费用时，点击讲师安排增加状态后讲师安排表里 add字段的状态为1
+
+
+发送：token/parent_id/讲师安排信息(add=1)/
+获取:bool
+流程：通过token获取账户信息及职位树状图位置逐级向上进行批准
+
+
+（如果是逐级批准的时候还需要一个记录添加费用的关联表）
+添加费用的关联表记录的字段是:id/parent_id/time/admin_user/pass/state
+发送：token/parent_id/pass(1/2)
+获取bool
+
+若逐级审批全部通过。
+增加费用的表state=1 静态储存金额的数字会有改动（有无变化待定） 
+{
+    1，直接修改静态金额表
+}
+{
+    2，修改静态金额表，state=3，生成新的静态金额表
+}
+审核未通过。通过项目id把 各个安排表的状态字段改为不可用，逐级审批的记录表所有记录作废，增加金额表的请求的状态作废
+
+
+
+职工user 角色表
+
+pmp_tuml_user
+@startuml
+:提交人:  -->(data)
+(data)-->:主管:
+:主管:-left.>(true1)
+:主管:-right.>(false1)
+(true1).>:总监:
+(false1)->(主管未通过) 
+(主管未通过)->(return false)
+(false2)->(总监未通过)
+(总监未通过)->(return false)
+(false3)->(pmo未通过)
+(pmo未通过)->(return false)
+:总监:.>(true2)
+:总监:.>(false2)
+(true2)-->:pmo:
+:pmo:.>(true3)
+:pmo:.>(false3)
+(true3)->:Boos:
+:Boos:->(true4)
+:Boos:.>(false4)
+(true4)-->(return '通过')
+(false4)->(Boos未通过)
+(Boos未通过)->(return false)
+@enduml
+
+类图
+类：
+    流程、角色模型（通过角色类做流程）
+    审批模型

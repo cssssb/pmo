@@ -9,7 +9,7 @@ final class ding{
 		$this->model = \app::load_model_class('ding_member','user');
 		$this->demt = \app::load_model_class('ding_department','user');
 		$this->about = \app::load_model_class('ding_about_staff','user');
-	
+        $this->role = \app::load_model_class('staff_user','user');
     }
     public function cssssb(){
         return 1;die;
@@ -77,4 +77,9 @@ final class ding{
         $where = ' parentid != 0';
         return $this->demt->select($where);
     }
+    public function add_staff_user($data){
+        return $this->role->insert($data);
+    }
 }
+
+

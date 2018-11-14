@@ -47,14 +47,14 @@ class ding_controller
         $data = curl_exec($ch);
         curl_close($ch);
 
-         echo json_decode($data, true)["access_token"];die;
+         return json_decode($data, true)["access_token"];
 
         if ($data === false) {
             return "CURL Error:" . curl_error($ch);
         }
 
     }
-
+    //部门
     public function ding_department()
     {
         $token = $this->ding_token();
@@ -128,6 +128,7 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         echo '<pre>';
         print_r( $ass);die;
     }
+    //获取公司所有员工的所有信息
     public function ding_about_staff(){
         $token = $this->ding_token();
         $member = $this->ding->slelct_department();
@@ -135,11 +136,12 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             $ch = curl_init();
             $url = "https://oapi.dingtalk.com/user/list?access_token=" . $token . "&department_id=" . $members['department_id'];
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);    
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);    
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             $data = curl_exec($ch);
+
             curl_close($ch);
             $ass[] = json_decode($data, true);
         }
@@ -151,9 +153,42 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
                 $css[] = $v;
             }
         }
+        //  echo '<pre>';
+        // print_r( $ass);die;
         return $css;
-        // echo '<pre>';
-        // print_r( $css);die;
+       
+    }
+    public function add_staff_user(){
+        $list = $this->ding_about_staff();
+        foreach ($list as $k) {
+            $department_id = implode(",", $k['department']);
+           
+            $data = [];
+            $data = [
+                'department' => $department_id,
+
+                'userid' => $k['userid'],
+                'unionid' => $k['unionid'],
+                'mobile' => $k['mobile'],
+                'tel' => $k['tel'],
+                'workPlace' => $k['workPlace'],
+                'remark' => $k['remark'],
+                'isAdmin' => $k['isAdmin'],
+                'isBoss' => $k['isBoss'],
+                'isHide' => $k['isHide'],
+                'isLeader' => $k['isLeader'],
+                'name' => $k['name'],
+                'active' => $k['active'],
+                'department' => $department_id,
+                'position' => $k['position'],
+                'email' => $k['email'],
+                'orgEmail' => $k['orgEmail'],
+                'jobnumber' => $k['jobnumber'],
+                'hiredDate' => $k['hiredDate'],
+            ];
+            $this->ding->add_staff_user($data);
+        }
+    echo 1;die;
     }
     public function add_ding()
     {
@@ -173,6 +208,7 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             
             $data = [];
             $data = [
+                
                 'position' => $k['position'],
                 'department' => $department_id,
                 'userid' => $k['userid'],
