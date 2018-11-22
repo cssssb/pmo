@@ -22,5 +22,6 @@ class ding_department extends \system\model {
 		$date = $this->fetch_array($all);
 		return $date;
 	}
+	
 }
 ?>

@@ -54,6 +54,16 @@ xx审批了xx项目的xx 通过/未通过
 2，{
     //作废
     此条项目通过的继续通过，此条项目进行整改模式，可以操作未通过项的计划，继续提交
+
+
+
+
+
+
+
+
+
+    
 }
 4，xx审批了项目xx  通过/未通过
 
@@ -194,5 +204,115 @@ pmp_tuml_user
 
 类图
 类：
+类
+（Class）
+一般包含3个组成部分。第一个是类名；第二个是属性（attributes）；第三个是该类提供的方法（ 类的性质可以放在第四部分；如果类中含有内部类，则会出现第五个组成部分）。
+类名部分是不能省略的，其他组成部分可以省略。
+类名书写规范：正体字说明类是可被实例化的，斜体字说明类为抽象类。
+属性和方法书写规范：修饰符 [描述信息] 属性、方法名称 [参数] [：返回类型|类型]
+属性和方法之前可附加的可见性修饰符：
+加号（+）表示public；减号（-）表示private；井号(#)表示protected；省略这些修饰符表示具有package（包）级别的可见性。
+如果属性或方法具有下划线，则说明它是静态的。
+描述信息使用 << 开头，使用 >> 结尾。
+类的性质是由一个属性、一个赋值方法和一个取值方法组成。书写方式和方法类似。
+
+常见的关系有：继承（Inheritance），关联关系（Association），聚合关系（Aggregation），复合关系（Composition），依赖关系（Dependency）,
+实现关系(Realization/Implementation)。
+其中，聚合关系（Aggregation），复合关系（Composition）属于关联关系（Association）。
+一般关系表现为继承或实现关系(is a)，关联关系表现为变量(has a )，依赖关系表现为函数中的参
+类图中的关系表示
+类图中的关系表示
+数(use a)。
+一般化关系：表示为类与类之间的继承关系，接口与接口之间的继承，类对接口的实现关系。
+表示方法： 用一个空心箭头+实线，箭头指向父类。或空心箭头+虚线，如果父类是接口。
+关联关系：类与类之间的联接，它使一个类知道另一个类的属性和方法。
+表示方法：用 实线+箭头， 箭头指向被使用的类。
+聚合关系：是关联关系的一种，是强的关联关系。聚合关系是整体和个体的关系。关联关系的两个类处于同一层次上，而聚合关系两个类处于不同的层次，一个是整体，一个是部分。
+表示方法：空心菱形+实线+箭头，箭头指向个体。
+合成关系：是关联关系的一种，是比聚合关系强的关系。它要求普通的聚合关系中代表整体的对象负责代表部分的对象的生命周期，合成关系不能共享。
+表示方法：实心菱形+实线+箭头，
+依赖关系：是类与类之间的连接，表示一个类依赖于另一个类的定义。例如如果A依赖于B，则B体现为局部变量，方法的参数、或静态方法的调用。
+表示方法：虚线+箭头 箭头指向被依赖的一方，也就是指向局部变量。
+
     流程、角色模型（通过角色类做流程）
     审批模型
+
+
+创建审批流：
+Controller
+    add
+data{
+    user_id
+    parent_id
+    examine_type
+}
+
+Service
+return true || false
+Model
+insert
+
+创建审批节点
+Controller
+    add
+    data{
+        user_id
+        parent_id
+        examine_type
+    }
+Service
+通过examine_type判断是应该用什么审批流程
+审批流程是抽象的服务
+按照审批流程admin_user条数添加多条数据{
+    parent_id
+    examine_type
+    admin_user
+}
+Model
+insert
+
+查看待我审批的审批单
+Controller
+list
+data{
+    user_id/token
+}
+Service
+通过user_id在examine_notes表中查找轮到我审批的parent_id，通过查询project_header表将其详细信息返回
+Model
+select
+
+查看带我审批的审批单状态
+Controller
+list_examine
+data{
+    user_id/token
+}
+Service
+通过user_id在examine_notes表中查找此user_id通过审批的状态的parent_id，通过parent_id在表examine_project查找到进程
+
+class 查看待我审批的审批单状态 << (C,#FF7700)>> 
+class 查看待我审批的审批单状态服务  << (S,orchid) >>
+class 查看待我审批的审批单状态模型  << (M,red) >>
+class 查看待我审批的审批单状态{
+token
+}
+class 查看待我审批的审批单状态服务{
+通过user_id在examine_notes表中查找此user_id通过审批的状态的parent_id，通过parent_id在表examine_project查找到进程()
+}
+class 查看待我审批的审批单状态模型{
+select()
+}
+查看待我审批的审批单状态 <|-- 查看待我审批的审批单状态服务
+查看待我审批的审批单状态服务 <|-- 查看待我审批的审批单状态模型
+
+查看我已经通过审批的审批单
+Controller
+list
+data{
+    user_id/token
+}
+Service
+通过user_id在examine_notes表中查找我审批过的parent_id，通过查询project_header表将其详细信息返回
+Model
+select

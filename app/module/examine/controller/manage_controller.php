@@ -27,6 +27,7 @@ class manage_controller
         //todo 加载相关模块
         $this->notes = app::load_service_class('examine_notes_class', 'examine');//加载进程表
         $this->examine = app::load_service_class('examine_project_class', 'examine');//加载审批项目
+        $this->flow = app::load_service_class('examine_flow_class', 'examine');//加载审批项目
 
         $this->project = \app::load_service_class('project_class', 'project');//加载项目大表
         $this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排
@@ -37,28 +38,27 @@ class manage_controller
         $this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
         $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
     }
-   public function test(){
-    //    $id ='1123456';
-    //    print_r($this->project->get_body($id));
-    // var_dump((int)$id);
-    $post['phone'] = '13552323831';
-    $post['name'] = '侍尧';
-    $phone = preg_match("/^1[34578]{1}\d{9}$/", $post['phone']);
-    $name = preg_match("/^[\x{4e00}-\x{9fa5}]{2,30}$/u", $post['name']);
-    if($phone && $name){
-        echo 1;
-
-    }else{
-        var_dump($post);
+    //examine_mode_manage_test 
+    public function examine_mode_manage_test(){
+        $data1 = [
+            'examine_mode'=>'1,3'
+        ];
+        $data2 = [
+            'examine_mode'=>'2,3'
+        ];
+        $data3 = [
+            'examine_mode'=>'3,1,2'
+        ];
+        //获取到  pmo_staff_user表中的user_id字段的数据
+        return print_r($this->flow->examine_mode_manage($data1));
     }
-   }
     /**
      * ================
      * @Author:        css
      * @Parameter:     
      * @DataTime:      2018-11-02
      * @Return:        bool
-     * @Notes:         提交审批
+     * @Notes:         提交审批+创建审批流
      * @ErrorReason:   null
      * ================
      */ 
@@ -73,11 +73,20 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        //审批项目
+        //审批项目  如果没有发审批流id out
         // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
-        $notes = $this->examine->commit($post['id'],$post['token']);
-        $notes?$cond = 0:$cond = 1;
+        // $post = [
+        //     'token'=>'lalal',
+        //     'id' = 1,
+        //     'examine_type'=>'1',//1为预算 2为决算
+        //     'flow_id'=>1,//审批流id
+        // ];
+        $notes = $this->examine->commit($post['id'],$post['token'],$post['examine_type'],$post['flow_id']);
+        // $notes = $this->examine->commit($parent_id,$token,$examine_tyoe,$flow_id);
+        if(!$notes){
+            $this->data->out(2004,$post['id']);
+        }
         //添加金额
         $data['labor_cost'] = $this->lecturer->get_fee($post['id']);//人工成本总和
         
@@ -137,19 +146,28 @@ class manage_controller
         }
        
         $fee = $this->examine->add_fee($data,$post['id']);
-        $fee?$cond = 0:$cond = 2;
+        if(!$fee){
+            $this->data->out(3012,$post['id']);
+        }
+
+        //一、创建审批节点
+        //1、获取审批流
+        // $flow = $this->flow->get_one($flow_id);
+        //获取审批流方式
+        $examine_mode = $this->flow->get_one_mode($post['flow_id']);
+        //提交审批者的pmo_staff_user中的id，用来获取上级
+        $user_id = $this->common->return_user_id($post['token']);
+        //通过审批流服务获取pmo_staff_user中的审批者的账号
+        $admin_user_id = $this->flow->examine_mode_manage($examine_mode,$user_id['id']);
         //开始输出
-        switch ($cond) {
-            case   1://异常1
-                $this->data->out(2004,$post['id']);
-                break;
-            case   2://异常1
-                $this->data->out(3012,$post['id']);
-                break;
+        // switch ($cond) {
+        //     case   2://异常1
+        //         $this->data->out(3012,$post['id']);
+        //         break;
                 
-            default:
-                $this->data->out(3013,$post['id']);
-            }
+        //     default:
+        //         $this->data->out(3013,$post['id']);
+        //     }
     }
     //审批讲师安排
     public function lecturer()

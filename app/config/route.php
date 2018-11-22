@@ -68,13 +68,18 @@ return array(
         "travel_meal_edit" => ["travel", "meal", "edit", [], [], '1.0'],        //修改餐费
         "travel_meal_del" => ["travel", "meal", "del", [], [], '1.0'],        //删除餐费
         //11.1
-        "examine_manage_commit" => ["examine", "manage", "commit", [], [], '1.0'],        //提交项目审批
+        "examine_manage_commit" => ["examine", "manage", "commit", [], [], '0.1'],        //提交项目审批
         "examine_manage_lecturer" => ["examine", "manage", "lecturer", [], [], '0.1'],        //审批讲师安排
         "examine_manage_implement" => ["examine", "manage", "implement", [], [], '0.1'],        //审批讲师安排
         "examine_manage_travel" => ["examine", "manage", "travel", [], [], '0.1'],        //审批讲师安排
         //11.7
         "project_role_addproject" => ["project", "role", "addproject", [], [], '0.1'],        //接受json
         "project_role_model" => ["project", "role", "add", [], [], '0.1'],        //接受json
+        //11.19
+        "examine_config_add" => ["examine", "config", "add", [], [], '0.1'],        //添加配置的审批单类型
+        "examine_config_edit" => ["examine", "config", "edit", [], [], '0.1'],        //修改配置的审批单类型
+        "examine_config_del" => ["examine", "config", "del", [], [], '0.1'],        //删除配置的审批单类型
+
         
     ),
 );

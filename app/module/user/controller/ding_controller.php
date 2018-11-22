@@ -32,6 +32,20 @@ class ding_controller
         $this->ding = \app::load_service_class('ding', 'user');//加载json数据模板
         $this->view = \app::load_view_class('budget_paper', 'user');//加载json数据模板
     }
+    public function ding_roles(){
+        $token = $this->ding_token();
+        $ch = curl_init();
+        $url = "https://eco.taobao.com/router/rest?access_token=" . $token."sign=11C9D7D9E0581D2F4BDFD287D5952F7C&amp;timestamp=2018-11-22+11%3A54%3A03&amp;v=2.0&amp;app_key=12129701&amp;method=dingtalk.corp.role.list&amp;sign_method=hmac&amp;partner_id=top-apitools&amp;format=json&amp;force_sensitive_param_fuzzy=true";
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $data = curl_exec($ch);
+        $ass = json_decode($data, true);
+        curl_close($ch);
+        print_R($ass);
+    }
     //token
     public function ding_token()
     {
@@ -46,8 +60,8 @@ class ding_controller
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $data = curl_exec($ch);
         curl_close($ch);
-
-         return json_decode($data, true)["access_token"];
+        echo json_decode($data, true)["access_token"];
+        return json_decode($data, true)["access_token"];
 
         if ($data === false) {
             return "CURL Error:" . curl_error($ch);
@@ -62,7 +76,7 @@ class ding_controller
         // $url =  "https://oapi.dingtalk.com/user/list?access_token=32963d3d918d3452bb7dc3d99c96213e&department_id=26509421";
         $url = "https://oapi.dingtalk.com/department/list?access_token=" . $token;
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -160,6 +174,7 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
     }
     public function add_staff_user(){
         $list = $this->ding_about_staff();
+        // print_r($list);
         foreach ($list as $k) {
             $department_id = implode(",", $k['department']);
            
@@ -186,7 +201,11 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
                 'jobnumber' => $k['jobnumber'],
                 'hiredDate' => $k['hiredDate'],
             ];
-            $this->ding->add_staff_user($data);
+            $where['unionid'] = $k['unionid'];
+            $have = $this->ding->get_one_role($where);
+            // var_dump($have);die;
+            if (!$have) {
+            $this->ding->add_staff_user($data);}
         }
     echo 1;die;
     }

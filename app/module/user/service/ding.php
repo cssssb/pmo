@@ -11,6 +11,12 @@ final class ding{
 		$this->about = \app::load_model_class('ding_about_staff','user');
         $this->role = \app::load_model_class('staff_user','user');
     }
+    public function get_one_role($where){
+        return $this->role->get_one($where);
+    }
+    public function update_role($data,$where){
+        return $this->role->update($data,$where);
+    }
     public function cssssb(){
         return 1;die;
     }

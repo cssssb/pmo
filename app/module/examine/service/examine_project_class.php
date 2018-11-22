@@ -34,7 +34,7 @@ final class examine_project_class
      * @ErrorReason:   null
      * ================
      */
-    public function commit($parent_id,$token){
+    public function commit($parent_id,$token,$examine_type,$flow_id){
         $where['token'] = $token;
         $username = $this->user->get_one($where);
         $model['apply_user'] = $username['id'];
