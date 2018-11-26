@@ -100,4 +100,29 @@ final class examine_notes_class
             
         }
     }
+
+
+    //11.26
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     add_admin_ids
+     * @DataTime:      2018-11-26
+     * @Return:        ture
+     * @Notes:         添加审批节点
+     * @ErrorReason:   
+     * ================
+     */ 
+     public function add_admin_ids($parent_id,$user_ids){
+         $data['parent_id'] = $parent_id;
+         $user_ids = explode(',',$user_ids);
+         foreach($user_ids as $k=>$v){
+             $data['admin_id'] = $v;
+             $ass[] = $this->model->insert($data);
+         }
+         if($ass){
+             return 1;
+         }
+         return 2;
+     }
 }

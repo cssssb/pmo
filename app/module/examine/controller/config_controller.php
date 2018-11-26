@@ -21,7 +21,7 @@ class config_controller
      */
     public function __construct()
     {
-        // $this->data = app::load_sys_class('protocol');//加载json数据模板
+        $this->data = app::load_sys_class('protocol');//加载json数据模板
         // $this->code = app::load_cont_class('common','user');//加载token
         // $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
@@ -46,17 +46,41 @@ class config_controller
         // ]
        
         //  ];
+
+        
         $post = $this->data->get_post();//获得post
+        //11.23修改后
+        $post = [
+            'token'=>'qevQh36mj2',
+            // 'token'=>'DGc82sqEJ4',
+            'data'=>[
+                'name'=>'请假审批',
+                'data'=>[
+                    0=>[
+                    'examine_mode'=>'1,3',
+                    'pass_mode'=>'1'
+                ],
+                    1=>[
+                    'examine_mode'=>'1,3',
+                    'pass_mode'=>'1'
+                ],
+                    2=>[
+                    'examine_mode'=>'2,3',
+                    'pass_mode'=>'1'
+                ]
+                 ],
+            ]
+        ];
 
         //首先获得token看有没有权限(is_Admin)
         $bool_admin = $this->common->return_bool_admin($post['token']);
         if(!$bool_admin){
             $this->data->out(3016,[]);
         }
+        // var_dump($bool_admin);die;
         //将创建的流程添加至审批流表pmo_examine_flow
         $data = $this->config->add_config($post['data']);
         $data?$cond = 0:$cond = 1;
-        
         //开始输出
         switch ($cond) {
             case   1://异常1

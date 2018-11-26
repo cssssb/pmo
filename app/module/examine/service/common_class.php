@@ -36,7 +36,7 @@ final class common_class
     //判断token是不是超级管理员
     public function return_bool_admin($token){
         $data = $this->return_staff_user_id($token);
-        if($data['isAdmin']){
+        if($data['isAdmin']==1){
             return true;
         }else{
             return false;

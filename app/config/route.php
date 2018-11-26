@@ -80,6 +80,10 @@ return array(
         "examine_config_edit" => ["examine", "config", "edit", [], [], '0.1'],        //修改配置的审批单类型
         "examine_config_del" => ["examine", "config", "del", [], [], '0.1'],        //删除配置的审批单类型
 
-        
+        //临时
+        "view_json_add"=>["json","manage","add",[],[],'1.0'],
+        "view_json_edit"=>["json","manage","edit",[],[],'1.0'],
+        "view_json_list"=>["json","manage","list",[],[],'1.0'],
+        "view_json_name"=>["json","manage","name",[],[],'1.0'],
     ),
 );

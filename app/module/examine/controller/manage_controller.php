@@ -37,20 +37,33 @@ class manage_controller
         $this->meal = \app::load_service_class('meal_class', 'travel');//加载餐费
         $this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
         $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
+        $this->common = \app::load_service_class('common_class', 'examine');//加载讲师安排
+        
     }
+    //examine_mode_flow_role_test
+    public function examine_mode_flow_role_test(){
+         $post['flow_id'] = 5;
+       print_r($this->flow->get_one_mode($post['flow_id']));
+    }
+    //examine_mode_flow_add_test
+    public function examine_mode_flow_add_test(){
+        return $this->flow->add_config();
+    }
+
     //examine_mode_manage_test 
     public function examine_mode_manage_test(){
         $data1 = [
             'examine_mode'=>'1,3'
         ];
         $data2 = [
-            'examine_mode'=>'2,3'
+            'examine_mode'=>'2,3,1'
         ];
         $data3 = [
             'examine_mode'=>'3,1,2'
         ];
         //获取到  pmo_staff_user表中的user_id字段的数据
-        return print_r($this->flow->examine_mode_manage($data1));
+        
+        return print_r($this->flow->examine_mode_manage($data3));
     }
     /**
      * ================
@@ -149,16 +162,8 @@ class manage_controller
         if(!$fee){
             $this->data->out(3012,$post['id']);
         }
-
-        //一、创建审批节点
-        //1、获取审批流
-        // $flow = $this->flow->get_one($flow_id);
-        //获取审批流方式
-        $examine_mode = $this->flow->get_one_mode($post['flow_id']);
-        //提交审批者的pmo_staff_user中的id，用来获取上级
-        $user_id = $this->common->return_user_id($post['token']);
-        //通过审批流服务获取pmo_staff_user中的审批者的账号
-        $admin_user_id = $this->flow->examine_mode_manage($examine_mode,$user_id['id']);
+        $this->examine_add_flow_mode($post);
+      
         //开始输出
         // switch ($cond) {
         //     case   2://异常1
@@ -168,6 +173,85 @@ class manage_controller
         //     default:
         //         $this->data->out(3013,$post['id']);
         //     }
+    }
+   
+    public  function examine_add_flow_mode(){
+
+          // $post['id'] = 2;
+        // $post['token'] = 'wtXl4Wvg0o';
+        $post = [
+            'token'=>'qevQh36mj2',
+            'id' => 1,
+            'flow_id'=>5,//审批流id
+        //     'examine_type'=>'1',//1为预算 2为决算
+        ];
+
+        //一、创建审批节点
+        //1、获取审批流
+        //获取审批流方式
+       $examine_mode = $this->flow->get_one_mode($post['flow_id']);
+
+                                //        Array
+                                //         (
+                                //     [0] => Array
+                                //         (
+                                //             [id] => 5
+                                //             [name] => 请假审批
+                                //             [examine_mode] => 1,3
+                                //             [pass_mode] => 1
+                                //             [state] => 0
+                                //             [fid] => 5
+                                //         )
+
+                                //     [1] => Array
+                                //         (
+                                //             [id] => 6
+                                //             [name] => 请假审批
+                                //             [examine_mode] => 1,3
+                                //             [pass_mode] => 1
+                                //             [state] => 0
+                                //             [fid] => 5
+                                //         )
+
+                                //     [2] => Array
+                                //         (
+                                //             [id] => 7
+                                //             [name] => 请假审批
+                                //             [examine_mode] => 2,3
+                                //             [pass_mode] => 1
+                                //             [state] => 0
+                                //             [fid] => 5
+                                //         )
+
+                                // )
+        // $examine_mode = 
+        //提交审批者的pmo_staff_user中的id，用来获取上级
+        $user_id = $this->common->return_user_id($post['token']);
+
+        //通过审批流服务获取pmo_staff_user中的审批者的账号
+        foreach ($examine_mode as $key => $val) {
+        $admin_user_id[] = $this->flow->examine_mode_manage($examine_mode[$key]['examine_mode'],$user_id['id']);
+        }
+        // Array
+        // (                 此id是账号id
+        //     [0] => 110,1000,2000
+        //     [1] => 110,1000,2000
+        //     [2] => 1,2,1,2
+        // )
+        // print_r($admin_user_id);
+
+        foreach($admin_user_id as $k=>$v){
+            //添加到表pmo_examine_user_flow
+            $user_ids_flow[] = $this->flow->add_user_ids_flow($v,$post['flow_id']);
+            //根据id按顺序添加至表notes  需要添加的数据有  项目id  user_id 
+            $notes_add[] = $this->notes->add_admin_ids($post['id'],$v);
+            //1 100,1000,2000
+        }
+        // print_r($user_ids_flow);
+        if($user_ids_flow && $notes_add){
+            print_r(3);
+        }else{
+        print_R(4);}
     }
     //审批讲师安排
     public function lecturer()

@@ -18,13 +18,53 @@ final class examine_flow_class
 {
     public function __construct()
     {
-        $this->model = app::load_model_class('exammine_flow', 'examine');
+        $this->model = app::load_model_class('examine_flow', 'examine');
+        $this->f = app::load_model_class('examine_f_flow','examine');
         $this->user = app::load_model_class('staff_user','user');
         $this->notes = app::load_model_class('examine_notes','examine');
         $this->department = app::load_model_class('ding_department','user');
+        $this->role_route = app::load_model_class('role_route','examine');
+        $this->role_group = app::load_model_class('role','examine');
+        $this->user_flow = app::load_model_class('examine_user_flow','examine');
+    
     }
+  
     public function add_config($data){
-        return $this->model->insert($data);
+        $data = [
+            'name'=>'请假审批',
+            'data'=>[
+                0=>[
+                'examine_mode'=>'1,3',
+                'pass_mode'=>'1'
+            ],
+                1=>[
+                'examine_mode'=>'1,3',
+                'pass_mode'=>'1'
+            ],
+                2=>[
+                'examine_mode'=>'2,3',
+                'pass_mode'=>'1'
+            ]
+             ],
+        ];
+        $f['name'] = $data['name'];
+        $f_flow_id = $this->f->insert($f,1);
+        $css = $data['data'];
+
+        foreach($css as $key){
+            $ass['name'] = $data['name'];
+            $ass['examine_mode'] = $key['examine_mode'];
+            $ass['pass_mode'] = $key['pass_mode'];
+            $ass['fid'] = $f_flow_id;
+            $this->add_flow($ass);
+        }
+        if($ass){
+            return true;
+        }
+       return false;
+    }
+    private function add_flow($ass){
+        return $this->model->insert($ass);
     }
     public function edit_config($ass){
         $where['id'] = $ass['id'];
@@ -44,8 +84,8 @@ final class examine_flow_class
 
     //11.20
     public function get_one_mode($id){
-        $where['id'] = $id;
-        return $this->model->get_one($where,'examine_mode');
+        $where['fid'] = $id;
+        return $this->model->select($where);
     }
 
     public function examine_mode_manage($examine_mode,$user_id=''){
@@ -55,7 +95,7 @@ final class examine_flow_class
         // $user_id = 110;
         // $user_id = 1000;
         $user_id = 2;
-        $data = $examine_mode['examine_mode'];
+        $data = $examine_mode;
         $number = substr($data,0,1);
         switch ($number) {
             //多级领导
@@ -64,7 +104,15 @@ final class examine_flow_class
                 break;
             //角色
             case 2:
-            return  $this->examine_admin_mode($data,$user_id);
+            // $data = [
+            //
+            //     'examine_mode'=>'2,3'
+            //      or
+            //     'examine_mode'=>'2,3'
+            //      or
+            //     'examine_mode'=>'2,3'
+            // ];
+            return  $this->examine_admin_mode($data);
                 break;
             //指定用户
             case 3:
@@ -78,7 +126,6 @@ final class examine_flow_class
         return  $admin_user_id;
     }
     private function leader_first_mode($data,$user_id){
-        // return 1;die;
         // $data = [
         //     'examine_mode'=>'1,3'
         // ];
@@ -227,5 +274,46 @@ final class examine_flow_class
     private function return_boss(){
         //返回宝哥user_id
         return 2000;
+    }
+    //逐级审批  end|结束
+    //角色   start|开始
+    private function examine_admin_mode($data){
+        //暂定数据结构为 方式、角色组、具体角色id
+    $data = '2,1,2';
+        //首先获取是哪个角色组
+        $role_group = substr($data,2,1);
+        $role_id = substr($data,4,1);
+        //接着获取是哪个角色组下的角色id中的所在的人的user_ids
+        // $where['id'] = $role_group;
+        // $role_id = $this->role_group->get_one($where);//无用
+        $user_ids_array = $this->role_route->get_one('id='.$role_id);
+
+        return $user_ids_array['user_ids'];
+    }
+    //依次通过
+    private function pass_mode_first($user_ids){
+
+    }
+    //会签
+    private function pass_mode_jointly_sign($user_ids){
+
+    }
+    //或签
+    private function pass_mode_only_one($user_ids){
+
+    }
+    //用户
+    private function examine_user_mode($data){
+        // $data = [
+        //     'examine_mode'=>'3,1,110,112'
+        // ];
+        return substr($data,2);
+    }
+    //添加用户审批的用户id
+    public function add_user_ids_flow($user_ids,$f_flow_id,$pass_mode='1'){
+        $data['user_ids'] = $user_ids;
+        $data['f_flow_id'] = $f_flow_id;
+        $data['pass_mode'] = $pass_mode;
+        return $this->user_flow->insert($data);
     }
 }
