@@ -3,9 +3,7 @@ return array(
         //默认消息码
     'default_routelist' => array(
         //10.8
-        'client_route' => ["user", "user", "client_route", 
-        
-        [], [], "1.0"],
+        'client_route' => ["user", "user", "client_route", [], [], "1.0"],
         "project_manage_add" => ["project", "manage", "add", ["project_project_template_id" => "string"], [], '1.0'],       //添加项目
         "project_data_edit" => ["project", "data", "edit", ["id" => "string"], [], '1.0'],       //修改项目
         "project_manage_list" => ["project", "manage", "list", [], [], '2.0'],    //返回项目列表
@@ -69,16 +67,19 @@ return array(
         "travel_meal_del" => ["travel", "meal", "del", [], [], '1.0'],        //删除餐费
         //11.1
         "examine_manage_commit" => ["examine", "manage", "commit", [], [], '0.1'],        //提交项目审批
-        "examine_manage_lecturer" => ["examine", "manage", "lecturer", [], [], '0.1'],        //审批讲师安排
-        "examine_manage_implement" => ["examine", "manage", "implement", [], [], '0.1'],        //审批讲师安排
-        "examine_manage_travel" => ["examine", "manage", "travel", [], [], '0.1'],        //审批讲师安排
+        // "examine_manage_lecturer" => ["examine", "manage", "lecturer", [], [], '0.1'],        //审批讲师安排
+        // "examine_manage_implement" => ["examine", "manage", "implement", [], [], '0.1'],        //审批讲师安排
+        // "examine_manage_travel" => ["examine", "manage", "travel", [], [], '0.1'],        //审批讲师安排
         //11.7
-        "project_role_addproject" => ["project", "role", "addproject", [], [], '0.1'],        //接受json
-        "project_role_model" => ["project", "role", "add", [], [], '0.1'],        //接受json
+        // "project_role_addproject" => ["project", "role", "addproject", [], [], '0.1'],        //接受json
+        // "project_role_model" => ["project", "role", "add", [], [], '0.1'],        //接受json
         //11.19
         "examine_config_add" => ["examine", "config", "add", [], [], '0.1'],        //添加配置的审批单类型
-        "examine_config_edit" => ["examine", "config", "edit", [], [], '0.1'],        //修改配置的审批单类型
-        "examine_config_del" => ["examine", "config", "del", [], [], '0.1'],        //删除配置的审批单类型
+        // "examine_config_edit" => ["examine", "config", "edit", [], [], '0.1'],        //修改配置的审批单类型
+        // "examine_config_del" => ["examine", "config", "del", [], [], '0.1'],        //删除配置的审批单类型
+
+        "examine_will_for_admine" => ["examine", "manege", "will", [], [], '0.1'],            //查看需要我审批的审批单 (审批单的id)
+        "examine_admin_passed" => ["examine", "manege", "ipassed", [], [], '0.1'],            //查看我通过的审批单
 
         //临时
         "view_json_add"=>["json","manage","add",[],[],'1.0'],

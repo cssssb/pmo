@@ -1,3 +1,148 @@
 {
-    "terminal.integrated.shell.windows": "E:\\ide\\Git\\bin\\bash.exe"
+    "terminal.integrated.commandsToSkipShell": [
+        "editor.action.toggleTabFocusMode",
+        "workbench.action.debug.continue",
+        "workbench.action.debug.pause",
+        "workbench.action.debug.restart",
+        "workbench.action.debug.run",
+        "workbench.action.debug.start",
+        "workbench.action.debug.stepInto",
+        "workbench.action.debug.stepOut",
+        "workbench.action.debug.stepOver",
+        "workbench.action.debug.stop",
+        "workbench.action.focusActiveEditorGroup",
+        "workbench.action.focusFirstEditorGroup",
+        "workbench.action.focusSecondEditorGroup",
+        "workbench.action.focusThirdEditorGroup",
+        "workbench.action.navigateDown",
+        "workbench.action.navigateLeft",
+        "workbench.action.navigateRight",
+        "workbench.action.navigateUp",
+        "workbench.action.openNextRecentlyUsedEditorInGroup",
+        "workbench.action.openPreviousRecentlyUsedEditorInGroup",
+        "workbench.action.quickOpen",
+        "workbench.action.quickOpenPreviousEditor",
+        "workbench.action.quickOpenView",
+        "workbench.action.showCommands",
+        "workbench.action.tasks.build",
+        "workbench.action.tasks.restartTask",
+        "workbench.action.tasks.runTask",
+        "workbench.action.tasks.showLog",
+        "workbench.action.tasks.showTasks",
+        "workbench.action.tasks.terminate",
+        "workbench.action.tasks.test",
+        "workbench.action.terminal.clear",
+        "workbench.action.terminal.copySelection",
+        "workbench.action.terminal.deleteWordLeft",
+        "workbench.action.terminal.deleteWordRight",
+        "workbench.action.terminal.findWidget.history.showNext",
+        "workbench.action.terminal.findWidget.history.showPrevious",
+        "workbench.action.terminal.focus",
+        "workbench.action.terminal.focusAtIndex1",
+        "workbench.action.terminal.focusAtIndex2",
+        "workbench.action.terminal.focusAtIndex3",
+        "workbench.action.terminal.focusAtIndex4",
+        "workbench.action.terminal.focusAtIndex5",
+        "workbench.action.terminal.focusAtIndex6",
+        "workbench.action.terminal.focusAtIndex7",
+        "workbench.action.terminal.focusAtIndex8",
+        "workbench.action.terminal.focusAtIndex9",
+        "workbench.action.terminal.focusFindWidget",
+        "workbench.action.terminal.focusNext",
+        "workbench.action.terminal.focusPrevious",
+        "workbench.action.terminal.hideFindWidget",
+        "workbench.action.terminal.kill",
+        "workbench.action.terminal.new",
+        "workbench.action.terminal.newInActiveWorkspace",
+        "workbench.action.terminal.paste",
+        "workbench.action.terminal.runActiveFile",
+        "workbench.action.terminal.runSelectedText",
+        "workbench.action.terminal.scrollDown",
+        "workbench.action.terminal.scrollDownPage",
+        "workbench.action.terminal.scrollToBottom",
+        "workbench.action.terminal.scrollToTop",
+        "workbench.action.terminal.scrollUp",
+        "workbench.action.terminal.scrollUpPage",
+        "workbench.action.terminal.selectAll",
+        "workbench.action.terminal.toggleTerminal",
+        "workbench.action.togglePanel"
+      ],
+    
+      // 在存在活动终端会话的情况下，退出时是否要确认。
+      "terminal.integrated.confirmOnExit": false,
+    
+      // 设置后，终端中选中的文字将被复制到剪贴板。
+      "terminal.integrated.copyOnSelection": false,
+    
+      // 控制终端光标是否闪烁。
+      "terminal.integrated.cursorBlinking": false,
+    
+      // 控制终端游标的样式。
+      "terminal.integrated.cursorStyle": "block",
+    
+      // 将在其中启动终端的一个显式起始路径，它用作 shell 进程的当前工作目录(cwd)。当根目录为不方便的 cwd 时，此路径在工作区设置中可能十分有用。
+      "terminal.integrated.cwd": "",
+    
+      // 是否启用终端响铃。
+      "terminal.integrated.enableBell": false,
+    
+      // 要添加到 VS Code 进程中的带有环境变量的对象，其会被 Linux 终端使用。
+      "terminal.integrated.env.linux": {},
+    
+      // 要添加到 VS Code 进程中的带有环境变量的对象，其会被 OS X 终端使用。
+      "terminal.integrated.env.osx": {},
+    
+      // 要添加到 VS Code 进程中的带有环境变量的对象，其会被 Windows 终端使用。
+      "terminal.integrated.env.windows": {},
+    
+      // 控制终端的字体系列，这在编辑器中是默认的。fontFamily 的值。
+      "terminal.integrated.fontFamily": "",
+    
+      // 控制终端的字号(以像素为单位)。
+      "terminal.integrated.fontSize": 14,
+    
+      // 终端中非粗体字使用的字重。
+      "terminal.integrated.fontWeight": "normal",
+    
+      // 终端中粗体字使用的字重。
+      "terminal.integrated.fontWeightBold": "bold",
+    
+      // 控制终端的行高，此数字乘上终端字号得到实际行高(以像素为单位)。
+      "terminal.integrated.lineHeight": 1,
+    
+      // 在终端中，使用 Option 键作为 Meta 键。(macOS)
+      "terminal.integrated.macOptionIsMeta": false,
+    
+      // 设置后，在终端内右键单击时，这将阻止显示上下文菜单，相反，它将在有选项时进行复制，并且在没有选项时进行粘贴。
+      "terminal.integrated.rightClickCopyPaste": true,
+    
+      // 控制终端保持在缓冲区的最大行数。
+      "terminal.integrated.scrollback": 1000,
+    
+      // 控制是否在终端启动时设置区域设置变量，在 OS X 上默认设置为 true，在其他平台上为 false。
+      "terminal.integrated.setLocaleVariables": false,
+    
+      // 终端在 Linux 上使用的 shell 的路径。
+      "terminal.integrated.shell.linux": "sh",
+    
+      // 终端在 OS X 上使用的 shell 的路径。
+      "terminal.integrated.shell.osx": "sh",
+    
+      // 终端在 Windows 使用的 shell 路径。使用随 Windows 一起提供的 shell (cmd、PowerShell 或 Bash on Ubuntu) 时。
+      "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+    
+      // 在 Linux 终端上时要使用的命令行参数。
+      "terminal.integrated.shellArgs.linux": [],
+    
+      // 在 OS X 终端上时要使用的命令行参数。
+      "terminal.integrated.shellArgs.osx": [
+        "-l"
+      ],
+    
+      // 在 Windows 终端上时使用的命令行参数。
+      "terminal.integrated.shellArgs.windows": [],
+    
+      // 当退出代码非零时，显示“终端进程以某退出代码终止”的警告。
+      "terminal.integrated.showExitAlert": true
+    
 }

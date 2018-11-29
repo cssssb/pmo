@@ -117,9 +117,9 @@ class manage_controller
         $post = $this->data->get_post();//获得post
         $data = $this->json->list();
         $data?$cond = 0:$cond = 1;
-        foreach($data as $k=>$v){
-            unset($data[$k]['data']);
-        }
+        // foreach($data as $k=>$v){
+        //     unset($data[$k]['data']);
+        // }
         //开始输出
         switch ($cond) {
             case   1://异常1

@@ -38,6 +38,7 @@ class manage_controller
         $this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
         $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
         $this->common = \app::load_service_class('common_class', 'examine');//加载讲师安排
+        $this->admin = \app::load_service_class('examine_admin_class', 'examine');//加载讲师安排
         
     }
     //examine_mode_flow_role_test
@@ -162,19 +163,19 @@ class manage_controller
         if(!$fee){
             $this->data->out(3012,$post['id']);
         }
-        $this->examine_add_flow_mode($post);
+        $ass = $this->examine_add_flow_mode($post);
       
         //开始输出
-        // switch ($cond) {
-        //     case   2://异常1
-        //         $this->data->out(3012,$post['id']);
-        //         break;
-                
-        //     default:
-        //         $this->data->out(3013,$post['id']);
-        //     }
+        switch ($cond) {
+            case   false://异常1
+                $this->data->out(3012,$post['id']);
+                break;
+            default:
+                $this->data->out(3013,$post['id']);
+             }
     }
    
+    // private  function examine_add_flow_mode(){
     public  function examine_add_flow_mode(){
 
           // $post['id'] = 2;
@@ -242,7 +243,7 @@ class manage_controller
 
         foreach($admin_user_id as $k=>$v){
             //添加到表pmo_examine_user_flow
-            $user_ids_flow[] = $this->flow->add_user_ids_flow($v,$post['flow_id']);
+            $user_ids_flow[] = $this->flow->add_user_ids_flow($v,$post['flow_id'],$post['id']);
             //根据id按顺序添加至表notes  需要添加的数据有  项目id  user_id 
             $notes_add[] = $this->notes->add_admin_ids($post['id'],$v);
             //1 100,1000,2000
@@ -347,6 +348,122 @@ class manage_controller
                 break;
             default:
                 $this->data->out(3014,[]);
+            }
+    }
+
+   
+    //查看需要我审批的审批单 (审批单的详细的数据)
+    public function will()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       
+         * @DataTime:  2018-11-26
+         * @describe:  examine_ function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $post = [
+            'token'=>'qevQh36mj2'
+        ];
+        $admin_id = $this->common->return_user_id($post['token']);
+        //查看待我审批的审批项目的id 并去重
+        $parent_id = $this->admin->return_examine_for_me_parent_id($admin_id['id']);
+        //获取审批的项目的详细数据
+        // $data = $this->project->return_project_data($parent_id);
+        $parent_id?$cond = 0:$cond = 1;
+        // print_r($parent_id);die;
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002);
+                break;
+            default:
+                $this->data->out(2001,$parent_id);
+            }
+    }
+    //查看我通过的审批单
+    public function ipassed()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       
+         * @DataTime:  2018-11-28
+         * @describe:  examine_ function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $post = [
+            'token'=>'qevQh36mj2'
+        ];
+        $admin_id = $this->common->return_user_id($post['token']);
+        //查看我审批过的项目的id 并去重
+        $data = $this->admin->return_examine_admin_pass($admin_id['id']);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
+
+    //审批审批单
+    public function do()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2018-11-28
+         * @describe:  do function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $post = [
+            'parent_id'=>'1',
+            'examine_type'=>'1',
+            'token'=>'qevQh36mj2',
+            'note'=>'2333',
+            'pass'=>'1'
+        ];
+        //首先判断此条项目是不是已经被否决或者通过了
+        $bool = $this->examine->bool($post['parent_id'],$post['examine_type']);
+
+        if(!$bool){
+            $this->data->out(3018);
+        }
+        //判断此人能不能审批这个
+        $admin_id = $this->common->return_user_id($post['token']);
+
+        $notes_id = $this->notes->have($post['parent_id'],$admin_id['id']);
+
+        if(!$notes_id){
+            $this->data->out(3016);
+        }
+        //判断是不是这个顺序到没到他审批
+        $reach = $this->notes->reach($post['parent_id'],$admin_id['id']);
+        if(!$reach){
+            $this->data->out(3017);
+        }
+        // return var_dump($reach);die;
+        //发送审批处理结果 记录至notes表
+        $data = $this->notes->add($reach,$post['parent_id'],$post['examine_type'],$admin_id['id'],$post['note'],$post['pass']);
+        $data?$cond = 0:$cond = 1;
+        return var_dump($data);die;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out();
+                break;
+            default:
+                $this->data->out();
             }
     }
 }

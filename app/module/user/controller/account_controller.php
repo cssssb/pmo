@@ -24,7 +24,12 @@ class account_controller
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         //todo 加载相关模块
         $this->user = app::load_service_class('user_class', 'user');//
+        $this->route = app::load_service_class('route_url_class', 'user');//
         
+    }
+    public function test(){
+        // print_r($this->route->return_url());die;
+        echo json_encode($this->route->return_url());
     }
     public function login()
     {
@@ -81,7 +86,10 @@ class account_controller
                 $this->data->out(3007);
                 break;
             default://登录成功
-                $this->data->out(3008,['token'=>$cond]);
+                // $return = $this->route->return_url($cond);
+                $return = $this->route->return_url();
+                $return['token'] = $cond;
+                $this->data->out(3008,$return);
             }
     }
      //分配账号密码器

@@ -29,7 +29,7 @@ class config_controller
         $this->common = app::load_service_class('common_class', 'examine');//
     }
     public function add()
-    {
+    { 
         /**
          * ================
          * @Author:    css

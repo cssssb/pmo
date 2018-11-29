@@ -21,6 +21,7 @@ final class examine_notes_class
         $this->model = app::load_model_class('examine_notes', 'examine');
         $this->header = app::load_model_class('examine_project', 'examine');
         $this->user = app::load_model_class('user', 'user');
+        $this->staff_user = app::load_model_class('staff_user', 'user');
     }
     /**
      * ================
@@ -125,4 +126,88 @@ final class examine_notes_class
          }
          return 2;
      }
+     /**
+      * ================
+      * @Author:        css
+      * @Parameter:     have
+      * @DataTime:      2018-11-28
+      * @Return:        
+      * @Notes:         此条项目他有没有审批过
+      * @ErrorReason:   
+      * ================
+      */
+      public function have($parent_id,$admin_id){
+          $where['parent_id'] = $parent_id;
+          $where['admin_id'] = $admin_id;
+          $where['pass'] = 0;
+          $data = $this->model->get_one($where);
+          return $data;
+      }
+      /**
+       * ================
+       * @Author:        css
+       * @Parameter:     reach
+       * @DataTime:      2018-11-28
+       * @Return:        bool
+       * @Notes:         判断这个到没到他审批
+       * @ErrorReason:   
+       * ================
+       */
+       public function reach($parent_id,$admin_id){
+            $where['parent_id'] = $parent_id;
+            $where['admin_id'] = $admin_id;
+            $where['pass'] = 0;
+            $admin = $this->model->get_one($where);
+            unset($where['admin_id']);
+            $data = $this->model->get_one($where);
+            if($admin['id']==$data['id']){
+                return $admin['id'];
+            }
+            return false;
+            // return end(array_keys($data));
+            // return key(end($data));
+       }
+       /**
+        * ================
+        * @Author:        css
+        * @Parameter:     add
+        * @DataTime:      2018-11-28
+        * @Return:        bool
+        * @Notes:         填加项目细节
+        * @ErrorReason:   
+        * ================
+        */
+        public function add($note_id,$parent_id,$examine_type,$admin_id,$note,$pass){
+            $where['parent_id'] = $parent_id;
+            $where['examine_type'] = $examine_type;
+            $where['admin_id'] = $admin_id;
+            $where['id'] = $note_id;
+            //获取操作人姓名
+            $ass = $this->staff_user->get_one('user_id ='.$admin_id);
+            $data['admin_user'] = $ass['name'];
+            $data['note'] = $note;
+            $data['pass'] = $pass;
+            $css = $this->model->update($data,$where);
+            $bool = $this->bool_examine($parent_id,$pass,$examine_type);
+            return $bool;
+        }
+        public function bool_examine($parent_id,$pass,$examine_type){
+            $where['parent_id'] = $parent_id;
+            $where['examine_type'] = $examine_type;
+            
+            if($pass==2){
+                $data['state'] = 2;
+               return $this->header->update($data,$where);
+            }
+            $where['pass'] = 0;
+                //搜索还有没有没有审批通过的 如果没有修改
+            $bool = $this->model->get_one($where);       
+            if(!$bool){
+                //如果没有 修改
+                $data['state'] = 1;
+                unset($where['pass']);
+                return $this->header->update($data,$where);
+            }
+           
+        }
 }

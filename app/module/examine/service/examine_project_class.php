@@ -95,5 +95,13 @@ final class examine_project_class
         return $this->fee->insert($data);
     }
    
-    
+    public function bool($parent_id,$examine_type){
+        $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $examine_type;
+        $data = $this->model->get_one($where);
+        if($data['state']!=1 && $data['state']!=2){
+            return true;
+        }
+        return false;
+    }
 }

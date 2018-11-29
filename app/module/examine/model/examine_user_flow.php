@@ -19,5 +19,17 @@ class examine_user_flow extends model {
         $this->table_name = 'examine_user_flow';
         parent::__construct();
     }
-    
+    public function select_have_admin_id($admin_id){
+        $sql = "
+            SELECT
+            * 
+        FROM
+            pmo_examine_user_flow 
+        WHERE
+            FIND_IN_SET( $admin_id, user_ids );
+            ";
+        $all = $this->query($sql);
+		$data = $this->fetch_array($all);
+		return $data;
+    }
 }

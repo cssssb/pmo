@@ -279,7 +279,7 @@ final class examine_flow_class
     //角色   start|开始
     private function examine_admin_mode($data){
         //暂定数据结构为 方式、角色组、具体角色id
-    $data = '2,1,2';
+    // $data = '2,1,2';
         //首先获取是哪个角色组
         $role_group = substr($data,2,1);
         $role_id = substr($data,4,1);
@@ -310,10 +310,11 @@ final class examine_flow_class
         return substr($data,2);
     }
     //添加用户审批的用户id
-    public function add_user_ids_flow($user_ids,$f_flow_id,$pass_mode='1'){
+    public function add_user_ids_flow($user_ids,$f_flow_id,$parent_id,$pass_mode='1'){
         $data['user_ids'] = $user_ids;
         $data['f_flow_id'] = $f_flow_id;
         $data['pass_mode'] = $pass_mode;
+        $data['parent_id'] = $parent_id;
         return $this->user_flow->insert($data);
     }
 }
