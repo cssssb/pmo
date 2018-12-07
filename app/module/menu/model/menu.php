@@ -1,5 +1,5 @@
 <?php
-namespace examine;
+namespace menu;
 defined('IN_LION') or exit('No permission resources.');
 use \app;
 use \system\model;
@@ -8,26 +8,33 @@ use \system\model;
  * ================
  * @Author:    css
  * @ver:       1.0
- * @DataTime:  2018-11-22
- * @describe:  examine_role_toute model class
+ * @DataTime:  2018-11-30
+ * @describe:  menu_menu model class
  * ================
  */
-class role_route extends model {
+class menu extends model {
     public function __construct() {
         $this->db_config = app::load_config('database');
         $this->db_setting = 'default';
-        $this->table_name = 'role_route';
+        $this->table_name = 'view_menu';
         parent::__construct();
     }
-    public function get_one_user_ids($user_id){
+    public function select_viewand_type(){
         $sql = "
-             SELECT
-            * 
+        SELECT
+        m.id,
+        m.name,
+        m.type,
+        f.path,
+        f.title,
+        f.list,
+        f.component
         FROM
-            pmo_role_route 
+            pmo_view_menu m
+            LEFT JOIN pmo_view_on_menu f ON f.fid = m.id
         WHERE
-            FIND_IN_SET( $user_id, user_ids )
-            limit 1
+            
+            1
         ";
         $all = $this->query($sql);
 		$data = $this->fetch_array($all);

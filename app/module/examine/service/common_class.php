@@ -20,6 +20,7 @@ final class common_class
     {
         $this->user = app::load_model_class('user', 'user');
         $this->staff_user = app::load_model_class('staff_user', 'user');
+        $this->role_route = app::load_model_class('role_route', 'examine');
     }
    
     // 通过token返回用户id
@@ -42,4 +43,12 @@ final class common_class
             return false;
         }
     }
+    //通过token 获取用户角色id
+    public function return_role($token){
+        //获取职工角色详细信息
+         $user = $this->return_staff_user_id($token);
+         $data = $this->role_route->get_one_user_ids($user['id']);
+         return $data[0]['id'];
+    }
+    
 }

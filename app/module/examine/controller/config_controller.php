@@ -90,7 +90,7 @@ class config_controller
                 $this->data->out(2003,[]);
             }
     }
-    public function edit_config()
+    public function edit()
     {
         /**
          * ================
@@ -106,7 +106,6 @@ class config_controller
         // 'data'=>[
         //     'id'=>1,
         //     'examine_mode'=>'2,3',   //审批模式
-        //     'pass_mode'=>'1'         //通过方式
         // ]
         //  ];
          //首先获得token看有没有权限(is_Admin)

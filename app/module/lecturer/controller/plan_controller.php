@@ -44,18 +44,12 @@ class plan_controller
     public function add(){
         $post = $this->data->get_post();
         $post['data']['parent_id']?$data["parent_id"]=$post['data']["parent_id"]:true;
-        // $post['parent_id']?$data["parent_id"]=$post["parent_id"]:true;
         $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
         $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
         $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
         $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
         $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
-        // $data['parent_id'] = 1;
-        // $data['lecturer_id'] = 1;
-        // $data['tax'] = 1;
-        // $data['day'] = 1;
-        // $data['fee'] = 1;
-        // $data['duty_id'] = 1;
+       
          $ass = $this->lecturer_list->add($data);
          
         $ass?$cond = 0:$cond = 1;
@@ -81,13 +75,6 @@ class plan_controller
         $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
         $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
 
-        // $data['id'] = 61;
-        // $data['parent_id'] = 2;
-        // $data['lecturer_id'] = 2;
-        // $data['tax'] = 2;
-        // $data['day'] = 2;
-        // $data['fee'] = 2;
-        // $data['duty_id'] = 2;
         if(!$data['id']){
             $this->data->out(3901);
         }

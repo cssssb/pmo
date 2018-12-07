@@ -9,7 +9,7 @@ return array(
         "project_manage_list" => ["project", "manage", "list", [], [], '2.0'],    //返回项目列表
         "project_data_getByProjectId" => ["project", "data", "getByProjectId", ["id" => "string"], [], '1.0'],   //获取一条数据
         "staff_manage_list" => ["staff", "manage", "list", [], [], '1.0'],   //获取实施负责人
-        "program_manage_list" => ["progam", "manage", "list", [], [], '1.0'],//项目集表
+        "program_manage_list" => ["progam", "manage", "list", [], [], '0.1'],//项目集表
         "program_manage_add" => ["progam", "manage", "add", [], [], '1.0'],//项目集新增
         "project_type_list" => ["user", "project", "projectTemplate", [], [], '1.0'],//项目模板表
         "lecturer_plan_getByProjectId" => ["lecturer", "plan", "getByProjectId", [], [], '1.0'],//返回讲师列表
@@ -75,16 +75,29 @@ return array(
         // "project_role_model" => ["project", "role", "add", [], [], '0.1'],        //接受json
         //11.19
         "examine_config_add" => ["examine", "config", "add", [], [], '0.1'],        //添加配置的审批单类型
-        // "examine_config_edit" => ["examine", "config", "edit", [], [], '0.1'],        //修改配置的审批单类型
-        // "examine_config_del" => ["examine", "config", "del", [], [], '0.1'],        //删除配置的审批单类型
+        "examine_config_edit" => ["examine", "config", "edit", [], [], '0.1'],        //修改配置的审批单类型
+        "examine_config_del" => ["examine", "config", "del", [], [], '0.1'],        //删除配置的审批单类型
 
         "examine_will_for_admine" => ["examine", "manege", "will", [], [], '0.1'],            //查看需要我审批的审批单 (审批单的id)
         "examine_admin_passed" => ["examine", "manege", "ipassed", [], [], '0.1'],            //查看我通过的审批单
 
         //临时
-        "view_json_add"=>["json","manage","add",[],[],'1.0'],
-        "view_json_edit"=>["json","manage","edit",[],[],'1.0'],
-        "view_json_list"=>["json","manage","list",[],[],'1.0'],
-        "view_json_name"=>["json","manage","name",[],[],'1.0'],
+        "json_manage_add"=>["json","manage","add",[],[],'1.0'],
+        "json_manage_edit"=>["json","manage","edit",[],[],'1.0'],
+        "json_manage_list"=>["json","manage","list",[],[],'1.0'],
+        "json_manage_name"=>["json","manage","name",[],[],'1.0'],
+        //角色下的路由
+        "role_route_add"=>["role","route","add",[],[],'0.1'],
+        "role_route_del"=>["role","route","del",[],[],'0.1'],
+        "role_route_list"=>["role","route","list",[],[],'0.1'],
+        //角色下的视图
+        "role_view_add"=>["role","view","add",[],[],'0.1'],
+        "role_view_del"=>["role","view","del",[],[],'0.1'],
+        "role_view_list"=>["role","view","list",[],[],'0.1'],
+        //菜单管理
+        "menu_manage_add"=>["menu","manage","add",[],[],'1.0'],
+        "menu_manage_edit"=>["menu","manage","edit",[],[],'0.1'],
+        "menu_manage_del"=>["menu","manage","del",[],[],'0.1'],
+        "menu_manage_list"=>["menu","manage","list",[],[],'1.0'],
     ),
 );

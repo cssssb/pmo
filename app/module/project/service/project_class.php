@@ -207,12 +207,14 @@ final class project_class
 	$str = $date.$numbers;
 	return $str;
 	}
+
 	//10/25获取项目的课程名称
 	public function project_name($parent_id){
 		$where['parent_id'] = $parent_id;
 		$return = $this->body->get_one($where,'project_name');
 		return $return['project_name'];
 	}
+
 	public function test(){
 		$date = date('Ym',time());
 		$number = $this->model->count();
@@ -224,6 +226,7 @@ final class project_class
 		$str = $date.$numbers;
 		return var_dump($str);
 	}
+	
 	public function list_lecturer($parent_id){
 		return $this->model->list_lecturer($parent_id);
 	}

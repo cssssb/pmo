@@ -25,6 +25,8 @@ class manage_controller
        
         //todo 加载相关模块
         $this->json = app::load_service_class('view_json_class', 'json');//
+        // $this->common = app::load_service_class('common_class', 'examine');//
+
     }
     public function add_first()
     {
@@ -64,7 +66,7 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        
+        $post['data']['data'] = json_encode($post['data']['data'],JSON_UNESCAPED_UNICODE);
         $data = $this->json->add($post['data']);
         $data?$cond = 0:$cond = 1;
         
@@ -90,7 +92,7 @@ class manage_controller
          */
         
         $post = $this->data->get_post();//获得post
-       
+        $post['data']['data'] = json_encode($post['data']['data'],JSON_UNESCAPED_UNICODE);
         $data = $this->json->edit($post['data']);
         $data?$cond = 0:$cond = 1;
         
@@ -115,6 +117,13 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
+       
+         //通过用户id获取所在角色
+        // $role_id = $this->common->return_role($post['token']);
+        // print_r($role_id);die;
+        //  通过角色信息返回路由
+        // $data = $this->json->return_role_in_view($role_id);
+        
         $data = $this->json->list();
         $data?$cond = 0:$cond = 1;
         // foreach($data as $k=>$v){
@@ -141,13 +150,14 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
+       
         $data = $this->json->name($post['name']);
         $data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2002);
+                $this->data->out(2002,$data);
                 break;
             default:
             // echo json_decode(json_encode($data, JSON_UNESCAPED_UNICODE));die;

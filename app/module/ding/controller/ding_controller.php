@@ -1,5 +1,5 @@
 <?php
-namespace user;
+namespace ding;
 
 // use system\ding_password;
 
@@ -60,7 +60,7 @@ class ding_controller
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $data = curl_exec($ch);
         curl_close($ch);
-        // echo json_decode($data, true)["access_token"];
+        // echo json_decode($data, true)["access_token"];die;
         return json_decode($data, true)["access_token"];
 
         if ($data === false) {
@@ -291,21 +291,21 @@ class ding_controller
          return json_decode( $return_content,true);
      }
      //获取企业角色列表
-     private function ding_post(){
+     public function ding_post(){
         $token = $this->ding_token();
         $url  = "https://oapi.dingtalk.com/topapi/role/list?access_token=$token";  
         $data = array(
-            "size"=>"200",
-            "offset	"=>"0",
+            "size"=>"20",
+            "offset	"=>"",
             );   
-            // return $this->http_post_data($url, $data);  
+            var_dump($this->http_post_data($url, $data));die;
+            return $this->http_post_data($url, $data);  
           
-            print_r($this->http_post_data($url, $data) );  die;
+            // print_r($this->http_post_data($url, $data) );  die;
      }
      //角色下员工
      public function ding_post_de(){
         $token = $this->ding_token();
-        echo $token;
         $url  = "https://oapi.dingtalk.com/topapi/role/simplelist?access_token=$token";  
         $ass = $this->ding_post();
         $list = $ass['result']['list'];
@@ -329,7 +329,7 @@ class ding_controller
 
           
     }
-    print_r($array); die;
+    print_r($ass); die;
     //注：因钉钉系统权限未完善，数据权限未完成。
      }
       //获取角色详情

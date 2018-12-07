@@ -25,15 +25,23 @@ final class view_json_class
     }
     public function edit($data){
         $where['id'] = $data['id'];
-
-        return $this->model->update($data,$where);
+       return  $this->model->update($data,$where);
     }
     public function list(){
-        return $this->model->select(1);
+        $where['state'] = 0;
+        $data = $this->model->select($where);
+        foreach($data as $k=>$v){
+        $data[$k]['data'] = json_decode($data[$k]['data']);
+    }
+    return $data;
     }
     public function name($name){
         $where['name'] = $name;
         $data = $this->model->get_one($where);
         return $data['data'];
+    }
+    //返回角色下的json
+    public function return_role_in_view($data){
+
     }
 }

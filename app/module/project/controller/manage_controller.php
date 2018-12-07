@@ -27,7 +27,6 @@ class manage_controller
 	{
 		$this->protocol = \app::load_model_class('protocol', 'user');//加载公共json
         $this->data = \app::load_sys_class('protocol');//加载json数据模板
-		// $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
 		$this->post = json_decode(file_get_contents('php://input'), true);
 		$this->project = \app::load_service_class('project_class', 'project');//加载项目大表
 		$this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排
@@ -37,7 +36,6 @@ class manage_controller
         $this->meal = \app::load_service_class('meal_class', 'travel');//加载餐费
         $this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
         $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
-		
 		$this->code = app::load_cont_class('common','user');//加载token
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
 
@@ -119,7 +117,6 @@ class manage_controller
 		if($data[$key]['expected_income']&&$data[$key]['project_profit']){
 		$data[$key]['gross_interest_rate'] =round($data[$key]['project_profit']/$data[$key]['expected_income']*100,2).'%';
 	}
-		
 	}
 		$data?$cond = 0:$cond = 1;
         //开始输出
@@ -133,9 +130,7 @@ class manage_controller
             default:
                 $this->data->out(2001, $data);
             }
-		
 	}
-
 	//@todo
 	public function delProject(){
 		$post = $this->data->get_post();
