@@ -28,6 +28,7 @@ class config_controller
         $this->config = app::load_service_class('examine_flow_class', 'examine');//
         $this->common = app::load_service_class('common_class', 'examine');//
     }
+   
     public function add()
     { 
         /**
@@ -50,27 +51,27 @@ class config_controller
         
         $post = $this->data->get_post();//获得post
         //11.23修改后
-        $post = [
-            'token'=>'qevQh36mj2',
-            // 'token'=>'DGc82sqEJ4',
-            'data'=>[
-                'name'=>'请假审批',
-                'data'=>[
-                    0=>[
-                    'examine_mode'=>'1,3',
-                    'pass_mode'=>'1'
-                ],
-                    1=>[
-                    'examine_mode'=>'1,3',
-                    'pass_mode'=>'1'
-                ],
-                    2=>[
-                    'examine_mode'=>'2,3',
-                    'pass_mode'=>'1'
-                ]
-                 ],
-            ]
-        ];
+        // $post = [
+        //     'token'=>'qevQh36mj2',
+        //     // 'token'=>'DGc82sqEJ4',
+        //     'data'=>[
+        //         'name'=>'请假审批',
+        //         'data'=>[
+        //             0=>[
+        //             'examine_mode'=>'1,3',
+        //             'pass_mode'=>'1'
+        //         ],
+        //             1=>[
+        //             'examine_mode'=>'1,3',
+        //             'pass_mode'=>'1'
+        //         ],
+        //             2=>[
+        //             'examine_mode'=>'2,3',
+        //             'pass_mode'=>'1'
+        //         ]
+        //          ],
+        //     ]
+        // ];
 
         //首先获得token看有没有权限(is_Admin)
         $bool_admin = $this->common->return_bool_admin($post['token']);
@@ -127,7 +128,7 @@ class config_controller
                 $this->data->out(2005,[]);
             }
     }
-    public function del_config()
+    public function del()
     {
         /**
          * ================

@@ -176,16 +176,16 @@ class manage_controller
     }
    
     // private  function examine_add_flow_mode(){
-    public  function examine_add_flow_mode(){
+        private  function examine_add_flow_mode(){
 
           // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
-        $post = [
-            'token'=>'qevQh36mj2',
-            'id' => 1,
-            'flow_id'=>5,//审批流id
-        //     'examine_type'=>'1',//1为预算 2为决算
-        ];
+        // $post = [
+        //     'token'=>'qevQh36mj2',
+        //     'id' => 1,
+        //     'flow_id'=>5,//审批流id
+        // //     'examine_type'=>'1',//1为预算 2为决算
+        // ];
 
         //一、创建审批节点
         //1、获取审批流
@@ -250,106 +250,110 @@ class manage_controller
         }
         // print_r($user_ids_flow);
         if($user_ids_flow && $notes_add){
-            print_r(3);
+            //提交审批成功
+            return true;
         }else{
-        print_R(4);}
+            //提交审批失败
+            return false;
+        }
+
     }
-    //审批讲师安排
-    public function lecturer()
-    {
-        /**
-         * ================
-         * @Author:    css
-         * @ver:       1.0
-         * @DataTime:  2018-11-06
-         * @describe:  flow function
-         * ================
-         */
-        $post = $this->data->get_post();//获得post
-        $data = $this->notes->lecturer($post['id'],$post['token']);
-        $data?$cond = 0:$cond = 1;
+    // //审批讲师安排
+    // public function lecturer()
+    // {
+    //     /**
+    //      * ================
+    //      * @Author:    css
+    //      * @ver:       1.0
+    //      * @DataTime:  2018-11-06
+    //      * @describe:  flow function
+    //      * ================
+    //      */
+    //     $post = $this->data->get_post();//获得post
+    //     $data = $this->notes->lecturer($post['id'],$post['token']);
+    //     $data?$cond = 0:$cond = 1;
         
-        //开始输出
-        switch ($cond) {
-            case   1://异常1
-                $this->data->out(3015,[]);
-                break;
-            default:
-                $this->data->out(3014,[]);
-            }
-    }
-     //审批实施安排
-     public function implement()
-     {
-         /**
-          * ================
-          * @Author:    css
-          * @ver:       1.0
-          * @DataTime:  2018-11-06
-          * @describe:  flow function
-          * ================
-          */
-         $post = $this->data->get_post();//获得post
-         $data = $this->notes->lecturer($post['id'],$post['token']);
-         $data?$cond = 0:$cond = 1;
+    //     //开始输出
+    //     switch ($cond) {
+    //         case   1://异常1
+    //             $this->data->out(3015,[]);
+    //             break;
+    //         default:
+    //             $this->data->out(3014,[]);
+    //         }
+    // }
+    //  //审批实施安排
+    //  public function implement()
+    //  {
+    //      /**
+    //       * ================
+    //       * @Author:    css
+    //       * @ver:       1.0
+    //       * @DataTime:  2018-11-06
+    //       * @describe:  flow function
+    //       * ================
+    //       */
+    //      $post = $this->data->get_post();//获得post
+    //      $data = $this->notes->lecturer($post['id'],$post['token']);
+    //      $data?$cond = 0:$cond = 1;
          
-         //开始输出
-         switch ($cond) {
-             case   1://异常1
-                 $this->data->out(3015,[]);
-                 break;
-             default:
-                 $this->data->out(3014,[]);
-             }
-     }
-      //审批差旅安排
-    public function travel()
-    {
-        /**
-         * ================
-         * @Author:    css
-         * @ver:       1.0
-         * @DataTime:  2018-11-06
-         * @describe:  flow function
-         * ================
-         */
-        $post = $this->data->get_post();//获得post
-        $data = $this->notes->lecturer($post['id'],$post['token']);
-        $data?$cond = 0:$cond = 1;
+    //      //开始输出
+    //      switch ($cond) {
+    //          case   1://异常1
+    //              $this->data->out(3015,[]);
+    //              break;
+    //          default:
+    //              $this->data->out(3014,[]);
+    //          }
+    //  }
+    //   //审批差旅安排
+    // public function travel()
+    // {
+    //     /**
+    //      * ================
+    //      * @Author:    css
+    //      * @ver:       1.0
+    //      * @DataTime:  2018-11-06
+    //      * @describe:  flow function
+    //      * ================
+    //      */
+    //     $post = $this->data->get_post();//获得post
+    //     $data = $this->notes->lecturer($post['id'],$post['token']);
+    //     $data?$cond = 0:$cond = 1;
         
-        //开始输出
-        switch ($cond) {
-            case   1://异常1
-                $this->data->out(3015,[]);
-                break;
-            default:
-                $this->data->out(3014,[]);
-            }
-    }
-    //决算
-    public function final_accounts()
-    {
-        /**
-         * ================
-         * @Author:    css
-         * @ver:       
-         * @DataTime:  2018-11-06
-         * @describe:  Final accounts function
-         * ================
-         */
-        $post = $this->data->get_post();//获得post
-        $data = $this->notes->final_accounts($post['id'],$post['token']);
-        $data?$cond = 0:$cond = 1;
+    //     //开始输出
+    //     switch ($cond) {
+    //         case   1://异常1
+    //             $this->data->out(3015,[]);
+    //             break;
+    //         default:
+    //             $this->data->out(3014,[]);
+    //         }
+    // }
+    // //决算
+    // public function final_accounts()
+    // {
+    //     /**
+    //      * ================
+    //      * @Author:    css
+    //      * @ver:       
+    //      * @DataTime:  2018-11-06
+    //      * @describe:  Final accounts function
+    //      * ================
+    //      */
+    //     $post = $this->data->get_post();//获得post
+    //     $data = $this->notes->final_accounts($post['id'],$post['token']);
+    //     $data?$cond = 0:$cond = 1;
         
-        //开始输出
-        switch ($cond) {
-            case   1://异常1
-                $this->data->out(3015,[]);
-                break;
-            default:
-                $this->data->out(3014,[]);
-            }
-    }
+    //     //开始输出
+    //     switch ($cond) {
+    //         case   1://异常1
+    //             $this->data->out(3015,[]);
+    //             break;
+    //         default:
+    //             $this->data->out(3014,[]);
+    //         }
+    // }
 
    
     //查看需要我审批的审批单 (审批单的详细的数据)
@@ -364,9 +368,9 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $post = [
-            'token'=>'qevQh36mj2'
-        ];
+        // $post = [
+        //     'token'=>'qevQh36mj2'
+        // ];
         $admin_id = $this->common->return_user_id($post['token']);
         //查看待我审批的审批项目的id 并去重
         $parent_id = $this->admin->return_examine_for_me_parent_id($admin_id['id']);
@@ -414,7 +418,7 @@ class manage_controller
     }
 
     //审批审批单
-    public function do()
+    public function manage()
     {
         /**
          * ================
@@ -425,13 +429,13 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $post = [
-            'parent_id'=>'1',
-            'examine_type'=>'1',
-            'token'=>'qevQh36mj2',
-            'note'=>'2333',
-            'pass'=>'1'
-        ];
+        // $post = [
+        //     'parent_id'=>'1',
+        //     'examine_type'=>'1',
+        //     'token'=>'qevQh36mj2',
+        //     'note'=>'2333',
+        //     'pass'=>'1'
+        // ];
         //首先判断此条项目是不是已经被否决或者通过了
         $bool = $this->examine->bool($post['parent_id'],$post['examine_type']);
 

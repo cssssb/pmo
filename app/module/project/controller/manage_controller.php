@@ -102,7 +102,6 @@ class manage_controller
 		if(!$data[$key]['costing']){
 			$data[$key]['costing'] = 0;
 		}
-	
 		//预计收入  1.0
 		$data[$key]['expected_income'] = $data[$key]['project_income'];
 		if(!$data[$key]['expected_income']){

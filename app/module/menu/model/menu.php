@@ -27,7 +27,7 @@ class menu extends model {
         m.type,
         f.path,
         f.title,
-        f.list,
+        f.url,
         f.component
         FROM
             pmo_view_menu m

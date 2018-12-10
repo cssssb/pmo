@@ -78,7 +78,8 @@ final class examine_flow_class
         return $this->model->update($state,$data);
     }
     public function list(){
-        $data = $this->model->select(1);
+        $where['state'] = 0;
+        $data = $this->model->select($where);
         return $data['name'];
     }
 
