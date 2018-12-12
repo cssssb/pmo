@@ -164,9 +164,13 @@ class manage_controller
             $this->data->out(3012,$post['id']);
         }
         $ass = $this->examine_add_flow_mode($post);
-      
+        // if($ass){
+            //添加至不可操作表
+            //添加至静态表
+            // $static = $this->static->model->insert($data);
+        // }
         //开始输出
-        switch ($cond) {
+        switch ($static) {
             case   false://异常1
                 $this->data->out(3012,$post['id']);
                 break;
@@ -258,78 +262,7 @@ class manage_controller
         }
 
     }
-    // //审批讲师安排
-    // public function lecturer()
-    // {
-    //     /**
-    //      * ================
-    //      * @Author:    css
-    //      * @ver:       1.0
-    //      * @DataTime:  2018-11-06
-    //      * @describe:  flow function
-    //      * ================
-    //      */
-    //     $post = $this->data->get_post();//获得post
-    //     $data = $this->notes->lecturer($post['id'],$post['token']);
-    //     $data?$cond = 0:$cond = 1;
-        
-    //     //开始输出
-    //     switch ($cond) {
-    //         case   1://异常1
-    //             $this->data->out(3015,[]);
-    //             break;
-    //         default:
-    //             $this->data->out(3014,[]);
-    //         }
-    // }
-    //  //审批实施安排
-    //  public function implement()
-    //  {
-    //      /**
-    //       * ================
-    //       * @Author:    css
-    //       * @ver:       1.0
-    //       * @DataTime:  2018-11-06
-    //       * @describe:  flow function
-    //       * ================
-    //       */
-    //      $post = $this->data->get_post();//获得post
-    //      $data = $this->notes->lecturer($post['id'],$post['token']);
-    //      $data?$cond = 0:$cond = 1;
-         
-    //      //开始输出
-    //      switch ($cond) {
-    //          case   1://异常1
-    //              $this->data->out(3015,[]);
-    //              break;
-    //          default:
-    //              $this->data->out(3014,[]);
-    //          }
-    //  }
-    //   //审批差旅安排
-    // public function travel()
-    // {
-    //     /**
-    //      * ================
-    //      * @Author:    css
-    //      * @ver:       1.0
-    //      * @DataTime:  2018-11-06
-    //      * @describe:  flow function
-    //      * ================
-    //      */
-    //     $post = $this->data->get_post();//获得post
-    //     $data = $this->notes->lecturer($post['id'],$post['token']);
-    //     $data?$cond = 0:$cond = 1;
-        
-    //     //开始输出
-    //     switch ($cond) {
-    //         case   1://异常1
-    //             $this->data->out(3015,[]);
-    //             break;
-    //         default:
-    //             $this->data->out(3014,[]);
-    //         }
-    // }
+    
     // //决算
     // public function final_accounts()
     // {

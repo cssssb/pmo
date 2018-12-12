@@ -120,9 +120,8 @@ class account_controller
              */
             $post = $this->data->get_post();//获得post
             $post['token'] = '8JvIzKRNP5';
-            $data = $this->common->return_staff_user_id($post['token']);
-            if($data){
-                $role_id = $this->common->return_role($post['token']);
+            $role_id = $this->common->return_role($post['token']);
+            if($role_id){
                 //  通过角色信息返回路由
                 $return['url'] = $this->route->return_role_in_route($role_id);
                 // 试图权限

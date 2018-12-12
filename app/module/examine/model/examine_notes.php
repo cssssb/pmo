@@ -19,5 +19,23 @@ class examine_notes extends model {
         $this->table_name = 'examine_notes';
         parent::__construct();
     }
+    public function select_list($parent_id){
+        $sql = "
+        SELECT
+        admin_user,
+        time,
+        pass,
+        note,
+        examine_type,
+        admin_id
     
+    FROM
+        pmo_examine_notes 
+    WHERE
+        parent_id = $parent_id
+        ";
+        $all = $this->query($sql);
+		$data = $this->fetch_array($all);
+		return $data;
+    }
 }

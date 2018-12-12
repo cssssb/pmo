@@ -31,6 +31,7 @@ class hotel_controller
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
         $this->code = \app::load_cont_class('common','user');//加载token
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
        
     }
 
@@ -47,7 +48,9 @@ class hotel_controller
         $post = $this->data->get_post();//获得post
         
         $ass =  $this->stay->add_stay($post['data']);
-        $ass?$cond = 0:$cond = 1;
+       $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
@@ -73,7 +76,9 @@ class hotel_controller
          if(!$post['data']['id']){
              $this->data->out(3901);}
             $ass = $this->stay->edit_stay($post['data']);
-            $ass?$cond = 0:$cond = 1;
+       $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+            $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
              case   1://异常1
@@ -97,7 +102,10 @@ class hotel_controller
          if(!$post['id']){
              $this->data->out(3901);}
          $ass = $this->stay->del_stay($post);
-         $ass?$cond = 0:$cond = 1;
+         $where['id'] = $post['id'];
+         $parent_id = $this->stay->model->get_one($where);
+         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+        $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
              case   1://异常1

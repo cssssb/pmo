@@ -33,7 +33,8 @@ class plan_controller
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
         $this->room = \app::load_service_class('implement_room_class','implement');//加载会场
         $this->project = \app::load_service_class('project_class','project');//加载项目
-       
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
+
     }
 
         //实施列表
@@ -120,7 +121,9 @@ class plan_controller
           $post = $this->data->get_post();//获得post
           //example $this->service->function();
           $ass = $this->implement->add($post['data']);
-          $ass?$cond=0:$cond=1;          
+          $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+          $project_new_data?$cond=0:$cond=1;          
           //开始输出
           switch ($cond) {
               case   1://异常1

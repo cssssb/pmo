@@ -38,10 +38,33 @@ class manage_controller
         $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
 		$this->code = app::load_cont_class('common','user');//加载token
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
-
+        $this->examine = \app::load_service_class('examine_notes_class','examine');//加载审批
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
 	}
-
 	public function list()
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       1.0
+		 * @DataTime:  2018-12-11
+		 * @describe:  list function
+		 * ================
+		 */
+		$post = $this->data->get_post();//获得post
+		$data = $this->static->list();
+		$data?$cond = 0:$cond = 1;
+		
+		//开始输出
+		switch ($cond) {
+			case   1://异常1
+				$this->data->out(2002,[]);
+				break;
+			default:
+				$this->data->out(2001,$data);
+			}
+	}
+	public function list2()
 	{
 		/**
          * ================
@@ -50,7 +73,7 @@ class manage_controller
          * @DataTime:  2018-10-16
          * @describe:  list function
          * ================
-         */
+		 */
         $post = $this->data->get_post();//获得post
         $cond = 0;//默认成功
         //调用业务层函数
@@ -116,16 +139,17 @@ class manage_controller
 		if($data[$key]['expected_income']&&$data[$key]['project_profit']){
 		$data[$key]['gross_interest_rate'] =round($data[$key]['project_profit']/$data[$key]['expected_income']*100,2).'%';
 	}
+		$data[$key]['examine'] = $this->examine->examine_notes_list($val['id']);
+		// $data[$key]['examine'] = $key['id'];
 	}
+		//只用一次 导入老项目至json静态表
+		$this->static->add_project2($data);
 		$data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
             case   1://异常1
                 $this->data->out(2002,[]);
                 break;
-            // case   2:
-            //     $this->data->out(code, $data);
-            //     break;
             default:
                 $this->data->out(2001, $data);
             }
@@ -158,9 +182,8 @@ class manage_controller
 		
 		$template_id = $post['data']['project_project_template_id']?(int)$post['data']['project_project_template_id']:0;
 		
-		// $template_id = 1;
-		$ass = $this->project->add_project($template_id);
-		$cond = 0;
+		$template_id = $this->project->add_project($template_id);
+		$ass = $this->static->add_project($template_id['id']);
 		$ass?$cond=0:$cond=1;
 		switch ($cond) {
 			case 1:
@@ -168,7 +191,7 @@ class manage_controller
 				break;
 			
 			default:
-				$this->data->out(2003,$ass);
+				$this->data->out(2003,$template_id);
 				break;
 		}
 	}

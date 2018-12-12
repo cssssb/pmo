@@ -27,6 +27,8 @@ class data_controller
         $this->address = \app::load_service_class('address_class', 'project');//加载地址
         $this->code = app::load_cont_class('common','user');//加载token
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
+
 
         // die;
     }
@@ -54,7 +56,6 @@ class data_controller
     public function edit(){
         //项目修改
         $post = $this->data->get_post();
-        $cond = 0;
         $post['data']['parent_id'] ? $data['id'] = $post['data']['parent_id'] : true;
 		$post['data']['project_name'] ? $pro['project_name'] = $post['data']['project_name'] : true;
 		$post['data']['project_gather'] ? $data['progam_id'] = $post['data']['project_gather'] : true;
@@ -75,7 +76,9 @@ class data_controller
             $this->data->out(3901);
         }
         $ass = $this->project->edit_project($data,$pro);
-        $ass?$cond=0:$cond=1;
+        //获取修改后的数据 然后拼接
+        $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+        $project_new_data?$cond=0:$cond=1;
         
         switch($cond){
             case 1:
@@ -86,4 +89,5 @@ class data_controller
             $this->data->out(2005,$ass);
         }
     }
+    //
 }

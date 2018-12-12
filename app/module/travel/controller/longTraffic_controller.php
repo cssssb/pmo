@@ -32,7 +32,8 @@ class longTraffic_controller
         $this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
         $this->province = \app::load_service_class('province_class', 'travel');//加载差旅
         $this->code = \app::load_cont_class('common','user');//加载token
-       
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
+
     }
     public function add()
     {
@@ -47,7 +48,9 @@ class longTraffic_controller
         $post = $this->data->get_post();//获得post
         
         $ass =  $this->province->add_province($post['data']);
-        $ass?$cond = 0:$cond = 1;
+        $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
@@ -72,8 +75,10 @@ class longTraffic_controller
          $post = $this->data->get_post();//获得post
          if(!$post['data']['id']){
              $this->data->out(3901);}
-            $ass = $this->province->edit_province($post['data']);
-            $ass?$cond = 0:$cond = 1;
+             
+             $ass = $this->province->edit_province($post['data']);
+             $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+            $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
              case   1://异常1
@@ -97,7 +102,11 @@ class longTraffic_controller
          if(!$post['id']){
              $this->data->out(3901);}
          $ass = $this->province->del_province($post);
-         $ass?$cond = 0:$cond = 1;
+         $where['id'] = $post['id'];
+         $parent_id = $this->province->model->get_one($where);
+         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+
+         $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
              case   1://异常1

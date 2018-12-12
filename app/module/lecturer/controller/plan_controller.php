@@ -37,6 +37,8 @@ class plan_controller
         $this->code = \app::load_cont_class('common','user');//加载token
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
         $this->project = \app::load_service_class('project_class','project');//加载项目
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
+
        
     }
 
@@ -51,8 +53,9 @@ class plan_controller
         $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
        
          $ass = $this->lecturer_list->add($data);
-         
-        $ass?$cond = 0:$cond = 1;
+         $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         switch ($cond) {
             case   1://异常1
                 $this->data->out(2004);
@@ -79,8 +82,9 @@ class plan_controller
             $this->data->out(3901);
         }
         $ass = $this->lecturer_list->edit($data);
-      
-        $ass?$cond = 0:$cond = 1;
+        $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         switch ($cond) {
             case   1://异常1
                 $this->data->out(2006);
@@ -100,7 +104,10 @@ class plan_controller
             $this->data->out(3901);
         }
         $ass =  $this->lecturer_list->del($data);
-        $ass?$cond = 0:$cond = 1;
+        $parent_id = $this->lecturer_list->model->get_one($data);
+        $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+        
+        $project_new_data?$cond = 0:$cond = 1;
         switch ($cond) {
             case   1://异常1
                 $this->data->out(2009);

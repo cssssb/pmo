@@ -181,7 +181,6 @@ final class project_class
 	public function get_one_project($id){
 		
 			return $this->model->get_one_project($id);
-		
 			
 		}
 	
@@ -245,4 +244,5 @@ final class project_class
 		$where['state'] = 0;
 		return $this->body->get_one($where);
 	}
+	
 }

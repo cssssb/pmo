@@ -26,6 +26,7 @@ class venue_controller
         $this->code = \app::load_cont_class('common','user');//加载token
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
         $this->implement = app::load_service_class('implement_room_class', 'implement');//
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
 
     }
     //增
@@ -41,7 +42,9 @@ class venue_controller
          */
         $post = $this->data->get_post();//获得post
         $data = $this->implement->add($post['data']);
-        $data?$cond = 0:$cond = 1;
+        $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
@@ -65,7 +68,11 @@ class venue_controller
          */
         $post = $this->data->get_post();//获得post
         $data = $this->implement->del($post['id']);
-        $data?$cond = 0:$cond = 1;
+        $where['id'] = $post['id'];
+        $parent_id = $this->implement->model->get_one($where);
+        $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
@@ -89,7 +96,9 @@ class venue_controller
          */
         $post = $this->data->get_post();//获得post
         $data = $this->implement->edit($post['data']);
-        $data?$cond = 0:$cond = 1;
+        $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {

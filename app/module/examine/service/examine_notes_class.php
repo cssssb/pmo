@@ -23,58 +23,21 @@ final class examine_notes_class
         $this->user = app::load_model_class('user', 'user');
         $this->staff_user = app::load_model_class('staff_user', 'user');
     }
-    /**
-     * ================
-     * @Author:        css
-     * @Parameter:     flow
-     * @DataTime:      2018-11-06
-     * @Return:        bool
-     * @Notes:         xx审批了xx项目 true or false
-     * @ErrorReason:   
-     * ================
-     */
-    //讲师安排
-    public function lecturer($parent_id,$token,$pass='0',$note=null){
-        $admin = $this->user->get_one('token = '.$token);
-        $where['type'] = 1;
-        $where['admin_user'] = $admin['id'];
-        //空一段代码判断此用户是否有审核这条的权限
-        $data['admin_user'] = $admin['id'];
-        $data['time'] = date('Y-m-d H:i:s',time());
-        $data['pass'] = $pass;
-        $data['parent_id'] = $parent_id;
-        $data['note'] = $note;
-        $data['type'] = 1;
-        // return $this->model->insert($data);
-    }
-    //实施安排
-    public function implement($parent_id,$token,$pass='0',$note=null){
-        $admin = $this->user->get_one('token = '.$token);
-        $where['type'] = 2;
-        $where['admin_user'] = $admin['id'];
-        //空一段代码判断此用户是否有审核这条的权限
-        $data['admin_user'] = $admin['id'];
-        $data['time'] = date('Y-m-d H:i:s',time());
-        $data['pass'] = $pass;
-        $data['parent_id'] = $parent_id;
-        $data['note'] = $note;
-        $data['type'] = 2;
-        // return $this->model->insert($data);
-    }
-    //差旅安排
-    public function travel($parent_id,$token,$pass='0',$note=null){
-        $admin = $this->user->get_one('token = '.$token);
-        $where['type'] = 3;
-        $where['admin_user'] = $admin['id'];
-        //空一段代码判断此用户是否有审核这条的权限
-        $data['admin_user'] = $admin['id'];
-        $data['time'] = date('Y-m-d H:i:s',time());
-        $data['pass'] = $pass;
-        $data['parent_id'] = $parent_id;
-        $data['note'] = $note;
-        $data['type'] = 3;
-        // return $this->model->insert($data);
-    }
+     /**
+         * ================
+         * @Author:        css
+         * @Parameter:     examine_notes_list
+         * @DataTime:      2018-12-10
+         * @Return:        data 
+         * @Notes:         通过项目id获取此条项目的审批列表
+         * @ErrorReason:   
+         * ================
+         */
+         public function examine_notes_list($parent_id){
+             //通过项目id获取数据表里所有的审批
+             return  $this->model->select_list($parent_id);
+        }
+   
     //决算
     public function final_accounts($parent_id,$token,$pass='0',$process='0',$note=null){
         $admin = $this->user->get_one('token = '.$token);
@@ -210,4 +173,5 @@ final class examine_notes_class
             }
            
         }
+       
 }

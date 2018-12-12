@@ -26,6 +26,8 @@ class meal_controller
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->meal = app::load_service_class('meal_class', 'travel');//
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
+
     }
     public function add()
     {
@@ -40,7 +42,9 @@ class meal_controller
         $post = $this->data->get_post();//获得post
         unset($post['data']['meal_fee_people_name']);
         $data = $this->meal->add_meal($post['data']);
-        $data?$cond = 0:$cond = 1;
+        $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+        $project_new_data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
@@ -67,7 +71,9 @@ class meal_controller
              $this->data->out(3901);}
         unset($post['data']['meal_fee_people_name']);
             $ass = $this->meal->edit_meal($post['data']);
-            $ass?$cond = 0:$cond = 1;
+         $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+            $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
              case   1://异常1
@@ -91,7 +97,10 @@ class meal_controller
          if(!$post['id']){
              $this->data->out(3901);}
          $ass = $this->meal->del_meal($post);
-         $ass?$cond = 0:$cond = 1;
+         $where['id'] = $post['id'];
+         $parent_id = $this->meal->model->get_one($where);
+         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+        $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {
              case   1://异常1

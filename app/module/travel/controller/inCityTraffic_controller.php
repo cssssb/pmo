@@ -31,6 +31,7 @@ class inCityTraffic_controller
         $post = $this->data->get_post();
         $this->city = \app::load_service_class('city_class', 'travel');//加载差旅
         $this->code = \app::load_cont_class('common','user');//加载token
+        $this->static = \app::load_service_class('static_class','project');//加载列表json
        
     }
    
@@ -46,7 +47,9 @@ class inCityTraffic_controller
         */
        $post = $this->data->get_post();//获得post
        $ass =  $this->city->add_city($post['data']);
-       $ass?$cond = 0:$cond = 1;
+       $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+
+       $project_new_data?$cond = 0:$cond = 1;
        
        //开始输出
        switch ($cond) {
@@ -72,7 +75,9 @@ class inCityTraffic_controller
         if(!$post['data']['id']){
             $this->data->out(3901);}
            $ass = $this->city->edit_city($post['data']);
-           $ass?$cond = 0:$cond = 1;
+       $project_new_data =  $this->static->static_service($post['data']['parent_id']);
+           
+           $project_new_data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
             case   1://异常1
@@ -96,7 +101,10 @@ class inCityTraffic_controller
         if(!$post['id']){
             $this->data->out(3901);}
         $ass = $this->city->del_city($post);
-        $ass?$cond = 0:$cond = 1;
+        $where['id'] = $post['id'];
+         $parent_id = $this->city->model->get_one($where);
+         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+        $project_new_data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
             case   1://异常1

@@ -104,6 +104,8 @@ return array(
         "examine_manage_will" => ["examine", "manage", "will", [], [], '1.0'],        //查看需要我审批的审批单
         "examine_manage_ipassed" => ["examine", "manage", "ipassed", [], [], '1.0'],        //查看我通过的审批单
         "examine_manage_manage" => ["examine", "manage", "manage", [], [], '1.0'],        //审批审批单
+        //数据名称list
+        "json_type_list"=>["json","type","list",[],[],'1.0'],                               //数据列表
 
     ),
 );

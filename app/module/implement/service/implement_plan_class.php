@@ -22,7 +22,7 @@ final class implement_plan_class
 	 * ================
 	 */
     public function add($data){
-		if($data['id']){
+		if($data['parent_id']){
 			return $this->edit_implement($data);
 		}
 		$data['time'] = date('y-m-d H:i:s',time());
@@ -91,8 +91,6 @@ final class implement_plan_class
 		 	$where['parent_id'] = $ass['parent_id'];
 			$data['state'] = 1;
 			$this->model->update($data,$where);
-			$ass['parent_id'] = $ass['id'];
-			unset($ass['id']);
 			$ass['time'] = date('y-m-d H:i:s',time());
 			return  $this->model->insert($ass);
 	}
