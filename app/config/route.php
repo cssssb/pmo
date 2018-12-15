@@ -103,9 +103,19 @@ return array(
         "examine_manage_commit" => ["examine", "manage", "commit", [], [], '1.0'],        //提交项目审批
         "examine_manage_will" => ["examine", "manage", "will", [], [], '1.0'],        //查看需要我审批的审批单
         "examine_manage_ipassed" => ["examine", "manage", "ipassed", [], [], '1.0'],        //查看我通过的审批单
-        "examine_manage_manage" => ["examine", "manage", "manage", [], [], '1.0'],        //审批审批单
+        "examine_manage_bool" => ["examine", "manage", "bool", [], [], '1.0'],        //审批审批单
         //数据名称list
         "json_type_list"=>["json","type","list",[],[],'1.0'],                               //数据列表
+
+        "project_manage_returnonlyuserlist" => ["project", "manage", "returnonlyuserlist", [], [], '1.0'],    //返回项目列表
+        "project_manage_returndepartmentlist" => ["project", "manage", "returndepartmentlist", [], [], '1.0'],    //返回项目列表
+
+        // //12.13预算
+        // "" => ["", "", "", [], [], '1.0'],    //查看我提交的预算审批
+        // "" => ["", "", "", [], [], '1.0'],    //查看所有人提交的预算审批
+        // "" => ["", "", "", [], [], '1.0'],    //
+        // "" => ["", "", "", [], [], '1.0'],    // 
+        
 
     ),
 );

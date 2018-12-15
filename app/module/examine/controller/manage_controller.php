@@ -37,9 +37,15 @@ class manage_controller
         $this->meal = \app::load_service_class('meal_class', 'travel');//加载餐费
         $this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
         $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
-        $this->common = \app::load_service_class('common_class', 'examine');//加载讲师安排
-        $this->admin = \app::load_service_class('examine_admin_class', 'examine');//加载讲师安排
-        
+        $this->common = \app::load_service_class('common_class', 'examine');//
+        $this->admin = \app::load_service_class('examine_admin_class', 'examine');//
+        $this->static = \app::load_service_class('examine_static_class','examine');//加载审批静态表
+    }
+    public function exmianecommittest(){
+        $parent_id = 2;
+        $examine_type = 1;
+        $token = '9r8YWo1Sqd';
+        echo json_encode($this->static->add_static($parent_id,$examine_type,$token));
     }
     //examine_mode_flow_role_test
     public function examine_mode_flow_role_test(){
@@ -76,7 +82,7 @@ class manage_controller
      * @ErrorReason:   null
      * ================
      */ 
-    public function commit()
+    public function commitbudget()
     {
         /**
          * ================
@@ -169,6 +175,8 @@ class manage_controller
             //添加至静态表
             // $static = $this->static->model->insert($data);
         // }
+        //点击提交预算生成静态数据
+        $static = $this->static->add_static($post['id'],1,$post['token']);
         //开始输出
         switch ($static) {
             case   false://异常1
@@ -351,7 +359,7 @@ class manage_controller
     }
 
     //审批审批单
-    public function manage()
+    public function bool()
     {
         /**
          * ================
@@ -367,8 +375,10 @@ class manage_controller
         //     'examine_type'=>'1',
         //     'token'=>'qevQh36mj2',
         //     'note'=>'2333',
-        //     'pass'=>'1'
+        //     'pass'=>'1'.
+        
         // ];
+        $post['examine_type'] = 1;
         //首先判断此条项目是不是已经被否决或者通过了
         $bool = $this->examine->bool($post['parent_id'],$post['examine_type']);
 

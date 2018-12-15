@@ -29,10 +29,11 @@ final class project_class
 	 * ================
 	 */
 
-	public function add_project($template_id = 0)
+	public function add_project($template_id = 0,$user_id)
 	{
 		$data['template_id'] = $template_id;
 		$data['unicode']=$this->set_project_unicode();
+		$data['add_user_id'] = $user_id['id'];
 		$data['time'] = date('y-m-d H:i:s', time());
 		$data['id'] = $this->model->insert($data,true);
 		return $data;

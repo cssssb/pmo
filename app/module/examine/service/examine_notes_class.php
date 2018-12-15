@@ -23,6 +23,11 @@ final class examine_notes_class
         $this->user = app::load_model_class('user', 'user');
         $this->staff_user = app::load_model_class('staff_user', 'user');
     }
+    public function examine_state($parent_id){
+        $where['parent_id'] = $parent_id;
+        $data = $this->header->get_one($where);
+        return $data['state'];
+    }
      /**
          * ================
          * @Author:        css
@@ -85,9 +90,9 @@ final class examine_notes_class
              $ass[] = $this->model->insert($data);
          }
          if($ass){
-             return 1;
+             return true;
          }
-         return 2;
+         return false;
      }
      /**
       * ================
@@ -158,8 +163,8 @@ final class examine_notes_class
             $where['parent_id'] = $parent_id;
             $where['examine_type'] = $examine_type;
             
-            if($pass==2){
-                $data['state'] = 2;
+            if($pass==-1){
+                $data['state'] = -1;
                return $this->header->update($data,$where);
             }
             $where['pass'] = 0;

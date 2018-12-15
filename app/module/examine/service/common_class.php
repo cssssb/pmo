@@ -51,5 +51,13 @@ final class common_class
          $data = $this->role_route->get_one_user_ids($user['id']);
          return $data[0]['id'];
     }
+    //通过token获取所在部门下的user_ids
+    public function return_user_department_user_id($token){
+        //用户id
+        $user_id = $this->return_user_id($token);
+        $data = $this->staff_user->get_one('user_id='.$user_id['id']);
+        return $this->staff_user->get_the_leader_department($data['department']);
+    }
+    
     
 }

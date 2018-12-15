@@ -64,34 +64,13 @@ class plan_controller
         $meal = $this->meal->list_meal($post['id']);
             
             foreach($city as $key){
-                $city_a['short_fee_card_people'] = $key['short_fee_card_people'];
-                $city_a['short_fee_type'] = $key['short_fee_type'];
-                $city_a['short_fee'] = $key['short_fee'];
-                $city_a['id'] = $key['id'];
-                $city_a['parent_id'] = $key['parent_id'];
-                $city_b[] =$city_a; 
+                $city_b[] =$key; 
             }
             foreach($stay as $key){
-                $stay_a['hotel_expense_people'] = $key['hotel_expense_people'];
-                $stay_a['hotel_expense_days'] = $key['hotel_expense_days'];
-                $stay_a['hotel_expense_total'] = $key['hotel_expense_total'];
-                $stay_a['id'] = $key['id'];
-                $stay_a['parent_id'] = $key['parent_id'];
-                $stay_b[] = $stay_a;
+                $stay_b[] = $key;
             }
             foreach($province as $key){
-                $province_a['long_fee_card_people'] = $key['long_fee_card_people'];
-                $province_a['long_fee_card_start_time'] = $key['long_fee_card_start_time'];//出发时间
-                $province_a['long_fee_card_start_place'] = $key['long_fee_card_start_place'];//出发地点
-                $province_a['long_fee_card_end_time'] = $key['long_fee_card_end_time'];//结束时间
-                $province_a['long_fee_card_end_place'] = $key['long_fee_card_end_place'];//结束地点
-                $province_a['long_fee_card_vehicle_name'] = $key['long_fee_card_vehicle_name'];//结束地点
-                $province_a['long_fee_card_fee'] = $key['long_fee_card_fee'];//钱
-                
-                // $province_a['long_fee_card_start_place'] = $key['fee'];
-                $province_a['id'] = $key['id'];
-                $province_a['parent_id'] = $key['parent_id'];
-                $province_b[] = $province_a;
+                $province_b[] = $key;
             }
             $data['stay'] = $stay_b;
             $data['city'] = $city_b;

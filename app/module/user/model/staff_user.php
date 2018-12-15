@@ -43,5 +43,6 @@ class staff_user extends model {
 		$all = $this->query($sql);
 		$date = $this->fetch_array($all);
 		return $date;
-	}
+    }
+    
 }

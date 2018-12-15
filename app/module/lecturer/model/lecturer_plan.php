@@ -43,5 +43,29 @@ class lecturer_plan extends \system\model {
 		return $data;
 	}
 	
+	public function select_lecturer_get_project($parent_id){
+		$sql = "
+		SELECT
+				a.id,
+				a.day as teacher_lecture_days,
+				a.duty_id as teacher_duty_id,
+				b.name as teacher_duty_name,
+				a.fee as teacher_lecture_fee,
+				a.tax	as teacher_income_tax,
+				a.lecturer_id as teacher_name_id,
+				c.name as teacher_name_name,
+				a.parent_id
+		FROM
+			pmo_lecturer_plan a
+			LEFT JOIN pmo_lecturer_duty b on a.duty_id = b.id
+			LEFT JOIN pmo_lecturer c on a.lecturer_id = c.id
+		WHERE
+			a.parent_id = 2 
+			AND a.state = 0
+		";
+		$all = $this->query($sql);
+		$data = $this->fetch_array($all);
+		return $data;
+	}
 }
 ?>

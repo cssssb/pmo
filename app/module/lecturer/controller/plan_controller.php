@@ -131,22 +131,7 @@ class plan_controller
             if(!$post['id']){
                 $this->data->out(3901);
             }
-            $ass = $this->lecturer_list->list_teacher($data);
-         
-            if($ass){
-                foreach($ass as $key=>$val){
-                    $duty = $this->lecturer_duty->get_one($val['duty_id']);
-                    $lecturer_name = $this->lecturer->get_one($val['lecturer_id']);
-                $rng[$key]['id'] = $val['id'];
-                $rng[$key]['teacher_lecture_days'] = $val['day'];
-                $rng[$key]['teacher_duty_id'] = $val['duty_id'];
-                $rng[$key]['teacher_duty_name'] = $duty['name'];
-                $rng[$key]['teacher_lecture_fee'] = $val['fee'];
-                $rng[$key]['teacher_income_tax'] = $val['tax'];
-                $rng[$key]['teacher_name_id'] = $val['lecturer_id'];
-                $rng[$key]['teacher_name_name'] = $lecturer_name['name'];
-                $rng[$key]['parent_id'] = $val['parent_id'];
-            }}
+            $rng = $this->lecturer_list->model->select_lecturer_get_project($data['parent_id']);
                $rng?$cond = 0:$cond = 1;
                $return['lecturer'] = $rng;
                $project_name = $this->project->get_one($post['id']);

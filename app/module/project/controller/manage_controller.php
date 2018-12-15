@@ -39,8 +39,10 @@ class manage_controller
 		$this->code = app::load_cont_class('common','user');//加载token
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
         $this->examine = \app::load_service_class('examine_notes_class','examine');//加载审批
-        $this->static = \app::load_service_class('static_class','project');//加载列表json
+		$this->static = \app::load_service_class('static_class','project');//加载列表json
+		$this->user = \app::load_service_class('common_class','examine');//在审批的公共服务加载用户
 	}
+	//12/12返回所有项目静态列表
 	public function list()
 	{
 		/**
@@ -53,6 +55,64 @@ class manage_controller
 		 */
 		$post = $this->data->get_post();//获得post
 		$data = $this->static->list();
+		$data?$cond = 0:$cond = 1;
+		
+		//开始输出
+		switch ($cond) {
+			case   1://异常1
+				$this->data->out(2002,[]);
+				break;
+			default:
+				$this->data->out(2001,$data);
+			}
+	}
+	//只返回自己的项目静态列表
+	public function returnonlyuserlist()
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       
+		 * @DataTime:  2018-12-12
+		 * @describe:  return_only function
+		 * ================
+		 */
+		$post = $this->data->get_post();//获得post
+		$user_id = $this->user->return_user_id($post['token']);
+		$data = $this->static->return_only_user($user_id['id']);
+		$data?$cond = 0:$cond = 1;
+		
+		//开始输出
+		switch ($cond) {
+			case   1://异常1
+				$this->data->out(2002,[]);
+				break;
+			default:
+				$this->data->out(2001,$data);
+			}
+	}
+	//返回自己部门的项目静态列表
+	public function returndepartmentlist()
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       
+		 * @DataTime:  2018-12-12
+		 * @describe:  return_about_department function
+		 * ================
+		 */
+		$post = $this->data->get_post();//获得post
+		// $post['token'] = 'aGrH0YvXE8';
+		$user_ids = $this->user->return_user_department_user_id($post['token']);
+		foreach($user_ids as $key=>$val){
+			$have = $this->static->return_only_user($val['id']);
+			if($have){
+				foreach($have as $k){
+				$data[] = $k;
+			}
+			}
+		}
 		$data?$cond = 0:$cond = 1;
 		
 		//开始输出
@@ -139,11 +199,18 @@ class manage_controller
 		if($data[$key]['expected_income']&&$data[$key]['project_profit']){
 		$data[$key]['gross_interest_rate'] =round($data[$key]['project_profit']/$data[$key]['expected_income']*100,2).'%';
 	}
-		$data[$key]['examine'] = $this->examine->examine_notes_list($val['id']);
+		
+		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);
+		$a = $this->examine->examine_state($val['id']);
+		$a ? $data[$key]['examine']['budget']['state'] = $a: $data[$key]['examine']['budget']['state']='0';//0为未提交 1为审批中 2为审批通过 -1为审批未通过
+		// $data[$key]['examine']['finalAccounts']['step'] ? $data[$key]['examine']['finalAccounts']['step']: $data[$key]['examine']['finalAccounts']['step']='0';
+		// $data[$key]['examine']['finalAccounts']['state'] ? $data[$key]['examine']['finalAccounts']['state'] :$data[$key]['examine']['finalAccounts']['step'] ='0';
+		$data[$key]['examine']['finalAccounts']['step'] = [];//决算详细数据
+		$data[$key]['examine']['finalAccounts']['state'] = '0';//决算
 		// $data[$key]['examine'] = $key['id'];
 	}
 		//只用一次 导入老项目至json静态表
-		$this->static->add_project2($data);
+	 $this->static->add_project2($data);
 		$data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
@@ -179,10 +246,10 @@ class manage_controller
 	 */
 	public function add(){
 		$post = $this->data->get_post();
-		
+		$user_id = $this->user->return_user_id($post['token']);
 		$template_id = $post['data']['project_project_template_id']?(int)$post['data']['project_project_template_id']:0;
 		
-		$template_id = $this->project->add_project($template_id);
+		$template_id = $this->project->add_project($template_id,$user_id);
 		$ass = $this->static->add_project($template_id['id']);
 		$ass?$cond=0:$cond=1;
 		switch ($cond) {

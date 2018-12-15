@@ -158,9 +158,32 @@ final class static_class
 		if($data[$key]['expected_income']&&$data[$key]['project_profit']){
 		$data[$key]['gross_interest_rate'] =round($data[$key]['project_profit']/$data[$key]['expected_income']*100,2).'%';
 	}
-        $data[$key]['examine'] = $this->examine->examine_notes_list($val['id']);
+		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);
+		$a = $this->examine->examine_state($val['id']);
+		$a ? $data[$key]['examine']['budget']['state'] = $a:"0";//0为未提交 1为审批中 2为审批通过 -1为审批未通过
+		// $data[$key]['examine']['finalAccounts']['step'] ? $data[$key]['examine']['finalAccounts']['step']:"0";
+		// $data[$key]['examine']['finalAccounts']['state'] ? $data[$key]['examine']['finalAccounts']['state'] :"0";
+		$data[$key]['examine']['finalAccounts']['step'] = [];//决算详细数据
+		$data[$key]['examine']['finalAccounts']['state'] = '0';//决算
+
         $id['parent_id'] = $val['id'];
 		$json_data['data'] = json_encode($data[$key],JSON_UNESCAPED_UNICODE);
+		$json_data['user_id'] = $this->project->model->get_one('id='.$parent_id)['add_user_id'];
 		return $this->model->update($json_data,$id);
 	 }}
+
+	/**
+	 * ================
+	 * @Author:        css
+	 * @Parameter:     return_only_user
+	 * @DataTime:      2018-12-12
+	 * @Return:        data
+	 * @Notes:         只返回自己的user_id的list
+	 * @ErrorReason:   
+	 * ================
+	 */	
+	 public function return_only_user($user_id){
+		 $where['user_id'] = $user_id;
+		 return $this->model->select($where);
+	 }
 }
