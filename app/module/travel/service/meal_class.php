@@ -51,9 +51,11 @@ final class meal_class
         $where['parent_id'] = $parent_id;
         $where['state'] = 0;
         $data = $this->model->select($where);
+        if($data){
         foreach($data as $key){
             $fe[] = $key['meal_fee'];
         }
-        return array_sum($fe);
+        return array_sum($fe);}
+        return 0;
     }
 }

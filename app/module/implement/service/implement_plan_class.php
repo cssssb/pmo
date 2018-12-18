@@ -55,18 +55,17 @@ final class implement_plan_class
 	 * ================
 	 */
 	public function get_fee($parent_id){
-		$where['parent_id'] = $parent_id['parent_id'];
+		$where['parent_id'] = $parent_id;
 		$where['state'] = 0;
 		$data = $this->model->get_one($where);
 		$vebue_fee = $this->room->select($where);
-
+		if($vebue_fee){
 		foreach($vebue_fee as $key){
 			$fee[] = $key['total_price'];
 		}
-
-		$room_fee = array_sum($fee);
-		// return $room_fee;die;测试通过
-
+		$room_fee = array_sum($fee);}else{
+			$room_fee = 0;
+		}
 		$ass = $data['examination_fee'] + $data['tea_break'] + $data['stationery'] + $data['hospitality'] + $data['postage'] + $data['material_cost'] + $data['equipment_cost'] + $room_fee;
 		return  $ass;
 	}
@@ -84,7 +83,7 @@ final class implement_plan_class
 	public  function get_one($parent_id){
 		$where['parent_id'] = $parent_id;
 		$where['state'] = 0;
-		return 	$this->model->get_one($where,'*','id DESC');
+		return 	$this->model->get_one($where);
 	}
 
 	public function edit_implement($ass){

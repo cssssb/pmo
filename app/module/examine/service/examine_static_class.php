@@ -24,8 +24,9 @@ final class examine_static_class
         //获取项目信息
         $unicode=app::load_service_class('project_class','project')->get_one($parent_id)['unicode'];
         $project_name = app::load_service_class('project_class','project')->project_name($parent_id);
+        $data['project_list_data'] = json_decode(app::load_model_class('projectstatic','project')->get_one('parent_id ='.$parent_id)['data']);
         $data['project_get_one'] =app::load_service_class('project_class', 'project')->get_one_project($parent_id)[0];
-        $data['lecturer_get_project'] = app::load_service_class('lecturer_plan_class', 'lecturer')
+        $data['lecturer_get_project']['lecturer'] = app::load_service_class('lecturer_plan_class', 'lecturer')
         ->model
         ->select_lecturer_get_project($parent_id);
         $data['lecturer_get_project']['project_name']=$project_name;
@@ -34,7 +35,7 @@ final class examine_static_class
         $data['implement_get_project']['unicode'] = $unicode;
         $data['implement_get_project']['implement'] = app::load_service_class('implement_plan_class', 'implement')
                                                       ->model
-                                                      ->get_one('state=0 and parent_id='.$parent_id,'*','id DESC');
+                                                      ->select('state=0 and parent_id='.$parent_id);
         $data['implement_get_project']['venue'] = app::load_service_class('implement_room_class','implement')
                                                   ->model       
                                                   ->select('parent_id='.$parent_id.' and state=0');
@@ -51,17 +52,40 @@ final class examine_static_class
         $json['user_name'] = app::load_service_class('common_class', 'examine')->return_staff_user_id($token)['name'];
         return $this->model->insert($json);
     }
-    public function list(){
-
+    
+    //公共获取
+    private function common_list(){
+        $data = $this->model->select(1);
+        foreach($data as $k=>$v){
+              $list[] = json_decode($v['data'],JSON_FORCE_OBJECT);
+        }
+        return $list;
     }
-    public function project(){
 
+    public function return_list(){
+        $data = $this->common_list();
+        foreach($data as $k=>$v){
+            $list[] = $v['project_list_data'];
+        }
+        return $list;
     }
-    public function lecturer(){
 
+    private function common_one($parnet_id){
+        $data = $this->model->get_one($parent_id);
+        return json_decode($data['data'],JSON_FORCE_OBJECT);
     }
-    public function implement(){
+    public function project($parent_id){
+        return $this->common_one($parent_id)['project_get_one'];
+    }
+    public function lecturer($parent_id){
+        return $this->common_one($parent_id)['lecturer_get_project'];
         
+    }
+    public function implement($parnet_id){
+        return $this->common_one($parent_id)['implement_get_project'];
+    }
+    public function travel($parent_id){
+        return $this->common_one($parent_id)['travel_get_project'];
     }
     private function version($parent_id,$examine_type){
         //查看提交的项目在数据库里有几个

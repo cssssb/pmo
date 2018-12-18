@@ -49,12 +49,8 @@ final class protocol
         }
         return $this->body;
     }
-    final public function add_data($key, $value="",$json)
+    final public function add_data($key, $value='')
     {
-        if($json==1){
-            $this->body["data"] = $key;
-            return $this->body;
-        }
         if(is_array($key)){
         //     if(count($key) == count($key,1)){
         //         $this->body['data'] = $key;
@@ -79,7 +75,7 @@ final class protocol
     final public function out($code,$data="",$codelist = "",$json="")
     {
         $this->set_code($code,$codelist);
-        $this->add_data($data,$value,$json);
+        $this->add_data($data);
         echo $this->json_out($this->body);
     }
     

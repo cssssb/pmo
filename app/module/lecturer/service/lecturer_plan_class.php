@@ -66,13 +66,15 @@ final class lecturer_plan_class
 	 */
 	public function get_fee($parent_id){
 		$where['state'] = 0;
-		$where['parent_id'] = $parent_id['parent_id'];
+		$where['parent_id'] = $parent_id;
 		$data = $this->model->select($where);
-		// $ass =  $data['fee'] * $data['day'];
+		if($data){
 		foreach($data as $key){
 			$ass[] = $key['fee']+$key['tax'];
 		}
-		return array_sum($ass);
+		
+		return array_sum($ass);}
+		return 0;
 	}
 	/**
 	 * ================
@@ -89,35 +91,6 @@ final class lecturer_plan_class
 		$data['parent_id'] = $id;
 		return $this->model->update($data,$where);
 	}
-	// /**
-	//  * ================
-	//  * @Function:     get_one_teacher			
-	//  * @Parameter:    id
-	//  * @DataTime:     2018-09-27
-	//  * @Return:       data
-	//  * @Notes:        服务层通过id获取这条数据应返回的值
-	//  * @ErrorReason:  null
-	//  * ================
-	//  */
-
-	// public function operation_get_one($ass){
-	// 	$parent_id['parent_id'] = $ass['id'];
-	// 	$operation = $this->operation->get_one($parent_id,'*','id desc');
-	// 	$time = time()-strtotime($operation['time']);
-	// 	//如果操作表里没有或者状态为已成功修改过新增一条数据
-	// 	if(!$operation || $operation['state']==2){
-	// 		$parent_id['time'] = date('y-m-d H:i:s',time());
-	// 			$this->operation->insert($parent_id);
-	// 			return  $this->get_one_teacher($ass);
-	// 			//如果修改延时可以获取
-	// 		}elseif($operation['state']==1 && $time>180){
-	// 			// return $this->get_one($ass);
-	// 			return $this->get_one_teacher($ass);
-	// 		}
-	// 			return var_dump('false');
-	// }
-
-
 
 //9.29
 	public function get_one_teacher($data){
@@ -125,25 +98,5 @@ final class lecturer_plan_class
 		return  $this->model->get_one_teacher($id);
 		
 	}
-	/**
-	 * ================
-	 * @Function:     add_edit
-	 * @Parameter:    id
-	 * @DataTime:     2018-09-27
-	 * @Return:       bool
-	 * @Notes:        服务层通过id获取这条数据修改状态字段，新增数据
-	 * @ErrorReason:  null
-	 * ================
-	 */
-	// private function operation_edit($ass){
-	// 	$parent_id['parent_id'] = $ass['id'];
-	// 	$operation = $this->operation->get_one($parent_id,'*','id desc');
-	// 	if($operation['state']==1){
-	// 		$this->edit($ass);
-	// 		$update['state'] = 2;
-	// 		return $this->operation->update($update,$operation['id']);
-	// 	}
-	// 	return var_dump('false');	
-	// }
 
 }

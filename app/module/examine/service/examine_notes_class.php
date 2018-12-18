@@ -22,6 +22,7 @@ final class examine_notes_class
         $this->header = app::load_model_class('examine_project', 'examine');
         $this->user = app::load_model_class('user', 'user');
         $this->staff_user = app::load_model_class('staff_user', 'user');
+
     }
     public function examine_state($parent_id){
         $where['parent_id'] = $parent_id;
@@ -82,17 +83,45 @@ final class examine_notes_class
      * @ErrorReason:   
      * ================
      */ 
-     public function add_admin_ids($parent_id,$user_ids){
+     public function add_admin_ids($parent_id,$user_ids,$mode,$examine_type=1){
          $data['parent_id'] = $parent_id;
          $user_ids = explode(',',$user_ids);
+         $ass = $mode;
+         if(substr($ass,0,1)==4){
+            $ass = 4;
+         }elseif(substr($ass,0,1)==1){
+             $ass = 1;
+         }
+         $additional = $this->additional($ass,$mode);
          foreach($user_ids as $k=>$v){
              $data['admin_id'] = $v;
-             $ass[] = $this->model->insert($data);
+             //通过id 获取姓名
+             $data['admin_user'] = $this->staff_user->get_one('user_id = '.$v)['name'];
+             $data['mode'] = $ass;
+             $data['additional'] = $additional;
+             $data['examine_type'] = $examine_type;
+             $ass = $this->model->insert($data);
          }
          if($ass){
              return true;
          }
          return false;
+     }
+     private function additional($ass,$mode){
+         switch ($ass) {
+             case 1:
+                 return '逐级';
+                 break;
+            case 2:
+                 return '角色';
+                 break;
+            case 3:
+                 return '指定人';
+                 break;
+             default:
+                 return '第'.substr($mode,2,1).'级主管';
+                 break;
+         }
      }
      /**
       * ================
@@ -155,6 +184,7 @@ final class examine_notes_class
             $data['admin_user'] = $ass['name'];
             $data['note'] = $note;
             $data['pass'] = $pass;
+            $data['time'] = date('Y-m-d H:i:s',time());
             $css = $this->model->update($data,$where);
             $bool = $this->bool_examine($parent_id,$pass,$examine_type);
             return $bool;

@@ -37,10 +37,17 @@ final class operation_class
         $post = $this->data->get_post();//获得post
         // echo json_encode($post);die;
         $token = $post['token'];
-        if(!$post['id'] && !$post['parent_id']){
+       
+        if(isset($post['data'])){
+            if(!isset($post['data']['id']) && !isset($post['data']['parent_id'])){
+                return true;
+            }
+            $post['data']['id'] ? $parent_id['parent_id'] = $post['data']['id']:$parent_id['parent_id'] = $post['data']['parent_id'];
+        }else{
+        if(!isset($post['id']) && !isset($post['parent_id'])){
             return true;
         }
-        $post['id'] ? $parent_id['parent_id'] = $post['id']:$parent_id['parent_id'] = $post['parent_id'];
+        $post['id'] ? $parent_id['parent_id'] = $post['id']:$parent_id['parent_id'] = $post['parent_id'];}
         //查看操作表里有无此数据
         $project = $this->model->get_one($parent_id);
         //判断是不是在预算审核中

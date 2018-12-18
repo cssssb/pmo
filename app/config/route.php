@@ -66,7 +66,7 @@ return array(
         "travel_meal_edit" => ["travel", "meal", "edit", [], [], '1.0'],        //修改餐费
         "travel_meal_del" => ["travel", "meal", "del", [], [], '1.0'],        //删除餐费
         //11.1
-        // "examine_manage_commit" => ["examine", "manage", "commit", [], [], '0.1'],        //提交项目审批
+        // "examine_manage_commit" => ["examine", "manage", "commit", [], [], '1.0'],        //提交项目审批
         // "examine_manage_lecturer" => ["examine", "manage", "lecturer", [], [], '0.1'],        //审批讲师安排
         // "examine_manage_implement" => ["examine", "manage", "implement", [], [], '0.1'],        //审批讲师安排
         // "examine_manage_travel" => ["examine", "manage", "travel", [], [], '0.1'],        //审批讲师安排
@@ -100,7 +100,7 @@ return array(
         "menu_manage_list"=>["menu","manage","list",[],[],'1.0'],
 
         //12.10审批接口名字
-        "examine_manage_commit" => ["examine", "manage", "commit", [], [], '1.0'],        //提交项目审批
+        "examine_manage_commitbudget" => ["examine", "manage", "commitbudget", [], [], '1.0'],        //提交项目审批
         "examine_manage_will" => ["examine", "manage", "will", [], [], '1.0'],        //查看需要我审批的审批单
         "examine_manage_ipassed" => ["examine", "manage", "ipassed", [], [], '1.0'],        //查看我通过的审批单
         "examine_manage_bool" => ["examine", "manage", "bool", [], [], '1.0'],        //审批审批单
@@ -110,11 +110,12 @@ return array(
         "project_manage_returnonlyuserlist" => ["project", "manage", "returnonlyuserlist", [], [], '1.0'],    //返回项目列表
         "project_manage_returndepartmentlist" => ["project", "manage", "returndepartmentlist", [], [], '1.0'],    //返回项目列表
 
-        // //12.13预算
-        // "" => ["", "", "", [], [], '1.0'],    //查看我提交的预算审批
-        // "" => ["", "", "", [], [], '1.0'],    //查看所有人提交的预算审批
-        // "" => ["", "", "", [], [], '1.0'],    //
-        // "" => ["", "", "", [], [], '1.0'],    // 
+        // //12.17预算视图json
+        "examine_budget_list" => ["examine", "budget", "list", [], [], '1.0'],    //预算列表
+        "examine_budget_project" => ["examine", "budget", "project", [], [], '1.0'],    //获取项目信息
+        "examine_budget_lecturer" => ["examine", "budget", "lecturer", [], [], '1.0'],    //获取讲师信息
+        "examine_budget_implement" => ["examine", "budget", "implement", [], [], '1.0'],    //获取实施信息
+        "examine_budget_travel" => ["examine", "budget", "travel", [], [], '1.0'],    //获取差旅信息
         
 
     ),

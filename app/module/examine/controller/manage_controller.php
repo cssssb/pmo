@@ -22,8 +22,8 @@ class manage_controller
     public function __construct()
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
-        // $this->code = app::load_cont_class('common','user');//加载token
-        // $this->operation = app::load_service_class('operation_class','operation');//加载操作
+        $this->code = app::load_cont_class('common','user');//加载token
+        $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->notes = app::load_service_class('examine_notes_class', 'examine');//加载进程表
         $this->examine = app::load_service_class('examine_project_class', 'examine');//加载审批项目
@@ -93,6 +93,8 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
+        $post['examine_type'] = 1;
+        $post['flow_id'] = 6;
         //审批项目  如果没有发审批流id out
         // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
@@ -155,7 +157,7 @@ class manage_controller
             $data['expected_income'] = 0;
         }
         //项目利润    
-        $data['project_profit'] = $project['project_income'] - $project['costing'];
+        $data['project_profit'] = $project['project_income'] - $data['costing'];
         if(!$data['project_profit']){
             $data['project_profit'] = 0;
         }
@@ -175,12 +177,14 @@ class manage_controller
             //添加至静态表
             // $static = $this->static->model->insert($data);
         // }
+        //更新静态项目数据表
+        $project_static = \app::load_service_class('static_class','project')->static_service($post['id']);
         //点击提交预算生成静态数据
-        $static = $this->static->add_static($post['id'],1,$post['token']);
+        $examine_static = $this->static->add_static($post['id'],1,$post['token']);
         //开始输出
-        switch ($static) {
+        switch ($examine_static) {
             case   false://异常1
-                $this->data->out(3012,$post['id']);
+                $this->data->out(3021,$post['id']);
                 break;
             default:
                 $this->data->out(3013,$post['id']);
@@ -188,7 +192,7 @@ class manage_controller
     }
    
     // private  function examine_add_flow_mode(){
-        private  function examine_add_flow_mode(){
+        private  function examine_add_flow_mode($post){
 
           // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
@@ -241,23 +245,22 @@ class manage_controller
         //提交审批者的pmo_staff_user中的id，用来获取上级
         $user_id = $this->common->return_user_id($post['token']);
 
-        //通过审批流服务获取pmo_staff_user中的审批者的账号
+        
         foreach ($examine_mode as $key => $val) {
-        $admin_user_id[] = $this->flow->examine_mode_manage($examine_mode[$key]['examine_mode'],$user_id['id']);
+        $admin_user_id[$key]['user_id'] = $this->flow->examine_mode_manage($examine_mode[$key]['examine_mode'],$user_id['id'])['user_ids'];
+        $admin_user_id[$key]['mode'] = $this->flow->examine_mode_manage($examine_mode[$key]['examine_mode'],$user_id['id'])['mode'];
         }
-        // Array
-        // (                 此id是账号id
-        //     [0] => 110,1000,2000
-        //     [1] => 110,1000,2000
-        //     [2] => 1,2,1,2
-        // )
-        // print_r($admin_user_id);
-
+        //去重
+        foreach ($admin_user_id as $k => $v) {
+            $ass[$k]['user_id'] = explode(',',$v['user_id']);
+        }
+        // echo json_encode($ass);die;
+        // echo json_encode(array_unique($ass));die;
         foreach($admin_user_id as $k=>$v){
             //添加到表pmo_examine_user_flow
-            $user_ids_flow[] = $this->flow->add_user_ids_flow($v,$post['flow_id'],$post['id']);
+            $user_ids_flow[] = $this->flow->add_user_ids_flow($v['user_id'],$post['flow_id'],$post['id']);
             //根据id按顺序添加至表notes  需要添加的数据有  项目id  user_id 
-            $notes_add[] = $this->notes->add_admin_ids($post['id'],$v);
+            $notes_add[] = $this->notes->add_admin_ids($post['id'],$v['user_id'],$v['mode']);
             //1 100,1000,2000
         }
         // print_r($user_ids_flow);
@@ -399,6 +402,7 @@ class manage_controller
             $this->data->out(3017);
         }
         // return var_dump($reach);die;
+      
         //发送审批处理结果 记录至notes表
         $data = $this->notes->add($reach,$post['parent_id'],$post['examine_type'],$admin_id['id'],$post['note'],$post['pass']);
         $data?$cond = 0:$cond = 1;

@@ -95,14 +95,16 @@ final class examine_flow_class
         // }
         // $user_id = 110;
         // $user_id = 1000;
-        $user_id = 2;
+        // $user_id = 2;
         $data = $examine_mode;
         $number = substr($data,0,1);
         switch ($number) {
             //多级领导
             case 1:
-              return  $this->leader_first_mode($data,$user_id);
-                break;
+            $ass['user_ids'] = $this->leader_first_mode($data,$user_id);
+            $ass['mode'] = $examine_mode;
+            return $ass;
+            break;
             //角色
             case 2:
             // $data = [
@@ -113,18 +115,80 @@ final class examine_flow_class
             //      or
             //     'examine_mode'=>'2,3'
             // ];
-            return  $this->examine_admin_mode($data);
-                break;
+            $ass['user_ids'] = $this->examine_admin_mode($data);
+            $ass['mode'] = '2';
+            return $ass;
+            break;
             //指定用户
             case 3:
-            return  $this->examine_user_mode($data,$user_id);
+            $ass['user_ids'] = $this->examine_user_mode($data,$user_id);
+            $ass['mode'] = '3';
+            return  $ass;
                 break;
+            //第几级主管
+            case 4:
+            // $data = [
+            //     'examine_mode'=>'4,1'
+            // ];
+            // $data = [
+            //     'examine_mode'=>'4,1'
+            // ];
+            $ass['user_ids'] = $this->examine_number_leader($data,$user_id);
+            $ass['mode'] = $examine_mode;
+            return $ass;
             default:
                 // return false;
                 echo 1;
             break;
         }
         return  $admin_user_id;
+    }
+    private function examine_number_leader($data,$user_id){
+        $number = substr($data,2,1);
+        switch ($number) {
+            case 1:
+                //返回上一级主管
+                return $this->return_leader_first_user_id($user_id);
+                break;
+            case 2:
+                //返回第二级主管
+                return $this->return_number_two_leader_id($user_id);
+            case 3:
+                //返回上三级主管
+                return $this->return_number_three_leader_id($user_id);
+            default:
+                return  true;
+                break;
+        }
+    }
+    //返回第三级主管
+    private function return_number_three_leader_id($user_id){
+         //判断是不是总监
+         $isinspector = $this->bool_inspector($user_id);
+         if($isinspector){
+             return $this->return_boss();
+         }
+          //判断是不是主管
+        $isleader = $this->bool_leader($user_id);
+        if(!$isleader){
+            return $this->return_boss();
+        }
+        return $this->return_boss();
+    }
+    //返回第二级主管
+    private function return_number_two_leader_id($user_id){
+         //判断是不是总监
+         $isinspector = $this->bool_inspector($user_id);
+         if($isinspector){
+             return $this->return_boss();
+         }
+          //判断是不是主管
+        $isleader = $this->bool_leader($user_id);
+        if(!$isleader){
+            return $this->return_boss();
+        }
+        $admin_id = $this->return_the_in_department_isleader_userid($leader_id);
+        return $admin_id;
     }
     private function leader_first_mode($data,$user_id){
         // $data = [
@@ -274,7 +338,7 @@ final class examine_flow_class
     }
     private function return_boss(){
         //返回宝哥user_id
-        return 2000;
+        return 3;
     }
     //逐级审批  end|结束
     //角色   start|开始
@@ -317,5 +381,6 @@ final class examine_flow_class
         $data['pass_mode'] = $pass_mode;
         $data['parent_id'] = $parent_id;
         return $this->user_flow->insert($data);
+        
     }
 }

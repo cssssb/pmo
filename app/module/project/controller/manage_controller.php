@@ -124,6 +124,7 @@ class manage_controller
 				$this->data->out(2001,$data);
 			}
 	}
+	//转换静态数据方法
 	public function list2()
 	{
 		/**
