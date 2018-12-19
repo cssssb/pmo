@@ -32,6 +32,9 @@ class ding_controller
         $this->ding = \app::load_service_class('ding', 'user');//加载json数据模板
         $this->view = \app::load_view_class('budget_paper', 'user');//加载json数据模板
     }
+    public function t(){
+        
+    }
     public function ding_roles(){
         $token = $this->ding_token();
         $ch = curl_init();

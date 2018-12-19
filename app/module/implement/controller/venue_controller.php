@@ -68,9 +68,8 @@ class venue_controller
          */
         $post = $this->data->get_post();//获得post
         $parent_id = $this->implement->model->get_one($where);
-        echo json_encode($parent_id);die;
-        $data = $this->implement->del($post['id']);
         $where['id'] = $post['id'];
+        $data = $this->implement->del($post['id']);
         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
 
         $project_new_data?$cond = 0:$cond = 1;

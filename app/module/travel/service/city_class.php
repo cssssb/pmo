@@ -40,7 +40,7 @@ final class city_class
     //改
     public function edit_city($data){
         
-        $where['id'] = $post['id'];
+        $where['id'] = $data['id'];
        return $this->model->update($data,$where);
     }
     public function get_fee($parent_id){

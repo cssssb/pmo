@@ -96,10 +96,10 @@ class meal_controller
          $post = $this->data->get_post();//获得post
          if(!$post['id']){
              $this->data->out(3901);}
-         $ass = $this->meal->del_meal($post);
-         $where['id'] = $post['id'];
-         $parent_id = $this->meal->model->get_one($where);
-         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+             $where['id'] = $post['id'];
+             $parent_id = $this->meal->model->get_one($where);
+             $ass = $this->meal->del_meal($post);
+             $project_new_data =  $this->static->static_service($parent_id['parent_id']);
         $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {

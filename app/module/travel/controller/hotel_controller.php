@@ -101,10 +101,10 @@ class hotel_controller
          $post = $this->data->get_post();//获得post
          if(!$post['id']){
              $this->data->out(3901);}
-         $ass = $this->stay->del_stay($post);
-         $where['id'] = $post['id'];
-         $parent_id = $this->stay->model->get_one($where);
-         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
+             $where['id'] = $post['id'];
+             $parent_id = $this->stay->model->get_one($where);
+             $ass = $this->stay->del_stay($post);
+             $project_new_data =  $this->static->static_service($parent_id['parent_id']);
         $project_new_data?$cond = 0:$cond = 1;
          //开始输出
          switch ($cond) {

@@ -211,7 +211,7 @@ class manage_controller
 		// $data[$key]['examine'] = $key['id'];
 	}
 		//只用一次 导入老项目至json静态表
-	 $this->static->add_project2($data);
+	//  $this->static->add_project2($data);
 		$data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
@@ -245,6 +245,7 @@ class manage_controller
 	 * @ErrorReason:  null
 	 * ================
 	 */
+
 	public function add(){
 		$post = $this->data->get_post();
 		$user_id = $this->user->return_user_id($post['token']);

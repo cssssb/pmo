@@ -59,11 +59,11 @@ final class static_class
   * ================
   */
   public function add_project($parent_id){
-      $data['parent_id'] = $parent_id;
-      $ass['id'] = $parent_id;
-      $data['data'] = json_encode($ass);
-      return $this->model->insert($data);
+	  $data['parent_id'] = $parent_id;
+	  $this->model->insert($data);
+	  return $this->static_service($parent_id);
   }
+  
   /**
    * ================
    * @Author:        css
@@ -97,8 +97,14 @@ final class static_class
 
 	 public function static_service($parent_id){
 		//返回$parent_id获取项目的整条数据
+		// $parent_id = 45;
 		$data = $this->project->get_one_project($parent_id);
 		foreach($data as $key=>$val){
+			$data[$key]['project_traing_ares']['province'] = $val['province'];
+			$data[$key]['project_traing_ares']['city'] = $val['city'];
+			$data[$key]['project_traing_ares']['address'] = $val['address'];
+			$data[$key]['project_date']['start'] = $val['project_start_date'];
+			$data[$key]['project_date']['end'] = $val['project_end_date'];
             	//labor_cost  人工成本 计算方式为 讲师费加税的总和 1.0
 		$data[$key]['labor_cost'] = $this->lecturer->get_fee($val['id']);
 		if(!$data[$key]['labor_cost']){

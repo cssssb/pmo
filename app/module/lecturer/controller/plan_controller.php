@@ -44,12 +44,12 @@ class plan_controller
     //添加讲师安排
     public function add(){
         $post = $this->data->get_post();
-        $post['data']['parent_id']?$data["parent_id"]=$post['data']["parent_id"]:true;
-        $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
-        $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
-        $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
-        $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
-        $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
+        isset($post['data']['parent_id'])?$data["parent_id"]=$post['data']["parent_id"]:true;
+        isset($post['data']['teacher_name_id'])?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
+        isset($post['data']['teacher_income_tax'])?$data["tax"]=$post['data']["teacher_income_tax"]:true;
+        isset($post['data']['teacher_lecture_fee'])?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
+        isset($post['data']['teacher_lecture_days'])?$data["day"]=$post['data']["teacher_lecture_days"]:true;
+        isset($post['data']['teacher_duty_id'])?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
        
          $ass = $this->lecturer_list->add($data);
          $project_new_data =  $this->static->static_service($post['data']['parent_id']);
@@ -69,13 +69,13 @@ class plan_controller
     //9.29修改讲师安排
     public function edit(){
         $post = $this->data->get_post();
-        $post['data']['id']?$data["id"]=$post['data']["id"]:true;
-        $post['data']['parent_id']?$data["parent_id"]=$post['data']["parent_id"]:true;
-        $post['data']['teacher_name_id']?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
-        $post['data']['teacher_income_tax']?$data["tax"]=$post['data']["teacher_income_tax"]:true;
-        $post['data']['teacher_lecture_fee']?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
-        $post['data']['teacher_lecture_days']?$data["day"]=$post['data']["teacher_lecture_days"]:true;
-        $post['data']['teacher_duty_id']?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
+        isset($post['data']['id'])?$data["id"]=$post['data']["id"]:true;
+        isset($post['data']['parent_id'])?$data["parent_id"]=$post['data']["parent_id"]:true;
+        isset($post['data']['teacher_name_id'])?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
+        isset($post['data']['teacher_income_tax'])?$data["tax"]=$post['data']["teacher_income_tax"]:true;
+        isset($post['data']['teacher_lecture_fee'])?$data["fee"]=$post['data']["teacher_lecture_fee"]:true;
+        isset($post['data']['teacher_lecture_days'])?$data["day"]=$post['data']["teacher_lecture_days"]:true;
+        isset($post['data']['teacher_duty_id'])?$data["duty_id"]=$post['data']["teacher_duty_id"]:true;
 
         if(!$data['id']){
             $this->data->out(3901);
@@ -102,8 +102,8 @@ class plan_controller
         if(!$post['id']){
             $this->data->out(3901);
         }
-        $ass =  $this->lecturer_list->del($data);
         $parent_id = $this->lecturer_list->model->get_one($data);
+        $ass =  $this->lecturer_list->del($data);
         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
         
         $project_new_data?$cond = 0:$cond = 1;
