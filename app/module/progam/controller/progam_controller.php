@@ -38,13 +38,11 @@ class progam_controller
     }
     public function del(){
         $post = $this->data->get_post();
-        $id = $post['data']['id'];
-        echo json_encode($this->progam->del($id));exit;
+        echo json_encode($this->progam->del($post['data']));exit;
     }
     public function edit(){
         $post = $this->data->get_post();
-        $id = $post['data']['id'];
-        echo json_encode($this->progam->edit($id));exit;
+        echo json_encode($this->progam->edit($post['data']));exit;
     }
     public function get_one(){
         $post = $this->data->get_post();

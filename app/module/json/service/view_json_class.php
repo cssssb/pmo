@@ -28,8 +28,7 @@ final class view_json_class
        return  $this->model->update($data,$where);
     }
     public function list(){
-        $where['state'] = 0;
-        $data = $this->model->select($where);
+        $data = $this->model->select(1);
         foreach($data as $k=>$v){
         $data[$k]['data'] = json_decode($data[$k]['data']);
     }

@@ -26,21 +26,16 @@ final class implement_room_class
         return $this->model->insert($data);
     }
     public function edit($data){
-        $state['state'] = 1;
         $where['id'] = $data['id'];
-        $this->model->update($state,$where);
-        unset($data['id']);
         $data['time'] = date('y-m-d H:i:s',time());
-        return $this->model->insert($data);
+        return $this->model->update($data,$where);
     }
     public function del($id){
-        $data['state'] = 2;
         $where['id'] = $id;
-        return $this->model->update($data,$where);
+        return $this->model->delete($where);
     }
     public function get_project($parent_id){
         $where['parent_id'] = $parent_id;
-        $where['state'] = 0;
         return $this->model->select($where);
     }
 }

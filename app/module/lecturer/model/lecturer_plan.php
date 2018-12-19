@@ -60,7 +60,7 @@ class lecturer_plan extends \system\model {
 			LEFT JOIN pmo_lecturer_duty b on a.duty_id = b.id
 			LEFT JOIN pmo_lecturer c on a.lecturer_id = c.id
 		WHERE
-			a.parent_id = 2 
+			a.parent_id = $parent_id
 			AND a.state = 0
 		";
 		$all = $this->query($sql);

@@ -94,7 +94,6 @@ final class project_class
 	public function get_one($id)
 	{
 		$where['id'] = $id;
-		$where['state'] = 0;
 		return $this->model->get_one($where);
 	}
 	/**
@@ -164,9 +163,8 @@ final class project_class
 
 	public function delProject($post)
 	{
-		$data['state'] = 2;
 		$where['id'] = $post['id'];
-		return $this->model->update($data, $where);
+		return $this->model->delete($where);
 	}
 	/**
 	 * ================

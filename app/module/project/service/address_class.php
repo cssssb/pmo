@@ -21,10 +21,9 @@ final class address_class
         $this->model = app::load_model_class('address', 'project');
         $this->ares = app::load_model_class('ares', 'project');
     }
-    //需要修改
+    
     public function list(){
-        $where['state'] = 0;
-        $data = $this->model->list($where);
+        $data = $this->model->list();
         foreach($data as $key){
             $name['name'] = $key['province_name'].'--'.$key['city_name'].'--'.$key['name'];
             $name['id'] = $key['id'];
@@ -52,15 +51,11 @@ final class address_class
     }
     public function edit($data){
         $where['id'] = $data['id'];
-        $state['state'] = 1;
-        $this->model->update($state,$where);
-        unset($data['id']);
-        return $this->model->insert($data);
+        return $this->model->update($data,$where);
     }
     public function del($id){
         $where['id'] = $id;
-        $data['state'] = 2;
-        return $this->model->update($data,$where);
+        return $this->model->update($where);
     }
     //拼接
     public function connect($id){

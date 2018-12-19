@@ -68,17 +68,13 @@ final class examine_flow_class
     }
     public function edit_config($ass){
         $where['id'] = $ass['id'];
-        $state['state'] = 1;
-        $data = $this->model->update($state,$where);
-        unset($ass['id']);
-        return $this->model->insert($ass);
+        return  $this->model->update($ass,$where);
     }
     public function del_config($data){
-        $state['state'] = 1;
-        return $this->model->update($state,$data);
+        
+        return $this->model->delete($data);
     }
     public function list(){
-        $where['state'] = 0;
         $data = $this->model->select($where);
         return $data['name'];
     }

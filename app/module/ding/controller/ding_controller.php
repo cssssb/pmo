@@ -221,7 +221,7 @@ class ding_controller
                 'department_id' => $department_id,
                 'userid' => $k['userid'],
                 'time' => date("y-m-d"),
-                'state' => 1,
+                 'state'=> 1,
             ];
             $staff = $this->ding->add_about_staff($de_data);
             

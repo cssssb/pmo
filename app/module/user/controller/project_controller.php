@@ -29,7 +29,6 @@ class project_controller
         $this->lecturer_class = \app::load_service_class('lecturer_class', 'user');//讲师安排表
         $this->lecturer_duty_class = \app::load_service_class('lecturer_duty_class', 'user');//职责表
         $this->view = \app::load_view_class('budget_paper', 'user');//加载json数据模板
-        $this->travel = \app::load_view_class('travel_plan_class', 'user');//差旅安排
         $this->code = \app::load_cont_class('common','user');//加载token
        
 

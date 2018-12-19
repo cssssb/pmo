@@ -13,31 +13,24 @@ final class lecturer_plan_class
 
 	public function add($data)
 	{
-		
 		$data['time'] = date('y-m-d H:i:s',time());
 		return $this->model->insert($data,1);
 		
 	}
 	public  function edit($ass){
-	
 			$where['id'] = $ass['id'];
-			$data['state'] = 1;
-			$this->model->update($data,$where);
-			unset($ass['id']);
 			$ass['time'] = date('y-m-d H:i:s',time());
-			return $ass = $this->model->insert($ass);
+			return $this->model->update($ass,$where);
 	}
 
 	public function get_one($id){
 		$where['id'] = $id['id'];
-		$where['state'] = 0;
 		return $this->model->get_one($where);
 	}
 	public function del($ass)
 	{
-		$data['state'] = 2;
 		$where['id'] = $ass['id'];
-		return $this->model->update($data, $where);
+		return $this->model->delete( $where);
 	}
 	/**
 	 * ================
@@ -65,7 +58,6 @@ final class lecturer_plan_class
 	 * ================
 	 */
 	public function get_fee($parent_id){
-		$where['state'] = 0;
 		$where['parent_id'] = $parent_id;
 		$data = $this->model->select($where);
 		if($data){

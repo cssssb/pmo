@@ -56,7 +56,6 @@ final class implement_plan_class
 	 */
 	public function get_fee($parent_id){
 		$where['parent_id'] = $parent_id;
-		$where['state'] = 0;
 		$data = $this->model->get_one($where);
 		$vebue_fee = $this->room->select($where);
 		if($vebue_fee){
@@ -82,16 +81,13 @@ final class implement_plan_class
 	 */
 	public  function get_one($parent_id){
 		$where['parent_id'] = $parent_id;
-		$where['state'] = 0;
 		return 	$this->model->get_one($where);
 	}
 
 	public function edit_implement($ass){
 		 	$where['parent_id'] = $ass['parent_id'];
-			$data['state'] = 1;
-			$this->model->update($data,$where);
-			$ass['time'] = date('y-m-d H:i:s',time());
-			return  $this->model->insert($ass);
+			 $ass['time'] = date('y-m-d H:i:s',time());
+			return $this->model->update($ass,$where);
 	}
 
 		/**

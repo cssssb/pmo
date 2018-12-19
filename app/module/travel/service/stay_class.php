@@ -33,24 +33,17 @@ final class stay_class
 
     //删
     public function del_stay($post){
-       
         $where['id'] = $post['id'];
-        $data['state'] = 1;
-        return $this->model->update($data,$where);
+        return $this->model->delete($where);
     }
     //改
     public function edit_stay($post){
-       
         $where['id'] = $post['id'];
-        $data['state'] = 1;
-        $this->model->update($data,$where);
-        unset($post['id']);
-        return $this->model->insert($post);
+        return $this->model->update($post,$where);
     }
     //总价
     public function get_fee($parent_id){
         $where['parent_id'] = $parent_id;
-        $where['state'] = 0;
         $data = $this->model->select($where);
         if($data){
         foreach($data as $key){

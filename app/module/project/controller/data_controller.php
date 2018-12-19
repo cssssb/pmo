@@ -82,7 +82,7 @@ class data_controller
         
         switch($cond){
             case 1:
-            $this->data->out(2006);
+            $this->data->out(2006,[]);
             break;
             
         default:

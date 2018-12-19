@@ -30,7 +30,6 @@ class plan_controller
         // $this->view = \app::load_view_class('budget_paper', 'budget');//加载json数据模板
         $this->post = json_decode(file_get_contents('php://input'),true);
         $this->lecturer_list = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
-        $this->travel_plan = \app::load_service_class('travel_plan_class', 'budget');//加载差旅
         $this->training_cost = \app::load_service_class('training_cost_class', 'budget');//加载实施安排
         $this->lecturer = \app::load_service_class('lecturer_class', 'lecturer');//加载老师姓名
         $this->lecturer_duty = \app::load_service_class('lecturer_duty_class', 'lecturer');//加载职责

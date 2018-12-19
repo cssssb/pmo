@@ -35,21 +35,16 @@ final class city_class
     public function del_city($post){
        
         $where['id'] = $post['id'];
-        $data['state'] = 1;
-        return $this->model->update($data,$where);
+        return $this->model->delete($where);
     }
     //改
-    public function edit_city($post){
+    public function edit_city($data){
         
         $where['id'] = $post['id'];
-        $data['state'] = 1;
-        $this->model->update($data,$where);
-        unset($post['id']);
-        return $this->model->insert($post);
+       return $this->model->update($data,$where);
     }
     public function get_fee($parent_id){
         $where['parent_id'] = $parent_id;
-        $where['state'] = 0;
         $data = $this->model->select($where);
         if($data){
         foreach($data as $key){
