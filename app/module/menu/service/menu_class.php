@@ -20,35 +20,10 @@ final class menu_class
     {
         $this->model = app::load_model_class('menu', 'menu');
         $this->on = app::load_model_class('on','menu');
+        $this->static = app::load_model_class('menustatic','menu');
     }
-    public function add($data){
-        // foreach($data as $k=>$v){
-        //     $css['type'] = $data[$k];
-        //     $css['name'] = $data[$k]['name'];
-        //     $menu_id = $this->model->insert($css,1);
-        //     $acc = $data[$k]['data'];
-        //     foreach($acc as $key=>$val){
-        //     $ass['fid'] = $menu_id;
-        //     $ass['path'] = $acc[$key]['path'];
-        //     $ass['component'] = $acc[$key]['component'];
-        //     $ass['title'] = $acc[$key]['title'];
-        //     $c = $this->on->insert($ass);                
-        //     }
-        // }
-        // if($c){
-        //     return true;
-        // }else{
-        //     return false;
-        // }
-    }
-    // public function list(){
-    //     $data = $this->model->select(1);
-    //     foreach($data as $k){
-    //         $temp = $this->on->select('fid ='.$k['id']);
-    //         $date[$k['type']]['data']=$temp;
-    //         $date[$k['type']]['name']=$k['name'];
-    //     }
-    //     return $date;
+    // public function add($data){
+        
     // }
     public function list(){
         //yaojiagefuwu
@@ -60,5 +35,29 @@ final class menu_class
         }
         return $date;
     }
-     
+    public function static_list(){
+        return $this->static->select(1);
+    }
+    public function get_one_state($id){
+        $where['id'] = $id;
+        return $this->static->get_one($where);
+    }
+    public function add_static($data){
+        $data['id'] = $this->static->insert($data,true);
+        return $data;
+    }
+    public function edit_static($data){
+        $where['id'] = $data['id'];
+        return $this->static->update($data,$where);
+    }
+    public function del_static($id){
+        $where['id'] = $id;
+        return $this->static->delete($where);
+    }
+    public function listmenuleft(){
+        return $this->model->select(1);
+    }
+    public function listmenuright(){
+        return $this->on->select(1);
+    }
 }

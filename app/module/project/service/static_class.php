@@ -99,7 +99,10 @@ final class static_class
 		//返回$parent_id获取项目的整条数据
 		// $parent_id = 45;
 		$data = $this->project->get_one_project($parent_id);
+		if($data[0]['project_training_ares_id']){
+			$data[0]['project_training_ares_name'] = app::load_service_class('address_class', 'project')->connect($data[0]['project_training_ares_id']);}
 		foreach($data as $key=>$val){
+			
 			$data[$key]['project_traing_ares']['province'] = $val['province'];
 			$data[$key]['project_traing_ares']['city'] = $val['city'];
 			$data[$key]['project_traing_ares']['address'] = $val['address'];

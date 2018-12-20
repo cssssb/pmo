@@ -94,10 +94,11 @@ return array(
         "role_view_del"=>["role","view","del",[],[],'0.1'],
         "role_view_list"=>["role","view","list",[],[],'0.1'],
         //菜单管理
-        "menu_manage_add"=>["menu","manage","add",[],[],'1.0'],
-        "menu_manage_edit"=>["menu","manage","edit",[],[],'0.1'],
-        "menu_manage_del"=>["menu","manage","del",[],[],'0.1'],
-        "menu_manage_list"=>["menu","manage","list",[],[],'1.0'],
+        "menu_manage_addmenu"=>["menu","manage","add",[],[],'1.0'],   //静态菜单数据的添加
+        "menu_manage_editmenu"=>["menu","manage","edit",[],[],'1.0'],//静态菜单数据的修改
+        "menu_manage_del"=>["menu","manage","del",[],[],'1.0'],//静态菜单数据的删除
+        "menu_manage_list"=>["menu","manage","list",[],[],'1.0'],//菜单的列表（非静态）
+       
 
         //12.10审批接口名字
         "examine_manage_commitbudget" => ["examine", "manage", "commitbudget", [], [], '1.0'],        //提交项目审批
@@ -117,6 +118,10 @@ return array(
         "examine_budget_implement" => ["examine", "budget", "implement", [], [], '1.0'],    //获取实施信息
         "examine_budget_travel" => ["examine", "budget", "travel", [], [], '1.0'],    //获取差旅信息
         
-
+        //12.20 
+        "menu_data_list"=>["menu","data","list",[],[],'1.0'],                   //菜单的静态列表
+        "menu_data_listmenuleft"=>["menu","data","listmenuleft",[],[],'1.0'],//左侧菜单的列表
+        "menu_data_listmenuright"=>["menu","data","listmenuright",[],[],'1.0'],//偏右左侧菜单的列表
+        "menu_data_getone"=>["menu","data","getone",[],[],'1.0'],//获取一条菜单的静态列表
     ),
 );

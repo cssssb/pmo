@@ -211,7 +211,7 @@ class manage_controller
 		// $data[$key]['examine'] = $key['id'];
 	}
 		//只用一次 导入老项目至json静态表
-	//  $this->static->add_project2($data);
+	 $this->static->add_project2($data);
 		$data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {

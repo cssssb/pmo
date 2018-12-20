@@ -33,28 +33,71 @@ class manage_controller
          * ================
          * @Author:    css
          * @ver:       1.0
-         * @DataTime:  2018-11-30
+         * @DataTime:  2018-12-20
          * @describe:  add function
          * ================
          */
         $post = $this->data->get_post();//获得post
-        // $post['data']['data'] = json_encode($post['data']['data']);
-        $data = $this->menu->add($post['data']);
+       
+        $data = $this->menu->add_static($post['data']);
         $data?$cond = 0:$cond = 1;
+        
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2004);
+                $this->data->out(2004,[]);
                 break;
             default:
-                $this->data->out(2003,$post['data']);
+                $this->data->out(2003,$data);
             }
     }
-    public function test(){
-        $data = "
-        ";
-            $ass = json_decode(json_encode($data));
-        return  $ass;
+   
+    public function edit()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2018-12-20
+         * @describe:  edit function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        
+        $data = $this->menu->edit_static($post['data']);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2006,[]);
+                break;
+            default:
+                $this->data->out(2005,$data);
+            }
+    }
+    public function del()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2018-12-20
+         * @describe:  del function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->menu->del_static($post['id']);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2009,[]);
+                break;
+            default:
+                $this->data->out(2008,$data);
+            }
     }
     //list需修改
     public function list()
@@ -80,28 +123,5 @@ class manage_controller
                 $this->data->out(2001,$data);
             }
     }
-    public function edit()
-    {
-        /**
-         * ================
-         * @Author:    css
-         * @ver:       1.0
-         * @DataTime:  2018-12-04
-         * @describe:  edit function
-         * ================
-         */
-        $post = $this->data->get_post();//获得post
-        $data = $this->menu->edit($post['data']['data']);
-        
-        $data?$cond = 0:$cond = 1;
-        
-        //开始输出
-        switch ($cond) {
-            case   1://异常1
-                $this->data->out();
-                break;
-            default:
-                $this->data->out();
-            }
-    }
+    
 }

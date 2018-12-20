@@ -94,7 +94,7 @@ class manage_controller
          */
         $post = $this->data->get_post();//获得post
         $post['examine_type'] = 1;
-        $post['flow_id'] = 6;
+        $post['flow_id'] = 1;
         //审批项目  如果没有发审批流id out
         // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
@@ -251,9 +251,7 @@ class manage_controller
         $admin_user_id[$key]['mode'] = $this->flow->examine_mode_manage($examine_mode[$key]['examine_mode'],$user_id['id'])['mode'];
         }
         //去重
-        foreach ($admin_user_id as $k => $v) {
-            $ass[$k]['user_id'] = explode(',',$v['user_id']);
-        }
+       
         // echo json_encode($ass);die;
         // echo json_encode(array_unique($ass));die;
         foreach($admin_user_id as $k=>$v){

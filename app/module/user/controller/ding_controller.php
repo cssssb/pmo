@@ -1,23 +1,9 @@
 <?php
 namespace user;
 
-// use system\ding_password;
-
-
-// echo "load ding_controller";
-// echo  microtime();
-// echo "\n";
 
 defined('IN_LION') or exit('No permission resources.');
 
-/**
- * ================
- * @Author:    css
- * @ver:       ding_user
- * @DataTime:  2018-08-21
- * @describe:  V1.0
- * ================
- */
 class ding_controller
 {
     private $view;
@@ -26,9 +12,6 @@ class ding_controller
      */
     public function __construct()
     {   
-        // $this->ding_corp = \app::load_config('ding_password');//
-        // $this->ding_corp = \app::load_config('ding_password');//
-        // var_dump($this->ding_corp());
         $this->ding = \app::load_service_class('ding', 'user');//加载json数据模板
         $this->view = \app::load_view_class('budget_paper', 'user');//加载json数据模板
     }
@@ -44,7 +27,7 @@ class ding_controller
         $data = curl_exec($ch);
         $ass = json_decode($data, true);
         curl_close($ch);
-        print_R($ass);
+        return $ass;
     }
     //token
     public function ding_token()
@@ -68,13 +51,9 @@ class ding_controller
         }
 
     }
-    //部门
-    public function ding_department()
-    {
-        $token = $this->ding_token();
+    private function url($url){
         $ch = curl_init();
-        // $url =  "https://oapi.dingtalk.com/user/list?access_token=32963d3d918d3452bb7dc3d99c96213e&department_id=26509421";
-        $url = "https://oapi.dingtalk.com/department/list?access_token=" . $token;
+
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -82,6 +61,14 @@ class ding_controller
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $data = curl_exec($ch);
         curl_close($ch);
+        return $data;
+    }
+    //部门
+    public function ding_department()
+    {
+        $token = $this->ding_token();
+        $url = "https://oapi.dingtalk.com/department/list?access_token=" . $token;
+        $data = $this->url($url);
         $ass = json_decode($data, true);
         // echo '<pre>';
         // print_r($ass);die;
@@ -109,54 +96,18 @@ class ding_controller
             echo 2;die;
         }
         // return $department;
-        // echo '<pre>';
-        // print_r($department);die;
-
-    }
-
-    public function ding_bug()
-    {
-        $member = $this->ding_member();
-
-        $token = $this->ding_token();
-        foreach ($member as $members) {
-            $ch = curl_init();
-            $url = "https://oapi.dingtalk.com/user/list?access_token=" . $token . "&department_id=" . $members['id'];
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            $data = curl_exec($ch);
-            curl_close($ch);
-            $ass[$members['name']] = json_decode($data, true);
-        }
-        foreach ($ass as $k => $v) {
-            $list[] = $ass[$k]['userlist'];
-        }
-        foreach ($list as $k) {
-            foreach ($k as $v) {
-                $css[] = $v;
-            }
-        }
         echo '<pre>';
-        print_r( $ass);die;
+        print_r($department);die;
+
     }
+
     //获取公司所有员工的所有信息
     public function ding_about_staff(){
         $token = $this->ding_token();
         $member = $this->ding->slelct_department();
         foreach($member as $members){
-            $ch = curl_init();
             $url = "https://oapi.dingtalk.com/user/list?access_token=" . $token . "&department_id=" . $members['department_id'];
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);    
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            $data = curl_exec($ch);
-
-            curl_close($ch);
+            $data = $this->url($url);
             $ass[] = json_decode($data, true);
         }
         foreach ($ass as $k => $v) {
@@ -167,8 +118,8 @@ class ding_controller
                 $css[] = $v;
             }
         }
-        //  echo '<pre>';
-        // print_r( $ass);die;
+        echo '<pre>';
+       print_r($css);die;
         return $css;
        
     }
@@ -203,7 +154,7 @@ class ding_controller
             ];
             $where['unionid'] = $k['unionid'];
             $have = $this->ding->get_one_role($where);
-            // var_dump($have);die;
+            var_dump($have);die;
             if (!$have) {
             $this->ding->add_staff_user($data);}
         }

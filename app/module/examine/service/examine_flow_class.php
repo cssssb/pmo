@@ -343,13 +343,13 @@ final class examine_flow_class
     // $data = '2,1,2';
         //首先获取是哪个角色组
         $role_group = substr($data,2,1);
-        $role_id = substr($data,4,1);
+        $role_id = substr($data,4);
         //接着获取是哪个角色组下的角色id中的所在的人的user_ids
         // $where['id'] = $role_group;
         // $role_id = $this->role_group->get_one($where);//无用
-        $user_ids_array = $this->role_route->get_one('id='.$role_id);
+        // $user_ids_array = $this->user->get_one('user_id='.$role_id);
 
-        return $user_ids_array['user_ids'];
+        return $role_id;
     }
     //依次通过
     private function pass_mode_first($user_ids){
