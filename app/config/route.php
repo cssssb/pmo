@@ -94,8 +94,8 @@ return array(
         "role_view_del"=>["role","view","del",[],[],'0.1'],
         "role_view_list"=>["role","view","list",[],[],'0.1'],
         //菜单管理
-        "menu_manage_addmenu"=>["menu","manage","add",[],[],'1.0'],   //静态菜单数据的添加
-        "menu_manage_editmenu"=>["menu","manage","edit",[],[],'1.0'],//静态菜单数据的修改
+        "menu_manage_add"=>["menu","manage","add",[],[],'1.0'],   //静态菜单数据的添加
+        "menu_manage_edit"=>["menu","manage","edit",[],[],'1.0'],//静态菜单数据的修改
         "menu_manage_del"=>["menu","manage","del",[],[],'1.0'],//静态菜单数据的删除
         "menu_manage_list"=>["menu","manage","list",[],[],'1.0'],//菜单的列表（非静态）
        

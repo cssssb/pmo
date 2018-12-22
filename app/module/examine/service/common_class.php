@@ -59,5 +59,4 @@ final class common_class
         return $this->staff_user->get_the_leader_department($data['department']);
     }
     
-    
 }

@@ -63,6 +63,7 @@ class data_controller
          */
         $post = $this->data->get_post();//获得post
         $data = $this->menu->get_one_state($post['id']);
+        $data['data'] = json_decode($data['data']);
         $data?$cond = 0:$cond = 1;
         
         //开始输出
@@ -97,7 +98,26 @@ class data_controller
                $this->data->out(2001,$data);
            }
    }
-
+   public function test(){
+    //    $a = false;
+    //    switch ($a) {
+    //        case '0':
+    //            echo '$a=0';
+    //            break;
+    //         case 0:
+    //         echo '$a 自然数0';
+    //             break;
+    //         case false:
+    //         echo '数字0 为假';
+    //             break;
+    //        default:
+               
+    //            break;
+    //    }
+    //    echo '？？结果试试啊';
+    $parent_id = 2;
+        print_r(app::load_model_class('project', 'project')->get_one_project($parent_id));
+   }
    public function listmenuright()
    {
        /**

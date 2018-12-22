@@ -78,7 +78,7 @@ class manage_controller
      * @Parameter:     
      * @DataTime:      2018-11-02
      * @Return:        bool
-     * @Notes:         提交审批+创建审批流
+     * @Notes:         提交预算审批+创建审批流
      * @ErrorReason:   null
      * ================
      */ 
@@ -93,8 +93,7 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $post['examine_type'] = 1;
-        $post['flow_id'] = 1;
+        
         //审批项目  如果没有发审批流id out
         // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
@@ -104,74 +103,39 @@ class manage_controller
         //     'examine_type'=>'1',//1为预算 2为决算
         //     'flow_id'=>1,//审批流id
         // ];
-        $notes = $this->examine->commit($post['id'],$post['token'],$post['examine_type'],$post['flow_id']);
+            
+
+        //首先判断此条项目状态是否已经在审批中 在审批中不添加                           12/21新增
+        if( $this->examine->is_send_examine($post['id'])){
+            $this->data->out(3022,[]);
+        }
+        $examine_type=1;//审批类型为预算 1：预算 2：决算
+        $flow_id = 1;//暂时用1号审批流 //@todo 审批流 审批类型配置时完善
+        
+        //将项目状态切换为已提交
+        
+        //更新项目静态数据
+        
+        //点击提交预算生成静态数据
+        $examine_static = $this->static->add_static($post['id'],1,$post['token']);
+        //添加预算审批项目
+        $commit = $this->examine->commit($post['id'],$post['token'],$examine_type,$flow_id,$examine_static);
+
         // $notes = $this->examine->commit($parent_id,$token,$examine_tyoe,$flow_id);
-        if(!$notes){
+        if(!$commit){
+            //添加失败
             $this->data->out(2004,$post['id']);
         }
-        //添加金额
-        $data['labor_cost'] = $this->lecturer->get_fee($post['id']);//人工成本总和
-        
-        if(!$data['labor_cost']){
-            $data['labor_cost'] = 0;
-        }
-        $data['implementation_cost'] = $this->implement->get_fee($post['id']);//实施成本总和
-        if(!$data['implementation_cost']){
-            $data['implementation_cost'] = 0;
-        }
-        $data['stay'] = $this->stay->get_fee($post['id']);//住宿成本
-        if(!$data['stay']){
-            $data['stay'] = 0;
-        }
-        $data['city'] = $this->city->get_fee($post['id']);//市内交通
-        if(!$data['city']){
-            $data['city'] = 0;
-        }
-        $data['province'] = $this->province->get_fee($post['id']);//长途交通
-        if(!$data['province']){
-            $data['province'] = 0;
-        }
-        $data['meal'] = $this->meal->get_fee($post['id']);//餐费
-        if(!$data['meal']){
-            $data['meal'] = 0;
-        }
-        //travel_cost 差旅成本 计算方式为长途交通、市内交通、住宿、餐饮相加
-        $data['travel_cost'] = $data['stay']+$data['city']+$data['province']+$data['meal'];
-        if(!$data['travel_cost']){
-            $data['travel_cost'] = 0;
-        }
-        $project = $this->project->get_body($post['id']);
-        //咨询成本 consulting_cost
-        $data['consulting_cost'] = $project['institutional_consulting_fees'] + $project['personal_consulting_fees'];
-        if(!$data['consulting_cost']){
-            $data['consulting_cost'] = 0;
-        }
-        //成本合计 
-        $data['costing'] = $data['labor_cost'] + $data['implementation_cost'] + $data['travel_cost'] + $data['consulting_cost'];
-        if(!$data['costing']){
-            $data['costing'] = 0;
-        }
-        //预计收入
-        $data['expected_income'] = $project['project_income'];
-        if(!$data['expected_income']){
-            $data['expected_income'] = 0;
-        }
-        //项目利润    
-        $data['project_profit'] = $project['project_income'] - $data['costing'];
-        if(!$data['project_profit']){
-            $data['project_profit'] = 0;
-        }
-        //毛利率
-        $data['gross_interest_rate'] = round($data['project_profit']/$data['expected_income']*100,2).'%';
-        if(!$data['gross_interest_rate']){
-            $data['gross_interest_rate'] = 0;
-        }
-       
-        $fee = $this->examine->add_fee($data,$post['id']);
-        if(!$fee){
-            $this->data->out(3012,$post['id']);
-        }
-        $ass = $this->examine_add_flow_mode($post);
+
+        // //添加金额
+        // $static_fee = $this->static_fee($post['id']);
+        // if(!$static_fee){
+        //     //如果静态金额添加失败
+        //     $this->data->out(3012,$parent_id);
+        // }
+
+        //生成审批项目
+        $ass = $this->examine_add_flow_mode($post['id'],$post['token'],$flow_id,$examine_static,$examine_type);
         // if($ass){
             //添加至不可操作表
             //添加至静态表
@@ -179,10 +143,8 @@ class manage_controller
         // }
         //更新静态项目数据表
         $project_static = \app::load_service_class('static_class','project')->static_service($post['id']);
-        //点击提交预算生成静态数据
-        $examine_static = $this->static->add_static($post['id'],1,$post['token']);
         //开始输出
-        switch ($examine_static) {
+        switch ($project_static) {
             case   false://异常1
                 $this->data->out(3021,$post['id']);
                 break;
@@ -190,11 +152,85 @@ class manage_controller
                 $this->data->out(3013,$post['id']);
              }
     }
-   
-    // private  function examine_add_flow_mode(){
-        private  function examine_add_flow_mode($post){
 
-          // $post['id'] = 2;
+
+        //添加至静态金额表
+        // private function static_fee($parent_id){
+        //     $data['labor_cost'] = $this->lecturer->get_fee($parent_id);//人工成本总和
+        
+        // if(!$data['labor_cost']){
+        //     $data['labor_cost'] = 0;
+        // }
+        // $data['implementation_cost'] = $this->implement->get_fee($parent_id);//实施成本总和
+        // if(!$data['implementation_cost']){
+        //     $data['implementation_cost'] = 0;
+        // }
+        // $data['stay'] = $this->stay->get_fee($parent_id);//住宿成本
+        // if(!$data['stay']){
+        //     $data['stay'] = 0;
+        // }
+        // $data['city'] = $this->city->get_fee($parent_id);//市内交通
+        // if(!$data['city']){
+        //     $data['city'] = 0;
+        // }
+        // $data['province'] = $this->province->get_fee($parent_id);//长途交通
+        // if(!$data['province']){
+        //     $data['province'] = 0;
+        // }
+        // $data['meal'] = $this->meal->get_fee($parent_id);//餐费
+        // if(!$data['meal']){
+        //     $data['meal'] = 0;
+        // }
+        // //travel_cost 差旅成本 计算方式为长途交通、市内交通、住宿、餐饮相加
+        // $data['travel_cost'] = $data['stay']+$data['city']+$data['province']+$data['meal'];
+        // if(!$data['travel_cost']){
+        //     $data['travel_cost'] = 0;
+        // }
+        // $project = $this->project->get_body($parent_id);
+        // //咨询成本 consulting_cost
+        // $data['consulting_cost'] = $project['institutional_consulting_fees'] + $project['personal_consulting_fees'];
+        // if(!$data['consulting_cost']){
+        //     $data['consulting_cost'] = 0;
+        // }
+        // //成本合计 
+        // $data['costing'] = $data['labor_cost'] + $data['implementation_cost'] + $data['travel_cost'] + $data['consulting_cost'];
+        // if(!$data['costing']){
+        //     $data['costing'] = 0;
+        // }
+        // //预计收入
+        // $data['expected_income'] = $project['project_income'];
+        // if(!$data['expected_income']){
+        //     $data['expected_income'] = 0;
+        // }
+        // //项目利润    
+        // $data['project_profit'] = $project['project_income'] - $data['costing'];
+        // if(!$data['project_profit']){
+        //     $data['project_profit'] = 0;
+        // }
+        // //毛利率
+        // $data['gross_interest_rate'] = round($data['project_profit']/$data['expected_income']*100,2).'%';
+        // if(!$data['gross_interest_rate']){
+        //     $data['gross_interest_rate'] = 0;
+        // }
+       
+        // return $this->examine->add_fee($data,$parent_id);
+        
+        // }
+        // private  function examine_add_flow_mode(){
+        // private  function examine_add_flow_mode($post){
+        /**
+         * ================
+         * @Author:        css
+         * @Parameter:     添加审批节点
+         * @DataTime:      2018-12-21
+         * @Return:        boolen
+         * @Notes:         添加审批节点
+         * @ErrorReason:   
+         * ================
+         */
+        private  function examine_add_flow_mode($project_id,$token,$flow_id,$static_id,$examine_type){
+
+        // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
         // $post = [
         //     'token'=>'qevQh36mj2',
@@ -206,7 +242,7 @@ class manage_controller
         //一、创建审批节点
         //1、获取审批流
         //获取审批流方式
-       $examine_mode = $this->flow->get_one_mode($post['flow_id']);
+       $examine_mode = $this->flow->get_one_mode($flow_id);
 
                                 //        Array
                                 //         (
@@ -243,7 +279,7 @@ class manage_controller
                                 // )
         // $examine_mode = 
         //提交审批者的pmo_staff_user中的id，用来获取上级
-        $user_id = $this->common->return_user_id($post['token']);
+        $user_id = $this->common->return_user_id($token);
 
         
         foreach ($examine_mode as $key => $val) {
@@ -256,13 +292,14 @@ class manage_controller
         // echo json_encode(array_unique($ass));die;
         foreach($admin_user_id as $k=>$v){
             //添加到表pmo_examine_user_flow
-            $user_ids_flow[] = $this->flow->add_user_ids_flow($v['user_id'],$post['flow_id'],$post['id']);
+            // $user_ids_flow[] = $this->flow->add_user_ids_flow($v['user_id'],$flow_id,$project_id);
             //根据id按顺序添加至表notes  需要添加的数据有  项目id  user_id 
-            $notes_add[] = $this->notes->add_admin_ids($post['id'],$v['user_id'],$v['mode']);
+            $notes_add[] = $this->notes->add_admin_ids($project_id,$v['user_id'],$v['mode'],$static_id,$examine_type);
             //1 100,1000,2000
         }
         // print_r($user_ids_flow);
-        if($user_ids_flow && $notes_add){
+        // if($user_ids_flow && $notes_add){
+        if($notes_add){    
             //提交审批成功
             return true;
         }else{
@@ -311,10 +348,13 @@ class manage_controller
          */
         $post = $this->data->get_post();//获得post
         // $post = [
-        //     'token'=>'qevQh36mj2'
+        //     'token'=>'BHzUAkcjux'
         // ];
         $admin_id = $this->common->return_user_id($post['token']);
         //查看待我审批的审批项目的id 并去重
+        /*
+            返回的不应该是项目id 应该是静态数据的id
+        */
         $parent_id = $this->admin->return_examine_for_me_parent_id($admin_id['id']);
         //获取审批的项目的详细数据
         // $data = $this->project->return_project_data($parent_id);
@@ -359,7 +399,7 @@ class manage_controller
             }
     }
 
-    //审批审批单
+    //审批审批单 shenpidan id12/21
     public function bool()
     {
         /**
@@ -376,7 +416,7 @@ class manage_controller
         //     'examine_type'=>'1',
         //     'token'=>'qevQh36mj2',
         //     'note'=>'2333',
-        //     'pass'=>'1'.
+        //     'is_pass'=>'1'.
         
         // ];
         $post['examine_type'] = 1;

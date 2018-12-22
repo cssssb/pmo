@@ -112,13 +112,13 @@ final class examine_flow_class
             //     'examine_mode'=>'2,3'
             // ];
             $ass['user_ids'] = $this->examine_admin_mode($data);
-            $ass['mode'] = '2';
+            $ass['mode'] = $examine_mode;
             return $ass;
             break;
             //指定用户
             case 3:
             $ass['user_ids'] = $this->examine_user_mode($data,$user_id);
-            $ass['mode'] = '3';
+            $ass['mode'] = $examine_mode;
             return  $ass;
                 break;
             //第几级主管
@@ -133,8 +133,7 @@ final class examine_flow_class
             $ass['mode'] = $examine_mode;
             return $ass;
             default:
-                // return false;
-                echo 1;
+                return false;
             break;
         }
         return  $admin_user_id;

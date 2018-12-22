@@ -26,7 +26,10 @@ final class examine_notes_class
     }
     public function examine_state($parent_id){
         $where['parent_id'] = $parent_id;
-        $data = $this->header->get_one($where);
+        $data = $this->header->get_one($where,'*','id DESC');
+        if($data['state']){
+            return 4;
+        }
         return $data['state'];
     }
      /**
@@ -83,10 +86,11 @@ final class examine_notes_class
      * @ErrorReason:   
      * ================
      */ 
-     public function add_admin_ids($parent_id,$user_ids,$mode,$examine_type=1){
+     public function add_admin_ids($parent_id,$user_ids,$mode,$static_id,$examine_type){
          $data['parent_id'] = $parent_id;
          $user_ids = explode(',',$user_ids);
          $ass = $mode;
+         //判断是逐级 还是角色  还是 指定人  还是第几级主管
          if(substr($ass,0,1)==4){
             $ass = 4;
          }elseif(substr($ass,0,1)==1){
@@ -100,6 +104,7 @@ final class examine_notes_class
              $data['mode'] = $ass;
              $data['additional'] = $additional;
              $data['examine_type'] = $examine_type;
+             $data['static_id'] = $static_id;
              $ass = $this->model->insert($data);
          }
          if($ass){
@@ -113,7 +118,8 @@ final class examine_notes_class
                  return '逐级';
                  break;
             case 2:
-                 return '角色';
+                 //把角色的名称返回
+                return  app::load_model_class('role_route', 'examine')->get_one('id='.substr($mode,2,1))['name'];
                  break;
             case 3:
                  return '指定人';

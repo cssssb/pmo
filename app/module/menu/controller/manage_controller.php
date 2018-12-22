@@ -38,7 +38,7 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-       
+        $post['data']['data'] = json_encode($post['data']['data'],JSON_UNESCAPED_UNICODE);
         $data = $this->menu->add_static($post['data']);
         $data?$cond = 0:$cond = 1;
         
@@ -63,7 +63,6 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        
         $data = $this->menu->edit_static($post['data']);
         $data?$cond = 0:$cond = 1;
         

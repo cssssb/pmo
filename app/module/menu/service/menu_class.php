@@ -43,11 +43,12 @@ final class menu_class
         return $this->static->get_one($where);
     }
     public function add_static($data){
-        $data['id'] = $this->static->insert($data,true);
-        return $data;
+        $ass['id'] = $this->static->insert($data,true);
+        return $ass;
     }
     public function edit_static($data){
         $where['id'] = $data['id'];
+        $data['data'] = json_encode($data['data'],JSON_UNESCAPED_UNICODE); 
         return $this->static->update($data,$where);
     }
     public function del_static($id){

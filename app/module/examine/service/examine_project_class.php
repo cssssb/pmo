@@ -23,7 +23,25 @@ final class examine_project_class
         $this->fee = app::load_model_class('examine_project_fee', 'examine');
         $this->user = app::load_model_class('user', 'user');
     }
-    
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     is_examining
+     * @DataTime:      2018-12-21
+     * @Return:        int
+     * @Notes:         是否已经发送审批 返回审批项目状态字段 如果没有此审批字段返回int值4
+     * @ErrorReason:   
+     * ================
+     */
+     public function is_send_examine($parent_id){
+         $where ="parent_id = $parent_id and state in(0,1)";//存在待审批或已通过
+        $data = $this->model->get_one($where);
+        if($data){
+            return true;
+        }else{
+        return false;}
+     }
+
      /**
      * ================
      * @Author:        css
@@ -34,12 +52,21 @@ final class examine_project_class
      * @ErrorReason:   null
      * ================
      */
-    public function commit($parent_id,$token,$examine_type,$flow_id){
-        $where['token'] = $token;
-        $username = $this->user->get_one($where);
-        $model['apply_user'] = $username['id'];
+    public function commit($parent_id,$token,$examine_type,$flow_id,$static){
+        /*
+            提交人并不为点击提交预算者。
+            是项目的项目经理
+            已修改
+        */
+        // $where['token'] = $token;
+        // $username = $this->user->get_one($where);
+        // $model['apply_user'] = $username['id'];
+
+        //apply_user是项目负责人的id
+        $model['apply_user'] = app::load_model_class('project', 'project')->get_one_project($parent_id)[0]['project_leader_id'];
         $model['time'] = date('Y-m-d H:i:s',time());
         $model['parent_id'] = $parent_id;
+        $model['static_id'] = $static;
         return $this->model->insert($model);
     }
     /**

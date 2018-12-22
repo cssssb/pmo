@@ -20,7 +20,8 @@ final class examine_static_class
     {
         $this->model = app::load_model_class('examine_static', 'examine');
     }
-    public function add_static($parent_id,$examine_type,$token){
+
+    public function add_static($parent_id,$examine_type,$token,$func){
         //获取项目信息
         $unicode=app::load_service_class('project_class','project')->get_one($parent_id)['unicode'];
         $project_name = app::load_service_class('project_class','project')->project_name($parent_id);
@@ -50,7 +51,7 @@ final class examine_static_class
         $json['version'] = $this->version($parent_id,$examine_type);
         $json['examine_type'] = $examine_type;
         $json['user_name'] = app::load_service_class('common_class', 'examine')->return_staff_user_id($token)['name'];
-        return $this->model->insert($json);
+        return $this->model->insert($json,true);
     }
     
     //公共获取

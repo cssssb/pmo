@@ -169,8 +169,19 @@ final class static_class
 	}
 		// echo json_encode($data);die;
 		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);
-		$a = $this->examine->examine_state($val['id']);
-		$a ? $data[$key]['examine']['budget']['state'] = $a:$data[$key]['examine']['budget']['state']="0";//0为未提交 1为审批中 2为审批通过 -1为审批未通过
+		$examine_state_number = $this->examine->examine_state($val['id']);
+		switch ($examine_state_number) {
+			case '0':
+				//0是待审批
+				$examine_state_number = 1;
+				break;
+			case '1':
+				$examine_state_number = 2;
+			default:
+				break;
+		}
+		/***biaoji   12/21 */
+		$examine_state_number==4 ? $data[$key]['examine']['budget']['state'] = 0:$data[$key]['examine']['budget']['state']=$examine_state_number;//0为未提交 1为审批中 2为审批通过 -1为审批未通过
 		// $data[$key]['examine']['finalAccounts']['step'] ? $data[$key]['examine']['finalAccounts']['step']:"0";
 		// $data[$key]['examine']['finalAccounts']['state'] ? $data[$key]['examine']['finalAccounts']['state'] :"0";
 		$data[$key]['examine']['finalAccounts']['step'] = [];//决算详细数据
