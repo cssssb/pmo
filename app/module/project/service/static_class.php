@@ -93,7 +93,9 @@ final class static_class
 	 * @ErrorReason:   
 	 * ================
      */
-    
+	
+	 
+	 
 
 	 public function static_service($parent_id){
 		//返回$parent_id获取项目的整条数据
@@ -170,24 +172,17 @@ final class static_class
 		// echo json_encode($data);die;
 		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);
 		$examine_state_number = $this->examine->examine_state($val['id']);
-		switch ($examine_state_number) {
-			case '0':
-				//0是待审批
-				$examine_state_number = 1;
-				break;
-			case '1':
-				$examine_state_number = 2;
-			default:
-				break;
-		}
-		/***biaoji   12/21 */
-		$examine_state_number==4 ? $data[$key]['examine']['budget']['state'] = 0:$data[$key]['examine']['budget']['state']=$examine_state_number;//0为未提交 1为审批中 2为审批通过 -1为审批未通过
+		//0为未提交 1为审批中 2为审批通过 -1为审批未通过
+		$data[$key]['examine']['budget']['state'] = $examine_state_number;
+
+		// $examine_state_number==4 ? $data[$key]['examine']['budget']['state'] = '0':$data[$key]['examine']['budget']['state']=$examine_state_number;//0为未提交 1为审批中 2为审批通过 -1为审批未通过
 		// $data[$key]['examine']['finalAccounts']['step'] ? $data[$key]['examine']['finalAccounts']['step']:"0";
 		// $data[$key]['examine']['finalAccounts']['state'] ? $data[$key]['examine']['finalAccounts']['state'] :"0";
-		$data[$key]['examine']['finalAccounts']['step'] = [];//决算详细数据
-		$data[$key]['examine']['finalAccounts']['state'] = '0';//决算
+		$data[$key]['examine']['finalAccounts']['step'] = $this->examine->examine_notes_list($val['id'],2);//决算详细数据
+		$data[$key]['examine']['finalAccounts']['state'] = $this->examine->examine_state($val['id'],2);;//决算
 
-        $id['parent_id'] = $val['id'];
+		$id['parent_id'] = $val['id'];
+	
 		$json_data['data'] = json_encode($data[$key],JSON_UNESCAPED_UNICODE);
 		$json_data['user_id'] = $this->project->model->get_one('id='.$parent_id)['add_user_id'];
 		return $this->model->update($json_data,$id);
@@ -207,7 +202,7 @@ final class static_class
 		 $where['user_id'] = $user_id;
 		 $data = $this->model->select($where);
 		 foreach ($data as $key ) {
-			 $ass[] =json_decode($key['data']);
+			 $ass[] =json_decode($key['data'],true);
 		 }
 		 return $ass;
 }

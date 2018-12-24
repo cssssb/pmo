@@ -48,16 +48,7 @@ final class operation_class
             return true;
         }
         $post['id'] ? $parent_id['parent_id'] = $post['id']:$parent_id['parent_id'] = $post['parent_id'];}
-        //查看操作表里有无此数据
-        $project = $this->model->get_one($parent_id);
-        //判断是不是在预算审核中
-        if($project['state']==1){
-            return $this->data->out(3019,[]);
-        }
-        //判断是不是在决算审核中
-        if($project['state']==2){
-            return $this->data->out(3020,[]);
-        }
+        
         //把通过token查询变成用户id查询
         $user = $this->user->get_one("token='$token'");
         if(!$user){

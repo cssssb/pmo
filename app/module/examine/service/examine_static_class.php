@@ -21,7 +21,16 @@ final class examine_static_class
         $this->model = app::load_model_class('examine_static', 'examine');
     }
 
-    public function add_static($parent_id,$examine_type,$token,$func){
+    public function add_static($parent_id,$examine_type,$token){
+        
+        $json['parent_id'] = $parent_id;
+        $json['version'] = $this->version($parent_id,$examine_type);
+        $json['examine_type'] = $examine_type;
+        $json['user_name'] = app::load_service_class('common_class', 'examine')->return_staff_user_id($token)['name'];
+        return $this->model->insert($json,true);
+    }
+    
+    public function edit_static($parent_id,$examine_type,$state=''){
         //获取项目信息
         $unicode=app::load_service_class('project_class','project')->get_one($parent_id)['unicode'];
         $project_name = app::load_service_class('project_class','project')->project_name($parent_id);
@@ -47,13 +56,12 @@ final class examine_static_class
         $data['travel_get_project']['province'] = app::load_service_class('province_class', 'travel')->list_province($parent_id);
         $data['travel_get_project']['stay'] = app::load_service_class('stay_class', 'travel')->list_stay($parent_id);
         $json['data'] = json_encode($data,JSON_UNESCAPED_UNICODE);
-        $json['parent_id'] = $data['project_get_one']['id'];
-        $json['version'] = $this->version($parent_id,$examine_type);
-        $json['examine_type'] = $examine_type;
-        $json['user_name'] = app::load_service_class('common_class', 'examine')->return_staff_user_id($token)['name'];
-        return $this->model->insert($json,true);
+        $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $examine_type;
+        
+        return $this->model->update($json,$where);
     }
-    
+
     //公共获取
     private function common_list(){
         $data = $this->model->select(1);

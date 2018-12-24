@@ -202,8 +202,8 @@ class manage_controller
 	}
 		
 		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);
-		$a = $this->examine->examine_state($val['id']);
-		$a ? $data[$key]['examine']['budget']['state'] = $a: $data[$key]['examine']['budget']['state']='0';//0为未提交 1为审批中 2为审批通过 -1为审批未通过
+		// $a = $this->examine->examine_state($val['id']);
+		 $data[$key]['examine']['budget']['state'] = '0';//0为未提交 1为审批中 2为审批通过 -1为审批未通过
 		// $data[$key]['examine']['finalAccounts']['step'] ? $data[$key]['examine']['finalAccounts']['step']: $data[$key]['examine']['finalAccounts']['step']='0';
 		// $data[$key]['examine']['finalAccounts']['state'] ? $data[$key]['examine']['finalAccounts']['state'] :$data[$key]['examine']['finalAccounts']['step'] ='0';
 		$data[$key]['examine']['finalAccounts']['step'] = [];//决算详细数据
@@ -211,7 +211,7 @@ class manage_controller
 		// $data[$key]['examine'] = $key['id'];
 	}
 		//只用一次 导入老项目至json静态表
-	 $this->static->add_project2($data);
+	//  $this->static->add_project2($data);
 		$data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {

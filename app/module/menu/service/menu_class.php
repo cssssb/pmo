@@ -61,4 +61,8 @@ final class menu_class
     public function listmenuright(){
         return $this->on->select(1);
     }
+    public function menu_static_list($role_id){
+        $where['role_id'] = $role_id;
+        return $this->static->get_one($where);
+    }
 }

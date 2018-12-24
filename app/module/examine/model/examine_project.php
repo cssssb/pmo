@@ -19,5 +19,11 @@ class examine_project extends model {
         $this->table_name = 'examine_project';
         parent::__construct();
     }
-    
+    public function examine_state($id,$type){
+        //
+        $where['parent_id'] = $id;
+        $where['examine_type'] = $type;
+        $data = $this->get_one($where);
+        return $data['state'];
+    }
 }

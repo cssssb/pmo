@@ -28,16 +28,17 @@ class data_controller
         $this->code = app::load_cont_class('common','user');//加载token
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
         $this->static = \app::load_service_class('static_class','project');//加载列表json
-
-
+        // $this->examine = \app::load_service_class("examine_project_class","examine");
         // die;
     }
     public function getByProjectId()
     {
-
         //获取一条项目信息
         $post = $this->data->get_post();//获得post
-        $cond = 0;//默认成功
+        
+        // $state = $this->examine->budget_state($post['id']);
+        // $state['key'];
+        // $cond = 0;//默认成功
         // $post['id'] = 93;
 		$data = $this->project->get_one_project($post['id']);
         $data?$cond = 0:$cond = 1;

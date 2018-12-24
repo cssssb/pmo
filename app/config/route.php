@@ -9,7 +9,7 @@ return array(
         "project_manage_list" => ["project", "manage", "list", [], [], '2.0'],    //返回项目列表
         "project_data_getByProjectId" => ["project", "data", "getByProjectId", ["id" => "string"], [], '1.0'],   //获取一条数据
         "staff_manage_list" => ["staff", "manage", "list", [], [], '1.0'],   //获取实施负责人
-        "program_manage_list" => ["progam", "manage", "list", [], [], '0.1'],//项目集表
+        "program_manage_list" => ["progam", "manage", "list", [], [], '1.0'],//项目集表
         "program_manage_add" => ["progam", "manage", "add", [], [], '1.0'],//项目集新增
         "project_type_list" => ["user", "project", "projectTemplate", [], [], '1.0'],//项目模板表
         "lecturer_plan_getByProjectId" => ["lecturer", "plan", "getByProjectId", [], [], '1.0'],//返回讲师列表
@@ -104,10 +104,10 @@ return array(
         "examine_manage_commitbudget" => ["examine", "manage", "commitbudget", [], [], '1.0'],        //提交项目审批
         "examine_manage_will" => ["examine", "manage", "will", [], [], '1.0'],        //查看需要我审批的审批单
         "examine_manage_ipassed" => ["examine", "manage", "ipassed", [], [], '1.0'],        //查看我通过的审批单
-        "examine_manage_bool" => ["examine", "manage", "bool", [], [], '1.0'],        //审批审批单
+        "examine_manage_agree" => ["examine", "manage", "agree", [], [], '1.0'],        //通过审批单
+        "examine_manage_refuse" => ["examine", "manage", "refuse", [], [], '1.0'],        //拒绝审批单
         //数据名称list
         "json_type_list"=>["json","type","list",[],[],'1.0'],                               //数据列表
-
         "project_manage_returnonlyuserlist" => ["project", "manage", "returnonlyuserlist", [], [], '1.0'],    //返回项目列表
         "project_manage_returndepartmentlist" => ["project", "manage", "returndepartmentlist", [], [], '1.0'],    //返回项目列表
 
@@ -123,5 +123,10 @@ return array(
         "menu_data_listmenuleft"=>["menu","data","listmenuleft",[],[],'1.0'],//左侧菜单的列表
         "menu_data_listmenuright"=>["menu","data","listmenuright",[],[],'1.0'],//偏右左侧菜单的列表
         "menu_data_getone"=>["menu","data","getone",[],[],'1.0'],//获取一条菜单的静态列表
+
+        //12.24
+        "examine_manage_cancelbudget"=>["examine","manage","cancelbudget",[],[],'1.0'],//撤销预算
+        "examine_manage_cancelfinal"=>["examine","manage","cancelfinal",[],[],'1.0'],//撤销决算
+        "examine_manage_commitfinal"=>["examine","manage","commitfinal",[],[],'1.0'],//提交决算
     ),
 );

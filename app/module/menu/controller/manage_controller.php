@@ -26,6 +26,7 @@ class manage_controller
         // $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->menu = app::load_service_class('menu_class', 'menu');//
+        $this->common = app::load_service_class('common_class','examine');
     }
     public function add()
     {
@@ -99,7 +100,7 @@ class manage_controller
             }
     }
     //list需修改
-    public function list()
+    public function list2()
     {
         /**
          * ================
@@ -111,6 +112,32 @@ class manage_controller
          */
         $post = $this->data->get_post();//获得post
         $data = $this->menu->list();
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
+    
+    public function list()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2018-12-22
+         * @describe:  list function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $role_id = $this->common->return_role($post['token']);
+        $data = $this->menu->menu_static_list($role_id);
+        $data = json_decode($data['data'],true);
         $data?$cond = 0:$cond = 1;
         
         //开始输出

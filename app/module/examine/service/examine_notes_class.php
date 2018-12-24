@@ -24,13 +24,28 @@ final class examine_notes_class
         $this->staff_user = app::load_model_class('staff_user', 'user');
 
     }
-    public function examine_state($parent_id){
+    public function examine_state($parent_id,$examine_type='1'){
         $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $examine_type;
         $data = $this->header->get_one($where,'*','id DESC');
-        if($data['state']){
-            return 4;
+        switch ($data['state']) {
+            //0为未提交 1为待审核 2为审批通过 -1为审批未通过
+            case null:
+                return '0';
+                break;
+            case 0:
+                return '1';
+                break;
+            case 1:
+                return '2';
+                break;
+            case -1:
+                return '-1';
+                break;
+            default:
+                # code...
+                break;
         }
-        return $data['state'];
     }
      /**
          * ================
@@ -42,9 +57,9 @@ final class examine_notes_class
          * @ErrorReason:   
          * ================
          */
-         public function examine_notes_list($parent_id){
+         public function examine_notes_list($parent_id,$examine_type='1'){
              //通过项目id获取数据表里所有的审批
-             return  $this->model->select_list($parent_id);
+             return  $this->model->select_list($parent_id,$examine_type);
         }
    
     //决算
@@ -142,7 +157,7 @@ final class examine_notes_class
       public function have($parent_id,$admin_id){
           $where['parent_id'] = $parent_id;
           $where['admin_id'] = $admin_id;
-          $where['pass'] = 0;
+          $where['is_pass'] = 0;
           $data = $this->model->get_one($where);
           return $data;
       }
@@ -159,7 +174,7 @@ final class examine_notes_class
        public function reach($parent_id,$admin_id){
             $where['parent_id'] = $parent_id;
             $where['admin_id'] = $admin_id;
-            $where['pass'] = 0;
+            $where['is_pass'] = 0;
             $admin = $this->model->get_one($where);
             unset($where['admin_id']);
             $data = $this->model->get_one($where);
@@ -176,11 +191,12 @@ final class examine_notes_class
         * @Parameter:     add
         * @DataTime:      2018-11-28
         * @Return:        bool
-        * @Notes:         填加项目细节
+        * @Notes:         填加项目细节 
         * @ErrorReason:   
         * ================
         */
         public function add($note_id,$parent_id,$examine_type,$admin_id,$note,$pass){
+
             $where['parent_id'] = $parent_id;
             $where['examine_type'] = $examine_type;
             $where['admin_id'] = $admin_id;
@@ -189,10 +205,14 @@ final class examine_notes_class
             $ass = $this->staff_user->get_one('user_id ='.$admin_id);
             $data['admin_user'] = $ass['name'];
             $data['note'] = $note;
-            $data['pass'] = $pass;
+            $data['is_pass'] = $pass;
             $data['time'] = date('Y-m-d H:i:s',time());
             $css = $this->model->update($data,$where);
-            $bool = $this->bool_examine($parent_id,$pass,$examine_type);
+            //修改视图数据
+      //项目列表更新 静态审批表跟着跟新
+      $bool = $this->bool_examine($parent_id,$pass,$examine_type);
+      $project_static = \app::load_service_class('static_class','project')->static_service($parent_id);
+      $edit_static = \app::load_service_class('examine_static_class','examine')->edit_static($parent_id,$examine_type);
             return $bool;
         }
         public function bool_examine($parent_id,$pass,$examine_type){
@@ -203,13 +223,13 @@ final class examine_notes_class
                 $data['state'] = -1;
                return $this->header->update($data,$where);
             }
-            $where['pass'] = 0;
-                //搜索还有没有没有审批通过的 如果没有修改
+            $where['is_pass'] = 0;
+                //如果全都审批通过 修改examine_project表状态字段表示此项目通过审核
             $bool = $this->model->get_one($where);       
             if(!$bool){
                 //如果没有 修改
                 $data['state'] = 1;
-                unset($where['pass']);
+                unset($where['is_pass']);
                 return $this->header->update($data,$where);
             }
            

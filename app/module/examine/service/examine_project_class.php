@@ -33,8 +33,8 @@ final class examine_project_class
      * @ErrorReason:   
      * ================
      */
-     public function is_send_examine($parent_id){
-         $where ="parent_id = $parent_id and state in(0,1)";//存在待审批或已通过
+     public function is_send_examine($parent_id,$examine_type){
+         $where ="parent_id = $parent_id and state in(0,1) and examine_type = $examine_type";//存在待审批或已通过
         $data = $this->model->get_one($where);
         if($data){
             return true;
@@ -56,18 +56,19 @@ final class examine_project_class
         /*
             提交人并不为点击提交预算者。
             是项目的项目经理
-            已修改
+           先不修改
         */
-        // $where['token'] = $token;
-        // $username = $this->user->get_one($where);
-        // $model['apply_user'] = $username['id'];
+        $where['token'] = $token;
+        $username = $this->user->get_one($where);
+        $model['apply_user'] = $username['id'];
 
         //apply_user是项目负责人的id
-        $model['apply_user'] = app::load_model_class('project', 'project')->get_one_project($parent_id)[0]['project_leader_id'];
+        // $model['apply_user'] = app::load_model_class('project', 'project')->get_one_project($parent_id)[0]['project_leader_id'];
         $model['time'] = date('Y-m-d H:i:s',time());
         $model['parent_id'] = $parent_id;
         $model['static_id'] = $static;
-        return $this->model->insert($model);
+        $model['examine_type'] = $examine_type;
+        return $this->model->insert($model,true);
     }
     /**
      * ================
@@ -131,4 +132,17 @@ final class examine_project_class
         }
         return false;
     }
+    // public function budget_state($id){
+    //     $type=1;
+    //     $array = [
+    //         "0"=>[ "key"=>'0',"value"=>'正在审批中'],
+    //         "1"=>[ "key"=>'1',"value"=>'审批通过'],
+    //         "-1"=>[ "key"=>'-1',"value"=>'未通过'],
+    //         ];
+    //     return $array[$this->model->examine_state($id,$type)];
+    // }
+    // public function final_account_state($id){
+    //     $type=2;
+    //     return $this->model->examine_state($id,$type);
+    // }
 }
