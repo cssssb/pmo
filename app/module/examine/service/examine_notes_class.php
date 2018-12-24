@@ -24,6 +24,13 @@ final class examine_notes_class
         $this->staff_user = app::load_model_class('staff_user', 'user');
 
     }
+
+    public function del_note($parent_id,$examine_type){
+        $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $examine_type;
+        return $this->model->delete($where);
+    }
+
     public function examine_state($parent_id,$examine_type='1'){
         $where['parent_id'] = $parent_id;
         $where['examine_type'] = $examine_type;

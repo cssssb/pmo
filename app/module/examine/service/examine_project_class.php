@@ -23,6 +23,13 @@ final class examine_project_class
         $this->fee = app::load_model_class('examine_project_fee', 'examine');
         $this->user = app::load_model_class('user', 'user');
     }
+    public function del_examine($parent_id,$examine_type){
+        $where['parent_id'] = $parent_id;
+        $where['examine_id'] = $examine_type;
+        $data = $this->model->get_one($where);
+        $this->model->delete($where);
+        return $data['static_id'];
+    }
     /**
      * ================
      * @Author:        css

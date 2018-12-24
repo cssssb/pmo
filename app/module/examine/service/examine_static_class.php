@@ -103,4 +103,17 @@ final class examine_static_class
         $number = $this->model->count($where);
         return ($number+1).'.0';
     }
+    public function cancel($id,$examine_type){
+        $where['id'] = $parent_id;
+        if($examine_type==1){
+        return $this->model->delete($where);
+        }
+        $where['examine_type'] = $examine_type;
+        $data = $this->model->get_one($where);
+        $decode = json_decode($data['data'],true);
+        $decode['project_list_data']['examine']['finalAccounts']['step'] = [];
+        $decode['project_list_data']['examine']['finalAccounts']['state'] = 0;
+        $json['data'] = json_encode($decode,JSON_UNESCAPED_UNICODE);
+        return $this->model->update($json,$where);
+    }
 }

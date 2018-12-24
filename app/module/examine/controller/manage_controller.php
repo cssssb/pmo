@@ -61,9 +61,21 @@ class manage_controller
           * @describe:  cancelbudget function
           * ================
           */
-         $post = $this->data->get_post();//获得post
+         $post = $this->data->get_post();//获得post 
          $examine_type = 1;
-         $data = $this->static->cancel($post['id'],$examine_type);
+         //删除examine_project 和 examine_note表有parent_id 的数据
+         $del_project = $this->examine->del_examine($post['id'],$examine_type);
+         $del_note = $this->notes->del_note($post['id'],$examine_type);
+         if(!$del_project || !$del_note){
+             $this->data->out(2009,[]);
+         }
+          //更新project_static表
+          $project_static = \app::load_service_class('static_class','project')->static_service($post['id']);
+          if(!$project_static){
+              $this->data->out(3026,[]);
+          }
+          //删除静态数据
+         $data = $this->static->cancel($del_project,$examine_type);
          $data?$cond = 0:$cond = 1;
          
          //开始输出
@@ -75,7 +87,7 @@ class manage_controller
                  $this->data->out();
              }
      }
-     public function examine_manage_cancelfinal()
+     public function cancelfinal()
      {
          /**
           * ================
@@ -87,6 +99,18 @@ class manage_controller
           */
          $post = $this->data->get_post();//获得post
          $examine_type = 2;
+          //删除examine_project 和 examine_note表有parent_id 的数据
+          $del_project = $this->examine->del_examine($post['id'],$examine_type);
+          $del_note = $this->notes->del_note($post['id'],$examine_type);
+          if(!$del_project || !$del_note){
+              $this->data->out(2009,[]);
+          }
+          //更新project_static表
+          $project_static = \app::load_service_class('static_class','project')->static_service($post['id']);
+          if(!$project_static){
+              $this->data->out(3026,[]);
+          }
+          //决算是把examine_static表中的决算字段给删除 状态改为0
          $data = $this->static->cancel($post['id'],$exmaine_type);
          $data?$cond = 0:$cond = 1;
          
@@ -314,7 +338,9 @@ class manage_controller
         if( $this->examine->is_send_examine($post['id'],$examine_type)){
             $this->data->out(3022,[]);
         }
-        
+        if($this->examine->model->get_one('parent_id='.$post['id'].' and examine_type=1')){
+            $this->data->out(3025,[]);
+        }
         //点击提交决算生成静态数据
         $examine_static = $this->static->add_static($post['id'],$examine_type,$post['token']);
         //添加决算审批项目
