@@ -28,7 +28,6 @@ class data_controller
         $this->code = app::load_cont_class('common','user');//加载token
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
         $this->static = \app::load_service_class('static_class','project');//加载列表json
-        // $this->examine = \app::load_service_class("examine_project_class","examine");
         // die;
     }
     public function getByProjectId()
@@ -57,6 +56,17 @@ class data_controller
     public function edit(){
         //项目修改
         $post = $this->data->get_post();
+
+        $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($post['data']['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($post['data']['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
         isset($post['data']['parent_id'] )? $data['id'] = $post['data']['parent_id'] : true;
 		isset($post['data']['project_name'] )? $pro['project_name'] = $post['data']['project_name'] : true;
 		isset($post['data']['project_gather'] )? $data['progam_id'] = $post['data']['project_gather'] : true;

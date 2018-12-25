@@ -81,10 +81,10 @@ class manage_controller
          //开始输出
          switch ($cond) {
              case   1://异常1
-                 $this->data->out();
+                 $this->data->out(3028,[]);
                  break;
              default:
-                 $this->data->out();
+                 $this->data->out(3027,[]);
              }
      }
      public function cancelfinal()
@@ -338,7 +338,7 @@ class manage_controller
         if( $this->examine->is_send_examine($post['id'],$examine_type)){
             $this->data->out(3022,[]);
         }
-        if($this->examine->model->get_one('parent_id='.$post['id'].' and examine_type=1')){
+        if(!$this->examine->model->get_one('parent_id='.$post['id'].' and examine_type=1')){
             $this->data->out(3025,[]);
         }
         //点击提交决算生成静态数据
@@ -507,9 +507,9 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        // $post = [
-        //     'token'=>'BHzUAkcjux'
-        // ];
+        $post = [
+            'token'=>'QfMwSIVnig'
+        ];
         $admin_id = $this->common->return_user_id($post['token']);
         //查看待我审批的审批项目的id 并去重
         /*
@@ -517,7 +517,6 @@ class manage_controller
         */
         $parent_id = $this->admin->return_examine_for_me_parent_id($admin_id['id']);
         //获取审批的项目的详细数据
-        // $data = $this->project->return_project_data($parent_id);
         $parent_id?$cond = 0:$cond = 1;
         // print_r($parent_id);die;
         //开始输出
@@ -542,7 +541,7 @@ class manage_controller
          */
         $post = $this->data->get_post();//获得post
         $post = [
-            'token'=>'qevQh36mj2'
+            'token'=>'QfMwSIVnig'
         ];
         $admin_id = $this->common->return_user_id($post['token']);
         //查看我审批过的项目的id 并去重

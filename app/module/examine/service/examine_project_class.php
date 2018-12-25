@@ -25,7 +25,7 @@ final class examine_project_class
     }
     public function del_examine($parent_id,$examine_type){
         $where['parent_id'] = $parent_id;
-        $where['examine_id'] = $examine_type;
+        $where['examine_type'] = $examine_type;
         $data = $this->model->get_one($where);
         $this->model->delete($where);
         return $data['static_id'];
@@ -152,4 +152,22 @@ final class examine_project_class
     //     $type=2;
     //     return $this->model->examine_state($id,$type);
     // }
+    public function bool_budget($parent_id,$examine_type=1){
+        $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $examine_type;
+        $data = $this->model->get_one($where);
+        if(isset($data['state']) && ($data['state']==0 || $data['state']==1)){
+            return true;
+        }
+        return false;
+    }
+    public function bool_final_account($parent_id,$examine_type=2){
+        $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $exmaine_type;
+        $data = $this->model->get_one($where);
+        if(isset($data['state']) && ($data['state']==0 || $data['state']==1)){
+            return true;
+        }
+        return false;
+    }
 }

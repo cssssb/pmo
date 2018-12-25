@@ -46,7 +46,16 @@ class longTraffic_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        
+        $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($post['data']['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($post['data']['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
         $ass =  $this->province->add_province($post['data']);
         $project_new_data =  $this->static->static_service($post['data']['parent_id']);
 
@@ -75,7 +84,16 @@ class longTraffic_controller
          $post = $this->data->get_post();//获得post
          if(!$post['data']['id']){
              $this->data->out(3901);}
-             
+             $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($post['data']['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($post['data']['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
              $ass = $this->province->edit_province($post['data']);
              $project_new_data =  $this->static->static_service($post['data']['parent_id']);
             $project_new_data?$cond = 0:$cond = 1;
@@ -103,6 +121,16 @@ class longTraffic_controller
              $this->data->out(3901);}
              $where['id'] = $post['id'];
              $parent_id = $this->province->model->get_one($where);
+             $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($parent_id['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($parent_id['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
              $ass = $this->province->del_province($post);
              $project_new_data =  $this->static->static_service($parent_id['parent_id']);
              

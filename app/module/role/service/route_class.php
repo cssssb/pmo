@@ -26,7 +26,7 @@ final class route_class
     }
    
     //返回所有路由
-    public function return_url($user_id){
+    public function return_url(){
         $data = $this->model->select(1);
         $config = $this->host;
         foreach($data as $k=>$v){
@@ -61,9 +61,9 @@ final class route_class
 
     }
     //add role_in_route
-    public function add_route($data){
-        $ass = explode(",",$data['route_id']);
-        $data_id['role_id'] = $data['role_id'];
+    public function add_route($role_id,$route_id){
+        $ass = explode(",",$route_id);
+        $data_id['role_id'] = $role_id;
         foreach($ass as $k){
             $data_id['route_id'] = $k;
             $have = $this->role_in_route->get_one($data_id);
@@ -74,9 +74,9 @@ final class route_class
     }
     
     //del
-    public function del_route($data){
-        $ass = explode(",",$data['route_id']);
-        $data_id['role_id'] = $data['role_id'];
+    public function del_route($role_id,$route_id){
+        $ass = explode(",",$route_id);
+        $data_id['role_id'] = $role_id;
         foreach($ass as $k){
             $data_id['route_id'] = $k;
             $css = $this->role_in_route->delete($data_id);
@@ -92,4 +92,5 @@ final class route_class
         }
         return $data_all;
     }
+    
 }

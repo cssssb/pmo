@@ -86,9 +86,9 @@ return array(
         "json_manage_list"=>["json","manage","list",[],[],'1.0'],
         "json_manage_name"=>["json","manage","name",[],[],'1.0'],
         //角色下的路由
-        "role_route_add"=>["role","route","add",[],[],'0.1'],
-        "role_route_del"=>["role","route","del",[],[],'0.1'],
-        "role_route_list"=>["role","route","list",[],[],'0.1'],
+        "role_route_add"=>["role","route","add",[],[],'1.0'],
+        "role_route_del"=>["role","route","del",[],[],'1.0'],
+        // "role_route_list"=>["role","route","list",[],[],'0.1'],//角色下路由列表改名 get_route_by_role_id
         //角色下的视图
         "role_view_add"=>["role","view","add",[],[],'0.1'],
         "role_view_del"=>["role","view","del",[],[],'0.1'],
@@ -113,6 +113,7 @@ return array(
 
         // //12.17预算视图json
         "examine_budget_list" => ["examine", "budget", "list", [], [], '1.0'],    //预算列表
+        "examine_final_list" => ["examine", "final", "list", [], [], '1.0'],    //决算算列表
         "examine_budget_project" => ["examine", "budget", "project", [], [], '1.0'],    //获取项目信息
         "examine_budget_lecturer" => ["examine", "budget", "lecturer", [], [], '1.0'],    //获取讲师信息
         "examine_budget_implement" => ["examine", "budget", "implement", [], [], '1.0'],    //获取实施信息
@@ -128,5 +129,14 @@ return array(
         "examine_manage_cancelbudget"=>["examine","manage","cancelbudget",[],[],'1.0'],//撤销预算
         "examine_manage_cancelfinal"=>["examine","manage","cancelfinal",[],[],'1.0'],//撤销决算
         "examine_manage_commitfinal"=>["examine","manage","commitfinal",[],[],'1.0'],//提交决算
+        //12.25
+        "examine_final_project" => ["examine", "final", "project", [], [], '1.0'],    //获取项目信息
+        "examine_final_lecturer" => ["examine", "final", "lecturer", [], [], '1.0'],    //获取讲师信息
+        "examine_final_implement" => ["examine", "final", "implement", [], [], '1.0'],    //获取实施信息
+        "examine_final_travel" => ["examine", "final", "travel", [], [], '1.0'],    //获取差旅信息
+
+         //路由
+         "client_route_list"=>["client","route","list",[],[],'1.0'], //所有的路由列表
+         "get_route_by_role_id"=>["role","route","list",[],[],'1.0'], //角色下的路由列表
     ),
 );

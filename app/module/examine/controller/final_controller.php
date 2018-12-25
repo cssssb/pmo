@@ -9,14 +9,14 @@ defined('IN_LION') or exit('No permission resources.');
  * ================
  * @Author:    css
  * @ver:       
- * @DataTime:  2018-12-17
- * @describe:  examine_data controller class
+ * @DataTime:  2018-12-25
+ * @describe:  examine_final controller class
  * ================
  */
- define("EXAMINE_TYPE","1");
-class budget_controller
+ define("EXAMINE_TYPE","2");
+class final_controller
 {
-    private $data;
+    private $data,$final;
     /**
      * 构造函数
      */
@@ -26,11 +26,7 @@ class budget_controller
         $this->code = app::load_cont_class('common','user');//加载token
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
-        $this->static = \app::load_service_class('examine_static_class','examine');//加载审批静态表
-    }
-    public function test(){
-        
-        print_r(json_decode($this->static->model->get_one('parent_id = 2')['data'],JSON_FORCE_OBJECT));
+        $this->static = app::load_service_class('examine_static_class', 'examine');//
     }
     public function list()
     {
@@ -38,22 +34,25 @@ class budget_controller
          * ================
          * @Author:    css
          * @ver:       1.0
-         * @DataTime:  2018-12-17
+         * @DataTime:  2018-12-25
          * @describe:  list function
          * ================
          */
         $post = $this->data->get_post();//获得post
+        
         $data = $this->static->return_list(EXAMINE_TYPE);
         $data?$cond = 0:$cond = 1;
+        
         //开始输出
-        switch ($cond) {
-            case   1://异常1
-                $this->data->out(2002,[]);
-                break;
-            default:
-                $this->data->out(2001,$data);
-            }
+       switch ($cond) {
+        case   1://异常1
+            $this->data->out(2002,[]);
+            break;
+        default:
+            $this->data->out(2001,$data);
+        }
     }
+
     public function project()
     {
         /**

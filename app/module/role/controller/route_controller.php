@@ -38,14 +38,12 @@ class route_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $post = [
-            "token"=>'lalal',
-            "data"=>[
-                "role_id"=>'2',
-                "route_id"=>'1,2,3,4,5'
-            ]
-        ];
-        $data = $this->route->add_route($post['data']);
+        // $post = [
+        //     "token"=>'lalal',
+        //     "role_id"=>'2',
+        //     "route_id"=>'1,2,3,4,5'
+        // ];
+        $data = $this->route->add_route($post['role_id'],$post['route_id']);
         $data?$cond = 3:$cond = 2;
         
         //开始输出
@@ -71,14 +69,12 @@ class route_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $post = [
-            "token"=>'lalal',
-            "data"=>[
-                "role_id"=>'2',
-                "route_id"=>'1,2,3,2,4,123'
-            ]
-        ];
-        $data = $this->route->del_route($post['data']);
+        // $post = [
+        //     "token"=>'lalal',
+        //     "role_id"=>'2',
+        //     "route_id"=>'1,2,3,2,4,123'
+        // ];
+        $data = $this->route->del_route($post['role_id'],$post['route_id']);
         $data?$cond = 0:$cond = 1;
         
         //开始输出
@@ -101,17 +97,23 @@ class route_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        //谁下有什么数据
-        $data = $this->route->list_route();
-        $data?$cond = 0:$cond = 1;
-        print_r($data);die;
+        // $post['token'] = "";
+        $role_id = '8';
+        //返回角色下的路由列表
+        $data = $this->route->return_role_in_route($role_id);
+        foreach($data as $k=>$v){
+            $ass[$k]['id'] = $v['id'];
+            $ass[$k]['name'] = $v['url_name'];
+            $ass[$k]['note'] = $v['note'];
+        }
+        $ass?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out();
+                $this->data->out(2002,[]);
                 break;
             default:
-                $this->data->out();
+                $this->data->out(2001,$ass);
             }
     }
     

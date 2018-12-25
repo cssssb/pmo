@@ -44,6 +44,18 @@ class plan_controller
     //添加讲师安排
     public function add(){
         $post = $this->data->get_post();
+
+        $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($post['data']['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($post['data']['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
+
         isset($post['data']['parent_id'])?$data["parent_id"]=$post['data']["parent_id"]:true;
         isset($post['data']['teacher_name_id'])?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
         isset($post['data']['teacher_income_tax'])?$data["tax"]=$post['data']["teacher_income_tax"]:true;
@@ -69,6 +81,9 @@ class plan_controller
     //9.29修改讲师安排
     public function edit(){
         $post = $this->data->get_post();
+
+
+
         isset($post['data']['id'])?$data["id"]=$post['data']["id"]:true;
         isset($post['data']['parent_id'])?$data["parent_id"]=$post['data']["parent_id"]:true;
         isset($post['data']['teacher_name_id'])?$data["lecturer_id"]=$post['data']["teacher_name_id"]:true;
@@ -80,6 +95,18 @@ class plan_controller
         if(!$data['id']){
             $this->data->out(3901);
         }
+
+        $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($post['data']['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($post['data']['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
+
         $ass = $this->lecturer_list->edit($data);
         $project_new_data =  $this->static->static_service($post['data']['parent_id']);
 
@@ -102,7 +129,20 @@ class plan_controller
         if(!$post['id']){
             $this->data->out(3901);
         }
+       
+
         $parent_id = $this->lecturer_list->model->get_one($data);
+         
+        $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($parent_id['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($parent_id['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
         $ass =  $this->lecturer_list->del($data);
         $project_new_data =  $this->static->static_service($parent_id['parent_id']);
         

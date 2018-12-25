@@ -63,38 +63,40 @@ final class examine_static_class
     }
 
     //公共获取
-    private function common_list(){
-        $data = $this->model->select(1);
+    private function common_list($examine_type){
+        $where['examine_type'] = $examine_type;
+        $data = $this->model->select($where);
         foreach($data as $k=>$v){
               $list[] = json_decode($v['data'],JSON_FORCE_OBJECT);
         }
         return $list;
     }
 
-    public function return_list(){
-        $data = $this->common_list();
+    public function return_list($examine_type){
+        $data = $this->common_list($examine_type);
         foreach($data as $k=>$v){
             $list[] = $v['project_list_data'];
         }
         return $list;
     }
 
-    private function common_one($parnet_id){
-        $data = $this->model->get_one($parent_id);
+    private function common_one($parnet_id,$exmiane_type){
+        $parent_id['examine_type'] = $examine_type;
+        $data = $this->model->get_one($parent_id,'*','id DESC');
         return json_decode($data['data'],JSON_FORCE_OBJECT);
     }
-    public function project($parent_id){
-        return $this->common_one($parent_id)['project_get_one'];
+    public function project($parent_id,$examine_type){
+        return $this->common_one($parent_id,$examine_type)['project_get_one'];
     }
-    public function lecturer($parent_id){
-        return $this->common_one($parent_id)['lecturer_get_project'];
+    public function lecturer($parent_id,$examine_type){
+        return $this->common_one($parent_id,$examine_type)['lecturer_get_project'];
         
     }
-    public function implement($parnet_id){
-        return $this->common_one($parent_id)['implement_get_project'];
+    public function implement($parnet_id,$examine_type){
+        return $this->common_one($parent_id,$examine_type)['implement_get_project'];
     }
-    public function travel($parent_id){
-        return $this->common_one($parent_id)['travel_get_project'];
+    public function travel($parent_id,$examine_type){
+        return $this->common_one($parent_id,$examine_type)['travel_get_project'];
     }
     private function version($parent_id,$examine_type){
         //查看提交的项目在数据库里有几个
@@ -104,7 +106,7 @@ final class examine_static_class
         return ($number+1).'.0';
     }
     public function cancel($id,$examine_type){
-        $where['id'] = $parent_id;
+        $where['id'] = $id;
         if($examine_type==1){
         return $this->model->delete($where);
         }

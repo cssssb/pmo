@@ -120,6 +120,16 @@ class plan_controller
            */
           $post = $this->data->get_post();//获得post
           //example $this->service->function();
+          $this->examine = \app::load_service_class("examine_project_class","examine");
+        //看此项目是不是在提交预算或决算中
+        if($this->examine->bool_budget($post['data']['parent_id'])){
+            //已提交预算，不可编辑
+            $this->data->out(3019,[]);
+        }
+        if($this->examine->bool_final_account($post['data']['parent_id'])){
+            //已提交决算,不可编辑
+            $this->data->out(3020,[]);
+        }
           $ass = $this->implement->add($post['data']);
           $project_new_data =  $this->static->static_service($post['data']['parent_id']);
 

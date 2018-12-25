@@ -34,11 +34,19 @@ final class examine_admin_class
      */
     public function return_examine_for_me_parent_id($admin_id){
         $where['admin_id'] = $admin_id;
+        $where['is_pass']=0;
         $data = $this->notes->select($where);
         foreach($data as $k=>$v){
-            $ass[] = $v['parent_id'];
+            $ass[] = $v['static_id'];
         }
-        return array_unique($ass);
+        $ass = array_unique($ass);
+        foreach($ass as $k){
+            $we[] = json_decode(app::load_service_class('examine_static_class','examine')->model->get_one('id ='.$k)['data'],true);
+        }
+        foreach($we as $k){
+            $list[] = $k['project_list_data'];
+        }
+        return $list;
     }
     /**
      * ================
@@ -51,10 +59,17 @@ final class examine_admin_class
      * ================
      */
      public function return_examine_admin_pass($admin_id){
-        $data = $this->notes->select('admin_id = '.$admin_id.' and state <> 0');
+        $data = $this->notes->select('admin_id = '.$admin_id.' and is_pass <> 0');
         foreach($data as $k=>$v){
-            $ass[] = $v['parent_id'];
+            $ass[] = $v['static_id'];
         }
-        return array_unique($ass);
+        $ass = array_unique($ass);
+        foreach($ass as $k){
+            $we[] = json_decode(app::load_service_class('examine_static_class','examine')->model->get_one('id='.$k)['data'],true);
+        }
+        foreach($we as $k){
+            $list[] = $k['project_list_data'];
+        }
+        return $list;
     }
 }
