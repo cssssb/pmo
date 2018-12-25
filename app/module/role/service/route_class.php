@@ -64,13 +64,20 @@ final class route_class
     public function add_route($role_id,$route_id){
         $ass = explode(",",$route_id);
         $data_id['role_id'] = $role_id;
-        foreach($ass as $k){
-            $data_id['route_id'] = $k;
-            $have = $this->role_in_route->get_one($data_id);
-            if(!$have){
-            $css = $this->role_in_route->insert($data_id);}
+        $have_role_id = $this->role_in_route->select($data_id);
+        foreach($have_role_id as $k){
+            $route_ids[] = $k['route_id'];
         }
-        return $css;
+        //array_diff 返回在数组1中不在其他数组中的值
+        $insert_route_id = array_diff($ass,$route_ids);
+       foreach($insert_route_id as $k){
+           $data['route_id'] = $k;
+           $data['role_id'] = $role_id;
+           $ass = $this->role_in_route->insert($data);
+       }
+       if(isset($ass)){
+       return true;}
+       return false;
     }
     
     //del

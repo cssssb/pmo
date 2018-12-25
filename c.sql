@@ -3535,7 +3535,7 @@ CREATE TABLE `pmo_department_staff`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `department_id` int(11) NULL DEFAULT NULL,
   `userid` int(11) NULL DEFAULT NULL,
-  `time` datetime(0) NULL DEFAULT NULL,
+  `time` datetime NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT NULL COMMENT '1为启用0为禁用',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 86 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '钉钉拉取部门表（好像没用（好像））' ROW_FORMAT = Fixed;
@@ -3684,7 +3684,7 @@ DROP TABLE IF EXISTS `pmo_examine_notes`;
 CREATE TABLE `pmo_examine_notes`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `admin_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '操作人姓名',
-  `time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
+  `time` datetime NULL DEFAULT NULL COMMENT '操作时间',
   `is_pass` tinyint(2) NULL DEFAULT 0 COMMENT '0为未操作1为通过审核-1为未通过审核',
   `parent_id` int(11) NULL DEFAULT NULL,
   `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '注释',
@@ -3713,9 +3713,9 @@ CREATE TABLE `pmo_examine_project`  (
   `parent_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
   `examine_type` tinyint(2) NULL DEFAULT NULL COMMENT '审批类型',
   `apply_user` int(11) NULL DEFAULT NULL COMMENT '申请人',
-  `apply_time` datetime(0) NULL DEFAULT NULL COMMENT '提交申请时间',
+  `apply_time` datetime NULL DEFAULT NULL COMMENT '提交申请时间',
   `state` tinyint(2) NULL DEFAULT 0 COMMENT '是否作废0为在审批1为已通过 -1为未通过',
-  `time` datetime(0) NULL DEFAULT NULL,
+  `time` datetime NULL DEFAULT NULL,
   `static_id` int(11) NULL DEFAULT NULL COMMENT '静态审批表的id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 137 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '审批项目集合表' ROW_FORMAT = Fixed;
@@ -3829,7 +3829,7 @@ CREATE TABLE `pmo_implement_plan`  (
   `postage` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '快递费',
   `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
-  `time` datetime(0) NULL DEFAULT NULL,
+  `time` datetime NULL DEFAULT NULL,
   `material_cost` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '教材费',
   `equipment_cost` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备费用',
   PRIMARY KEY (`id`) USING BTREE
@@ -3864,7 +3864,7 @@ CREATE TABLE `pmo_implement_room`  (
   `total_price` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '总价',
   `meetingplace_name` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `meetingplace_address` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '会场地址',
-  `time` datetime(0) NULL DEFAULT NULL,
+  `time` datetime NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   `parent_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -4082,7 +4082,7 @@ CREATE TABLE `pmo_lecturer_plan`  (
   `day` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '讲课天数',
   `duty_id` int(11) NULL DEFAULT NULL COMMENT '职责id',
   `state` tinyint(2) NULL DEFAULT 0,
-  `time` datetime(0) NULL DEFAULT NULL,
+  `time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 252 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '讲师安排表' ROW_FORMAT = Dynamic;
 
@@ -4193,7 +4193,7 @@ DROP TABLE IF EXISTS `pmo_operation`;
 CREATE TABLE `pmo_operation`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_id` varchar(11) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '项目id',
-  `time` datetime(0) NULL DEFAULT NULL,
+  `time` datetime NULL DEFAULT NULL,
   `user_id` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `group_id` int(5) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0 COMMENT '默认操作为0，1是在进行预算状态。2是在进行决算状态',
@@ -5295,7 +5295,7 @@ CREATE TABLE `pmo_travel_city`  (
   `short_fee_type` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用名称',
   `short_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用',
   `parent_id` int(11) NULL DEFAULT NULL,
-  `now_time` datetime(0) NOT NULL,
+  `now_time` datetime NOT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 66 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '人员，费用，费用名称' ROW_FORMAT = Dynamic;
@@ -5371,7 +5371,7 @@ CREATE TABLE `pmo_travel_province`  (
   `long_fee_card_end_place` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束地点',
   `state` tinyint(3) NULL DEFAULT 0,
   `parent_id` int(11) NULL DEFAULT NULL,
-  `now_time` datetime(0) NOT NULL,
+  `now_time` datetime NOT NULL,
   `long_fee_card_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用',
   `long_fee_card_vehicle_name` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `long_fee_card_vehicle_id` int(25) NULL DEFAULT NULL,
@@ -5397,7 +5397,7 @@ CREATE TABLE `pmo_travel_stay`  (
   `hotel_expense_total` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '总价',
   `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
-  `now_time` datetime(0) NULL DEFAULT NULL,
+  `now_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 51 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '住宿安排' ROW_FORMAT = Dynamic;
 
