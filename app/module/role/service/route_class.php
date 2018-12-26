@@ -93,4 +93,18 @@ final class route_class
         return $data_all;
     }
     
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     route_list
+     * @DataTime:      2018-12-26
+     * @Return:        data
+     * @Notes:         角色列表
+     * @ErrorReason:   
+     * ================
+     */
+     public function route_list(){
+        $data = app::load_model_class('role', 'examine')->select(1);
+        return $data;
+        }
 }

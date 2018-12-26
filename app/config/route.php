@@ -137,6 +137,8 @@ return array(
 
          //路由
          "client_route_list"=>["client","route","list",[],[],'1.0'], //所有的路由列表
-         "get_route_by_role_id"=>["role","route","list",[],[],'1.0'], //角色下的路由列表
+         "get_route_by_role_id"=>["role","route","byid",[],[],'1.0'], //角色下的路由列表
+         "role_route_list"=>["role","route","list",[],[],'1.0'], //角色下的路由列表
+
     ),
 );

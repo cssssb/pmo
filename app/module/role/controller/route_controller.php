@@ -86,7 +86,7 @@ class route_controller
                 $this->data->out(3802,$post);
             }
     }
-    public function list()
+    public function byid()
     {
         /**
          * ================
@@ -102,9 +102,10 @@ class route_controller
         //返回角色下的路由列表
         $data = $this->route->return_role_in_route($role_id);
         foreach($data as $k=>$v){
-            $ass[$k]['id'] = $v['id'];
-            $ass[$k]['name'] = $v['url_name'];
-            $ass[$k]['note'] = $v['note'];
+            $ass['id'] = $v['id'];
+            $ass['name'] = $v['url_name'];
+            $ass['note'] = $v['note'];
+            $return[] = $ass;
         }
         $ass?$cond = 0:$cond = 1;
         //开始输出
@@ -113,8 +114,31 @@ class route_controller
                 $this->data->out(2002,[]);
                 break;
             default:
-                $this->data->out(2001,$ass);
+                $this->data->out(2001,$return);
             }
     }
-    
+    public function list()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         
+         * @DataTime:  2018-12-26
+         * @describe:  list function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->route->route_list();
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
 }
