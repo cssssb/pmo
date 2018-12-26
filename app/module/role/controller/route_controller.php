@@ -38,19 +38,16 @@ class route_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        // $post = [
-        //     "token"=>'lalal',
-        //     "role_id"=>'2',
-        //     "route_id"=>'1,2,3,4,5'
-        // ];
+        $post = [
+            "token"=>'lalal',
+            "role_id"=>'8',
+            "route_id"=>'1,2,3,4,9,11,25'
+        ];
         $data = $this->route->add_route($post['role_id'],$post['route_id']);
-        $data?$cond = 3:$cond = 2;
+        $data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
-            case   0://异常1
-                $this->data->out(3801,$post);
-                break;
             case   1://异常2
                 $this->data->out(2006,$post);
                 break;
@@ -101,6 +98,7 @@ class route_controller
         $role_id = '8';
         //返回角色下的路由列表
         $data = $this->route->return_role_in_route($role_id);
+        echo json_encode($data,true);die;
         foreach($data as $k=>$v){
             $ass['id'] = $v['id'];
             $ass['name'] = $v['url_name'];
