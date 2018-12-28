@@ -59,11 +59,11 @@ class data_controller
 
         $this->examine = \app::load_service_class("examine_project_class","examine");
         //看此项目是不是在提交预算或决算中
-        if($this->examine->bool_budget($post['data']['parent_id'])){
+        if($this->examine->is_budget_examining($post['data']['parent_id'])){
             //已提交预算，不可编辑
             $this->data->out(3019,[]);
         }
-        if($this->examine->bool_final_account($post['data']['parent_id'])){
+        if($this->examine->is_final_account_examining($post['data']['parent_id'])){
             //已提交决算,不可编辑
             $this->data->out(3020,[]);
         }

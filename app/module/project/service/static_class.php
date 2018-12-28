@@ -96,8 +96,8 @@ final class static_class
 	
 	 
 	 
-
-	 public function static_service($parent_id){
+   //$is_unset_examine_type 预算为1 决算为2
+	 public function static_service($parent_id,$is_unset_examine_type=''){
 		//返回$parent_id获取项目的整条数据
 		// $parent_id = 45;
 		$data = $this->project->get_one_project($parent_id);
@@ -170,7 +170,10 @@ final class static_class
 		$data[$key]['gross_interest_rate'] =round($data[$key]['project_profit']/$data[$key]['expected_income']*100,2).'%';
 	}
 		// echo json_encode($data);die;
-		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);
+		if(isset($is_unset_examine_type) && $is_unset_examine_type==1){
+		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_get_unpass($val['id']);;//预算最后一个
+		}else{
+		$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);}
 		$examine_state_number = $this->examine->examine_state($val['id']);
 		//0为未提交 1为审批中 2为审批通过 -1为审批未通过
 		$data[$key]['examine']['budget']['state'] = $examine_state_number;
@@ -178,7 +181,10 @@ final class static_class
 		// $examine_state_number==4 ? $data[$key]['examine']['budget']['state'] = '0':$data[$key]['examine']['budget']['state']=$examine_state_number;//0为未提交 1为审批中 2为审批通过 -1为审批未通过
 		// $data[$key]['examine']['finalAccounts']['step'] ? $data[$key]['examine']['finalAccounts']['step']:"0";
 		// $data[$key]['examine']['finalAccounts']['state'] ? $data[$key]['examine']['finalAccounts']['state'] :"0";
-		$data[$key]['examine']['finalAccounts']['step'] = $this->examine->examine_notes_list($val['id'],2);//决算详细数据
+		if(isset($is_unset_examine_type) && $is_unset_examine_type==2){
+		$data[$key]['examine']['finalAccounts']['step'] = $this->examine->examine_notes_get_unpass($val['id'],2);;//决算最后一个
+		}else{
+		$data[$key]['examine']['finalAccounts']['step'] = $this->examine->examine_notes_list($val['id'],2);}//决算详细数据
 		$data[$key]['examine']['finalAccounts']['state'] = $this->examine->examine_state($val['id'],2);;//决算
 
 		$id['parent_id'] = $val['id'];

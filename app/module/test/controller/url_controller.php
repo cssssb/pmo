@@ -41,13 +41,13 @@ class url_controller
          */
         $post = $this->data->get_post();//获得post
         $url = app::load_config('route');
-        die;
         // echo json_encode($url['default_routelist'],true);
+        die;
         foreach($url['default_routelist'] as $k=>$v){
             $a['url_name'] = $k;
             $a['url'] = $v[0].'/'.$v[1].'/'.$v[2];
             $a['request'] = json_encode($v[3],true);
-            $a['response'] = json_encode($v[4],true);
+            $a["response"] = json_encode($v[4],true);
             $a['note'] = $v[6];
             $a['version'] = $v[5];
             $have = $this->url->model->insert($a);

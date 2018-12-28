@@ -26,10 +26,45 @@ final class examine_project_class
     public function del_examine($parent_id,$examine_type){
         $where['parent_id'] = $parent_id;
         $where['examine_type'] = $examine_type;
-        $data = $this->model->get_one($where);
-        $this->model->delete($where);
-        return $data['static_id'];
+        $data = $this->model->get_one($where,'*','id DESC');
+        return  $this->model->delete('id='.$data['id']);
+         
     }
+   
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     record_list
+     * @DataTime:      2018-12-27
+     * @Return:        data
+     * @Notes:         返回历史审批记录
+     * @ErrorReason:   
+     * ================
+     */
+     public function record_list2($id){
+         $data = $this->common($id);
+         foreach($data as $k){
+             $list[] = $k['project_list_data'];
+         }
+         return $list;
+     }
+     public function record_list($id){
+         $data = $this->model->record_list($id);
+        //  return $data;
+         foreach($data as $k){
+             $list[] = json_decode($k['data'],true);
+         }
+         return $list;
+     }
+     
+    //数据模板
+     public function data_hade($id){
+         $data = [
+            ["key"=>"unicode","value"=>"项目编号"],
+            ["key"=>"department","value"=>"部门"],
+            ["key"=>"mounth","value"=>"月份"]
+         ];
+     }
     /**
      * ================
      * @Author:        css
@@ -59,7 +94,7 @@ final class examine_project_class
      * @ErrorReason:   null
      * ================
      */
-    public function commit($parent_id,$token,$examine_type,$flow_id,$static){
+    public function commit($parent_id,$token,$examine_type,$flow_id){
         /*
             提交人并不为点击提交预算者。
             是项目的项目经理
@@ -73,7 +108,6 @@ final class examine_project_class
         // $model['apply_user'] = app::load_model_class('project', 'project')->get_one_project($parent_id)[0]['project_leader_id'];
         $model['time'] = date('Y-m-d H:i:s',time());
         $model['parent_id'] = $parent_id;
-        $model['static_id'] = $static;
         $model['examine_type'] = $examine_type;
         return $this->model->insert($model,true);
     }
@@ -133,7 +167,7 @@ final class examine_project_class
     public function bool($parent_id,$examine_type){
         $where['parent_id'] = $parent_id;
         $where['examine_type'] = $examine_type;
-        $data = $this->model->get_one($where);
+        $data = $this->model->get_one($where,'*','id DESC');
         if($data['state']!=1 && $data['state']!=2){
             return true;
         }
@@ -152,20 +186,20 @@ final class examine_project_class
     //     $type=2;
     //     return $this->model->examine_state($id,$type);
     // }
-    public function bool_budget($parent_id,$examine_type=1){
+    public function is_budget_examining($parent_id,$examine_type=1){
         $where['parent_id'] = $parent_id;
         $where['examine_type'] = $examine_type;
         $data = $this->model->get_one($where);
-        if(isset($data['state']) && ($data['state']==0 || $data['state']==1)){
+        if(isset($data['state']) && $data['state']==0 ){
             return true;
         }
         return false;
     }
-    public function bool_final_account($parent_id,$examine_type=2){
+    public function is_final_account_examining($parent_id,$examine_type=2){
         $where['parent_id'] = $parent_id;
-        $where['examine_type'] = $exmaine_type;
+        $where['examine_type'] = $examine_type;
         $data = $this->model->get_one($where);
-        if(isset($data['state']) && ($data['state']==0 || $data['state']==1)){
+        if(isset($data['state']) && ($data['state']==0 || $data['state']==1 ) ){
             return true;
         }
         return false;

@@ -27,6 +27,7 @@ class budget_controller
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->static = \app::load_service_class('examine_static_class','examine');//加载审批静态表
+        $this->examine = \app::load_service_class('examine_project_class','examine');//加载审批静态表
     }
     public function test(){
         
@@ -43,6 +44,7 @@ class budget_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
+        
         $data = $this->static->return_list(EXAMINE_TYPE);
         $data?$cond = 0:$cond = 1;
         //开始输出

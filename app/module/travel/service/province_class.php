@@ -38,7 +38,7 @@ final class province_class
     //删
     public function del_province($post){
         $where['id'] = $post['id'];
-        return $this->model->update($data,$where);
+        return $this->model->delete($where);
     }
     //改
     public function edit_province($post){

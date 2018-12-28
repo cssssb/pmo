@@ -18,19 +18,18 @@ final class examine_static_class
 {
     public function __construct()
     {
-        $this->model = app::load_model_class('examine_static', 'examine');
+        $this->model = app::load_model_class('examine_project', 'examine');
     }
 
-    public function add_static($parent_id,$examine_type,$token){
+    // public function add_static($parent_id,$examine_type,$token){
+    //     $json['parent_id'] = $parent_id;
+    //     
+    //     $json['examine_type'] = $examine_type;
         
-        $json['parent_id'] = $parent_id;
-        $json['version'] = $this->version($parent_id,$examine_type);
-        $json['examine_type'] = $examine_type;
-        $json['user_name'] = app::load_service_class('common_class', 'examine')->return_staff_user_id($token)['name'];
-        return $this->model->insert($json,true);
-    }
+    //     return $this->model->update($json,true);
+    // }
     
-    public function edit_static($parent_id,$examine_type,$state=''){
+    public function edit_static($parent_id,$examine_type,$token='',$examine_id){
         //获取项目信息
         $unicode=app::load_service_class('project_class','project')->get_one($parent_id)['unicode'];
         $project_name = app::load_service_class('project_class','project')->project_name($parent_id);
@@ -58,7 +57,10 @@ final class examine_static_class
         $json['data'] = json_encode($data,JSON_UNESCAPED_UNICODE);
         $where['parent_id'] = $parent_id;
         $where['examine_type'] = $examine_type;
-        
+        $where['id'] = $examine_id;
+        $json['version'] = $this->version($parent_id,$examine_type);
+        if($token!=''){
+        $json['user_name'] = app::load_service_class('common_class', 'examine')->return_staff_user_id($token)['name'];}
         return $this->model->update($json,$where);
     }
 
@@ -77,12 +79,26 @@ final class examine_static_class
         foreach($data as $k=>$v){
             $list[] = $v['project_list_data'];
         }
+        //获取后来的
+        $id_list= array();
+        foreach($list as $key=> $val)
+        {
+            if(in_array($val['id'],$id_list))
+            {
+                unset($list[$k]);
+            }else
+            {
+                $id_list[]=$val['id'];
+            }
+        }
+
         return $list;
     }
 
-    private function common_one($parnet_id,$exmiane_type){
-        $parent_id['examine_type'] = $examine_type;
-        $data = $this->model->get_one($parent_id,'*','id DESC');
+    private function common_one($parent_id,$examine_type){
+        $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $examine_type;
+        $data = $this->model->get_one($where,'*','id DESC');
         return json_decode($data['data'],JSON_FORCE_OBJECT);
     }
     public function project($parent_id,$examine_type){
@@ -92,7 +108,7 @@ final class examine_static_class
         return $this->common_one($parent_id,$examine_type)['lecturer_get_project'];
         
     }
-    public function implement($parnet_id,$examine_type){
+    public function implement($parent_id,$examine_type){
         return $this->common_one($parent_id,$examine_type)['implement_get_project'];
     }
     public function travel($parent_id,$examine_type){
@@ -105,17 +121,5 @@ final class examine_static_class
         $number = $this->model->count($where);
         return ($number+1).'.0';
     }
-    public function cancel($id,$examine_type){
-        $where['id'] = $id;
-        if($examine_type==1){
-        return $this->model->delete($where);
-        }
-        $where['examine_type'] = $examine_type;
-        $data = $this->model->get_one($where);
-        $decode = json_decode($data['data'],true);
-        $decode['project_list_data']['examine']['finalAccounts']['step'] = [];
-        $decode['project_list_data']['examine']['finalAccounts']['state'] = 0;
-        $json['data'] = json_encode($decode,JSON_UNESCAPED_UNICODE);
-        return $this->model->update($json,$where);
-    }
+    
 }

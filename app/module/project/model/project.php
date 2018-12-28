@@ -122,8 +122,8 @@ class project extends \system\model
 			header.id=$id
 		
 		";
-		$all = $this->query($sql);
-		$data = $this->fetch_array($all);
+		$this->query($sql);
+		$data = $this->fetch_array();
 		return $data;
 	}
 	//讲师

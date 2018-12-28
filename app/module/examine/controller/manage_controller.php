@@ -63,6 +63,8 @@ class manage_controller
           */
          $post = $this->data->get_post();//获得post 
          $examine_type = 1;
+         //拒绝之后不能撤回
+         
          //删除examine_project 和 examine_note表有parent_id 的数据
          $del_project = $this->examine->del_examine($post['id'],$examine_type);
          $del_note = $this->notes->del_note($post['id'],$examine_type);
@@ -75,8 +77,7 @@ class manage_controller
               $this->data->out(3026,[]);
           }
           //删除静态数据
-         $data = $this->static->cancel($del_project,$examine_type);
-         $data?$cond = 0:$cond = 1;
+         $project_static?$cond = 0:$cond = 1;
          
          //开始输出
          switch ($cond) {
@@ -111,16 +112,15 @@ class manage_controller
               $this->data->out(3026,[]);
           }
           //决算是把examine_static表中的决算字段给删除 状态改为0
-         $data = $this->static->cancel($post['id'],$exmaine_type);
-         $data?$cond = 0:$cond = 1;
+         $project_static?$cond = 0:$cond = 1;
          
          //开始输出
          switch ($cond) {
              case   1://异常1
-                 $this->data->out();
+                 $this->data->out(3030,[]);
                  break;
              default:
-                 $this->data->out();
+                 $this->data->out(3029,[]);
              }
      }
     public function exmianecommittest(){
@@ -200,9 +200,9 @@ class manage_controller
         //更新项目静态数据
         
         //点击提交预算生成静态数据
-        $examine_static = $this->static->add_static($post['id'],$examine_type,$post['token']);
+        // $examine_static = $this->static->add_static($post['id'],$examine_type,$post['token']);
         //添加预算审批项目
-        $commit = $this->examine->commit($post['id'],$post['token'],$examine_type,$flow_id,$examine_static);
+        $commit = $this->examine->commit($post['id'],$post['token'],$examine_type,$flow_id);
 
         // $notes = $this->examine->commit($parent_id,$token,$examine_tyoe,$flow_id);
         if(!$commit){
@@ -218,10 +218,13 @@ class manage_controller
         // }
 
         //生成审批项目
-        $ass = $this->examine_add_flow_mode($post['id'],$post['token'],$flow_id,$examine_static,$examine_type);
+        $ass = $this->examine_add_flow_mode($post['id'],$post['token'],$flow_id,$commit,$examine_type);
         //更新静态项目数据表
-        $project_static = \app::load_service_class('static_class','project')->static_service($post['id']);
-        $edit_static = $this->static->edit_static($post['id'],$examine_type,$post['token']);
+        if($this->notes->is_pass_budget($post['id'])==true){
+            $is_unset_examine_type = 1;
+        }
+        $project_static = \app::load_service_class('static_class','project')->static_service($post['id'],$is_unset_examine_type);
+        $edit_static = $this->static->edit_static($post['id'],$examine_type,$post['token'],$commit);
         // if($ass){
             //添加至不可操作表
             //添加至静态表
@@ -342,9 +345,9 @@ class manage_controller
             $this->data->out(3025,[]);
         }
         //点击提交决算生成静态数据
-        $examine_static = $this->static->add_static($post['id'],$examine_type,$post['token']);
+        // $examine_static = $this->static->add_static($post['id'],$examine_type,$post['token']);
         //添加决算审批项目
-        $commit = $this->examine->commit($post['id'],$post['token'],$examine_type,$flow_id,$examine_static);
+        $commit = $this->examine->commit($post['id'],$post['token'],$examine_type,$flow_id);
 
         // $notes = $this->examine->commit($parent_id,$token,$examine_tyoe,$flow_id);
         if(!$commit){
@@ -360,10 +363,14 @@ class manage_controller
         // }
 
         //生成审批项目
-        $ass = $this->examine_add_flow_mode($post['id'],$post['token'],$flow_id,$examine_static,$examine_type);
+        $ass = $this->examine_add_flow_mode($post['id'],$post['token'],$flow_id,$commit,$examine_type);
         //更新静态项目数据表
-        $project_static = \app::load_service_class('static_class','project')->static_service($post['id']);
-        $edit_static = $this->static->edit_static($post['id'],$examine_type,$post['token']);
+        $is_unset_examine_type = null;
+        if($this->notes->is_pass_final($post['id'])==true){
+            $is_unset_examine_type = 2;
+        }
+        $project_static = \app::load_service_class('static_class','project')->static_service($post['id'],$is_unset_examine_type);
+        $edit_static = $this->static->edit_static($post['id'],$examine_type,$post['token'],$commit);
         // if($ass){
             //添加至不可操作表
             //添加至静态表
@@ -388,7 +395,7 @@ class manage_controller
          * @ErrorReason:   
          * ================
          */
-        private  function examine_add_flow_mode($project_id,$token,$flow_id,$static_id,$examine_type){
+        private  function examine_add_flow_mode($project_id,$token,$flow_id,$commit,$examine_type){
 
         // $post['id'] = 2;
         // $post['token'] = 'wtXl4Wvg0o';
@@ -454,7 +461,7 @@ class manage_controller
             //添加到表pmo_examine_user_flow
             // $user_ids_flow[] = $this->flow->add_user_ids_flow($v['user_id'],$flow_id,$project_id);
             //根据id按顺序添加至表notes  需要添加的数据有  项目id  user_id 
-            $notes_add[] = $this->notes->add_admin_ids($project_id,$v['user_id'],$v['mode'],$static_id,$examine_type);
+            $notes_add[] = $this->notes->add_admin_ids($project_id,$v['user_id'],$v['mode'],$examine_type,$commit);
             //1 100,1000,2000
         }
         // print_r($user_ids_flow);
@@ -557,7 +564,7 @@ class manage_controller
                 $this->data->out(2001,$data);
             }
     }
-    public function agree()
+    public function budgetagree()
     {
         /**
          * ================
@@ -572,7 +579,7 @@ class manage_controller
         $examine_type = 1;
         $this->bool($post['parent_id'],$examine_type,$post['token'],$is_pass,$post['note']);
     }
-    public function refuse()
+    public function budgetrefuse()
     {
         /**
          * ================
@@ -588,6 +595,37 @@ class manage_controller
         $this->bool($post['parent_id'],$examine_type,$post['token'],$is_pass,$post['note']);
     }
     //审批审批单 shenpidan id12/21
+    //通不通过决算审批单
+    public function finalagree()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2018-12-24
+         * @describe:  agree function 预算通过
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $is_pass=1;
+        $examine_type = 2;
+        $this->bool($post['parent_id'],$examine_type,$post['token'],$is_pass,$post['note']);
+    }
+    public function finalrefuse()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2018-12-24
+         * @describe:  refuse function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $is_pass = -1;
+        $examine_type = 2;
+        $this->bool($post['parent_id'],$examine_type,$post['token'],$is_pass,$post['note']);
+    }
 
     public function bool($parent_id,$examine_type,$token,$is_pass,$note)
     {
@@ -599,7 +637,6 @@ class manage_controller
          * @describe:  do function
          * ================
          */
-        $post = $this->data->get_post();//获得post
         // $post = [
         //     'parent_id'=>'1',
         //     'examine_type'=>'1',
@@ -630,7 +667,10 @@ class manage_controller
         // return var_dump($reach);die;
       
         //发送审批处理结果 记录至notes表
-        $data = $this->notes->add($reach,$parent_id,$examine_type,$admin_id['id'],$note,$is_pass);
+        // if($is_pass==-1){
+        // $data = $this->notes->add($reach,$parent_id,$examine_type,$admin_id['id'],$note,$is_pass,$examine_type);}else{
+            $data = $this->notes->add($reach,$parent_id,$examine_type,$admin_id['id'],$note,$is_pass,$examine_type);
+        // }
         $data?$cond = 0:$cond = 1;
         
         //开始输出
