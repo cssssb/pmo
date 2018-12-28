@@ -22,7 +22,7 @@ class record_controller
     public function __construct()
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
-        $this->code = app::load_cont_class('common','user');//加载token
+        // $this->code = app::load_cont_class('common','user');//加载token
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->examine = app::load_service_class('examine_project_class', 'examine');//

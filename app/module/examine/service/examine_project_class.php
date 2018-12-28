@@ -23,6 +23,12 @@ final class examine_project_class
         $this->fee = app::load_model_class('examine_project_fee', 'examine');
         $this->user = app::load_model_class('user', 'user');
     }
+    public function state_examine($parent_id,$examine_type){
+        $where['parent_id'] = $parent_id;
+        $where['examine_type'] = $examine_type;
+        $data = $this->model->get_one($where,'*','id DESC');
+        return $data['state'];
+    }
     public function del_examine($parent_id,$examine_type){
         $where['parent_id'] = $parent_id;
         $where['examine_type'] = $examine_type;
@@ -57,13 +63,43 @@ final class examine_project_class
          return $list;
      }
      
+    //  public function data_body($id){
+    //      $data = $this->record_list($id);
+    //  }
     //数据模板
      public function data_hade($id){
          $data = [
             ["key"=>"unicode","value"=>"项目编号"],
-            ["key"=>"department","value"=>"部门"],
-            ["key"=>"mounth","value"=>"月份"]
+            ["key"=>"project_project_template_name","value"=>"部门"],
+            ["key"=>"examine_type","value"=>"预算/决算"],
+            ["key"=>"project_person_in_charge_name","value"=>"项目负责人"],
+            ["key"=>"#######","value"=>"月份"],
+            ["key"=>"project_customer_name","value"=>"客户名称"],
+            ["key"=>"project_name","value"=>"课程名称"],
+            ["key"=>"project_training_numbers","value"=>"培训人数"],
+            ["key"=>"project_start_date","value"=>"开始日期"],
+            ["key"=>"project_end_date","value"=>"结束日期"],
+            ["key"=>"project_days","value"=>"授课天数"],
+            ["key"=>"project_training_ares_name","value"=>"开课地点"],
+            ["key"=>"travel_cost","value"=>"差旅费"],
+            ["key"=>"labor_cost","value"=>"讲师成本"],
+            ["key"=>"personal_consulting_fees","value"=>"个人咨询费"],
+            ["key"=>"institutional_consulting_fees","value"=>"企业咨询费"],
+            ["key"=>"conference_cost","value"=>"会议费"],
+            ["key"=>"material_cost","value"=>"教材费用"],
+            ["key"=>"equipment_cost","value"=>"设备费用"],
+            ["key"=>"examination_fee","value"=>"考试费"],
+            ["key"=>"tea_break","value"=>"茶歇"],
+            ["key"=>"stationery","value"=>"文具"],
+            ["key"=>"hospitality","value"=>"招待费"],
+            ["key"=>"postage","value"=>"邮寄快递"],
+            ["key"=>"project_tax_rate","value"=>"税"],
+            ["key"=>"costing","value"=>"成本合计"],
+            ["key"=>"expected_income","value"=>"收款"],
+            ["key"=>"project_profit","value"=>"利润"],
+            ["key"=>"gross_interest_rate","value"=>"毛利率"]
          ];
+         return $data;
      }
     /**
      * ================
@@ -83,7 +119,14 @@ final class examine_project_class
         }else{
         return false;}
      }
-
+     public function is_send_examine_final($parent_id,$examine_type){
+        $where ="parent_id = $parent_id and state in(0,1) and examine_type = 1";//存在待审批或已通过
+       $data = $this->model->get_one($where);
+       if($data){
+           return true;
+       }else{
+       return false;}
+    }
      /**
      * ================
      * @Author:        css
@@ -111,43 +154,7 @@ final class examine_project_class
         $model['examine_type'] = $examine_type;
         return $this->model->insert($model,true);
     }
-    /**
-     * ================
-     * @Author:        css
-     * @Parameter:     index
-     * @DataTime:      2018-11-05
-     * @Return:        bool
-     * @Notes:         公共权限 如果此条项目进入预决算则不可修改
-     * @ErrorReason:   null
-     * ================
-     */
-    //index方法0.01 欠缺东西很多
-    public function index()
-    {
-        /**
-         * ================
-         * @Author:    css
-         * @ver:       1.0
-         * @DataTime:  2018-11-05
-         * @describe:  index function
-         * ================
-         */
-        $post = $this->data->get_post();//获得post
-        //验证是否表中有parent_id在
-        if($post['id']){
-        $data = $this->model->get_one("state=0 and parent_id = ".$post['id']);
-        $data?$cond = 1:$cond = 0;
-        
-        //开始输出
-        switch ($cond) {
-            case   1://异常1
-                $this->data->out(3011,$post['id']);
-                break;
-            default:
-                return true;
-            }}
-            return true;
-    }
+  
   
     /**
      * ================

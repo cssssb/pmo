@@ -63,7 +63,22 @@ class manage_controller
           */
          $post = $this->data->get_post();//获得post 
          $examine_type = 1;
-         //拒绝之后不能撤回
+         //判断此条项目在数据库里的状态字段
+            $state_examine = $this->examine->state_examine($post['id'],$examine_type);
+            switch ($state_examine) {
+                // switch (isset($state_examine)&&($state_examine !== 0 || $state_examine !== 1)) {
+                case 2:
+                    # code...此项目已通过 不可撤回
+                    $this->data->out(3031,[]);
+                    break;
+                    case -1:
+                    # code...此项目已通过 不可撤回
+                    $this->data->out(3031,[]);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
          
          //删除examine_project 和 examine_note表有parent_id 的数据
          $del_project = $this->examine->del_examine($post['id'],$examine_type);
@@ -100,6 +115,22 @@ class manage_controller
           */
          $post = $this->data->get_post();//获得post
          $examine_type = 2;
+                  //判断此条项目在数据库里的状态字段
+        $state_examine = $this->examine->state_examine($post['id'],$examine_type);
+        switch ($state_examine) {
+            // switch (isset($state_examine)&&($state_examine !== 0 || $state_examine !== 1)) {
+            case 2:
+                # code...此项目已通过 不可撤回
+                $this->data->out(3031,[]);
+                break;
+                case -1:
+                # code...此项目已通过 不可撤回
+                $this->data->out(3031,[]);
+                break;
+            default:
+                # code...
+                break;
+        }
           //删除examine_project 和 examine_note表有parent_id 的数据
           $del_project = $this->examine->del_examine($post['id'],$examine_type);
           $del_note = $this->notes->del_note($post['id'],$examine_type);
@@ -341,7 +372,7 @@ class manage_controller
         if( $this->examine->is_send_examine($post['id'],$examine_type)){
             $this->data->out(3022,[]);
         }
-        if(!$this->examine->model->get_one('parent_id='.$post['id'].' and examine_type=1')){
+        if(!$this->examine->model->get_one('parent_id='.$post['id'].' and examine_type=2')){
             $this->data->out(3025,[]);
         }
         //点击提交决算生成静态数据

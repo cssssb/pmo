@@ -35,7 +35,11 @@ final class examine_static_class
         $project_name = app::load_service_class('project_class','project')->project_name($parent_id);
         $data['project_list_data'] = json_decode(app::load_model_class('projectstatic','project')->get_one('parent_id ='.$parent_id)['data']);
         $data['project_get_one'] =app::load_service_class('project_class', 'project')->get_one_project($parent_id)[0];
-        $data['lecturer_get_project']['lecturer'] = app::load_service_class('lecturer_plan_class', 'lecturer')
+            // $data[0]['project_training_ares_name'] = $this->address->connect($data[0]['project_training_ares_id']);
+        if($data['project_get_one']['project_training_ares_id']!=null){
+            $data['project_get_one']['project_training_ares_name'] = app::load_service_class('address_class', 'project')->connect($data['project_get_one']['project_training_ares_id']);
+        }
+            $data['lecturer_get_project']['lecturer'] = app::load_service_class('lecturer_plan_class', 'lecturer')
         ->model
         ->select_lecturer_get_project($parent_id);
         $data['lecturer_get_project']['project_name']=$project_name;
@@ -61,6 +65,14 @@ final class examine_static_class
         $json['version'] = $this->version($parent_id,$examine_type);
         if($token!=''){
         $json['user_name'] = app::load_service_class('common_class', 'examine')->return_staff_user_id($token)['name'];}
+        
+        $data_field['unicode'] = $unicode;
+        $data_field['project_project_template_name'] = $unicode;
+        $data_field['unicode'] = $unicode;
+        $data_field['unicode'] = $unicode;
+        $data_field['unicode'] = $unicode;
+        $data_field['unicode'] = $unicode;
+
         return $this->model->update($json,$where);
     }
 
