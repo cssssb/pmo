@@ -26,4 +26,17 @@ class examine_project extends model {
         $data = $this->get_one($where);
         return $data['state'];
     }
+    public function record_list($admin_id){
+        $sql = "
+                    SELECT
+                p.data 
+            FROM
+                pmo_examine_project p 
+            WHERE
+                id IN ( SELECT n.examine_id FROM pmo_examine_notes n WHERE n.admin_id = $admin_id )
+        ";
+        $this->query($sql);
+		$data = $this->fetch_array();
+		return $data;
+    }
 }

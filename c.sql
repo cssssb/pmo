@@ -11,7 +11,7 @@
  Target Server Version : 50714
  File Encoding         : 65001
 
- Date: 25/12/2018 18:44:24
+ Date: 28/12/2018 16:58:36
 */
 
 SET NAMES utf8mb4;
@@ -28,22 +28,24 @@ CREATE TABLE `pmo_address`  (
   `name` varchar(225) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '详细地址',
   `state` tinyint(2) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '培训详细地址表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '培训详细地址表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_address
 -- ----------------------------
-INSERT INTO `pmo_address` VALUES (1, 2, 0, '0', NULL);
-INSERT INTO `pmo_address` VALUES (2, 2, 1, '1', NULL);
-INSERT INTO `pmo_address` VALUES (3, 2, 1, '1', NULL);
-INSERT INTO `pmo_address` VALUES (4, 2, 3, '2', NULL);
-INSERT INTO `pmo_address` VALUES (5, 2, 4, '3', NULL);
-INSERT INTO `pmo_address` VALUES (6, 1, 1, '中软大厦', 0);
-INSERT INTO `pmo_address` VALUES (7, 0, 0, '2', 0);
-INSERT INTO `pmo_address` VALUES (8, 4, 0, '23', 0);
+INSERT INTO `pmo_address` VALUES (1, 2, 52, '中软大厦', 0);
+INSERT INTO `pmo_address` VALUES (2, 2, 52, '中油宾馆', 0);
+INSERT INTO `pmo_address` VALUES (3, 2, 52, '1', 0);
+INSERT INTO `pmo_address` VALUES (4, 2, 52, '2', 0);
+INSERT INTO `pmo_address` VALUES (5, 2, 52, '3', 0);
+INSERT INTO `pmo_address` VALUES (6, 2, 52, '中软大厦', 0);
+INSERT INTO `pmo_address` VALUES (7, 2, 52, '2', 0);
+INSERT INTO `pmo_address` VALUES (8, 2, 52, '23', 0);
 INSERT INTO `pmo_address` VALUES (9, 12, 176, '建华区', 0);
 INSERT INTO `pmo_address` VALUES (10, 6, 88, '一个地址', 0);
 INSERT INTO `pmo_address` VALUES (11, 2, 52, '中软大厦', 0);
+INSERT INTO `pmo_address` VALUES (12, 30, 367, '昆明第一宾馆', 0);
+INSERT INTO `pmo_address` VALUES (13, 2, 52, '金融界121号F301', 0);
 
 -- ----------------------------
 -- Table structure for pmo_ares
@@ -3535,7 +3537,7 @@ CREATE TABLE `pmo_department_staff`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `department_id` int(11) NULL DEFAULT NULL,
   `userid` int(11) NULL DEFAULT NULL,
-  `time` datetime NULL DEFAULT NULL,
+  `time` datetime(0) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT NULL COMMENT '1为启用0为禁用',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 86 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '钉钉拉取部门表（好像没用（好像））' ROW_FORMAT = Fixed;
@@ -3684,7 +3686,7 @@ DROP TABLE IF EXISTS `pmo_examine_notes`;
 CREATE TABLE `pmo_examine_notes`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `admin_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '操作人姓名',
-  `time` datetime NULL DEFAULT NULL COMMENT '操作时间',
+  `time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
   `is_pass` tinyint(2) NULL DEFAULT 0 COMMENT '0为未操作1为通过审核-1为未通过审核',
   `parent_id` int(11) NULL DEFAULT NULL,
   `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '注释',
@@ -3694,15 +3696,41 @@ CREATE TABLE `pmo_examine_notes`  (
   `mode` tinyint(2) NULL DEFAULT NULL COMMENT '1为逐级2为角色3为指定4为第几级',
   `additional` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '逐级或角色或指定或第几级',
   `static_id` int(11) NULL DEFAULT NULL COMMENT '静态表id',
+  `examine_id` int(11) NULL DEFAULT NULL COMMENT '审批项目id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 168 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '审批节点记录' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 302 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '审批节点记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_examine_notes
 -- ----------------------------
-INSERT INTO `pmo_examine_notes` VALUES (167, '段美静', NULL, 0, 94, NULL, 2, NULL, 10, 2, '行政', 66);
-INSERT INTO `pmo_examine_notes` VALUES (166, '段美静', NULL, 0, 94, NULL, 1, NULL, 10, 2, '行政', 65);
-INSERT INTO `pmo_examine_notes` VALUES (163, '段美静', '2018-12-25 11:12:09', 1, 92, '', 1, NULL, 10, 2, '行政', 62);
+INSERT INTO `pmo_examine_notes` VALUES (301, '段美静', NULL, 0, 141, NULL, 1, NULL, 10, 2, '行政', NULL, 270);
+INSERT INTO `pmo_examine_notes` VALUES (278, '段美静', NULL, 0, 127, NULL, 2, NULL, 10, 2, '行政', NULL, 247);
+INSERT INTO `pmo_examine_notes` VALUES (279, '段美静', '2018-12-28 13:52:42', 1, 132, '', 1, NULL, 10, 2, '行政', NULL, 248);
+INSERT INTO `pmo_examine_notes` VALUES (281, '段美静', '2018-12-28 14:00:16', 1, 133, '', 1, NULL, 10, 2, '行政', NULL, 250);
+INSERT INTO `pmo_examine_notes` VALUES (282, '段美静', NULL, 0, 132, NULL, 2, NULL, 10, 2, '行政', NULL, 251);
+INSERT INTO `pmo_examine_notes` VALUES (300, '段美静', NULL, 0, 140, NULL, 1, NULL, 10, 2, '行政', NULL, 269);
+INSERT INTO `pmo_examine_notes` VALUES (292, '段美静', '2018-12-28 16:05:09', 1, 138, '', 1, NULL, 10, 2, '行政', NULL, 261);
+INSERT INTO `pmo_examine_notes` VALUES (297, '段美静', '2018-12-28 16:05:16', 1, 139, '', 1, NULL, 10, 2, '行政', NULL, 266);
+INSERT INTO `pmo_examine_notes` VALUES (299, '段美静', '2018-12-28 16:09:06', 1, 139, '', 2, NULL, 10, 2, '行政', NULL, 268);
+INSERT INTO `pmo_examine_notes` VALUES (285, '段美静', NULL, 0, 135, NULL, 1, NULL, 10, 2, '行政', NULL, 254);
+INSERT INTO `pmo_examine_notes` VALUES (284, '段美静', NULL, 0, 134, NULL, 1, NULL, 10, 2, '行政', NULL, 253);
+INSERT INTO `pmo_examine_notes` VALUES (283, '段美静', NULL, 0, 131, NULL, 1, NULL, 10, 2, '行政', NULL, 252);
+INSERT INTO `pmo_examine_notes` VALUES (277, '段美静', '2018-12-27 17:24:21', 1, 127, '', 1, NULL, 10, 2, '行政', NULL, 246);
+INSERT INTO `pmo_examine_notes` VALUES (275, '段美静', '2018-12-27 17:23:57', -1, 127, '', 1, NULL, 10, 2, '行政', NULL, 244);
+INSERT INTO `pmo_examine_notes` VALUES (276, '段美静', '2018-12-27 17:24:10', -1, 127, '', 1, NULL, 10, 2, '行政', NULL, 245);
+INSERT INTO `pmo_examine_notes` VALUES (273, '段美静', '2018-12-27 15:35:14', 1, 126, '', 2, NULL, 10, 2, '行政', NULL, 242);
+INSERT INTO `pmo_examine_notes` VALUES (272, '段美静', '2018-12-27 15:35:00', -1, 126, '', 2, NULL, 10, 2, '行政', NULL, 241);
+INSERT INTO `pmo_examine_notes` VALUES (258, '段美静', '2018-12-27 15:18:45', -1, 123, '', 1, NULL, 10, 2, '行政', NULL, 227);
+INSERT INTO `pmo_examine_notes` VALUES (259, '段美静', '2018-12-27 15:19:29', 1, 123, '', 1, NULL, 10, 2, '行政', NULL, 228);
+INSERT INTO `pmo_examine_notes` VALUES (260, '段美静', '2018-12-27 15:23:09', -1, 124, '', 1, NULL, 10, 2, '行政', NULL, 229);
+INSERT INTO `pmo_examine_notes` VALUES (261, '段美静', '2018-12-27 15:24:45', -1, 124, '', 1, NULL, 10, 2, '行政', NULL, 230);
+INSERT INTO `pmo_examine_notes` VALUES (262, '段美静', '2018-12-27 15:26:55', -1, 124, '', 1, NULL, 10, 2, '行政', NULL, 231);
+INSERT INTO `pmo_examine_notes` VALUES (263, '段美静', '2018-12-27 15:27:23', 1, 124, '', 1, NULL, 10, 2, '行政', NULL, 232);
+INSERT INTO `pmo_examine_notes` VALUES (271, '段美静', '2018-12-27 15:34:43', -1, 126, '', 2, NULL, 10, 2, '行政', NULL, 240);
+INSERT INTO `pmo_examine_notes` VALUES (270, '段美静', '2018-12-27 15:34:27', 1, 126, '', 1, NULL, 10, 2, '行政', NULL, 239);
+INSERT INTO `pmo_examine_notes` VALUES (267, '段美静', '2018-12-27 15:29:47', -1, 125, '', 1, NULL, 10, 2, '行政', NULL, 236);
+INSERT INTO `pmo_examine_notes` VALUES (268, '段美静', '2018-12-27 15:30:45', -1, 125, '', 1, NULL, 10, 2, '行政', NULL, 237);
+INSERT INTO `pmo_examine_notes` VALUES (269, '段美静', '2018-12-27 15:31:00', 1, 125, '', 1, NULL, 10, 2, '行政', NULL, 238);
 
 -- ----------------------------
 -- Table structure for pmo_examine_project
@@ -3713,19 +3741,26 @@ CREATE TABLE `pmo_examine_project`  (
   `parent_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
   `examine_type` tinyint(2) NULL DEFAULT NULL COMMENT '审批类型',
   `apply_user` int(11) NULL DEFAULT NULL COMMENT '申请人',
-  `apply_time` datetime NULL DEFAULT NULL COMMENT '提交申请时间',
+  `apply_time` datetime(0) NULL DEFAULT NULL COMMENT '提交申请时间',
   `state` tinyint(2) NULL DEFAULT 0 COMMENT '是否作废0为在审批1为已通过 -1为未通过',
-  `time` datetime NULL DEFAULT NULL,
-  `static_id` int(11) NULL DEFAULT NULL COMMENT '静态审批表的id',
+  `time` datetime(0) NULL DEFAULT NULL,
+  `data` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT '静态数据',
+  `version` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '版本号',
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '提交人姓名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 137 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '审批项目集合表' ROW_FORMAT = Fixed;
+) ENGINE = MyISAM AUTO_INCREMENT = 271 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '审批项目集合表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_examine_project
 -- ----------------------------
-INSERT INTO `pmo_examine_project` VALUES (136, 94, 2, 27, NULL, 0, '2018-12-25 15:21:22', 66);
-INSERT INTO `pmo_examine_project` VALUES (135, 94, 1, 27, NULL, 0, '2018-12-25 14:52:52', 65);
-INSERT INTO `pmo_examine_project` VALUES (132, 92, 1, 27, NULL, 1, '2018-12-25 10:23:59', 62);
+INSERT INTO `pmo_examine_project` VALUES (266, 139, 1, 32, NULL, 1, '2018-12-28 16:04:24', '{\"project_list_data\":{\"id\":\"139\",\"project_name\":\"需求分析\",\"project_gather_id\":\"31\",\"project_person_in_charge_id\":\"31\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"13\",\"project_customer_name\":\"中国联合网络通信有限公司北京市分公司\",\"project_days\":\"3\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"寇艳艳\",\"project_leader_id\":\"31\",\"project_person_in_charge_name\":\"寇艳艳\",\"project_gather_name\":\"中国联通\",\"project_project_template_name\":\"行业培训部\",\"province\":555,\"city\":50,\"address\":\"金融界121号F301\",\"project_income\":\"60000\",\"project_tax_rate\":\"3600\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812005\",\"project_training_ares_name\":\"北京--北京--金融界121号F301\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"金融界121号F301\"},\"project_date\":{\"start\":\"2018-12-29\",\"end\":\"2019-01-01\"},\"labor_cost\":15000,\"implementation_cost\":600,\"conference_cost\":0,\"stay\":2000,\"meal\":0,\"travel_cost\":2605,\"lecturer\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"lecturers\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"implement\":{\"id\":\"97\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"\",\"tea_break\":\"\",\"stationery\":\"\",\"hospitality\":\"\",\"postage\":\"200\",\"parent_id\":\"139\",\"state\":\"0\",\"time\":\"2018-12-28 15:50:29\",\"material_cost\":\"400\",\"equipment_cost\":\"\"},\"venue\":[],\"consulting_cost\":0,\"costing\":21805,\"expected_income\":\"60000\",\"project_profit\":38195,\"gross_interest_rate\":\"63.66%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:05:16\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"2\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"139\",\"project_name\":\"需求分析\",\"project_gather_id\":\"31\",\"project_person_in_charge_id\":\"31\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"13\",\"project_customer_name\":\"中国联合网络通信有限公司北京市分公司\",\"project_days\":\"3\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"寇艳艳\",\"project_leader_id\":\"31\",\"project_person_in_charge_name\":\"寇艳艳\",\"project_gather_name\":\"中国联通\",\"project_project_template_name\":\"行业培训部\",\"province\":\"北京\",\"city\":\"北京\",\"address\":\"金融界121号F301\",\"project_income\":\"60000\",\"project_tax_rate\":\"3600\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812005\"},\"lecturer_get_project\":{\"lecturer\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_name_name\":\"柳芳\",\"parent_id\":\"139\"}],\"project_name\":\"需求分析\",\"unicode\":\"201812005\"},\"implement_get_project\":{\"project_name\":\"需求分析\",\"unicode\":\"201812005\",\"implement\":[{\"id\":\"97\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"\",\"tea_break\":\"\",\"stationery\":\"\",\"hospitality\":\"\",\"postage\":\"200\",\"parent_id\":\"139\",\"state\":\"0\",\"time\":\"2018-12-28 15:50:29\",\"material_cost\":\"400\",\"equipment_cost\":\"\"}],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"需求分析\",\"unicode\":\"201812005\",\"city\":[{\"id\":\"71\",\"short_fee_card_people\":\"寇艳艳\",\"short_fee_type\":\"地铁\",\"short_fee\":\"50\",\"parent_id\":\"139\",\"now_time\":\"0000-00-00 00:00:00\",\"state\":\"0\"}],\"meal\":[],\"province\":[{\"id\":\"126\",\"long_fee_card_people\":\"徐全\",\"long_fee_card_start_time\":\"2018-12-01T12:12\",\"long_fee_card_start_place\":\"北京\",\"long_fee_card_end_time\":\"2018-12-05T12:12\",\"long_fee_card_end_place\":\"上海\",\"state\":\"0\",\"parent_id\":\"139\",\"now_time\":\"0000-00-00 00:00:00\",\"long_fee_card_fee\":\"555\",\"long_fee_card_vehicle_name\":\"火车\",\"long_fee_card_vehicle_id\":\"1\"}],\"stay\":[{\"id\":\"57\",\"hotel_expense_people\":\"寇艳艳\",\"hotel_expense_days\":\"4\",\"hotel_expense_total\":\"2000\",\"parent_id\":\"139\",\"state\":\"0\",\"now_time\":null}]}}', '3.0', '寇艳艳');
+INSERT INTO `pmo_examine_project` VALUES (270, 141, 1, 30, NULL, 0, '2018-12-28 16:30:24', '{\"project_list_data\":{\"id\":\"141\",\"project_name\":null,\"project_gather_id\":null,\"project_person_in_charge_id\":null,\"project_project_template_id\":\"3\",\"project_training_ares_id\":null,\"project_customer_name\":null,\"project_days\":null,\"project_start_date\":null,\"project_end_date\":null,\"project_training_numbers\":null,\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"技术资源部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":null,\"project_tax_rate\":null,\"institutional_consulting_fees\":null,\"personal_consulting_fees\":null,\"unicode\":\"201812007\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":null,\"end\":null},\"labor_cost\":0,\"implementation_cost\":0,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"141\",\"project_name\":null,\"project_gather_id\":null,\"project_person_in_charge_id\":null,\"project_project_template_id\":\"3\",\"project_training_ares_id\":null,\"project_customer_name\":null,\"project_days\":null,\"project_start_date\":null,\"project_end_date\":null,\"project_training_numbers\":null,\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"技术资源部\",\"province\":null,\"city\":null,\"address\":null,\"project_income\":null,\"project_tax_rate\":null,\"institutional_consulting_fees\":null,\"personal_consulting_fees\":null,\"unicode\":\"201812007\"},\"lecturer_get_project\":{\"lecturer\":[],\"project_name\":null,\"unicode\":\"201812007\"},\"implement_get_project\":{\"project_name\":null,\"unicode\":\"201812007\",\"implement\":[],\"venue\":[]},\"travel_get_project\":{\"project_name\":null,\"unicode\":\"201812007\",\"city\":[],\"meal\":[],\"province\":[],\"stay\":[]}}', '2.0', '崔思思');
+INSERT INTO `pmo_examine_project` VALUES (269, 140, 1, 16, NULL, 0, '2018-12-28 16:09:03', '{\"project_list_data\":{\"id\":\"140\",\"project_name\":\"软考靠前培训班\",\"project_gather_id\":\"21\",\"project_person_in_charge_id\":\"18\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"1\",\"project_customer_name\":\"软考学员\",\"project_days\":\"4\",\"project_start_date\":\"2018-12-28\",\"project_end_date\":\"2018-12-31\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"温越\",\"project_leader_id\":\"21\",\"project_person_in_charge_name\":\"李旋\",\"project_gather_name\":\"软考\",\"project_project_template_name\":\"公共培训部\",\"province\":0,\"city\":200,\"address\":\"中软大厦\",\"project_income\":\"60000\",\"project_tax_rate\":\"1800\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812006\",\"project_training_ares_name\":\"北京--北京--中软大厦\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"中软大厦\"},\"project_date\":{\"start\":\"2018-12-28\",\"end\":\"2018-12-31\"},\"labor_cost\":1800,\"implementation_cost\":7200,\"conference_cost\":7200,\"stay\":0,\"meal\":680,\"travel_cost\":880,\"lecturer\":[{\"id\":\"263\",\"teacher_lecture_days\":\"4\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"1800\",\"teacher_income_tax\":\"0\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"lecturers\":[{\"id\":\"263\",\"teacher_lecture_days\":\"4\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"1800\",\"teacher_income_tax\":\"0\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"implement\":null,\"venue\":[{\"id\":\"82\",\"room_number\":null,\"unit_price\":\"1800\",\"days\":\"4\",\"total_price\":\"7200\",\"meetingplace_name\":null,\"meetingplace_address\":\"中软大厦第一会议室\",\"time\":\"2018-12-28 16:05:07\",\"state\":\"0\",\"parent_id\":\"140\"}],\"consulting_cost\":0,\"costing\":11680,\"expected_income\":\"60000\",\"project_profit\":48320,\"gross_interest_rate\":\"80.53%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"140\",\"project_name\":\"软考靠前培训班\",\"project_gather_id\":\"21\",\"project_person_in_charge_id\":\"18\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"1\",\"project_customer_name\":\"软考学员\",\"project_days\":\"4\",\"project_start_date\":\"2018-12-28\",\"project_end_date\":\"2018-12-31\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"温越\",\"project_leader_id\":\"21\",\"project_person_in_charge_name\":\"李旋\",\"project_gather_name\":\"软考\",\"project_project_template_name\":\"公共培训部\",\"province\":\"北京\",\"city\":\"北京\",\"address\":\"中软大厦\",\"project_income\":\"60000\",\"project_tax_rate\":\"1800\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812006\"},\"lecturer_get_project\":{\"lecturer\":[{\"id\":\"263\",\"teacher_lecture_days\":\"4\",\"teacher_duty_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_lecture_fee\":\"1800\",\"teacher_income_tax\":\"0\",\"teacher_name_id\":\"1\",\"teacher_name_name\":\"柳芳\",\"parent_id\":\"140\"}],\"project_name\":\"软考靠前培训班\",\"unicode\":\"201812006\"},\"implement_get_project\":{\"project_name\":\"软考靠前培训班\",\"unicode\":\"201812006\",\"implement\":[],\"venue\":[{\"id\":\"82\",\"room_number\":null,\"unit_price\":\"1800\",\"days\":\"4\",\"total_price\":\"7200\",\"meetingplace_name\":null,\"meetingplace_address\":\"中软大厦第一会议室\",\"time\":\"2018-12-28 16:05:07\",\"state\":\"0\",\"parent_id\":\"140\"}]},\"travel_get_project\":{\"project_name\":\"软考靠前培训班\",\"unicode\":\"201812006\",\"city\":[{\"id\":\"72\",\"short_fee_card_people\":\"李旋\",\"short_fee_type\":\"交通费\",\"short_fee\":\"200\",\"parent_id\":\"140\",\"now_time\":\"0000-00-00 00:00:00\",\"state\":\"0\"}],\"meal\":[{\"id\":\"49\",\"meal_fee\":\"680\",\"meal_fee_days\":\"4\",\"meal_fee_people_id\":\"1\",\"meal_fee_remarks\":\"班主任和讲师\",\"parent_id\":\"140\",\"state\":\"0\",\"meal_fee_people_name\":\"讲师\"}],\"province\":[],\"stay\":[]}}', '2.0', '杜刚利');
+INSERT INTO `pmo_examine_project` VALUES (268, 139, 2, 32, NULL, 1, '2018-12-28 16:07:49', '{\"project_list_data\":{\"id\":\"139\",\"project_name\":\"需求分析\",\"project_gather_id\":\"31\",\"project_person_in_charge_id\":\"31\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"13\",\"project_customer_name\":\"中国联合网络通信有限公司北京市分公司\",\"project_days\":\"3\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"寇艳艳\",\"project_leader_id\":\"31\",\"project_person_in_charge_name\":\"寇艳艳\",\"project_gather_name\":\"中国联通\",\"project_project_template_name\":\"行业培训部\",\"province\":555,\"city\":300,\"address\":\"金融界121号F301\",\"project_income\":\"60000\",\"project_tax_rate\":\"3600\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812005\",\"project_training_ares_name\":\"北京--北京--金融界121号F301\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"金融界121号F301\"},\"project_date\":{\"start\":\"2018-12-29\",\"end\":\"2019-01-01\"},\"labor_cost\":15000,\"implementation_cost\":600,\"conference_cost\":0,\"stay\":2000,\"meal\":170,\"travel_cost\":3025,\"lecturer\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"lecturers\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"implement\":{\"id\":\"97\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"\",\"tea_break\":\"\",\"stationery\":\"\",\"hospitality\":\"\",\"postage\":\"200\",\"parent_id\":\"139\",\"state\":\"0\",\"time\":\"2018-12-28 15:50:29\",\"material_cost\":\"400\",\"equipment_cost\":\"\"},\"venue\":[],\"consulting_cost\":0,\"costing\":22225,\"expected_income\":\"60000\",\"project_profit\":37775,\"gross_interest_rate\":\"62.96%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:05:16\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"2\"},\"finalAccounts\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:09:06\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"2\",\"admin_id\":\"10\"}],\"state\":\"2\"}}},\"project_get_one\":{\"id\":\"139\",\"project_name\":\"需求分析\",\"project_gather_id\":\"31\",\"project_person_in_charge_id\":\"31\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"13\",\"project_customer_name\":\"中国联合网络通信有限公司北京市分公司\",\"project_days\":\"3\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"寇艳艳\",\"project_leader_id\":\"31\",\"project_person_in_charge_name\":\"寇艳艳\",\"project_gather_name\":\"中国联通\",\"project_project_template_name\":\"行业培训部\",\"province\":\"北京\",\"city\":\"北京\",\"address\":\"金融界121号F301\",\"project_income\":\"60000\",\"project_tax_rate\":\"3600\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812005\"},\"lecturer_get_project\":{\"lecturer\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_name_name\":\"柳芳\",\"parent_id\":\"139\"}],\"project_name\":\"需求分析\",\"unicode\":\"201812005\"},\"implement_get_project\":{\"project_name\":\"需求分析\",\"unicode\":\"201812005\",\"implement\":[{\"id\":\"97\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"\",\"tea_break\":\"\",\"stationery\":\"\",\"hospitality\":\"\",\"postage\":\"200\",\"parent_id\":\"139\",\"state\":\"0\",\"time\":\"2018-12-28 15:50:29\",\"material_cost\":\"400\",\"equipment_cost\":\"\"}],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"需求分析\",\"unicode\":\"201812005\",\"city\":[{\"id\":\"73\",\"short_fee_card_people\":\"寇艳艳\",\"short_fee_type\":\"出租\",\"short_fee\":\"300\",\"parent_id\":\"139\",\"now_time\":\"0000-00-00 00:00:00\",\"state\":\"0\"}],\"meal\":[{\"id\":\"50\",\"meal_fee\":\"170\",\"meal_fee_days\":\"3\",\"meal_fee_people_id\":\"2\",\"meal_fee_remarks\":\"\",\"parent_id\":\"139\",\"state\":\"0\",\"meal_fee_people_name\":\"实施\"}],\"province\":[{\"id\":\"126\",\"long_fee_card_people\":\"徐全\",\"long_fee_card_start_time\":\"2018-12-01T12:12\",\"long_fee_card_start_place\":\"北京\",\"long_fee_card_end_time\":\"2018-12-05T12:12\",\"long_fee_card_end_place\":\"上海\",\"state\":\"0\",\"parent_id\":\"139\",\"now_time\":\"0000-00-00 00:00:00\",\"long_fee_card_fee\":\"555\",\"long_fee_card_vehicle_name\":\"火车\",\"long_fee_card_vehicle_id\":\"1\"}],\"stay\":[{\"id\":\"57\",\"hotel_expense_people\":\"寇艳艳\",\"hotel_expense_days\":\"4\",\"hotel_expense_total\":\"2000\",\"parent_id\":\"139\",\"state\":\"0\",\"now_time\":null}]}}', '2.0', '寇艳艳');
+INSERT INTO `pmo_examine_project` VALUES (261, 138, 1, 30, NULL, 1, '2018-12-28 15:28:57', '{\"project_list_data\":{\"id\":\"138\",\"project_name\":\"\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"201812004\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:05:09\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"2\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"138\",\"project_name\":\"\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":null,\"city\":null,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"201812004\"},\"lecturer_get_project\":{\"lecturer\":[],\"project_name\":\"\",\"unicode\":\"201812004\"},\"implement_get_project\":{\"project_name\":\"\",\"unicode\":\"201812004\",\"implement\":[],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"\",\"unicode\":\"201812004\",\"city\":[],\"meal\":[],\"province\":[],\"stay\":[]}}', '2.0', '崔思思');
+INSERT INTO `pmo_examine_project` VALUES (262, 139, 1, 32, NULL, -1, '2018-12-28 16:00:31', '{\"project_list_data\":{\"id\":\"139\",\"project_name\":\"需求分析\",\"project_gather_id\":\"31\",\"project_person_in_charge_id\":\"31\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"13\",\"project_customer_name\":\"中国联合网络通信有限公司北京市分公司\",\"project_days\":\"3\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"寇艳艳\",\"project_leader_id\":\"31\",\"project_person_in_charge_name\":\"寇艳艳\",\"project_gather_name\":\"中国联通\",\"project_project_template_name\":\"行业培训部\",\"province\":555,\"city\":50,\"address\":\"金融界121号F301\",\"project_income\":\"60000\",\"project_tax_rate\":\"3600\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812005\",\"project_training_ares_name\":\"北京--北京--金融界121号F301\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"金融界121号F301\"},\"project_date\":{\"start\":\"2018-12-29\",\"end\":\"2019-01-01\"},\"labor_cost\":15000,\"implementation_cost\":600,\"conference_cost\":0,\"stay\":2000,\"meal\":0,\"travel_cost\":2605,\"lecturer\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"27\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"徐全\"}],\"lecturers\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"27\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"徐全\"}],\"implement\":{\"id\":\"97\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"\",\"tea_break\":\"\",\"stationery\":\"\",\"hospitality\":\"\",\"postage\":\"200\",\"parent_id\":\"139\",\"state\":\"0\",\"time\":\"2018-12-28 15:50:29\",\"material_cost\":\"400\",\"equipment_cost\":\"\"},\"venue\":[],\"consulting_cost\":0,\"costing\":21805,\"expected_income\":\"60000\",\"project_profit\":38195,\"gross_interest_rate\":\"63.66%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:02:49\",\"pass\":\"-1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"-1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"139\",\"project_name\":\"需求分析\",\"project_gather_id\":\"31\",\"project_person_in_charge_id\":\"31\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"13\",\"project_customer_name\":\"中国联合网络通信有限公司北京市分公司\",\"project_days\":\"3\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"寇艳艳\",\"project_leader_id\":\"31\",\"project_person_in_charge_name\":\"寇艳艳\",\"project_gather_name\":\"中国联通\",\"project_project_template_name\":\"行业培训部\",\"province\":\"北京\",\"city\":\"北京\",\"address\":\"金融界121号F301\",\"project_income\":\"60000\",\"project_tax_rate\":\"3600\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812005\"},\"lecturer_get_project\":{\"lecturer\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"27\",\"teacher_name_name\":\"徐全\",\"parent_id\":\"139\"}],\"project_name\":\"需求分析\",\"unicode\":\"201812005\"},\"implement_get_project\":{\"project_name\":\"需求分析\",\"unicode\":\"201812005\",\"implement\":[{\"id\":\"97\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"\",\"tea_break\":\"\",\"stationery\":\"\",\"hospitality\":\"\",\"postage\":\"200\",\"parent_id\":\"139\",\"state\":\"0\",\"time\":\"2018-12-28 15:50:29\",\"material_cost\":\"400\",\"equipment_cost\":\"\"}],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"需求分析\",\"unicode\":\"201812005\",\"city\":[{\"id\":\"71\",\"short_fee_card_people\":\"寇艳艳\",\"short_fee_type\":\"地铁\",\"short_fee\":\"50\",\"parent_id\":\"139\",\"now_time\":\"0000-00-00 00:00:00\",\"state\":\"0\"}],\"meal\":[],\"province\":[{\"id\":\"126\",\"long_fee_card_people\":\"徐全\",\"long_fee_card_start_time\":\"2018-12-01T12:12\",\"long_fee_card_start_place\":\"北京\",\"long_fee_card_end_time\":\"2018-12-05T12:12\",\"long_fee_card_end_place\":\"上海\",\"state\":\"0\",\"parent_id\":\"139\",\"now_time\":\"0000-00-00 00:00:00\",\"long_fee_card_fee\":\"555\",\"long_fee_card_vehicle_name\":\"火车\",\"long_fee_card_vehicle_id\":\"1\"}],\"stay\":[{\"id\":\"57\",\"hotel_expense_people\":\"寇艳艳\",\"hotel_expense_days\":\"4\",\"hotel_expense_total\":\"2000\",\"parent_id\":\"139\",\"state\":\"0\",\"now_time\":null}]}}', '2.0', '寇艳艳');
+INSERT INTO `pmo_examine_project` VALUES (253, 134, 1, 30, NULL, 0, '2018-12-28 15:19:26', NULL, NULL, NULL);
+INSERT INTO `pmo_examine_project` VALUES (254, 135, 1, 30, NULL, 0, '2018-12-28 15:20:45', '{\"project_list_data\":{\"id\":\"135\",\"project_name\":\"uml\",\"project_gather_id\":\"23\",\"project_person_in_charge_id\":\"32\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"11\",\"project_customer_name\":\"云南移动\",\"project_days\":\"2\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"10\",\"project_leader_name\":\"张剑\",\"project_leader_id\":\"32\",\"project_person_in_charge_name\":\"张剑\",\"project_gather_name\":\"云南移动\",\"project_project_template_name\":\"行业培训部\",\"province\":0,\"city\":0,\"address\":\"中软大厦\",\"project_income\":\"60000\",\"project_tax_rate\":\"360\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812001\",\"project_training_ares_name\":\"北京--北京--中软大厦\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"中软大厦\"},\"project_date\":{\"start\":\"2018-12-29\",\"end\":\"2019-01-01\"},\"labor_cost\":15300,\"implementation_cost\":1360,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[{\"id\":\"261\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"300\",\"teacher_name_id\":\"17\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"杨云\"}],\"lecturers\":[{\"id\":\"261\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"300\",\"teacher_name_id\":\"17\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"杨云\"}],\"implement\":{\"id\":\"96\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"0\",\"tea_break\":\"500\",\"stationery\":\"500\",\"hospitality\":\"40\",\"postage\":\"20\",\"parent_id\":\"135\",\"state\":\"0\",\"time\":\"2018-12-28 15:16:43\",\"material_cost\":\"300\",\"equipment_cost\":\"0\"},\"venue\":[],\"consulting_cost\":0,\"costing\":17020,\"expected_income\":\"60000\",\"project_profit\":42980,\"gross_interest_rate\":\"71.63%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"135\",\"project_name\":\"uml\",\"project_gather_id\":\"23\",\"project_person_in_charge_id\":\"32\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"11\",\"project_customer_name\":\"云南移动\",\"project_days\":\"2\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"10\",\"project_leader_name\":\"张剑\",\"project_leader_id\":\"32\",\"project_person_in_charge_name\":\"张剑\",\"project_gather_name\":\"云南移动\",\"project_project_template_name\":\"行业培训部\",\"province\":\"北京\",\"city\":\"北京\",\"address\":\"中软大厦\",\"project_income\":\"60000\",\"project_tax_rate\":\"360\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812001\",\"project_training_ares_name\":\"北京--北京--中软大厦\"},\"lecturer_get_project\":{\"lecturer\":[{\"id\":\"261\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"300\",\"teacher_name_id\":\"17\",\"teacher_name_name\":\"杨云\",\"parent_id\":\"135\"}],\"project_name\":\"uml\",\"unicode\":\"201812001\"},\"implement_get_project\":{\"project_name\":\"uml\",\"unicode\":\"201812001\",\"implement\":[{\"id\":\"96\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"0\",\"tea_break\":\"500\",\"stationery\":\"500\",\"hospitality\":\"40\",\"postage\":\"20\",\"parent_id\":\"135\",\"state\":\"0\",\"time\":\"2018-12-28 15:16:43\",\"material_cost\":\"300\",\"equipment_cost\":\"0\"}],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"uml\",\"unicode\":\"201812001\",\"city\":[],\"meal\":[],\"province\":[],\"stay\":[]}}', '2.0', '崔思思');
 
 -- ----------------------------
 -- Table structure for pmo_examine_project_fee
@@ -3778,30 +3813,6 @@ INSERT INTO `pmo_examine_project_fee` VALUES (96, 15, '0', '0', '0', '0', '0', 0
 INSERT INTO `pmo_examine_project_fee` VALUES (97, 34, '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', 'NAN%', NULL, NULL);
 
 -- ----------------------------
--- Table structure for pmo_examine_static
--- ----------------------------
-DROP TABLE IF EXISTS `pmo_examine_static`;
-CREATE TABLE `pmo_examine_static`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
-  `data` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT '静态数据',
-  `examine_type` tinyint(2) NULL DEFAULT NULL COMMENT '1为预算2为决算',
-  `version` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '版本',
-  `user_name` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '提交人姓名',
-  `examine_project_id` int(11) NULL DEFAULT NULL COMMENT '审批项目id',
-  `state` tinyint(2) NULL DEFAULT 0 COMMENT '未通过状态为1',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 67 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of pmo_examine_static
--- ----------------------------
-INSERT INTO `pmo_examine_static` VALUES (65, 94, '{\"project_list_data\":{\"id\":\"94\",\"project_name\":\"崔思思测试003\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"3\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"技术资源部\",\"province\":1,\"city\":1,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120040\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"stay\":1,\"meal\":1,\"travel_cost\":4,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":4,\"expected_income\":0,\"project_profit\":-4,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"94\",\"project_name\":\"崔思思测试003\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"3\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"技术资源部\",\"province\":null,\"city\":null,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120040\"},\"lecturer_get_project\":{\"lecturer\":[],\"project_name\":\"崔思思测试003\",\"unicode\":\"2018120040\"},\"implement_get_project\":{\"project_name\":\"崔思思测试003\",\"unicode\":\"2018120040\",\"implement\":[],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"崔思思测试003\",\"unicode\":\"2018120040\",\"city\":[{\"id\":\"65\",\"short_fee_card_people\":\"1\",\"short_fee_type\":\"1\",\"short_fee\":\"1\",\"parent_id\":\"94\",\"now_time\":\"0000-00-00 00:00:00\",\"state\":\"0\"}],\"meal\":[{\"id\":\"41\",\"meal_fee\":\"1\",\"meal_fee_days\":\"1\",\"meal_fee_people_id\":\"2\",\"meal_fee_remarks\":\"1\",\"parent_id\":\"94\",\"state\":\"0\",\"meal_fee_people_name\":\"实施\"}],\"province\":[{\"id\":\"117\",\"long_fee_card_people\":\"1\",\"long_fee_card_start_time\":\"\",\"long_fee_card_start_place\":\"11\",\"long_fee_card_end_time\":\"0001-01-01T01:01\",\"long_fee_card_end_place\":\"11\",\"state\":\"0\",\"parent_id\":\"94\",\"now_time\":\"0000-00-00 00:00:00\",\"long_fee_card_fee\":\"1\",\"long_fee_card_vehicle_name\":\"\",\"long_fee_card_vehicle_id\":\"0\"}],\"stay\":[{\"id\":\"49\",\"hotel_expense_people\":\"1\",\"hotel_expense_days\":\"11\",\"hotel_expense_total\":\"1\",\"parent_id\":\"94\",\"state\":\"0\",\"now_time\":null}]}}', 1, '1.0', '穆连', NULL, 0);
-INSERT INTO `pmo_examine_static` VALUES (66, 94, '{\"project_list_data\":{\"id\":\"94\",\"project_name\":\"崔思思测试003\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"3\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"技术资源部\",\"province\":1,\"city\":1,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120040\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"stay\":1,\"meal\":1,\"travel_cost\":4,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":4,\"expected_income\":0,\"project_profit\":-4,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"2\",\"admin_id\":\"10\"}],\"state\":\"1\"}}},\"project_get_one\":{\"id\":\"94\",\"project_name\":\"崔思思测试003\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"3\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"技术资源部\",\"province\":null,\"city\":null,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120040\"},\"lecturer_get_project\":{\"lecturer\":[],\"project_name\":\"崔思思测试003\",\"unicode\":\"2018120040\"},\"implement_get_project\":{\"project_name\":\"崔思思测试003\",\"unicode\":\"2018120040\",\"implement\":[],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"崔思思测试003\",\"unicode\":\"2018120040\",\"city\":[{\"id\":\"65\",\"short_fee_card_people\":\"1\",\"short_fee_type\":\"1\",\"short_fee\":\"1\",\"parent_id\":\"94\",\"now_time\":\"0000-00-00 00:00:00\",\"state\":\"0\"}],\"meal\":[{\"id\":\"41\",\"meal_fee\":\"1\",\"meal_fee_days\":\"1\",\"meal_fee_people_id\":\"2\",\"meal_fee_remarks\":\"1\",\"parent_id\":\"94\",\"state\":\"0\",\"meal_fee_people_name\":\"实施\"}],\"province\":[{\"id\":\"117\",\"long_fee_card_people\":\"1\",\"long_fee_card_start_time\":\"\",\"long_fee_card_start_place\":\"11\",\"long_fee_card_end_time\":\"0001-01-01T01:01\",\"long_fee_card_end_place\":\"11\",\"state\":\"0\",\"parent_id\":\"94\",\"now_time\":\"0000-00-00 00:00:00\",\"long_fee_card_fee\":\"1\",\"long_fee_card_vehicle_name\":\"\",\"long_fee_card_vehicle_id\":\"0\"}],\"stay\":[{\"id\":\"49\",\"hotel_expense_people\":\"1\",\"hotel_expense_days\":\"11\",\"hotel_expense_total\":\"1\",\"parent_id\":\"94\",\"state\":\"0\",\"now_time\":null},{\"id\":\"50\",\"hotel_expense_people\":\"\",\"hotel_expense_days\":\"\",\"hotel_expense_total\":\"\",\"parent_id\":\"94\",\"state\":\"0\",\"now_time\":null}]}}', 2, '1.0', '穆连', NULL, 0);
-INSERT INTO `pmo_examine_static` VALUES (62, 92, '{\"project_list_data\":{\"id\":\"92\",\"project_name\":\"崔思思测试001\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"行业培训部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120038\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-25 11:12:09\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"2\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"92\",\"project_name\":\"崔思思测试001\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"行业培训部\",\"province\":null,\"city\":null,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120038\"},\"lecturer_get_project\":{\"lecturer\":[],\"project_name\":\"崔思思测试001\",\"unicode\":\"2018120038\"},\"implement_get_project\":{\"project_name\":\"崔思思测试001\",\"unicode\":\"2018120038\",\"implement\":[],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"崔思思测试001\",\"unicode\":\"2018120038\",\"city\":[],\"meal\":[],\"province\":[],\"stay\":[]}}', 1, '1.0', '穆连', NULL, 0);
-INSERT INTO `pmo_examine_static` VALUES (63, 93, '{\"project_list_data\":{\"id\":\"93\",\"project_name\":\"崔思思测试002\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":11,\"city\":0,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120039\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":11,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":11,\"expected_income\":0,\"project_profit\":-11,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"},{\"admin_user\":\"段美静\",\"time\":\"2018-12-25 11:12:54\",\"pass\":\"-1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}},\"project_get_one\":{\"id\":\"93\",\"project_name\":\"崔思思测试002\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":null,\"city\":null,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120039\"},\"lecturer_get_project\":{\"lecturer\":[],\"project_name\":\"崔思思测试002\",\"unicode\":\"2018120039\"},\"implement_get_project\":{\"project_name\":\"崔思思测试002\",\"unicode\":\"2018120039\",\"implement\":[],\"venue\":[]},\"travel_get_project\":{\"project_name\":\"崔思思测试002\",\"unicode\":\"2018120039\",\"city\":[],\"meal\":[],\"province\":[{\"id\":\"116\",\"long_fee_card_people\":\"张\",\"long_fee_card_start_time\":\"\",\"long_fee_card_start_place\":\"\",\"long_fee_card_end_time\":\"\",\"long_fee_card_end_place\":\"\",\"state\":\"0\",\"parent_id\":\"93\",\"now_time\":\"0000-00-00 00:00:00\",\"long_fee_card_fee\":\"11\",\"long_fee_card_vehicle_name\":\"\",\"long_fee_card_vehicle_id\":\"0\"}],\"stay\":[]}}', 1, '1.0', '穆连', NULL, 0);
-
--- ----------------------------
 -- Table structure for pmo_examine_user_flow
 -- ----------------------------
 DROP TABLE IF EXISTS `pmo_examine_user_flow`;
@@ -3829,11 +3840,11 @@ CREATE TABLE `pmo_implement_plan`  (
   `postage` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '快递费',
   `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
-  `time` datetime NULL DEFAULT NULL,
+  `time` datetime(0) NULL DEFAULT NULL,
   `material_cost` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '教材费',
   `equipment_cost` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备费用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 94 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '实施费用表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 98 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '实施费用表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_implement_plan
@@ -3851,6 +3862,10 @@ INSERT INTO `pmo_implement_plan` VALUES (90, NULL, NULL, '1', '111', '1', '1', '
 INSERT INTO `pmo_implement_plan` VALUES (91, NULL, NULL, '1', '111', '1', '1', '1', 14, 1, '2018-12-18 14:13:43', '1', '1');
 INSERT INTO `pmo_implement_plan` VALUES (92, NULL, NULL, '1', '111', '1', '1', '1', 14, 0, '2018-12-18 14:19:31', '1', '1');
 INSERT INTO `pmo_implement_plan` VALUES (93, NULL, NULL, '1', '1', '1', '1', '1', 31, 0, '2018-12-19 10:33:14', '1', '1');
+INSERT INTO `pmo_implement_plan` VALUES (94, NULL, NULL, '3', '4', '5', '6', '7', 127, 0, '2018-12-28 11:23:42', '1', '2');
+INSERT INTO `pmo_implement_plan` VALUES (95, NULL, NULL, '23', '24', '25', '26', '27', 134, 0, '2018-12-28 14:47:52', '21', '22');
+INSERT INTO `pmo_implement_plan` VALUES (96, NULL, NULL, '0', '500', '500', '40', '20', 135, 0, '2018-12-28 15:16:43', '300', '0');
+INSERT INTO `pmo_implement_plan` VALUES (97, NULL, NULL, '', '', '', '', '200', 139, 0, '2018-12-28 15:50:29', '400', '');
 
 -- ----------------------------
 -- Table structure for pmo_implement_room
@@ -3864,11 +3879,11 @@ CREATE TABLE `pmo_implement_room`  (
   `total_price` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '总价',
   `meetingplace_name` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `meetingplace_address` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '会场地址',
-  `time` datetime NULL DEFAULT NULL,
+  `time` datetime(0) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   `parent_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 74 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '会议室表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 83 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '会议室表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_implement_room
@@ -3885,9 +3900,17 @@ INSERT INTO `pmo_implement_room` VALUES (10, '1', '2', '6', '', '', '', '2018-10
 INSERT INTO `pmo_implement_room` VALUES (28, '123', '123', '123', '123', '123312', '123', '2018-11-05 10:14:13', 1, 6);
 INSERT INTO `pmo_implement_room` VALUES (29, '123', '123', '123', '123', '123312', '123', '2018-11-05 10:14:28', 1, 6);
 INSERT INTO `pmo_implement_room` VALUES (30, '123321', '123', '123', '123', '123312', '123', '2018-11-05 10:14:39', 2, 6);
+INSERT INTO `pmo_implement_room` VALUES (82, NULL, '1800', '4', '7200', NULL, '中软大厦第一会议室', '2018-12-28 16:05:07', 0, 140);
+INSERT INTO `pmo_implement_room` VALUES (81, NULL, '', '', '17', NULL, '', '2018-12-28 14:46:46', 0, 134);
+INSERT INTO `pmo_implement_room` VALUES (80, NULL, '', '', '13', NULL, '', '2018-12-28 14:46:40', 0, 134);
 INSERT INTO `pmo_implement_room` VALUES (34, '1', '1', '1', '1', '1', '1', '2018-11-26 10:45:12', 0, 4);
+INSERT INTO `pmo_implement_room` VALUES (79, 'b501', '100', '5', '500', '第一会议室', '中软大厦', '2018-12-28 12:30:29', 0, 130);
+INSERT INTO `pmo_implement_room` VALUES (78, '会议室编号', '70', '2', '80', '会议名称', '会议地址', '2018-12-28 11:11:37', 0, 128);
 INSERT INTO `pmo_implement_room` VALUES (43, '1', '2', '', '', '', '', '2018-12-12 11:54:30', 0, 20);
 INSERT INTO `pmo_implement_room` VALUES (44, '1', '2', '', '', '', '', '2018-12-12 11:54:43', 0, 20);
+INSERT INTO `pmo_implement_room` VALUES (76, '1', '2', '3', '4', '5', '6', '2018-12-27 13:27:18', 0, 119);
+INSERT INTO `pmo_implement_room` VALUES (77, '1', '2', '3', '4', '5', '6', '2018-12-27 16:51:34', 0, 127);
+INSERT INTO `pmo_implement_room` VALUES (74, '1', '100', '1', '1000', '', '', '2018-12-26 16:42:12', 0, 103);
 INSERT INTO `pmo_implement_room` VALUES (72, '1', '2', '3', '4', '5', '6', '2018-12-24 13:35:28', 0, 67);
 INSERT INTO `pmo_implement_room` VALUES (71, '20', '20', '20', '20', '2', '中软', '2018-12-22 15:30:27', 0, 56);
 INSERT INTO `pmo_implement_room` VALUES (70, '1', '1', '2', '22', '22', '2', '2018-12-22 15:14:35', 0, 54);
@@ -4020,17 +4043,44 @@ CREATE TABLE `pmo_lecturer`  (
   `time` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   `coop_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '讲师合作记录表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '讲师合作记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_lecturer
 -- ----------------------------
-INSERT INTO `pmo_lecturer` VALUES (1, '刘雪松', '20', '长期', 1, 0, NULL, 1);
-INSERT INTO `pmo_lecturer` VALUES (2, '侍尧', '10', '长期', 2, 0, NULL, 2);
-INSERT INTO `pmo_lecturer` VALUES (13, '1', '2', NULL, NULL, 0, NULL, 2);
-INSERT INTO `pmo_lecturer` VALUES (14, '测试', '1', NULL, NULL, 0, NULL, 0);
-INSERT INTO `pmo_lecturer` VALUES (15, '测试', '1', NULL, NULL, 0, NULL, 1);
-INSERT INTO `pmo_lecturer` VALUES (16, '崔春生', '6000', NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (1, '柳芳', '1500', '长期', 1, 0, NULL, 1);
+INSERT INTO `pmo_lecturer` VALUES (2, '秦潇潇', '1500', '长期', 2, 0, NULL, 1);
+INSERT INTO `pmo_lecturer` VALUES (13, '刘沛春', '1500', NULL, NULL, 0, NULL, 1);
+INSERT INTO `pmo_lecturer` VALUES (14, '宋丹', '1500', NULL, NULL, 0, NULL, 1);
+INSERT INTO `pmo_lecturer` VALUES (15, '胡光超', '1500', NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (16, '熊磊光', '6000', NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (17, '杨云', '6000', NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (18, '田雪松', '6000', NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (20, '马雁岭', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (21, '安魏', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (22, '陈勇', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (23, '顾炜宇', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (24, '宋丹', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (25, '王安', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (26, '王启斌', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (27, '徐全', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (28, '马丽娟', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (29, '蒋德均', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (30, '张晓峰', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (31, '张学朋', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (32, '蒋德钧', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (33, '季猛', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (34, '安巍', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (35, '谭明峰', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (36, '赵卫东', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (37, '陈阳海', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (38, '穆炜政', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (39, '钱兴会', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (40, '胡小亮', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (41, '康凯', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (42, '李福东', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (43, '程文俊', NULL, NULL, NULL, 0, NULL, 2);
+INSERT INTO `pmo_lecturer` VALUES (44, '董亮', NULL, NULL, NULL, 0, NULL, 2);
 
 -- ----------------------------
 -- Table structure for pmo_lecturer_coop
@@ -4062,12 +4112,9 @@ CREATE TABLE `pmo_lecturer_duty`  (
 -- ----------------------------
 -- Records of pmo_lecturer_duty
 -- ----------------------------
-INSERT INTO `pmo_lecturer_duty` VALUES (1, '助教', 0);
-INSERT INTO `pmo_lecturer_duty` VALUES (2, '主讲', 0);
-INSERT INTO `pmo_lecturer_duty` VALUES (3, '专家', 0);
-INSERT INTO `pmo_lecturer_duty` VALUES (4, '外聘', 0);
-INSERT INTO `pmo_lecturer_duty` VALUES (5, '其他', 0);
-INSERT INTO `pmo_lecturer_duty` VALUES (6, '无', 0);
+INSERT INTO `pmo_lecturer_duty` VALUES (1, '主讲', 0);
+INSERT INTO `pmo_lecturer_duty` VALUES (2, '助教', 0);
+INSERT INTO `pmo_lecturer_duty` VALUES (3, '特邀嘉宾', 0);
 
 -- ----------------------------
 -- Table structure for pmo_lecturer_plan
@@ -4082,98 +4129,109 @@ CREATE TABLE `pmo_lecturer_plan`  (
   `day` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '讲课天数',
   `duty_id` int(11) NULL DEFAULT NULL COMMENT '职责id',
   `state` tinyint(2) NULL DEFAULT 0,
-  `time` datetime NULL DEFAULT NULL,
+  `time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 252 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '讲师安排表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 264 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '讲师安排表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_lecturer_plan
 -- ----------------------------
-INSERT INTO `pmo_lecturer_plan` VALUES (160, 2, 2, '1', '3000', '5', NULL, 1, '2018-10-25 11:25:18');
-INSERT INTO `pmo_lecturer_plan` VALUES (161, 2, 2, '1', '3000', '5', 4, 2, '2018-10-25 11:25:24');
-INSERT INTO `pmo_lecturer_plan` VALUES (162, 2, NULL, NULL, '3000', '5', NULL, 1, '2018-10-25 11:36:41');
-INSERT INTO `pmo_lecturer_plan` VALUES (163, 2, 1, NULL, '3000', '5', NULL, 1, '2018-10-25 13:15:22');
-INSERT INTO `pmo_lecturer_plan` VALUES (164, 1, 1, '123', '3000', '5', 3, 0, '2018-10-25 13:36:24');
-INSERT INTO `pmo_lecturer_plan` VALUES (165, 2, 1, NULL, '3000', '5', NULL, 1, '2018-10-30 13:39:57');
-INSERT INTO `pmo_lecturer_plan` VALUES (166, 2, 1, NULL, '3000', '5', 3, 1, '2018-10-30 13:44:37');
-INSERT INTO `pmo_lecturer_plan` VALUES (167, 2, 1, NULL, '3000.0', '5', 3, 1, '2018-11-01 14:00:01');
-INSERT INTO `pmo_lecturer_plan` VALUES (168, 2, 1, NULL, '3000.5', '5', 3, 1, '2018-11-01 14:00:21');
-INSERT INTO `pmo_lecturer_plan` VALUES (169, 2, 2, NULL, '3000.5', '5', 3, 1, '2018-11-02 10:18:50');
-INSERT INTO `pmo_lecturer_plan` VALUES (170, 2, 2, '6', '3000.5', '5', 3, 1, '2018-11-02 13:59:40');
-INSERT INTO `pmo_lecturer_plan` VALUES (171, 2, 2, '66', '3000.5', '5', 3, 2, '2018-11-02 14:02:17');
-INSERT INTO `pmo_lecturer_plan` VALUES (172, 2, 1, NULL, '-3000', '5', NULL, 1, '2018-11-02 16:29:11');
-INSERT INTO `pmo_lecturer_plan` VALUES (173, 2, 1, NULL, '3000', '5', NULL, 1, '2018-11-02 16:29:37');
-INSERT INTO `pmo_lecturer_plan` VALUES (174, 2, 1, '1', '3000', '5', NULL, 1, '2018-11-05 10:12:30');
-INSERT INTO `pmo_lecturer_plan` VALUES (175, 2, 2, '2', '3000', '5', 3, 1, '2018-11-05 10:12:38');
-INSERT INTO `pmo_lecturer_plan` VALUES (176, 2, 2, '1', '3000', '53', 3, 2, '2018-11-05 10:12:44');
-INSERT INTO `pmo_lecturer_plan` VALUES (177, 2, 1, NULL, '3000', '5', NULL, 1, '2018-11-05 10:19:12');
-INSERT INTO `pmo_lecturer_plan` VALUES (178, 4, 2, NULL, '3000', '5', NULL, 2, '2018-11-05 10:19:31');
-INSERT INTO `pmo_lecturer_plan` VALUES (179, 2, 1, '1', '3000', '5', 2, 1, '2018-11-05 16:25:16');
-INSERT INTO `pmo_lecturer_plan` VALUES (180, 2, 1, NULL, '3000', '5', 4, 1, '2018-11-05 16:25:22');
-INSERT INTO `pmo_lecturer_plan` VALUES (181, 2, 1, '1', '3000', '5', 2, 2, '2018-11-05 17:36:48');
-INSERT INTO `pmo_lecturer_plan` VALUES (182, 2, NULL, NULL, NULL, NULL, NULL, 1, '2018-11-08 15:05:00');
-INSERT INTO `pmo_lecturer_plan` VALUES (183, 2, NULL, NULL, NULL, NULL, NULL, 1, '2018-11-08 15:05:17');
+INSERT INTO `pmo_lecturer_plan` VALUES (160, 2, 2, '1', '3000', '5', 1, 1, '2018-10-25 11:25:18');
+INSERT INTO `pmo_lecturer_plan` VALUES (161, 2, 2, '1', '3000', '5', 1, 2, '2018-10-25 11:25:24');
+INSERT INTO `pmo_lecturer_plan` VALUES (162, 2, NULL, NULL, '3000', '5', 1, 1, '2018-10-25 11:36:41');
+INSERT INTO `pmo_lecturer_plan` VALUES (163, 2, 1, NULL, '3000', '5', 1, 1, '2018-10-25 13:15:22');
+INSERT INTO `pmo_lecturer_plan` VALUES (164, 1, 1, '123', '3000', '5', 1, 0, '2018-10-25 13:36:24');
+INSERT INTO `pmo_lecturer_plan` VALUES (165, 2, 1, NULL, '3000', '5', 1, 1, '2018-10-30 13:39:57');
+INSERT INTO `pmo_lecturer_plan` VALUES (166, 2, 1, NULL, '3000', '5', 1, 1, '2018-10-30 13:44:37');
+INSERT INTO `pmo_lecturer_plan` VALUES (167, 2, 1, NULL, '3000.0', '5', 1, 1, '2018-11-01 14:00:01');
+INSERT INTO `pmo_lecturer_plan` VALUES (168, 2, 1, NULL, '3000.5', '5', 1, 1, '2018-11-01 14:00:21');
+INSERT INTO `pmo_lecturer_plan` VALUES (169, 2, 2, NULL, '3000.5', '5', 1, 1, '2018-11-02 10:18:50');
+INSERT INTO `pmo_lecturer_plan` VALUES (170, 2, 2, '6', '3000.5', '5', 1, 1, '2018-11-02 13:59:40');
+INSERT INTO `pmo_lecturer_plan` VALUES (171, 2, 2, '66', '3000.5', '5', 1, 2, '2018-11-02 14:02:17');
+INSERT INTO `pmo_lecturer_plan` VALUES (172, 2, 1, NULL, '-3000', '5', 1, 1, '2018-11-02 16:29:11');
+INSERT INTO `pmo_lecturer_plan` VALUES (173, 2, 1, NULL, '3000', '5', 1, 1, '2018-11-02 16:29:37');
+INSERT INTO `pmo_lecturer_plan` VALUES (174, 2, 1, '1', '3000', '5', 1, 1, '2018-11-05 10:12:30');
+INSERT INTO `pmo_lecturer_plan` VALUES (175, 2, 2, '2', '3000', '5', 1, 1, '2018-11-05 10:12:38');
+INSERT INTO `pmo_lecturer_plan` VALUES (176, 2, 2, '1', '3000', '53', 1, 2, '2018-11-05 10:12:44');
+INSERT INTO `pmo_lecturer_plan` VALUES (177, 2, 1, NULL, '3000', '5', 1, 1, '2018-11-05 10:19:12');
+INSERT INTO `pmo_lecturer_plan` VALUES (178, 4, 2, NULL, '3000', '5', 1, 2, '2018-11-05 10:19:31');
+INSERT INTO `pmo_lecturer_plan` VALUES (179, 2, 1, '1', '3000', '5', 1, 1, '2018-11-05 16:25:16');
+INSERT INTO `pmo_lecturer_plan` VALUES (180, 2, 1, NULL, '3000', '5', 1, 1, '2018-11-05 16:25:22');
+INSERT INTO `pmo_lecturer_plan` VALUES (181, 2, 1, '1', '3000', '5', 1, 2, '2018-11-05 17:36:48');
+INSERT INTO `pmo_lecturer_plan` VALUES (182, 2, NULL, NULL, NULL, NULL, 1, 1, '2018-11-08 15:05:00');
+INSERT INTO `pmo_lecturer_plan` VALUES (183, 2, NULL, NULL, NULL, NULL, 1, 1, '2018-11-08 15:05:17');
 INSERT INTO `pmo_lecturer_plan` VALUES (184, 2, 2, '1', '2', '3', 1, 1, '2018-11-08 15:06:06');
-INSERT INTO `pmo_lecturer_plan` VALUES (185, 2, 1, '34', '3000', '5', NULL, 1, '2018-11-08 15:12:01');
-INSERT INTO `pmo_lecturer_plan` VALUES (186, 2, 1, '1', '2', '3', 4, 2, '2018-11-14 09:30:37');
-INSERT INTO `pmo_lecturer_plan` VALUES (187, 2, 1, '34', '3000', '5', 3, 1, '2018-11-14 09:30:46');
+INSERT INTO `pmo_lecturer_plan` VALUES (185, 2, 1, '34', '3000', '5', 1, 1, '2018-11-08 15:12:01');
+INSERT INTO `pmo_lecturer_plan` VALUES (186, 2, 1, '1', '2', '3', 1, 2, '2018-11-14 09:30:37');
+INSERT INTO `pmo_lecturer_plan` VALUES (187, 2, 1, '34', '3000', '5', 1, 1, '2018-11-14 09:30:46');
 INSERT INTO `pmo_lecturer_plan` VALUES (188, 2, 1, '34', '3000', '5', 1, 2, '2018-11-14 09:30:56');
-INSERT INTO `pmo_lecturer_plan` VALUES (189, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2018-11-14 11:13:06');
-INSERT INTO `pmo_lecturer_plan` VALUES (190, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2018-11-14 11:13:48');
-INSERT INTO `pmo_lecturer_plan` VALUES (191, NULL, 2, NULL, '3000', '5', NULL, 0, '2018-11-14 11:14:33');
-INSERT INTO `pmo_lecturer_plan` VALUES (192, NULL, 1, NULL, '3000', '5', NULL, 0, '2018-11-14 11:14:52');
-INSERT INTO `pmo_lecturer_plan` VALUES (193, 2, 2, NULL, '3000', '5', NULL, 2, '2018-11-14 11:19:26');
-INSERT INTO `pmo_lecturer_plan` VALUES (194, 2, 1, '56', '3000', '57', 3, 2, '2018-11-14 11:25:49');
-INSERT INTO `pmo_lecturer_plan` VALUES (195, 2, 1, '1', '3000', '52', NULL, 2, '2018-11-14 11:26:45');
-INSERT INTO `pmo_lecturer_plan` VALUES (196, 2, 2, NULL, '3000', '5', NULL, 2, '2018-11-14 11:34:52');
-INSERT INTO `pmo_lecturer_plan` VALUES (197, 2, 2, NULL, '3000', '5', NULL, 1, '2018-11-14 11:38:27');
-INSERT INTO `pmo_lecturer_plan` VALUES (198, 2, 2, NULL, '3000', '5', NULL, 2, '2018-11-14 11:40:14');
-INSERT INTO `pmo_lecturer_plan` VALUES (199, 2, 2, '13', '3000', '5', NULL, 1, '2018-11-14 11:43:14');
-INSERT INTO `pmo_lecturer_plan` VALUES (200, 2, 2, '136', '3000', '5', NULL, 1, '2018-11-15 15:10:34');
-INSERT INTO `pmo_lecturer_plan` VALUES (201, 6, 1, '1', '3000', '5', 3, 1, '2018-11-26 10:42:24');
-INSERT INTO `pmo_lecturer_plan` VALUES (202, 2, 2, '20', '3', '25', NULL, 1, '2018-12-05 15:25:01');
-INSERT INTO `pmo_lecturer_plan` VALUES (203, 2, 2, '20', '3', '25', 2, 1, '2018-12-05 16:26:34');
-INSERT INTO `pmo_lecturer_plan` VALUES (204, 2, 2, '2', '3000', '533', 2, 1, '2018-12-05 16:54:42');
-INSERT INTO `pmo_lecturer_plan` VALUES (205, 2, 2, '20', '3', '25', 2, 1, '2018-12-08 12:10:13');
-INSERT INTO `pmo_lecturer_plan` VALUES (206, 2, 2, '2', '3000', '533', 2, 1, '2018-12-08 13:33:20');
-INSERT INTO `pmo_lecturer_plan` VALUES (207, 11, 2, '20', '30000', '5', 2, 0, '2018-12-11 16:24:19');
-INSERT INTO `pmo_lecturer_plan` VALUES (208, 6, 1, '100', '50000000000000', '5', 2, 1, '2018-12-11 18:19:00');
-INSERT INTO `pmo_lecturer_plan` VALUES (209, 6, 1, '1', '3000', '5', 3, 0, '2018-12-12 10:33:00');
-INSERT INTO `pmo_lecturer_plan` VALUES (210, 6, 1, '100', '20', '5', 2, 2, '2018-12-12 10:54:12');
-INSERT INTO `pmo_lecturer_plan` VALUES (211, 2, 2, '2', '30000', '533', 2, 2, '2018-12-12 13:30:54');
-INSERT INTO `pmo_lecturer_plan` VALUES (212, 2, 1, '20', '30000', '5', 2, 2, '2018-12-12 13:32:36');
-INSERT INTO `pmo_lecturer_plan` VALUES (213, 2, 2, '20', '300', '25', 2, 2, '2018-12-12 13:32:57');
-INSERT INTO `pmo_lecturer_plan` VALUES (214, 2, 1, '1', '3000', '5', 2, 2, '2018-12-12 13:34:14');
-INSERT INTO `pmo_lecturer_plan` VALUES (215, 2, 1, '1', '3000', '5', 2, 2, '2018-12-12 13:36:24');
-INSERT INTO `pmo_lecturer_plan` VALUES (216, 2, 2, '20', '3000', '5', 2, 2, '2018-12-12 13:38:57');
-INSERT INTO `pmo_lecturer_plan` VALUES (217, 2, 13, '1', '30000', '5', 2, 2, '2018-12-12 13:41:06');
-INSERT INTO `pmo_lecturer_plan` VALUES (218, 2, 2, '20', '3000', '5', 2, 2, '2018-12-12 13:43:41');
-INSERT INTO `pmo_lecturer_plan` VALUES (219, 2, 2, '20', '3000', '5', 2, 2, '2018-12-12 13:50:35');
-INSERT INTO `pmo_lecturer_plan` VALUES (220, 2, 2, '20', '30000', '5', 2, 1, '2018-12-12 13:51:42');
-INSERT INTO `pmo_lecturer_plan` VALUES (221, 2, 1, '20', '3000', '5', NULL, 1, '2018-12-13 10:55:52');
-INSERT INTO `pmo_lecturer_plan` VALUES (222, 2, 2, '20', '31000', '5', 2, 1, '2018-12-13 15:20:42');
-INSERT INTO `pmo_lecturer_plan` VALUES (223, 2, 1, '201', '31000', '5', NULL, 1, '2018-12-13 15:21:07');
-INSERT INTO `pmo_lecturer_plan` VALUES (224, 2, 2, '2011', '31000', '5', 2, 1, '2018-12-13 15:21:22');
-INSERT INTO `pmo_lecturer_plan` VALUES (225, 2, 1, '2012', '31000', '5', NULL, 1, '2018-12-13 15:21:40');
-INSERT INTO `pmo_lecturer_plan` VALUES (226, 2, 2, '2013', '31000', '5', 2, 1, '2018-12-13 15:21:51');
-INSERT INTO `pmo_lecturer_plan` VALUES (227, 2, 1, '2014', '31000', '5', NULL, 1, '2018-12-13 15:22:13');
-INSERT INTO `pmo_lecturer_plan` VALUES (228, 2, 1, '2015', '31000', '5', NULL, 1, '2018-12-13 15:22:21');
-INSERT INTO `pmo_lecturer_plan` VALUES (229, 2, 1, '3015', '31000', '5', NULL, 1, '2018-12-13 15:23:06');
-INSERT INTO `pmo_lecturer_plan` VALUES (230, 2, 2, '2013', '310000', '5', 2, 1, '2018-12-18 14:24:31');
-INSERT INTO `pmo_lecturer_plan` VALUES (249, 55, 2, '', '3000', '5', 2, 0, '2018-12-22 16:01:41');
-INSERT INTO `pmo_lecturer_plan` VALUES (232, 2, 2, '100', '310000', '5', 2, 0, '2018-12-19 14:40:47');
-INSERT INTO `pmo_lecturer_plan` VALUES (233, 2, 1, '3015', '310000', '5', NULL, 0, '2018-12-18 14:29:36');
-INSERT INTO `pmo_lecturer_plan` VALUES (234, 2, 1, '3015', '310000', '5', NULL, 0, '2018-12-18 14:38:15');
-INSERT INTO `pmo_lecturer_plan` VALUES (235, 2, 2, '2013', '310000', '5', 2, 0, '2018-12-18 14:39:15');
-INSERT INTO `pmo_lecturer_plan` VALUES (236, 2, 2, '2013', '310000', '5', 2, 0, '2018-12-18 14:40:37');
-INSERT INTO `pmo_lecturer_plan` VALUES (237, 2, 2, '2013', '310000', '5', 2, 0, '2018-12-18 14:42:05');
-INSERT INTO `pmo_lecturer_plan` VALUES (238, 2, 2, '2013', '310000', '5', 2, 0, '2018-12-18 14:45:06');
-INSERT INTO `pmo_lecturer_plan` VALUES (247, 54, 1, '1', '3000', '5', 2, 0, '2018-12-22 15:14:21');
-INSERT INTO `pmo_lecturer_plan` VALUES (248, 56, 0, '20', '3000', '5', 0, 0, '2018-12-22 15:30:09');
-INSERT INTO `pmo_lecturer_plan` VALUES (242, 31, 1, '20', '30000', '5', 2, 2, '2018-12-19 10:36:58');
-INSERT INTO `pmo_lecturer_plan` VALUES (243, 31, 1, '20', '3000', '5', 2, 0, '2018-12-19 10:37:19');
-INSERT INTO `pmo_lecturer_plan` VALUES (244, 18, 16, '0.00', '6000', '5', 2, 0, '2018-12-19 14:09:06');
-INSERT INTO `pmo_lecturer_plan` VALUES (251, 93, 1, '', '3000', '5', 0, 0, '2018-12-25 13:11:39');
+INSERT INTO `pmo_lecturer_plan` VALUES (189, NULL, NULL, NULL, NULL, NULL, 1, 0, '2018-11-14 11:13:06');
+INSERT INTO `pmo_lecturer_plan` VALUES (190, NULL, NULL, NULL, NULL, NULL, 1, 0, '2018-11-14 11:13:48');
+INSERT INTO `pmo_lecturer_plan` VALUES (191, NULL, 2, NULL, '3000', '5', 1, 0, '2018-11-14 11:14:33');
+INSERT INTO `pmo_lecturer_plan` VALUES (192, NULL, 1, NULL, '3000', '5', 1, 0, '2018-11-14 11:14:52');
+INSERT INTO `pmo_lecturer_plan` VALUES (193, 2, 2, NULL, '3000', '5', 1, 2, '2018-11-14 11:19:26');
+INSERT INTO `pmo_lecturer_plan` VALUES (194, 2, 1, '56', '3000', '57', 1, 2, '2018-11-14 11:25:49');
+INSERT INTO `pmo_lecturer_plan` VALUES (195, 2, 1, '1', '3000', '52', 1, 2, '2018-11-14 11:26:45');
+INSERT INTO `pmo_lecturer_plan` VALUES (196, 2, 2, NULL, '3000', '5', 1, 2, '2018-11-14 11:34:52');
+INSERT INTO `pmo_lecturer_plan` VALUES (197, 2, 2, NULL, '3000', '5', 1, 1, '2018-11-14 11:38:27');
+INSERT INTO `pmo_lecturer_plan` VALUES (198, 2, 2, NULL, '3000', '5', 1, 2, '2018-11-14 11:40:14');
+INSERT INTO `pmo_lecturer_plan` VALUES (199, 2, 2, '13', '3000', '5', 1, 1, '2018-11-14 11:43:14');
+INSERT INTO `pmo_lecturer_plan` VALUES (200, 2, 2, '136', '3000', '5', 1, 1, '2018-11-15 15:10:34');
+INSERT INTO `pmo_lecturer_plan` VALUES (201, 6, 1, '1', '3000', '5', 1, 1, '2018-11-26 10:42:24');
+INSERT INTO `pmo_lecturer_plan` VALUES (202, 2, 2, '20', '3', '25', 1, 1, '2018-12-05 15:25:01');
+INSERT INTO `pmo_lecturer_plan` VALUES (203, 2, 2, '20', '3', '25', 1, 1, '2018-12-05 16:26:34');
+INSERT INTO `pmo_lecturer_plan` VALUES (204, 2, 2, '2', '3000', '533', 1, 1, '2018-12-05 16:54:42');
+INSERT INTO `pmo_lecturer_plan` VALUES (205, 2, 2, '20', '3', '25', 1, 1, '2018-12-08 12:10:13');
+INSERT INTO `pmo_lecturer_plan` VALUES (206, 2, 2, '2', '3000', '533', 1, 1, '2018-12-08 13:33:20');
+INSERT INTO `pmo_lecturer_plan` VALUES (207, 11, 2, '20', '30000', '5', 1, 0, '2018-12-11 16:24:19');
+INSERT INTO `pmo_lecturer_plan` VALUES (208, 6, 1, '100', '50000000000000', '5', 1, 1, '2018-12-11 18:19:00');
+INSERT INTO `pmo_lecturer_plan` VALUES (209, 6, 1, '1', '3000', '5', 1, 0, '2018-12-12 10:33:00');
+INSERT INTO `pmo_lecturer_plan` VALUES (210, 6, 1, '100', '20', '5', 1, 2, '2018-12-12 10:54:12');
+INSERT INTO `pmo_lecturer_plan` VALUES (211, 2, 2, '2', '30000', '533', 1, 2, '2018-12-12 13:30:54');
+INSERT INTO `pmo_lecturer_plan` VALUES (212, 2, 1, '20', '30000', '5', 1, 2, '2018-12-12 13:32:36');
+INSERT INTO `pmo_lecturer_plan` VALUES (213, 2, 2, '20', '300', '25', 1, 2, '2018-12-12 13:32:57');
+INSERT INTO `pmo_lecturer_plan` VALUES (214, 2, 1, '1', '3000', '5', 1, 2, '2018-12-12 13:34:14');
+INSERT INTO `pmo_lecturer_plan` VALUES (215, 2, 1, '1', '3000', '5', 1, 2, '2018-12-12 13:36:24');
+INSERT INTO `pmo_lecturer_plan` VALUES (216, 2, 2, '20', '3000', '5', 1, 2, '2018-12-12 13:38:57');
+INSERT INTO `pmo_lecturer_plan` VALUES (217, 2, 13, '1', '30000', '5', 1, 2, '2018-12-12 13:41:06');
+INSERT INTO `pmo_lecturer_plan` VALUES (218, 2, 2, '20', '3000', '5', 1, 2, '2018-12-12 13:43:41');
+INSERT INTO `pmo_lecturer_plan` VALUES (219, 2, 2, '20', '3000', '5', 1, 2, '2018-12-12 13:50:35');
+INSERT INTO `pmo_lecturer_plan` VALUES (220, 2, 2, '20', '30000', '5', 1, 1, '2018-12-12 13:51:42');
+INSERT INTO `pmo_lecturer_plan` VALUES (221, 2, 1, '20', '3000', '5', 1, 1, '2018-12-13 10:55:52');
+INSERT INTO `pmo_lecturer_plan` VALUES (222, 2, 2, '20', '31000', '5', 1, 1, '2018-12-13 15:20:42');
+INSERT INTO `pmo_lecturer_plan` VALUES (223, 2, 1, '201', '31000', '5', 1, 1, '2018-12-13 15:21:07');
+INSERT INTO `pmo_lecturer_plan` VALUES (224, 2, 2, '2011', '31000', '5', 1, 1, '2018-12-13 15:21:22');
+INSERT INTO `pmo_lecturer_plan` VALUES (225, 2, 1, '2012', '31000', '5', 1, 1, '2018-12-13 15:21:40');
+INSERT INTO `pmo_lecturer_plan` VALUES (226, 2, 2, '2013', '31000', '5', 1, 1, '2018-12-13 15:21:51');
+INSERT INTO `pmo_lecturer_plan` VALUES (227, 2, 1, '2014', '31000', '5', 1, 1, '2018-12-13 15:22:13');
+INSERT INTO `pmo_lecturer_plan` VALUES (228, 2, 1, '2015', '31000', '5', 1, 1, '2018-12-13 15:22:21');
+INSERT INTO `pmo_lecturer_plan` VALUES (229, 2, 1, '3015', '31000', '5', 1, 1, '2018-12-13 15:23:06');
+INSERT INTO `pmo_lecturer_plan` VALUES (230, 2, 2, '2013', '310000', '5', 1, 1, '2018-12-18 14:24:31');
+INSERT INTO `pmo_lecturer_plan` VALUES (249, 55, 2, '', '3000', '5', 1, 0, '2018-12-22 16:01:41');
+INSERT INTO `pmo_lecturer_plan` VALUES (232, 2, 2, '100', '310000', '5', 1, 0, '2018-12-19 14:40:47');
+INSERT INTO `pmo_lecturer_plan` VALUES (233, 2, 1, '3015', '310000', '5', 1, 0, '2018-12-18 14:29:36');
+INSERT INTO `pmo_lecturer_plan` VALUES (234, 2, 1, '3015', '310000', '5', 1, 0, '2018-12-18 14:38:15');
+INSERT INTO `pmo_lecturer_plan` VALUES (235, 2, 2, '2013', '310000', '5', 1, 0, '2018-12-18 14:39:15');
+INSERT INTO `pmo_lecturer_plan` VALUES (236, 2, 2, '2013', '310000', '5', 1, 0, '2018-12-18 14:40:37');
+INSERT INTO `pmo_lecturer_plan` VALUES (237, 2, 2, '2013', '310000', '5', 1, 0, '2018-12-18 14:42:05');
+INSERT INTO `pmo_lecturer_plan` VALUES (238, 2, 2, '2013', '310000', '5', 1, 0, '2018-12-18 14:45:06');
+INSERT INTO `pmo_lecturer_plan` VALUES (247, 54, 1, '1', '3000', '5', 1, 0, '2018-12-22 15:14:21');
+INSERT INTO `pmo_lecturer_plan` VALUES (248, 56, 0, '20', '3000', '5', 1, 0, '2018-12-22 15:30:09');
+INSERT INTO `pmo_lecturer_plan` VALUES (242, 31, 1, '20', '30000', '5', 1, 2, '2018-12-19 10:36:58');
+INSERT INTO `pmo_lecturer_plan` VALUES (243, 31, 1, '20', '3000', '5', 1, 0, '2018-12-19 10:37:19');
+INSERT INTO `pmo_lecturer_plan` VALUES (244, 18, 16, '0.00', '6000', '5', 1, 0, '2018-12-19 14:09:06');
+INSERT INTO `pmo_lecturer_plan` VALUES (251, 93, 1, '', '3000', '5', 1, 0, '2018-12-25 13:11:39');
+INSERT INTO `pmo_lecturer_plan` VALUES (252, 96, 1, '10', '3000', '5', 1, 0, '2018-12-26 13:53:47');
+INSERT INTO `pmo_lecturer_plan` VALUES (253, 103, 1, '500', '3000', '5', 1, 0, '2018-12-26 16:41:29');
+INSERT INTO `pmo_lecturer_plan` VALUES (254, 104, 1, '123', '3000', '5', 1, 0, '2018-12-26 16:47:07');
+INSERT INTO `pmo_lecturer_plan` VALUES (255, 119, 1, '500', '30001', '5', 1, 0, '2018-12-27 13:59:31');
+INSERT INTO `pmo_lecturer_plan` VALUES (257, 127, 1, '100', '3000', '5', 1, 0, '2018-12-27 16:51:11');
+INSERT INTO `pmo_lecturer_plan` VALUES (258, 128, 1, '讲师所得税', '50', '2', 1, 0, '2018-12-28 11:07:57');
+INSERT INTO `pmo_lecturer_plan` VALUES (259, 134, 0, '', '3000', '5', 0, 0, '2018-12-28 14:43:53');
+INSERT INTO `pmo_lecturer_plan` VALUES (260, 134, 0, '', '30000', '5', 0, 0, '2018-12-28 14:43:57');
+INSERT INTO `pmo_lecturer_plan` VALUES (261, 135, 17, '300', '15000', '5', 1, 0, '2018-12-28 15:15:38');
+INSERT INTO `pmo_lecturer_plan` VALUES (262, 139, 1, '', '15000', '3', 1, 0, '2018-12-28 16:03:24');
+INSERT INTO `pmo_lecturer_plan` VALUES (263, 140, 1, '0', '1800', '4', 1, 0, '2018-12-28 16:01:18');
 
 -- ----------------------------
 -- Table structure for pmo_model_list
@@ -4193,12 +4251,12 @@ DROP TABLE IF EXISTS `pmo_operation`;
 CREATE TABLE `pmo_operation`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_id` varchar(11) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '项目id',
-  `time` datetime NULL DEFAULT NULL,
+  `time` datetime(0) NULL DEFAULT NULL,
   `user_id` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `group_id` int(5) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0 COMMENT '默认操作为0，1是在进行预算状态。2是在进行决算状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 667 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '项目操作记录表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 1607 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '项目操作记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_operation
@@ -4624,6 +4682,946 @@ INSERT INTO `pmo_operation` VALUES (663, '6', '2018-12-25 18:10:37', '29', NULL,
 INSERT INTO `pmo_operation` VALUES (664, '1', '2018-12-25 18:15:06', '29', NULL, 0);
 INSERT INTO `pmo_operation` VALUES (665, '4', '2018-12-25 18:15:07', '29', NULL, 0);
 INSERT INTO `pmo_operation` VALUES (666, '6', '2018-12-25 18:15:08', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (667, '95', '2018-12-26 13:41:14', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (668, '96', '2018-12-26 13:46:16', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (669, '97', '2018-12-26 13:46:53', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (670, '98', '2018-12-26 13:47:28', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (671, '99', '2018-12-26 13:47:55', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (672, '96', '2018-12-26 13:49:48', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (673, '96', '2018-12-26 13:50:11', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (674, '101', '2018-12-26 13:50:26', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (675, '96', '2018-12-26 13:52:17', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (676, '96', '2018-12-26 13:53:11', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (677, '96', '2018-12-26 13:53:25', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (678, '96', '2018-12-26 13:53:27', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (679, '96', '2018-12-26 13:53:29', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (680, '96', '2018-12-26 13:53:31', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (681, '96', '2018-12-26 13:53:35', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (682, '96', '2018-12-26 13:53:47', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (683, '96', '2018-12-26 13:53:48', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (684, '96', '2018-12-26 13:54:00', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (685, '96', '2018-12-26 13:54:12', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (686, '96', '2018-12-26 13:54:23', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (687, '96', '2018-12-26 13:54:25', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (688, '96', '2018-12-26 13:54:27', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (689, '96', '2018-12-26 13:54:31', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (690, '96', '2018-12-26 13:54:34', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (691, '96', '2018-12-26 13:55:00', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (692, '96', '2018-12-26 13:55:01', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (693, '96', '2018-12-26 13:55:21', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (694, '96', '2018-12-26 13:55:24', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (695, '96', '2018-12-26 13:55:29', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (696, '96', '2018-12-26 13:55:31', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (697, '96', '2018-12-26 13:55:33', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (698, '96', '2018-12-26 13:55:37', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (699, '96', '2018-12-26 13:55:42', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (700, '96', '2018-12-26 13:55:59', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (701, '96', '2018-12-26 13:56:49', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (702, '98', '2018-12-26 13:57:06', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (703, '96', '2018-12-26 13:59:46', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (704, '102', '2018-12-26 14:00:17', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (705, '103', '2018-12-26 14:01:21', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (706, '98', '2018-12-26 14:24:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (707, '98', '2018-12-26 14:31:28', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (708, '98', '2018-12-26 14:39:07', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (709, '98', '2018-12-26 14:39:14', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (710, '96', '2018-12-26 14:39:16', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (711, '98', '2018-12-26 16:32:46', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (712, '103', '2018-12-26 16:37:44', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (713, '103', '2018-12-26 16:39:05', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (714, '103', '2018-12-26 16:39:41', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (715, '103', '2018-12-26 16:39:46', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (716, '103', '2018-12-26 16:40:43', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (717, '103', '2018-12-26 16:40:46', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (718, '103', '2018-12-26 16:40:47', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (719, '103', '2018-12-26 16:40:58', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (720, '103', '2018-12-26 16:40:59', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (721, '253', '2018-12-26 16:41:28', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (722, '103', '2018-12-26 16:41:29', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (723, '103', '2018-12-26 16:42:01', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (724, '103', '2018-12-26 16:42:12', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (725, '103', '2018-12-26 16:42:13', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (726, '103', '2018-12-26 16:44:45', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (727, '103', '2018-12-26 16:46:16', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (728, '104', '2018-12-26 16:46:40', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (729, '104', '2018-12-26 16:46:46', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (730, '104', '2018-12-26 16:46:59', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (731, '104', '2018-12-26 16:47:02', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (732, '104', '2018-12-26 16:47:07', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (733, '104', '2018-12-26 16:47:08', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (734, '104', '2018-12-26 16:47:13', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (735, '104', '2018-12-26 16:48:21', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (736, '1', '2018-12-26 16:51:12', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (737, '104', '2018-12-26 16:52:35', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (738, '104', '2018-12-26 16:52:43', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (739, '104', '2018-12-26 16:52:46', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (740, '104', '2018-12-26 16:53:01', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (741, '104', '2018-12-26 16:53:18', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (742, '104', '2018-12-26 16:53:30', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (743, '104', '2018-12-26 16:54:12', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (744, '104', '2018-12-26 16:54:46', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (745, '1', '2018-12-26 17:16:04', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (746, '4', '2018-12-26 17:16:04', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (747, '6', '2018-12-26 17:16:05', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (748, '6', '2018-12-26 17:16:07', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (749, '6', '2018-12-26 17:16:08', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (750, '4', '2018-12-26 17:16:08', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (751, '1', '2018-12-26 17:16:10', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (752, '4', '2018-12-26 17:16:12', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (753, '6', '2018-12-26 17:16:13', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (754, '4', '2018-12-26 17:17:04', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (755, '4', '2018-12-26 17:17:05', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (756, '6', '2018-12-26 17:17:13', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (757, '104', '2018-12-26 17:18:36', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (758, '104', '2018-12-26 17:18:58', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (759, '104', '2018-12-26 17:19:13', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (760, '104', '2018-12-26 17:20:33', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (761, '104', '2018-12-26 17:24:31', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (762, '104', '2018-12-26 17:24:56', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (763, '104', '2018-12-26 17:30:46', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (764, '104', '2018-12-26 17:37:31', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (765, '104', '2018-12-26 17:37:44', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (766, '104', '2018-12-26 17:37:51', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (767, '104', '2018-12-26 17:42:25', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (768, '105', '2018-12-26 17:45:19', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (769, '105', '2018-12-26 17:45:24', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (770, '105', '2018-12-26 17:45:31', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (771, '105', '2018-12-26 17:45:48', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (772, '105', '2018-12-26 17:45:49', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (773, '105', '2018-12-26 17:45:50', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (774, '105', '2018-12-26 17:45:50', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (775, '105', '2018-12-26 17:45:50', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (776, '106', '2018-12-26 17:48:32', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (777, '106', '2018-12-26 17:48:46', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (778, '106', '2018-12-26 17:50:23', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (779, '106', '2018-12-26 17:52:50', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (780, '1', '2018-12-26 18:02:58', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (781, '4', '2018-12-26 18:02:58', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (782, '6', '2018-12-26 18:03:00', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (783, '6', '2018-12-26 18:03:01', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (784, '105', '2018-12-26 18:04:57', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (785, '105', '2018-12-26 18:04:58', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (786, '105', '2018-12-26 18:05:26', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (787, '105', '2018-12-26 18:35:54', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (788, '105', '2018-12-26 18:43:52', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (789, '105', '2018-12-26 18:43:54', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (790, '105', '2018-12-26 18:43:56', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (791, '105', '2018-12-26 18:44:09', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (792, '105', '2018-12-26 18:44:38', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (793, '106', '2018-12-26 19:00:53', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (794, '106', '2018-12-26 19:07:04', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (795, '106', '2018-12-26 19:07:12', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (796, '106', '2018-12-26 19:07:29', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (797, '106', '2018-12-26 19:08:03', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (798, '106', '2018-12-26 19:08:25', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (799, '106', '2018-12-26 19:08:27', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (800, '106', '2018-12-26 19:09:14', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (801, '106', '2018-12-26 19:09:37', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (802, '106', '2018-12-26 19:20:12', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (803, '107', '2018-12-26 19:21:28', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (804, '107', '2018-12-26 19:21:38', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (805, '107', '2018-12-26 19:21:48', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (806, '107', '2018-12-26 19:22:38', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (807, '107', '2018-12-26 19:22:50', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (808, '107', '2018-12-26 19:23:01', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (809, '107', '2018-12-26 19:23:11', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (810, '107', '2018-12-26 19:23:25', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (811, '107', '2018-12-26 19:24:47', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (812, '107', '2018-12-26 19:25:04', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (813, '107', '2018-12-26 19:25:23', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (814, '107', '2018-12-26 19:25:58', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (815, '107', '2018-12-26 19:26:26', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (816, '107', '2018-12-26 19:27:15', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (817, '107', '2018-12-26 19:27:58', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (818, '107', '2018-12-26 19:28:58', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (819, '107', '2018-12-26 19:29:07', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (820, '107', '2018-12-26 19:30:07', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (821, '107', '2018-12-26 19:30:24', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (822, '107', '2018-12-26 19:30:30', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (823, '107', '2018-12-26 19:30:33', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (824, '107', '2018-12-26 19:30:48', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (825, '107', '2018-12-26 20:19:25', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (826, '107', '2018-12-26 20:19:40', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (827, '107', '2018-12-26 20:21:05', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (828, '107', '2018-12-26 20:22:11', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (829, '107', '2018-12-26 20:22:24', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (830, '107', '2018-12-26 20:22:27', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (831, '108', '2018-12-26 20:25:23', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (832, '108', '2018-12-26 20:25:27', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (833, '108', '2018-12-26 20:25:35', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (834, '108', '2018-12-26 20:26:12', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (835, '108', '2018-12-26 20:28:24', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (836, '108', '2018-12-26 20:29:41', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (837, '109', '2018-12-26 20:30:00', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (838, '109', '2018-12-26 20:30:04', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (839, '109', '2018-12-26 20:30:11', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (840, '108', '2018-12-26 20:41:01', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (841, '107', '2018-12-26 20:41:23', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (842, '107', '2018-12-26 20:41:36', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (843, '107', '2018-12-26 20:41:41', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (844, '107', '2018-12-26 20:49:17', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (845, '107', '2018-12-26 20:49:22', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (846, '107', '2018-12-26 20:49:27', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (847, '107', '2018-12-26 20:49:30', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (848, '107', '2018-12-26 20:49:36', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (849, '107', '2018-12-26 20:50:00', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (850, '107', '2018-12-26 20:50:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (851, '107', '2018-12-26 20:50:22', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (852, '107', '2018-12-26 20:51:51', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (853, '107', '2018-12-26 20:51:55', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (854, '107', '2018-12-26 20:52:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (855, '107', '2018-12-26 20:52:26', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (856, '107', '2018-12-26 20:56:23', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (857, '107', '2018-12-26 20:59:21', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (858, '107', '2018-12-26 20:59:31', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (859, '107', '2018-12-26 20:59:43', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (860, '107', '2018-12-26 21:00:12', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (861, '107', '2018-12-26 21:00:21', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (862, '107', '2018-12-26 21:00:36', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (863, '107', '2018-12-26 21:00:57', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (864, '107', '2018-12-26 21:01:03', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (865, '107', '2018-12-26 21:01:44', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (866, '107', '2018-12-26 21:01:46', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (867, '107', '2018-12-26 21:01:52', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (868, '107', '2018-12-26 21:02:02', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (869, '107', '2018-12-26 21:02:08', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (870, '107', '2018-12-26 21:02:15', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (871, '107', '2018-12-26 21:02:17', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (872, '107', '2018-12-26 21:02:29', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (873, '107', '2018-12-26 21:02:33', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (874, '107', '2018-12-26 21:02:46', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (875, '109', '2018-12-26 21:09:30', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (876, '109', '2018-12-26 21:09:35', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (877, '109', '2018-12-26 21:22:09', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (878, '109', '2018-12-26 21:22:11', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (879, '109', '2018-12-26 21:22:19', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (880, '109', '2018-12-26 21:22:30', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (881, '109', '2018-12-26 21:24:29', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (882, '109', '2018-12-26 21:24:37', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (883, '109', '2018-12-26 21:25:08', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (884, '109', '2018-12-26 21:26:02', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (885, '109', '2018-12-26 21:26:49', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (886, '109', '2018-12-26 21:26:55', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (887, '109', '2018-12-26 21:27:04', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (888, '109', '2018-12-26 21:27:10', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (889, '109', '2018-12-26 21:27:52', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (890, '109', '2018-12-26 21:27:56', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (891, '109', '2018-12-26 21:28:32', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (892, '109', '2018-12-26 21:29:26', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (893, '109', '2018-12-26 21:29:31', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (894, '109', '2018-12-26 21:29:37', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (895, '109', '2018-12-26 21:31:33', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (896, '107', '2018-12-26 21:32:55', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (897, '107', '2018-12-26 21:33:14', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (898, '107', '2018-12-26 21:33:23', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (899, '110', '2018-12-26 21:35:39', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (900, '110', '2018-12-26 21:35:46', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (901, '110', '2018-12-26 21:36:05', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (902, '110', '2018-12-26 21:36:07', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (903, '110', '2018-12-26 21:36:10', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (904, '110', '2018-12-26 21:36:15', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (905, '110', '2018-12-26 21:36:24', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (906, '110', '2018-12-26 21:36:41', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (907, '110', '2018-12-26 21:37:14', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (908, '110', '2018-12-26 21:37:43', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (909, '110', '2018-12-26 21:37:51', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (910, '110', '2018-12-26 21:39:24', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (911, '110', '2018-12-26 21:40:08', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (912, '110', '2018-12-26 21:40:31', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (913, '110', '2018-12-26 21:41:07', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (914, '110', '2018-12-26 21:41:21', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (915, '110', '2018-12-26 21:41:29', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (916, '110', '2018-12-26 21:48:53', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (917, '110', '2018-12-26 21:50:30', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (918, '110', '2018-12-26 21:55:01', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (919, '110', '2018-12-26 21:55:12', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (920, '110', '2018-12-26 21:58:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (921, '110', '2018-12-26 22:00:21', '33', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (922, '109', '2018-12-27 10:16:50', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (923, '4', '2018-12-27 10:32:24', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (924, '4', '2018-12-27 10:32:25', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (925, '1', '2018-12-27 10:36:29', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (926, '108', '2018-12-27 10:37:59', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (927, '108', '2018-12-27 10:39:04', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (928, '108', '2018-12-27 10:39:06', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (929, '110', '2018-12-27 10:51:35', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (930, '110', '2018-12-27 10:52:32', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (931, '111', '2018-12-27 10:53:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (932, '111', '2018-12-27 10:53:51', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (933, '110', '2018-12-27 10:54:04', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (934, '111', '2018-12-27 10:54:15', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (935, '111', '2018-12-27 10:54:23', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (936, '111', '2018-12-27 10:54:33', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (937, '111', '2018-12-27 10:54:38', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (938, '111', '2018-12-27 10:54:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (939, '111', '2018-12-27 10:54:43', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (940, '110', '2018-12-27 10:55:10', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (941, '111', '2018-12-27 10:55:38', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (942, '111', '2018-12-27 10:55:40', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (943, '110', '2018-12-27 10:57:35', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (944, '111', '2018-12-27 10:57:43', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (945, '112', '2018-12-27 10:58:00', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (946, '112', '2018-12-27 10:58:04', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (947, '112', '2018-12-27 10:58:11', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (948, '112', '2018-12-27 10:58:16', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (949, '112', '2018-12-27 10:58:31', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (950, '112', '2018-12-27 10:58:34', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (951, '112', '2018-12-27 10:58:44', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (952, '112', '2018-12-27 10:58:48', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (953, '112', '2018-12-27 10:58:51', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (954, '110', '2018-12-27 10:59:51', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (955, '110', '2018-12-27 11:00:28', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (956, '110', '2018-12-27 11:00:44', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (957, '110', '2018-12-27 11:00:44', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (958, '110', '2018-12-27 11:00:54', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (959, '110', '2018-12-27 11:01:00', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (960, '112', '2018-12-27 11:32:58', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (961, '112', '2018-12-27 11:33:08', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (962, '112', '2018-12-27 11:33:32', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (963, '110', '2018-12-27 11:33:55', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (964, '110', '2018-12-27 11:34:28', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (965, '113', '2018-12-27 11:35:25', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (966, '113', '2018-12-27 11:35:30', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (967, '114', '2018-12-27 11:38:17', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (968, '114', '2018-12-27 11:38:24', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (969, '113', '2018-12-27 11:39:03', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (970, '115', '2018-12-27 11:39:12', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (971, '115', '2018-12-27 11:39:19', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (972, '116', '2018-12-27 11:40:55', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (973, '116', '2018-12-27 11:41:00', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (974, '116', '2018-12-27 11:41:13', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (975, '116', '2018-12-27 11:41:22', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (976, '116', '2018-12-27 11:42:21', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (977, '116', '2018-12-27 11:42:36', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (978, '116', '2018-12-27 11:43:33', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (979, '117', '2018-12-27 11:51:52', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (980, '117', '2018-12-27 11:52:00', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (981, '117', '2018-12-27 11:52:08', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (982, '117', '2018-12-27 11:52:21', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (983, '117', '2018-12-27 11:54:20', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (984, '117', '2018-12-27 11:55:30', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (985, '117', '2018-12-27 11:56:39', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (986, '117', '2018-12-27 11:56:49', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (987, '118', '2018-12-27 12:05:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (988, '118', '2018-12-27 12:05:47', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (989, '118', '2018-12-27 12:05:53', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (990, '118', '2018-12-27 12:06:00', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (991, '118', '2018-12-27 12:07:06', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (992, '118', '2018-12-27 12:07:16', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (993, '118', '2018-12-27 12:09:48', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (994, '118', '2018-12-27 12:10:06', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (995, '118', '2018-12-27 13:17:20', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (996, '118', '2018-12-27 13:18:53', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (997, '118', '2018-12-27 13:19:01', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (998, '118', '2018-12-27 13:19:32', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (999, '118', '2018-12-27 13:19:37', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1000, '118', '2018-12-27 13:19:50', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1001, '118', '2018-12-27 13:19:56', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1002, '118', '2018-12-27 13:20:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1003, '118', '2018-12-27 13:20:16', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1004, '118', '2018-12-27 13:20:22', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1005, '118', '2018-12-27 13:20:31', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1006, '118', '2018-12-27 13:20:33', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1007, '118', '2018-12-27 13:20:40', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1008, '118', '2018-12-27 13:20:57', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1009, '118', '2018-12-27 13:21:01', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1010, '118', '2018-12-27 13:21:16', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1011, '117', '2018-12-27 13:21:24', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1012, '117', '2018-12-27 13:21:32', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1013, '119', '2018-12-27 13:22:57', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1014, '119', '2018-12-27 13:23:01', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1015, '119', '2018-12-27 13:23:37', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1016, '119', '2018-12-27 13:23:40', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1017, '119', '2018-12-27 13:23:50', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1018, '119', '2018-12-27 13:23:50', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1019, '119', '2018-12-27 13:23:53', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1020, '119', '2018-12-27 13:24:05', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1021, '119', '2018-12-27 13:24:05', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1022, '119', '2018-12-27 13:24:07', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1023, '119', '2018-12-27 13:24:53', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1024, '120', '2018-12-27 13:24:55', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1025, '120', '2018-12-27 13:24:59', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1026, '120', '2018-12-27 13:25:06', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1027, '119', '2018-12-27 13:25:16', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1028, '119', '2018-12-27 13:25:31', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1029, '120', '2018-12-27 13:25:35', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1030, '119', '2018-12-27 13:25:41', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1031, '119', '2018-12-27 13:25:47', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1032, '119', '2018-12-27 13:26:21', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1033, '120', '2018-12-27 13:26:26', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1034, '119', '2018-12-27 13:26:41', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1035, '119', '2018-12-27 13:26:44', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1036, '119', '2018-12-27 13:26:48', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1037, '119', '2018-12-27 13:26:56', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1038, '119', '2018-12-27 13:26:57', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1039, '256', '2018-12-27 13:27:00', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1040, '119', '2018-12-27 13:27:01', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1041, '119', '2018-12-27 13:27:03', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1042, '119', '2018-12-27 13:27:14', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1043, '119', '2018-12-27 13:27:15', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1044, '119', '2018-12-27 13:27:18', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1045, '119', '2018-12-27 13:27:18', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1046, '75', '2018-12-27 13:27:22', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1047, '119', '2018-12-27 13:27:23', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1048, '121', '2018-12-27 13:27:25', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1049, '121', '2018-12-27 13:27:30', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1050, '119', '2018-12-27 13:27:33', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1051, '119', '2018-12-27 13:27:37', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1052, '119', '2018-12-27 13:27:48', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1053, '119', '2018-12-27 13:27:52', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1054, '119', '2018-12-27 13:28:24', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1055, '121', '2018-12-27 13:28:29', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1056, '119', '2018-12-27 13:28:34', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1057, '119', '2018-12-27 13:28:38', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1058, '121', '2018-12-27 13:28:41', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1059, '119', '2018-12-27 13:28:47', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1060, '119', '2018-12-27 13:28:56', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1061, '119', '2018-12-27 13:29:05', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1062, '119', '2018-12-27 13:29:11', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1063, '119', '2018-12-27 13:29:16', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1064, '119', '2018-12-27 13:29:46', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1065, '119', '2018-12-27 13:29:47', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1066, '42', '2018-12-27 13:29:52', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1067, '119', '2018-12-27 13:29:53', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1068, '119', '2018-12-27 13:30:02', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1069, '119', '2018-12-27 13:30:02', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1070, '43', '2018-12-27 13:30:18', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1071, '119', '2018-12-27 13:30:19', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1072, '119', '2018-12-27 13:30:34', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1073, '119', '2018-12-27 13:30:40', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1074, '119', '2018-12-27 13:30:44', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1075, '119', '2018-12-27 13:31:39', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1076, '119', '2018-12-27 13:31:47', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1077, '119', '2018-12-27 13:32:18', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1078, '121', '2018-12-27 13:32:25', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1079, '119', '2018-12-27 13:32:27', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1080, '121', '2018-12-27 13:32:33', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1081, '121', '2018-12-27 13:32:36', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1082, '121', '2018-12-27 13:32:38', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1083, '121', '2018-12-27 13:32:57', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1084, '121', '2018-12-27 13:33:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1085, '119', '2018-12-27 13:34:47', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1086, '120', '2018-12-27 13:37:56', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1087, '120', '2018-12-27 13:37:58', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1088, '120', '2018-12-27 13:38:06', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1089, '120', '2018-12-27 13:38:10', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1090, '120', '2018-12-27 13:38:13', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1091, '120', '2018-12-27 13:38:21', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1092, '120', '2018-12-27 13:39:05', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1093, '120', '2018-12-27 13:40:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1094, '119', '2018-12-27 13:41:16', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1095, '119', '2018-12-27 13:41:19', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1096, '119', '2018-12-27 13:41:24', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1097, '255', '2018-12-27 13:41:28', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1098, '255', '2018-12-27 13:41:55', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1099, '119', '2018-12-27 13:42:01', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1100, '119', '2018-12-27 13:42:07', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1101, '119', '2018-12-27 13:42:39', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1102, '121', '2018-12-27 13:45:29', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1103, '121', '2018-12-27 13:45:37', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1104, '121', '2018-12-27 13:45:54', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1105, '121', '2018-12-27 13:46:11', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1106, '119', '2018-12-27 13:46:47', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1107, '121', '2018-12-27 13:46:59', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1108, '119', '2018-12-27 13:47:15', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1109, '121', '2018-12-27 13:47:16', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1110, '119', '2018-12-27 13:47:18', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1111, '121', '2018-12-27 13:47:20', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1112, '121', '2018-12-27 13:47:48', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1113, '121', '2018-12-27 13:48:58', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1114, '121', '2018-12-27 13:49:07', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1115, '121', '2018-12-27 13:50:52', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1116, '120', '2018-12-27 13:51:31', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1117, '120', '2018-12-27 13:51:35', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1118, '121', '2018-12-27 13:52:08', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1119, '1', '2018-12-27 13:52:57', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1120, '4', '2018-12-27 13:52:59', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1121, '6', '2018-12-27 13:52:59', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1122, '1', '2018-12-27 13:53:48', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1123, '4', '2018-12-27 13:53:49', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1124, '6', '2018-12-27 13:53:50', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1125, '1', '2018-12-27 13:57:42', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1126, '4', '2018-12-27 13:57:44', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1127, '6', '2018-12-27 13:57:45', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1128, '119', '2018-12-27 13:58:38', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1129, '119', '2018-12-27 13:58:50', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1130, '119', '2018-12-27 13:59:11', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1131, '119', '2018-12-27 13:59:15', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1132, '119', '2018-12-27 13:59:18', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1133, '119', '2018-12-27 13:59:23', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1134, '255', '2018-12-27 13:59:31', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1135, '119', '2018-12-27 13:59:32', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1136, '119', '2018-12-27 13:59:38', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1137, '119', '2018-12-27 13:59:44', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1138, '119', '2018-12-27 13:59:49', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1139, '119', '2018-12-27 14:00:12', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1140, '119', '2018-12-27 14:01:22', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1141, '119', '2018-12-27 14:01:43', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1142, '119', '2018-12-27 14:01:54', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1143, '121', '2018-12-27 14:05:17', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1144, '122', '2018-12-27 14:05:57', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1145, '122', '2018-12-27 14:06:02', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1146, '122', '2018-12-27 14:06:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1147, '1', '2018-12-27 14:06:16', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1148, '122', '2018-12-27 14:06:20', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1149, '122', '2018-12-27 14:07:02', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1150, '6', '2018-12-27 14:10:09', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1151, '4', '2018-12-27 14:10:10', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1152, '1', '2018-12-27 14:10:11', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1153, '122', '2018-12-27 14:12:50', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1154, '122', '2018-12-27 14:12:57', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1155, '1', '2018-12-27 14:13:04', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1156, '122', '2018-12-27 14:13:12', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1157, '4', '2018-12-27 14:14:06', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1158, '1', '2018-12-27 14:19:31', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1159, '4', '2018-12-27 14:20:23', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1160, '123', '2018-12-27 15:18:23', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1161, '123', '2018-12-27 15:18:27', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1162, '123', '2018-12-27 15:18:44', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1163, '123', '2018-12-27 15:19:07', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1164, '123', '2018-12-27 15:19:29', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1165, '124', '2018-12-27 15:22:57', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1166, '124', '2018-12-27 15:23:03', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1167, '124', '2018-12-27 15:23:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1168, '124', '2018-12-27 15:23:19', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1169, '124', '2018-12-27 15:24:39', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1170, '124', '2018-12-27 15:25:30', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1171, '124', '2018-12-27 15:26:55', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1172, '124', '2018-12-27 15:27:02', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1173, '124', '2018-12-27 15:27:23', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1174, '125', '2018-12-27 15:27:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1175, '125', '2018-12-27 15:27:46', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1176, '125', '2018-12-27 15:27:52', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1177, '125', '2018-12-27 15:28:00', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1178, '125', '2018-12-27 15:29:14', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1179, '125', '2018-12-27 15:29:21', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1180, '125', '2018-12-27 15:29:33', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1181, '125', '2018-12-27 15:29:35', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1182, '125', '2018-12-27 15:29:45', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1183, '125', '2018-12-27 15:29:52', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1184, '125', '2018-12-27 15:30:41', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1185, '125', '2018-12-27 15:30:53', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1186, '125', '2018-12-27 15:31:00', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1187, '126', '2018-12-27 15:34:11', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1188, '126', '2018-12-27 15:34:14', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1189, '126', '2018-12-27 15:34:27', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1190, '126', '2018-12-27 15:34:37', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1191, '126', '2018-12-27 15:34:43', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1192, '126', '2018-12-27 15:34:52', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1193, '126', '2018-12-27 15:35:00', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1194, '126', '2018-12-27 15:35:07', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1195, '126', '2018-12-27 15:35:14', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1196, '1', '2018-12-27 16:10:12', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1197, '6', '2018-12-27 16:12:06', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1198, '4', '2018-12-27 16:12:06', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1199, '1', '2018-12-27 16:12:06', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1200, '4', '2018-12-27 16:12:08', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1201, '6', '2018-12-27 16:12:09', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1202, '6', '2018-12-27 16:15:18', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1203, '1', '2018-12-27 16:48:16', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1204, '4', '2018-12-27 16:48:16', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1205, '6', '2018-12-27 16:48:18', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1206, '127', '2018-12-27 16:50:10', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1207, '127', '2018-12-27 16:50:58', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1208, '127', '2018-12-27 16:51:01', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1209, '127', '2018-12-27 16:51:11', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1210, '127', '2018-12-27 16:51:12', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1211, '127', '2018-12-27 16:51:13', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1212, '127', '2018-12-27 16:51:26', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1213, '127', '2018-12-27 16:51:26', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1214, '127', '2018-12-27 16:51:34', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1215, '127', '2018-12-27 16:51:34', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1216, '127', '2018-12-27 16:51:36', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1217, '127', '2018-12-27 16:52:14', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1218, '127', '2018-12-27 16:52:29', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1219, '127', '2018-12-27 16:52:40', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1220, '127', '2018-12-27 16:52:55', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1221, '127', '2018-12-27 16:52:56', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1222, '127', '2018-12-27 16:52:58', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1223, '127', '2018-12-27 16:53:02', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1224, '127', '2018-12-27 16:54:37', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1225, '127', '2018-12-27 16:54:39', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1226, '127', '2018-12-27 16:54:44', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1227, '127', '2018-12-27 17:02:59', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1228, '127', '2018-12-27 17:03:01', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1229, '127', '2018-12-27 17:16:24', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1230, '127', '2018-12-27 17:16:25', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1231, '127', '2018-12-27 17:16:27', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1232, '127', '2018-12-27 17:18:57', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1233, '127', '2018-12-27 17:19:08', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1234, '127', '2018-12-27 17:22:40', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1235, '127', '2018-12-27 17:22:46', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1236, '127', '2018-12-27 17:23:32', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1237, '127', '2018-12-27 17:23:48', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1238, '127', '2018-12-27 17:23:51', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1239, '127', '2018-12-27 17:23:57', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1240, '127', '2018-12-27 17:24:04', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1241, '127', '2018-12-27 17:24:10', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1242, '127', '2018-12-27 17:24:16', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1243, '127', '2018-12-27 17:24:21', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1244, '128', '2018-12-28 11:01:12', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1245, '128', '2018-12-28 11:05:17', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1246, '128', '2018-12-28 11:05:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1247, '128', '2018-12-28 11:07:57', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1248, '128', '2018-12-28 11:07:58', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1249, '128', '2018-12-28 11:10:17', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1250, '128', '2018-12-28 11:11:05', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1251, '128', '2018-12-28 11:11:37', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1252, '128', '2018-12-28 11:11:38', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1253, '127', '2018-12-28 11:14:55', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1254, '126', '2018-12-28 11:14:59', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1255, '127', '2018-12-28 11:15:01', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1256, '127', '2018-12-28 11:15:23', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1257, '127', '2018-12-28 11:15:24', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1258, '127', '2018-12-28 11:15:30', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1259, '127', '2018-12-28 11:15:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1260, '127', '2018-12-28 11:15:33', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1261, '127', '2018-12-28 11:15:34', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1262, '127', '2018-12-28 11:19:58', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1263, '127', '2018-12-28 11:20:00', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1264, '127', '2018-12-28 11:20:01', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1265, '127', '2018-12-28 11:20:03', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1266, '127', '2018-12-28 11:20:07', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1267, '127', '2018-12-28 11:20:23', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1268, '127', '2018-12-28 11:20:24', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1269, '127', '2018-12-28 11:23:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1270, '127', '2018-12-28 11:23:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1271, '127', '2018-12-28 11:23:46', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1272, '127', '2018-12-28 11:23:48', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1273, '1', '2018-12-28 11:28:00', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1274, '4', '2018-12-28 11:28:02', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1275, '6', '2018-12-28 11:28:03', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1276, '4', '2018-12-28 11:28:05', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1277, '1', '2018-12-28 11:28:08', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1278, '4', '2018-12-28 11:28:08', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1279, '6', '2018-12-28 11:28:09', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1280, '1', '2018-12-28 11:28:21', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1281, '4', '2018-12-28 11:28:33', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1282, '1', '2018-12-28 11:28:39', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1283, '127', '2018-12-28 11:28:54', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1284, '127', '2018-12-28 11:29:56', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1285, '130', '2018-12-28 11:31:13', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1286, '130', '2018-12-28 11:31:17', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1287, '130', '2018-12-28 11:31:20', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1288, '130', '2018-12-28 11:31:21', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1289, '130', '2018-12-28 11:42:31', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1290, '130', '2018-12-28 11:50:08', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1291, '130', '2018-12-28 11:50:10', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1292, '130', '2018-12-28 12:00:13', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1293, '130', '2018-12-28 12:03:48', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1294, '130', '2018-12-28 12:04:28', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1295, '130', '2018-12-28 12:04:30', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1296, '130', '2018-12-28 12:08:15', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1297, '130', '2018-12-28 12:08:16', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1298, '129', '2018-12-28 12:13:22', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1299, '129', '2018-12-28 12:13:37', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1300, '129', '2018-12-28 12:14:54', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1301, '129', '2018-12-28 12:14:55', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1302, '129', '2018-12-28 12:15:15', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1303, '129', '2018-12-28 12:15:15', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1304, '129', '2018-12-28 12:15:45', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1305, '130', '2018-12-28 12:17:51', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1306, '130', '2018-12-28 12:17:54', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1307, '130', '2018-12-28 12:18:24', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1308, '130', '2018-12-28 12:18:43', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1309, '129', '2018-12-28 12:20:29', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1310, '129', '2018-12-28 12:20:33', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1311, '129', '2018-12-28 12:20:39', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1312, '129', '2018-12-28 12:20:42', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1313, '130', '2018-12-28 12:23:06', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1314, '130', '2018-12-28 12:27:52', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1315, '130', '2018-12-28 12:28:29', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1316, '130', '2018-12-28 12:28:55', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1317, '130', '2018-12-28 12:30:19', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1318, '79', '2018-12-28 12:30:29', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1319, '130', '2018-12-28 12:30:30', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1320, '130', '2018-12-28 12:31:28', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1321, '130', '2018-12-28 12:32:15', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1322, '130', '2018-12-28 12:32:20', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1323, '130', '2018-12-28 12:32:22', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1324, '130', '2018-12-28 12:32:28', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1325, '129', '2018-12-28 12:32:55', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1326, '130', '2018-12-28 12:33:47', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1327, '130', '2018-12-28 12:40:17', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1328, '130', '2018-12-28 12:40:26', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1329, '127', '2018-12-28 12:42:27', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1330, '127', '2018-12-28 12:42:45', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1331, '131', '2018-12-28 12:44:22', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1332, '132', '2018-12-28 12:44:47', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1333, '130', '2018-12-28 12:47:14', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1334, '132', '2018-12-28 12:55:09', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1335, '132', '2018-12-28 13:04:25', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1336, '132', '2018-12-28 13:04:36', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1337, '132', '2018-12-28 13:06:43', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1338, '132', '2018-12-28 13:06:46', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1339, '132', '2018-12-28 13:06:48', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1340, '132', '2018-12-28 13:06:53', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1341, '132', '2018-12-28 13:06:57', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1342, '132', '2018-12-28 13:07:00', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1343, '132', '2018-12-28 13:07:36', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1344, '132', '2018-12-28 13:07:39', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1345, '132', '2018-12-28 13:07:42', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1346, '132', '2018-12-28 13:08:08', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1347, '132', '2018-12-28 13:08:29', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1348, '132', '2018-12-28 13:08:31', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1349, '132', '2018-12-28 13:08:43', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1350, '132', '2018-12-28 13:10:33', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1351, '132', '2018-12-28 13:10:36', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1352, '132', '2018-12-28 13:10:38', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1353, '132', '2018-12-28 13:18:39', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1354, '127', '2018-12-28 13:19:39', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1355, '132', '2018-12-28 13:19:52', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1356, '132', '2018-12-28 13:20:03', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1357, '132', '2018-12-28 13:20:32', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1358, '132', '2018-12-28 13:20:52', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1359, '132', '2018-12-28 13:21:00', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1360, '127', '2018-12-28 13:21:10', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1361, '127', '2018-12-28 13:21:13', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1362, '127', '2018-12-28 13:21:28', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1363, '1', '2018-12-28 13:23:51', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1364, '4', '2018-12-28 13:24:02', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1365, '6', '2018-12-28 13:24:02', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1366, '4', '2018-12-28 13:24:03', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1367, '1', '2018-12-28 13:24:07', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1368, '6', '2018-12-28 13:24:11', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1369, '1', '2018-12-28 13:24:27', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1370, '127', '2018-12-28 13:25:10', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1371, '132', '2018-12-28 13:25:35', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1372, '127', '2018-12-28 13:25:40', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1373, '4', '2018-12-28 13:27:01', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1374, '1', '2018-12-28 13:27:06', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1375, '6', '2018-12-28 13:27:15', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1376, '6', '2018-12-28 13:27:16', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1377, '4', '2018-12-28 13:27:17', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1378, '6', '2018-12-28 13:27:19', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1379, '1', '2018-12-28 13:27:40', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1380, '1', '2018-12-28 13:27:49', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1381, '1', '2018-12-28 13:27:59', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1382, '4', '2018-12-28 13:27:59', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1383, '6', '2018-12-28 13:28:05', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1384, '1', '2018-12-28 13:28:45', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1385, '1', '2018-12-28 13:29:43', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1386, '1', '2018-12-28 13:30:13', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1387, '127', '2018-12-28 13:30:59', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1388, '127', '2018-12-28 13:31:06', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1389, '127', '2018-12-28 13:31:13', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1390, '1', '2018-12-28 13:31:43', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1391, '1', '2018-12-28 13:32:55', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1392, '1', '2018-12-28 13:33:02', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1393, '1', '2018-12-28 13:34:01', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1394, '133', '2018-12-28 13:34:32', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1395, '133', '2018-12-28 13:34:36', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1396, '133', '2018-12-28 13:34:44', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1397, '1', '2018-12-28 13:35:59', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1398, '1', '2018-12-28 13:36:00', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1399, '1', '2018-12-28 13:36:19', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1400, '1', '2018-12-28 13:37:22', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1401, '133', '2018-12-28 13:38:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1402, '133', '2018-12-28 13:38:35', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1403, '133', '2018-12-28 13:38:39', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1404, '133', '2018-12-28 13:38:41', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1405, '133', '2018-12-28 13:41:10', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1406, '133', '2018-12-28 13:42:36', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1407, '133', '2018-12-28 13:44:23', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1408, '132', '2018-12-28 13:52:42', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1409, '133', '2018-12-28 13:55:27', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1410, '131', '2018-12-28 13:56:23', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1411, '133', '2018-12-28 14:00:07', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1412, '133', '2018-12-28 14:00:15', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1413, '133', '2018-12-28 14:00:21', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1414, '133', '2018-12-28 14:08:49', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1415, '133', '2018-12-28 14:08:55', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1416, '133', '2018-12-28 14:09:01', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1417, '133', '2018-12-28 14:09:51', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1418, '133', '2018-12-28 14:10:02', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1419, '133', '2018-12-28 14:10:12', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1420, '133', '2018-12-28 14:14:59', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1421, '133', '2018-12-28 14:15:00', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1422, '133', '2018-12-28 14:18:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1423, '131', '2018-12-28 14:27:32', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1424, '133', '2018-12-28 14:29:53', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1425, '133', '2018-12-28 14:30:01', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1426, '133', '2018-12-28 14:30:05', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1427, '133', '2018-12-28 14:30:12', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1428, '127', '2018-12-28 14:34:06', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1429, '127', '2018-12-28 14:35:15', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1430, '132', '2018-12-28 14:36:32', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1431, '132', '2018-12-28 14:36:43', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1432, '132', '2018-12-28 14:36:47', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1433, '132', '2018-12-28 14:36:52', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1434, '132', '2018-12-28 14:37:47', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1435, '131', '2018-12-28 14:38:19', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1436, '131', '2018-12-28 14:38:25', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1437, '131', '2018-12-28 14:38:32', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1438, '131', '2018-12-28 14:38:37', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1439, '131', '2018-12-28 14:38:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1440, '131', '2018-12-28 14:38:43', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1441, '131', '2018-12-28 14:38:52', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1442, '131', '2018-12-28 14:39:42', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1443, '131', '2018-12-28 14:39:44', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1444, '134', '2018-12-28 14:42:44', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1445, '134', '2018-12-28 14:42:49', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1446, '134', '2018-12-28 14:42:53', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1447, '134', '2018-12-28 14:42:56', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1448, '134', '2018-12-28 14:43:01', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1449, '134', '2018-12-28 14:43:07', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1450, '134', '2018-12-28 14:43:07', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1451, '134', '2018-12-28 14:43:49', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1452, '134', '2018-12-28 14:43:52', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1453, '134', '2018-12-28 14:43:53', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1454, '134', '2018-12-28 14:43:57', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1455, '134', '2018-12-28 14:43:58', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1456, '134', '2018-12-28 14:45:08', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1457, '134', '2018-12-28 14:45:17', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1458, '134', '2018-12-28 14:45:21', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1459, '134', '2018-12-28 14:45:50', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1460, '134', '2018-12-28 14:45:56', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1461, '134', '2018-12-28 14:46:02', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1462, '134', '2018-12-28 14:46:06', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1463, '134', '2018-12-28 14:46:22', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1464, '134', '2018-12-28 14:46:24', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1465, '134', '2018-12-28 14:46:30', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1466, '134', '2018-12-28 14:46:40', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1467, '134', '2018-12-28 14:46:41', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1468, '134', '2018-12-28 14:46:46', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1469, '134', '2018-12-28 14:46:47', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1470, '134', '2018-12-28 14:47:52', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1471, '134', '2018-12-28 14:47:52', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1472, '134', '2018-12-28 14:48:51', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1473, '134', '2018-12-28 14:50:01', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1474, '134', '2018-12-28 14:50:05', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1475, '134', '2018-12-28 14:51:03', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1476, '134', '2018-12-28 14:51:10', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1477, '134', '2018-12-28 14:55:16', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1478, '134', '2018-12-28 14:58:57', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1479, '134', '2018-12-28 15:04:26', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1480, '134', '2018-12-28 15:04:28', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1481, '134', '2018-12-28 15:07:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1482, '134', '2018-12-28 15:07:36', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1483, '135', '2018-12-28 15:14:43', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1484, '135', '2018-12-28 15:15:04', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1485, '135', '2018-12-28 15:15:22', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1486, '135', '2018-12-28 15:15:23', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1487, '261', '2018-12-28 15:15:38', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1488, '135', '2018-12-28 15:15:39', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1489, '135', '2018-12-28 15:15:58', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1490, '135', '2018-12-28 15:16:43', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1491, '135', '2018-12-28 15:16:44', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1492, '135', '2018-12-28 15:17:04', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1493, '135', '2018-12-28 15:17:07', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1494, '134', '2018-12-28 15:19:25', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1495, '134', '2018-12-28 15:20:21', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1496, '136', '2018-12-28 15:20:31', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1497, '135', '2018-12-28 15:20:45', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1498, '137', '2018-12-28 15:21:35', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1499, '137', '2018-12-28 15:21:57', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1500, '137', '2018-12-28 15:22:29', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1501, '138', '2018-12-28 15:22:39', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1502, '138', '2018-12-28 15:22:43', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1503, '137', '2018-12-28 15:23:03', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1504, '137', '2018-12-28 15:23:07', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1505, '138', '2018-12-28 15:23:11', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1506, '138', '2018-12-28 15:23:14', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1507, '138', '2018-12-28 15:23:16', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1508, '138', '2018-12-28 15:23:18', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1509, '138', '2018-12-28 15:23:33', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1510, '138', '2018-12-28 15:23:34', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1511, '137', '2018-12-28 15:23:45', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1512, '138', '2018-12-28 15:23:47', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1513, '138', '2018-12-28 15:24:21', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1514, '137', '2018-12-28 15:24:24', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1515, '137', '2018-12-28 15:24:27', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1516, '138', '2018-12-28 15:24:30', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1517, '138', '2018-12-28 15:24:33', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1518, '138', '2018-12-28 15:25:02', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1519, '138', '2018-12-28 15:25:23', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1520, '138', '2018-12-28 15:25:30', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1521, '138', '2018-12-28 15:26:54', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1522, '138', '2018-12-28 15:28:57', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1523, '138', '2018-12-28 15:29:28', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1524, '1', '2018-12-28 15:33:37', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1525, '139', '2018-12-28 15:45:09', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1526, '139', '2018-12-28 15:45:37', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1527, '139', '2018-12-28 15:45:45', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1528, '139', '2018-12-28 15:46:10', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1529, '139', '2018-12-28 15:46:19', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1530, '139', '2018-12-28 15:48:08', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1531, '139', '2018-12-28 15:48:10', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1532, '139', '2018-12-28 15:48:36', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1533, '139', '2018-12-28 15:48:37', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1534, '139', '2018-12-28 15:50:29', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1535, '139', '2018-12-28 15:50:30', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1536, '139', '2018-12-28 15:50:44', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1537, '139', '2018-12-28 15:53:52', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1538, '139', '2018-12-28 15:54:48', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1539, '139', '2018-12-28 15:55:16', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1540, '139', '2018-12-28 15:59:20', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1541, '139', '2018-12-28 15:59:58', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1542, '139', '2018-12-28 16:00:31', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1543, '140', '2018-12-28 16:00:49', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1544, '139', '2018-12-28 16:00:51', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1545, '140', '2018-12-28 16:00:56', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1546, '140', '2018-12-28 16:01:18', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1547, '140', '2018-12-28 16:01:19', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1548, '140', '2018-12-28 16:01:25', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1549, '140', '2018-12-28 16:01:31', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1550, '140', '2018-12-28 16:02:46', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1551, '139', '2018-12-28 16:02:49', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1552, '140', '2018-12-28 16:02:57', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1553, '139', '2018-12-28 16:03:10', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1554, '262', '2018-12-28 16:03:24', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1555, '139', '2018-12-28 16:03:24', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1556, '139', '2018-12-28 16:03:30', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1557, '139', '2018-12-28 16:03:57', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1558, '139', '2018-12-28 16:04:02', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1559, '139', '2018-12-28 16:04:17', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1560, '140', '2018-12-28 16:04:21', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1561, '139', '2018-12-28 16:04:24', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1562, '140', '2018-12-28 16:04:42', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1563, '140', '2018-12-28 16:04:52', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1564, '140', '2018-12-28 16:04:55', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1565, '140', '2018-12-28 16:05:02', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1566, '140', '2018-12-28 16:05:07', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1567, '140', '2018-12-28 16:05:08', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1568, '138', '2018-12-28 16:05:09', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1569, '139', '2018-12-28 16:05:16', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1570, '140', '2018-12-28 16:05:17', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1571, '140', '2018-12-28 16:05:24', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1572, '140', '2018-12-28 16:05:44', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1573, '139', '2018-12-28 16:05:46', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1574, '140', '2018-12-28 16:06:20', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1575, '140', '2018-12-28 16:06:21', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1576, '139', '2018-12-28 16:06:24', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1577, '139', '2018-12-28 16:06:25', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1578, '139', '2018-12-28 16:06:34', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1579, '139', '2018-12-28 16:06:37', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1580, '139', '2018-12-28 16:06:51', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1581, '139', '2018-12-28 16:07:12', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1582, '140', '2018-12-28 16:07:17', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1583, '139', '2018-12-28 16:07:49', '32', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1584, '140', '2018-12-28 16:08:51', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1585, '140', '2018-12-28 16:09:03', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1586, '139', '2018-12-28 16:09:05', '10', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1587, '140', '2018-12-28 16:16:25', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1588, '140', '2018-12-28 16:16:26', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1589, '140', '2018-12-28 16:16:33', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1590, '140', '2018-12-28 16:17:44', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1591, '140', '2018-12-28 16:22:40', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1592, '140', '2018-12-28 16:22:44', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1593, '140', '2018-12-28 16:23:29', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1594, '140', '2018-12-28 16:23:32', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1595, '140', '2018-12-28 16:23:37', '16', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1596, '140', '2018-12-28 16:24:53', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1597, '140', '2018-12-28 16:25:42', '28', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1598, '140', '2018-12-28 16:28:56', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1599, '140', '2018-12-28 16:29:00', '29', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1600, '141', '2018-12-28 16:30:24', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1601, '141', '2018-12-28 16:37:18', '27', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1602, '142', '2018-12-28 16:41:25', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1603, '142', '2018-12-28 16:41:28', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1604, '142', '2018-12-28 16:51:23', '31', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1605, '142', '2018-12-28 16:52:44', '30', NULL, 0);
+INSERT INTO `pmo_operation` VALUES (1606, '142', '2018-12-28 16:58:31', '31', NULL, 0);
 
 -- ----------------------------
 -- Table structure for pmo_process_plan
@@ -4652,13 +5650,31 @@ CREATE TABLE `pmo_progam`  (
   `state` tinyint(2) NULL DEFAULT 0 COMMENT '默认为0替换为1删除为2',
   `add_program_manage_contract_number` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '合同编号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '某个关联表 ' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '某个关联表 ' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_progam
 -- ----------------------------
-INSERT INTO `pmo_progam` VALUES (20, '项目1', 77, NULL, NULL, NULL, NULL, 0, '20100102');
-INSERT INTO `pmo_progam` VALUES (21, '1', 76, NULL, NULL, NULL, NULL, 0, '222');
+INSERT INTO `pmo_progam` VALUES (20, '集成项目经理', NULL, NULL, NULL, NULL, NULL, 0, '20100102');
+INSERT INTO `pmo_progam` VALUES (21, '软考', NULL, NULL, NULL, NULL, NULL, 0, '222');
+INSERT INTO `pmo_progam` VALUES (23, '云南移动', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (22, 'NPDP', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (24, '广东移动', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (25, '咪咕', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (26, '民航信息中心', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (27, '建行', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (28, '联想', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (29, '云南移动', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (30, '众合伟奇', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (31, '中国联通', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (32, '慧萌信安', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (33, '中原油田', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (34, '中石油天然气规划院', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (35, '中移全通', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (36, '首信', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (37, '南航', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (38, '魔门塔', NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `pmo_progam` VALUES (39, 'PMP', NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 -- ----------------------------
 -- Table structure for pmo_project_body
@@ -4681,43 +5697,18 @@ CREATE TABLE `pmo_project_body`  (
   `institutional_consulting_fees` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '机构咨询费',
   `personal_consulting_fees` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '个人咨询费',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '审批项目实际数据表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '审批项目实际数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_project_body
 -- ----------------------------
-INSERT INTO `pmo_project_body` VALUES (24, '测试1', 54, '客户1', '1', NULL, '2018-12-12', '2018-12-19', 10, '2', 0, '1', '1', '100', '200');
-INSERT INTO `pmo_project_body` VALUES (25, '123', 55, '1213321', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (26, '123', 56, '123321', '123', NULL, '2018-12-11', '2018-12-11', 100, '', 0, '20', '', '20', '20');
-INSERT INTO `pmo_project_body` VALUES (27, '123', 57, '1213321', '123', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (28, '', 59, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (29, '', 60, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (30, '崔思思测试穆连账号', 64, '崔思思', '20', NULL, '2018-12-25', '2018-12-18', 20, '10', 0, '20', '4%', '500', '500');
-INSERT INTO `pmo_project_body` VALUES (31, '崔思思测试穆连账号', 65, '崔思思', '20', NULL, '2018-12-24', '2018-12-25', 20, '11', 0, '20', '4%', '500', '500');
-INSERT INTO `pmo_project_body` VALUES (32, '崔思思测试穆连账号', 66, '崔思思', '20', NULL, '2018-12-25', '2018-12-26', 20, '10', 0, '20', '4%', '200', '200');
-INSERT INTO `pmo_project_body` VALUES (33, '崔思思测试穆连账号110', 67, '20', '20', NULL, '2018-12-24', '2018-12-25', 20, '11', 0, '20', '4%', '20', '200');
-INSERT INTO `pmo_project_body` VALUES (34, '崔思思测试穆连账号111', 68, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (35, '崔思思测试穆连账号112', 69, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (36, '崔思思测试穆连账号113', 72, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (37, '崔思思测试穆连账号114', 73, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (38, '崔思思测试穆连账号115', 74, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (39, '崔思思测试穆连账号116', 76, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (40, '崔思思测试穆连账号117', 77, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (41, '崔思思测试穆连账号118', 80, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (42, '崔思思测试110', 81, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (43, '崔思思测试111', 82, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (44, '崔思思测试112', 83, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (45, '崔思思测试113', 84, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (46, '崔思思测试穆连账号001', 85, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (47, '崔思思测试001', 86, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (48, '崔思思测试002', 87, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (49, '审核未通过001', 88, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (50, '审核未通过002', 89, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (51, '测试未通过001', 90, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (52, '崔思思测试撤回项目', 91, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (53, '崔思思测试001', 92, '', '', NULL, '', '', 0, '', 0, '2000', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (54, '崔思思测试002', 93, '', '', NULL, '', '', 0, '', 0, '200', '', '', '');
-INSERT INTO `pmo_project_body` VALUES (55, '崔思思测试003', 94, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
+INSERT INTO `pmo_project_body` VALUES (99, '软考靠前培训班', 140, '软考学员', '4', NULL, '2018-12-28', '2018-12-31', 20, '1', 0, '60000', '1800', '0', '0');
+INSERT INTO `pmo_project_body` VALUES (97, '', 138, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
+INSERT INTO `pmo_project_body` VALUES (98, '需求分析', 139, '中国联合网络通信有限公司北京市分公司', '3', NULL, '2018-12-29', '2019-01-01', 20, '13', 0, '60000', '3600', '0', '0');
+INSERT INTO `pmo_project_body` VALUES (95, '', 136, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
+INSERT INTO `pmo_project_body` VALUES (96, '321321', 137, '', '', NULL, '', '', 0, '', 0, '', '', '', '');
+INSERT INTO `pmo_project_body` VALUES (94, 'uml', 135, '云南移动', '2', NULL, '2018-12-29', '2019-01-01', 10, '11', 0, '60000', '360', '0', '0');
+INSERT INTO `pmo_project_body` VALUES (93, '课程测试1', 134, '', '', NULL, '', '', 0, '', 0, '1000000000', '28', '20', '30');
 
 -- ----------------------------
 -- Table structure for pmo_project_contacts
@@ -4767,52 +5758,20 @@ CREATE TABLE `pmo_project_header`  (
   `add_user_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加者id',
   `unicode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '项目编号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 95 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '项目总表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 143 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '项目总表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_project_header
 -- ----------------------------
-INSERT INTO `pmo_project_header` VALUES (54, 20, '2', '2', 3, NULL, NULL, '2018-12-22', 0, '27', '201812000');
-INSERT INTO `pmo_project_header` VALUES (55, 1, '1', '1', 3, NULL, NULL, '2018-12-22', 0, '10', '201812001');
-INSERT INTO `pmo_project_header` VALUES (56, 2, '2', '2', 3, NULL, NULL, '2018-12-22', 0, '27', '201812002');
-INSERT INTO `pmo_project_header` VALUES (57, 2, '1', '1', 2, NULL, NULL, '2018-12-22', 0, '10', '201812003');
-INSERT INTO `pmo_project_header` VALUES (58, NULL, NULL, NULL, 2, NULL, NULL, '2018-12-22', 0, '30', '201812004');
-INSERT INTO `pmo_project_header` VALUES (59, 0, '', '', 3, NULL, NULL, '2018-12-22', 0, '27', '201812005');
-INSERT INTO `pmo_project_header` VALUES (60, 0, '', '', 2, NULL, NULL, '2018-12-22', 0, '27', '201812006');
-INSERT INTO `pmo_project_header` VALUES (61, NULL, NULL, NULL, 1, NULL, NULL, '2018-12-24', 0, '31', '201812007');
-INSERT INTO `pmo_project_header` VALUES (62, NULL, NULL, NULL, 2, NULL, NULL, '2018-12-24', 0, '31', '201812008');
-INSERT INTO `pmo_project_header` VALUES (63, NULL, NULL, NULL, 2, NULL, NULL, '2018-12-24', 0, '', '201812009');
-INSERT INTO `pmo_project_header` VALUES (64, 20, '1', '1', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120010');
-INSERT INTO `pmo_project_header` VALUES (65, 20, '2', '1', 1, NULL, NULL, '2018-12-24', 0, '27', '2018120011');
-INSERT INTO `pmo_project_header` VALUES (66, 20, '2', '1', 3, NULL, NULL, '2018-12-24', 0, '27', '2018120012');
-INSERT INTO `pmo_project_header` VALUES (67, 20, '3', '2', 3, NULL, NULL, '2018-12-24', 0, '27', '2018120013');
-INSERT INTO `pmo_project_header` VALUES (68, 21, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120014');
-INSERT INTO `pmo_project_header` VALUES (69, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120015');
-INSERT INTO `pmo_project_header` VALUES (70, NULL, NULL, NULL, 3, NULL, NULL, '2018-12-24', 0, '27', '2018120016');
-INSERT INTO `pmo_project_header` VALUES (71, NULL, NULL, NULL, 3, NULL, NULL, '2018-12-24', 0, '27', '2018120017');
-INSERT INTO `pmo_project_header` VALUES (72, 0, '', '', 3, NULL, NULL, '2018-12-24', 0, '27', '2018120018');
-INSERT INTO `pmo_project_header` VALUES (73, 0, '', '', 3, NULL, NULL, '2018-12-24', 0, '27', '2018120019');
-INSERT INTO `pmo_project_header` VALUES (74, 0, '', '', 3, NULL, NULL, '2018-12-24', 0, '27', '2018120020');
-INSERT INTO `pmo_project_header` VALUES (75, NULL, NULL, NULL, 2, NULL, NULL, '2018-12-24', 0, '27', '2018120021');
-INSERT INTO `pmo_project_header` VALUES (76, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120022');
-INSERT INTO `pmo_project_header` VALUES (77, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120023');
-INSERT INTO `pmo_project_header` VALUES (78, NULL, NULL, NULL, 2, NULL, NULL, '2018-12-24', 0, '30', '2018120024');
-INSERT INTO `pmo_project_header` VALUES (79, NULL, NULL, NULL, 2, NULL, NULL, '2018-12-24', 0, '30', '2018120025');
-INSERT INTO `pmo_project_header` VALUES (80, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120026');
-INSERT INTO `pmo_project_header` VALUES (81, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120027');
-INSERT INTO `pmo_project_header` VALUES (82, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120028');
-INSERT INTO `pmo_project_header` VALUES (83, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120029');
-INSERT INTO `pmo_project_header` VALUES (84, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120030');
-INSERT INTO `pmo_project_header` VALUES (85, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120031');
-INSERT INTO `pmo_project_header` VALUES (86, 0, '', '', 1, NULL, NULL, '2018-12-24', 0, '27', '2018120032');
-INSERT INTO `pmo_project_header` VALUES (87, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120033');
-INSERT INTO `pmo_project_header` VALUES (88, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120034');
-INSERT INTO `pmo_project_header` VALUES (89, 20, '', '', 3, NULL, NULL, '2018-12-24', 0, '27', '2018120035');
-INSERT INTO `pmo_project_header` VALUES (90, 0, '', '', 2, NULL, NULL, '2018-12-24', 0, '27', '2018120036');
-INSERT INTO `pmo_project_header` VALUES (91, 0, '', '', 2, NULL, NULL, '2018-12-25', 0, '27', '2018120037');
-INSERT INTO `pmo_project_header` VALUES (92, 20, '', '', 1, NULL, NULL, '2018-12-25', 0, '27', '2018120038');
-INSERT INTO `pmo_project_header` VALUES (93, 0, '', '', 2, NULL, NULL, '2018-12-25', 0, '27', '2018120039');
-INSERT INTO `pmo_project_header` VALUES (94, 20, '', '', 3, NULL, NULL, '2018-12-25', 0, '27', '2018120040');
+INSERT INTO `pmo_project_header` VALUES (142, NULL, NULL, NULL, 3, NULL, NULL, '2018-12-28', 0, '', '201812008');
+INSERT INTO `pmo_project_header` VALUES (141, NULL, NULL, NULL, 3, NULL, NULL, '2018-12-28', 0, '27', '201812007');
+INSERT INTO `pmo_project_header` VALUES (140, 21, '21', '18', 2, NULL, NULL, '2018-12-28', 0, '16', '201812006');
+INSERT INTO `pmo_project_header` VALUES (139, 31, '31', '31', 1, NULL, NULL, '2018-12-28', 0, '32', '201812005');
+INSERT INTO `pmo_project_header` VALUES (138, 0, '', '', 2, NULL, NULL, '2018-12-28', 0, '30', '201812004');
+INSERT INTO `pmo_project_header` VALUES (137, 0, '', '', 3, NULL, NULL, '2018-12-28', 0, '30', '201812003');
+INSERT INTO `pmo_project_header` VALUES (136, 0, '', '', 2, NULL, NULL, '2018-12-28', 0, '30', '201812002');
+INSERT INTO `pmo_project_header` VALUES (135, 23, '32', '32', 1, NULL, NULL, '2018-12-28', 0, '28', '201812001');
+INSERT INTO `pmo_project_header` VALUES (134, 0, '', '1', 2, NULL, NULL, '2018-12-28', 0, '27', '201812000');
 
 -- ----------------------------
 -- Table structure for pmo_project_static
@@ -4824,14 +5783,20 @@ CREATE TABLE `pmo_project_static`  (
   `data` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT '项目json',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '项目创建人的id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 89 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 137 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_project_static
 -- ----------------------------
-INSERT INTO `pmo_project_static` VALUES (88, 94, '{\"id\":\"94\",\"project_name\":\"崔思思测试003\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"3\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"技术资源部\",\"province\":1,\"city\":1,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120040\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"stay\":1,\"meal\":1,\"travel_cost\":4,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":4,\"expected_income\":0,\"project_profit\":-4,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"2\",\"admin_id\":\"10\"}],\"state\":\"1\"}}}', 27);
-INSERT INTO `pmo_project_static` VALUES (86, 92, '{\"id\":\"92\",\"project_name\":\"崔思思测试001\",\"project_gather_id\":\"20\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":\"项目1\",\"project_project_template_name\":\"行业培训部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":\"2000\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120038\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[{\"id\":\"73\",\"room_number\":\"\",\"unit_price\":\"\",\"days\":\"\",\"total_price\":\"\",\"meetingplace_name\":\"\",\"meetingplace_address\":\"\",\"time\":\"2018-12-25 13:27:33\",\"state\":\"0\",\"parent_id\":\"92\"}],\"consulting_cost\":0,\"costing\":0,\"expected_income\":\"2000\",\"project_profit\":2000,\"gross_interest_rate\":\"100%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-25 11:12:09\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"2\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 27);
-INSERT INTO `pmo_project_static` VALUES (87, 93, '{\"id\":\"93\",\"project_name\":\"崔思思测试002\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":11,\"city\":0,\"address\":null,\"project_income\":\"200\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"2018120039\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":3000,\"implementation_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":11,\"lecturer\":[{\"id\":\"251\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"0\",\"teacher_lecture_fee\":\"3000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":null,\"teacher_name_name\":\"刘雪松\"}],\"lecturers\":[{\"id\":\"251\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"0\",\"teacher_lecture_fee\":\"3000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":null,\"teacher_name_name\":\"刘雪松\"}],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":3011,\"expected_income\":\"200\",\"project_profit\":-2811,\"gross_interest_rate\":\"-1405.5%\",\"examine\":{\"budget\":{\"step\":[],\"state\":\"0\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 27);
+INSERT INTO `pmo_project_static` VALUES (134, 140, '{\"id\":\"140\",\"project_name\":\"软考靠前培训班\",\"project_gather_id\":\"21\",\"project_person_in_charge_id\":\"18\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"1\",\"project_customer_name\":\"软考学员\",\"project_days\":\"4\",\"project_start_date\":\"2018-12-28\",\"project_end_date\":\"2018-12-31\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"温越\",\"project_leader_id\":\"21\",\"project_person_in_charge_name\":\"李旋\",\"project_gather_name\":\"软考\",\"project_project_template_name\":\"公共培训部\",\"province\":0,\"city\":200,\"address\":\"中软大厦\",\"project_income\":\"60000\",\"project_tax_rate\":\"1800\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812006\",\"project_training_ares_name\":\"北京--北京--中软大厦\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"中软大厦\"},\"project_date\":{\"start\":\"2018-12-28\",\"end\":\"2018-12-31\"},\"labor_cost\":1800,\"implementation_cost\":7200,\"conference_cost\":7200,\"stay\":0,\"meal\":680,\"travel_cost\":880,\"lecturer\":[{\"id\":\"263\",\"teacher_lecture_days\":\"4\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"1800\",\"teacher_income_tax\":\"0\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"lecturers\":[{\"id\":\"263\",\"teacher_lecture_days\":\"4\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"1800\",\"teacher_income_tax\":\"0\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"implement\":null,\"venue\":[{\"id\":\"82\",\"room_number\":null,\"unit_price\":\"1800\",\"days\":\"4\",\"total_price\":\"7200\",\"meetingplace_name\":null,\"meetingplace_address\":\"中软大厦第一会议室\",\"time\":\"2018-12-28 16:05:07\",\"state\":\"0\",\"parent_id\":\"140\"}],\"consulting_cost\":0,\"costing\":11680,\"expected_income\":\"60000\",\"project_profit\":48320,\"gross_interest_rate\":\"80.53%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 16);
+INSERT INTO `pmo_project_static` VALUES (135, 141, '{\"id\":\"141\",\"project_name\":null,\"project_gather_id\":null,\"project_person_in_charge_id\":null,\"project_project_template_id\":\"3\",\"project_training_ares_id\":null,\"project_customer_name\":null,\"project_days\":null,\"project_start_date\":null,\"project_end_date\":null,\"project_training_numbers\":null,\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"技术资源部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":null,\"project_tax_rate\":null,\"institutional_consulting_fees\":null,\"personal_consulting_fees\":null,\"unicode\":\"201812007\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":null,\"end\":null},\"labor_cost\":0,\"implementation_cost\":0,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 27);
+INSERT INTO `pmo_project_static` VALUES (136, 142, '{\"id\":\"142\",\"project_name\":null,\"project_gather_id\":null,\"project_person_in_charge_id\":null,\"project_project_template_id\":\"3\",\"project_training_ares_id\":null,\"project_customer_name\":null,\"project_days\":null,\"project_start_date\":null,\"project_end_date\":null,\"project_training_numbers\":null,\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"技术资源部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":null,\"project_tax_rate\":null,\"institutional_consulting_fees\":null,\"personal_consulting_fees\":null,\"unicode\":\"201812008\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":null,\"end\":null},\"labor_cost\":0,\"implementation_cost\":0,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[],\"state\":\"0\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 0);
+INSERT INTO `pmo_project_static` VALUES (133, 139, '{\"id\":\"139\",\"project_name\":\"需求分析\",\"project_gather_id\":\"31\",\"project_person_in_charge_id\":\"31\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"13\",\"project_customer_name\":\"中国联合网络通信有限公司北京市分公司\",\"project_days\":\"3\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"20\",\"project_leader_name\":\"寇艳艳\",\"project_leader_id\":\"31\",\"project_person_in_charge_name\":\"寇艳艳\",\"project_gather_name\":\"中国联通\",\"project_project_template_name\":\"行业培训部\",\"province\":555,\"city\":300,\"address\":\"金融界121号F301\",\"project_income\":\"60000\",\"project_tax_rate\":\"3600\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812005\",\"project_training_ares_name\":\"北京--北京--金融界121号F301\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"金融界121号F301\"},\"project_date\":{\"start\":\"2018-12-29\",\"end\":\"2019-01-01\"},\"labor_cost\":15000,\"implementation_cost\":600,\"conference_cost\":0,\"stay\":2000,\"meal\":170,\"travel_cost\":3025,\"lecturer\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"lecturers\":[{\"id\":\"262\",\"teacher_lecture_days\":\"3\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"1\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"柳芳\"}],\"implement\":{\"id\":\"97\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"\",\"tea_break\":\"\",\"stationery\":\"\",\"hospitality\":\"\",\"postage\":\"200\",\"parent_id\":\"139\",\"state\":\"0\",\"time\":\"2018-12-28 15:50:29\",\"material_cost\":\"400\",\"equipment_cost\":\"\"},\"venue\":[],\"consulting_cost\":0,\"costing\":22225,\"expected_income\":\"60000\",\"project_profit\":37775,\"gross_interest_rate\":\"62.96%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:05:16\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"2\"},\"finalAccounts\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:09:06\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"2\",\"admin_id\":\"10\"}],\"state\":\"2\"}}}', 32);
+INSERT INTO `pmo_project_static` VALUES (130, 136, '{\"id\":\"136\",\"project_name\":\"\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"201812002\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[],\"state\":\"0\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 30);
+INSERT INTO `pmo_project_static` VALUES (131, 137, '{\"id\":\"137\",\"project_name\":\"321321\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"3\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"技术资源部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"201812003\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[],\"state\":\"0\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 30);
+INSERT INTO `pmo_project_static` VALUES (132, 138, '{\"id\":\"138\",\"project_name\":\"\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":null,\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":0,\"city\":0,\"address\":null,\"project_income\":\"\",\"project_tax_rate\":\"\",\"institutional_consulting_fees\":\"\",\"personal_consulting_fees\":\"\",\"unicode\":\"201812004\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":0,\"implementation_cost\":0,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[],\"lecturers\":[],\"implement\":null,\"venue\":[],\"consulting_cost\":0,\"costing\":0,\"expected_income\":0,\"project_profit\":0,\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":\"2018-12-28 16:05:09\",\"pass\":\"1\",\"note\":\"\",\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"2\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 30);
+INSERT INTO `pmo_project_static` VALUES (128, 134, '{\"id\":\"134\",\"project_name\":\"课程测试1\",\"project_gather_id\":\"0\",\"project_person_in_charge_id\":\"1\",\"project_project_template_id\":\"2\",\"project_training_ares_id\":\"\",\"project_customer_name\":\"\",\"project_days\":\"\",\"project_start_date\":\"\",\"project_end_date\":\"\",\"project_training_numbers\":\"0\",\"project_leader_name\":null,\"project_leader_id\":null,\"project_person_in_charge_name\":\"柳芳\",\"project_gather_name\":null,\"project_project_template_name\":\"公共培训部\",\"province\":1,\"city\":2,\"address\":null,\"project_income\":\"1000000000\",\"project_tax_rate\":\"28\",\"institutional_consulting_fees\":\"20\",\"personal_consulting_fees\":\"30\",\"unicode\":\"201812000\",\"project_traing_ares\":{\"province\":null,\"city\":null,\"address\":null},\"project_date\":{\"start\":\"\",\"end\":\"\"},\"labor_cost\":33000,\"implementation_cost\":198,\"conference_cost\":30,\"stay\":3,\"meal\":4,\"travel_cost\":10,\"lecturer\":[{\"id\":\"259\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"0\",\"teacher_lecture_fee\":\"3000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"0\",\"teacher_duty_name\":null,\"teacher_name_name\":null},{\"id\":\"260\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"0\",\"teacher_lecture_fee\":\"30000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"0\",\"teacher_duty_name\":null,\"teacher_name_name\":null}],\"lecturers\":[{\"id\":\"259\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"0\",\"teacher_lecture_fee\":\"3000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"0\",\"teacher_duty_name\":null,\"teacher_name_name\":null},{\"id\":\"260\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"0\",\"teacher_lecture_fee\":\"30000\",\"teacher_income_tax\":\"\",\"teacher_name_id\":\"0\",\"teacher_duty_name\":null,\"teacher_name_name\":null}],\"implement\":{\"id\":\"95\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"23\",\"tea_break\":\"24\",\"stationery\":\"25\",\"hospitality\":\"26\",\"postage\":\"27\",\"parent_id\":\"134\",\"state\":\"0\",\"time\":\"2018-12-28 14:47:52\",\"material_cost\":\"21\",\"equipment_cost\":\"22\"},\"venue\":[{\"id\":\"81\",\"room_number\":null,\"unit_price\":\"\",\"days\":\"\",\"total_price\":\"17\",\"meetingplace_name\":null,\"meetingplace_address\":\"\",\"time\":\"2018-12-28 14:46:46\",\"state\":\"0\",\"parent_id\":\"134\"},{\"id\":\"80\",\"room_number\":null,\"unit_price\":\"\",\"days\":\"\",\"total_price\":\"13\",\"meetingplace_name\":null,\"meetingplace_address\":\"\",\"time\":\"2018-12-28 14:46:40\",\"state\":\"0\",\"parent_id\":\"134\"}],\"consulting_cost\":50,\"costing\":33286,\"expected_income\":\"1000000000\",\"project_profit\":999966714,\"gross_interest_rate\":\"100%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 27);
+INSERT INTO `pmo_project_static` VALUES (129, 135, '{\"id\":\"135\",\"project_name\":\"uml\",\"project_gather_id\":\"23\",\"project_person_in_charge_id\":\"32\",\"project_project_template_id\":\"1\",\"project_training_ares_id\":\"11\",\"project_customer_name\":\"云南移动\",\"project_days\":\"2\",\"project_start_date\":\"2018-12-29\",\"project_end_date\":\"2019-01-01\",\"project_training_numbers\":\"10\",\"project_leader_name\":\"张剑\",\"project_leader_id\":\"32\",\"project_person_in_charge_name\":\"张剑\",\"project_gather_name\":\"云南移动\",\"project_project_template_name\":\"行业培训部\",\"province\":0,\"city\":0,\"address\":\"中软大厦\",\"project_income\":\"60000\",\"project_tax_rate\":\"360\",\"institutional_consulting_fees\":\"0\",\"personal_consulting_fees\":\"0\",\"unicode\":\"201812001\",\"project_training_ares_name\":\"北京--北京--中软大厦\",\"project_traing_ares\":{\"province\":\"北京\",\"city\":\"北京\",\"address\":\"中软大厦\"},\"project_date\":{\"start\":\"2018-12-29\",\"end\":\"2019-01-01\"},\"labor_cost\":15300,\"implementation_cost\":1360,\"conference_cost\":0,\"stay\":0,\"meal\":0,\"travel_cost\":0,\"lecturer\":[{\"id\":\"261\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"300\",\"teacher_name_id\":\"17\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"杨云\"}],\"lecturers\":[{\"id\":\"261\",\"teacher_lecture_days\":\"5\",\"teacher_duty_id\":\"1\",\"teacher_lecture_fee\":\"15000\",\"teacher_income_tax\":\"300\",\"teacher_name_id\":\"17\",\"teacher_duty_name\":\"主讲\",\"teacher_name_name\":\"杨云\"}],\"implement\":{\"id\":\"96\",\"venue_fee\":null,\"material_and_equipment_cost\":null,\"examination_fee\":\"0\",\"tea_break\":\"500\",\"stationery\":\"500\",\"hospitality\":\"40\",\"postage\":\"20\",\"parent_id\":\"135\",\"state\":\"0\",\"time\":\"2018-12-28 15:16:43\",\"material_cost\":\"300\",\"equipment_cost\":\"0\"},\"venue\":[],\"consulting_cost\":0,\"costing\":17020,\"expected_income\":\"60000\",\"project_profit\":42980,\"gross_interest_rate\":\"71.63%\",\"examine\":{\"budget\":{\"step\":[{\"admin_user\":\"段美静\",\"time\":null,\"pass\":\"0\",\"note\":null,\"examine_type\":\"1\",\"admin_id\":\"10\"}],\"state\":\"1\"},\"finalAccounts\":{\"step\":[],\"state\":\"0\"}}}', 28);
 
 -- ----------------------------
 -- Table structure for pmo_project_template
@@ -4848,9 +5813,9 @@ CREATE TABLE `pmo_project_template`  (
 -- ----------------------------
 -- Records of pmo_project_template
 -- ----------------------------
-INSERT INTO `pmo_project_template` VALUES (1, '行业培训部', 1, '1');
-INSERT INTO `pmo_project_template` VALUES (2, '公共培训部', 0, '2');
-INSERT INTO `pmo_project_template` VALUES (3, '技术资源部', 0, '3');
+INSERT INTO `pmo_project_template` VALUES (1, '内训', 1, NULL);
+INSERT INTO `pmo_project_template` VALUES (2, '公共培训', 0, NULL);
+INSERT INTO `pmo_project_template` VALUES (3, '其他', 0, NULL);
 
 -- ----------------------------
 -- Table structure for pmo_role
@@ -4881,25 +5846,99 @@ CREATE TABLE `pmo_role_in_route`  (
   `route_id` int(255) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0 COMMENT '0为可用1为删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '角色路由分配表' ROW_FORMAT = Fixed;
+) ENGINE = MyISAM AUTO_INCREMENT = 304 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '角色路由分配表' ROW_FORMAT = Fixed;
 
 -- ----------------------------
 -- Records of pmo_role_in_route
 -- ----------------------------
-INSERT INTO `pmo_role_in_route` VALUES (23, 8, 3, 0);
-INSERT INTO `pmo_role_in_route` VALUES (26, 8, 1, 0);
-INSERT INTO `pmo_role_in_route` VALUES (29, 8, 4, 0);
-INSERT INTO `pmo_role_in_route` VALUES (5, 8, 5, 0);
-INSERT INTO `pmo_role_in_route` VALUES (10, 8, 5, 0);
-INSERT INTO `pmo_role_in_route` VALUES (28, 8, 3, 0);
-INSERT INTO `pmo_role_in_route` VALUES (25, 8, 5, 0);
-INSERT INTO `pmo_role_in_route` VALUES (22, 8, 2, 0);
-INSERT INTO `pmo_role_in_route` VALUES (15, 8, 1, 0);
-INSERT INTO `pmo_role_in_route` VALUES (30, 8, 2, 0);
-INSERT INTO `pmo_role_in_route` VALUES (27, 8, 3, 0);
-INSERT INTO `pmo_role_in_route` VALUES (24, 8, 4, 0);
-INSERT INTO `pmo_role_in_route` VALUES (21, 8, 6, 0);
-INSERT INTO `pmo_role_in_route` VALUES (20, 8, 5, 0);
+INSERT INTO `pmo_role_in_route` VALUES (206, 9, 85, 0);
+INSERT INTO `pmo_role_in_route` VALUES (205, 9, 84, 0);
+INSERT INTO `pmo_role_in_route` VALUES (204, 9, 83, 0);
+INSERT INTO `pmo_role_in_route` VALUES (203, 9, 82, 0);
+INSERT INTO `pmo_role_in_route` VALUES (202, 9, 81, 0);
+INSERT INTO `pmo_role_in_route` VALUES (201, 9, 80, 0);
+INSERT INTO `pmo_role_in_route` VALUES (200, 9, 79, 0);
+INSERT INTO `pmo_role_in_route` VALUES (199, 9, 78, 0);
+INSERT INTO `pmo_role_in_route` VALUES (198, 9, 77, 0);
+INSERT INTO `pmo_role_in_route` VALUES (197, 9, 76, 0);
+INSERT INTO `pmo_role_in_route` VALUES (196, 9, 75, 0);
+INSERT INTO `pmo_role_in_route` VALUES (195, 9, 74, 0);
+INSERT INTO `pmo_role_in_route` VALUES (194, 9, 73, 0);
+INSERT INTO `pmo_role_in_route` VALUES (193, 9, 72, 0);
+INSERT INTO `pmo_role_in_route` VALUES (192, 9, 71, 0);
+INSERT INTO `pmo_role_in_route` VALUES (191, 9, 70, 0);
+INSERT INTO `pmo_role_in_route` VALUES (190, 9, 69, 0);
+INSERT INTO `pmo_role_in_route` VALUES (189, 9, 68, 0);
+INSERT INTO `pmo_role_in_route` VALUES (188, 9, 67, 0);
+INSERT INTO `pmo_role_in_route` VALUES (187, 9, 66, 0);
+INSERT INTO `pmo_role_in_route` VALUES (186, 9, 65, 0);
+INSERT INTO `pmo_role_in_route` VALUES (185, 9, 64, 0);
+INSERT INTO `pmo_role_in_route` VALUES (184, 9, 63, 0);
+INSERT INTO `pmo_role_in_route` VALUES (183, 9, 62, 0);
+INSERT INTO `pmo_role_in_route` VALUES (182, 9, 61, 0);
+INSERT INTO `pmo_role_in_route` VALUES (181, 9, 60, 0);
+INSERT INTO `pmo_role_in_route` VALUES (180, 9, 59, 0);
+INSERT INTO `pmo_role_in_route` VALUES (179, 9, 58, 0);
+INSERT INTO `pmo_role_in_route` VALUES (178, 9, 57, 0);
+INSERT INTO `pmo_role_in_route` VALUES (177, 9, 56, 0);
+INSERT INTO `pmo_role_in_route` VALUES (176, 9, 55, 0);
+INSERT INTO `pmo_role_in_route` VALUES (175, 9, 54, 0);
+INSERT INTO `pmo_role_in_route` VALUES (174, 9, 53, 0);
+INSERT INTO `pmo_role_in_route` VALUES (173, 9, 52, 0);
+INSERT INTO `pmo_role_in_route` VALUES (172, 9, 51, 0);
+INSERT INTO `pmo_role_in_route` VALUES (171, 9, 50, 0);
+INSERT INTO `pmo_role_in_route` VALUES (170, 9, 49, 0);
+INSERT INTO `pmo_role_in_route` VALUES (169, 9, 48, 0);
+INSERT INTO `pmo_role_in_route` VALUES (168, 9, 47, 0);
+INSERT INTO `pmo_role_in_route` VALUES (167, 9, 46, 0);
+INSERT INTO `pmo_role_in_route` VALUES (166, 9, 45, 0);
+INSERT INTO `pmo_role_in_route` VALUES (165, 9, 44, 0);
+INSERT INTO `pmo_role_in_route` VALUES (164, 9, 43, 0);
+INSERT INTO `pmo_role_in_route` VALUES (163, 9, 42, 0);
+INSERT INTO `pmo_role_in_route` VALUES (162, 9, 41, 0);
+INSERT INTO `pmo_role_in_route` VALUES (161, 9, 40, 0);
+INSERT INTO `pmo_role_in_route` VALUES (160, 9, 39, 0);
+INSERT INTO `pmo_role_in_route` VALUES (159, 9, 38, 0);
+INSERT INTO `pmo_role_in_route` VALUES (158, 9, 37, 0);
+INSERT INTO `pmo_role_in_route` VALUES (157, 9, 36, 0);
+INSERT INTO `pmo_role_in_route` VALUES (156, 9, 35, 0);
+INSERT INTO `pmo_role_in_route` VALUES (155, 9, 34, 0);
+INSERT INTO `pmo_role_in_route` VALUES (154, 9, 33, 0);
+INSERT INTO `pmo_role_in_route` VALUES (153, 9, 32, 0);
+INSERT INTO `pmo_role_in_route` VALUES (152, 9, 31, 0);
+INSERT INTO `pmo_role_in_route` VALUES (151, 9, 30, 0);
+INSERT INTO `pmo_role_in_route` VALUES (150, 9, 29, 0);
+INSERT INTO `pmo_role_in_route` VALUES (149, 9, 28, 0);
+INSERT INTO `pmo_role_in_route` VALUES (148, 9, 27, 0);
+INSERT INTO `pmo_role_in_route` VALUES (147, 9, 26, 0);
+INSERT INTO `pmo_role_in_route` VALUES (146, 9, 25, 0);
+INSERT INTO `pmo_role_in_route` VALUES (145, 9, 24, 0);
+INSERT INTO `pmo_role_in_route` VALUES (144, 9, 23, 0);
+INSERT INTO `pmo_role_in_route` VALUES (143, 9, 22, 0);
+INSERT INTO `pmo_role_in_route` VALUES (142, 9, 21, 0);
+INSERT INTO `pmo_role_in_route` VALUES (141, 9, 20, 0);
+INSERT INTO `pmo_role_in_route` VALUES (140, 9, 19, 0);
+INSERT INTO `pmo_role_in_route` VALUES (139, 9, 18, 0);
+INSERT INTO `pmo_role_in_route` VALUES (138, 9, 17, 0);
+INSERT INTO `pmo_role_in_route` VALUES (137, 9, 16, 0);
+INSERT INTO `pmo_role_in_route` VALUES (136, 9, 15, 0);
+INSERT INTO `pmo_role_in_route` VALUES (135, 9, 14, 0);
+INSERT INTO `pmo_role_in_route` VALUES (134, 9, 13, 0);
+INSERT INTO `pmo_role_in_route` VALUES (133, 9, 12, 0);
+INSERT INTO `pmo_role_in_route` VALUES (132, 9, 11, 0);
+INSERT INTO `pmo_role_in_route` VALUES (131, 9, 10, 0);
+INSERT INTO `pmo_role_in_route` VALUES (130, 9, 9, 0);
+INSERT INTO `pmo_role_in_route` VALUES (129, 9, 8, 0);
+INSERT INTO `pmo_role_in_route` VALUES (128, 9, 7, 0);
+INSERT INTO `pmo_role_in_route` VALUES (127, 9, 6, 0);
+INSERT INTO `pmo_role_in_route` VALUES (126, 9, 5, 0);
+INSERT INTO `pmo_role_in_route` VALUES (125, 9, 4, 0);
+INSERT INTO `pmo_role_in_route` VALUES (124, 9, 3, 0);
+INSERT INTO `pmo_role_in_route` VALUES (123, 9, 2, 0);
+INSERT INTO `pmo_role_in_route` VALUES (122, 9, 1, 0);
+INSERT INTO `pmo_role_in_route` VALUES (303, 8, 8, 0);
+INSERT INTO `pmo_role_in_route` VALUES (302, 8, 2, 0);
+INSERT INTO `pmo_role_in_route` VALUES (301, 8, 1, 0);
 
 -- ----------------------------
 -- Table structure for pmo_role_menu
@@ -4936,9 +5975,9 @@ CREATE TABLE `pmo_role_menu_static`  (
 -- ----------------------------
 -- Records of pmo_role_menu_static
 -- ----------------------------
-INSERT INTO `pmo_role_menu_static` VALUES (1, '{\"projectManagement\":{\"data\":[{\"id\":\"4\",\"path\":\"/biddingPlan\",\"title\":\"所属项目集\",\"component\":\"BiddingPlan\",\"fid\":\"1\",\"url\":null},{\"id\":\"28\",\"path\":\"/trainingProgram\",\"title\":\"培训项目\",\"component\":\"TrainingProgram\",\"fid\":\"1\",\"url\":\"project_manage_returnonlyuserlist\"}],\"name\":\"项目管理\"},\"budgetAndFinalAccountsManagementcond\":{\"data\":[{\"id\":\"10\",\"path\":\"/budgetExaminationAndApproval\",\"title\":\"审批\",\"component\":\"BudgetExaminationAndApproval\",\"fid\":\"2\",\"url\":null}],\"name\":\"预决算管理\"},\"loanExpenditureManagement\":{\"data\":[{\"id\":\"11\",\"path\":\"/loan\",\"title\":\"借款\",\"component\":\"Loan\",\"fid\":\"3\",\"url\":null}],\"name\":\"借款支出管理\"}}', 1, '8', '普通员工');
+INSERT INTO `pmo_role_menu_static` VALUES (1, '{\"projectManagement\":{\"data\":[{\"id\":\"4\",\"path\":\"/biddingPlan\",\"title\":\"所属项目集\",\"component\":\"BiddingPlan\",\"fid\":\"1\",\"url\":null},{\"id\":\"28\",\"path\":\"/trainingProgram\",\"title\":\"培训项目\",\"component\":\"TrainingProgram\",\"fid\":\"1\",\"url\":\"project_manage_returnonlyuserlist\"}],\"name\":\"项目管理\"}}', 1, '8', '普通员工');
 INSERT INTO `pmo_role_menu_static` VALUES (4, '{\"budgetAndFinalAccountsManagementcond\":{\"data\":[{\"id\":\"7\",\"path\":\"/budget\",\"title\":\"预算\",\"component\":\"Budget\",\"fid\":\"2\",\"url\":\"examine_budget_list\"},{\"id\":\"8\",\"path\":\"/finalAccounts\",\"title\":\"决算\",\"component\":\"FinalAccounts\",\"fid\":\"2\",\"url\":\"examine_final_list\"}],\"name\":\"预决算管理\"}}', 1, '6', 'PMO');
-INSERT INTO `pmo_role_menu_static` VALUES (6, '{\"projectManagement\":{\"data\":[{\"id\":\"1\",\"path\":\"/customer\",\"title\":\"客户\",\"component\":\"Customer\",\"fid\":\"1\",\"url\":null},{\"id\":\"2\",\"path\":\"/contact\",\"title\":\"联系人\",\"component\":\"Contact\",\"fid\":\"1\",\"url\":null},{\"id\":\"3\",\"path\":\"/trainingProgram\",\"title\":\"培训项目\",\"component\":\"TrainingProgram\",\"fid\":\"1\",\"url\":\"project_manage_list\"},{\"id\":\"4\",\"path\":\"/biddingPlan\",\"title\":\"所属项目集\",\"component\":\"BiddingPlan\",\"fid\":\"1\",\"url\":null},{\"id\":\"5\",\"path\":\"/contract\",\"title\":\"合同管理\",\"component\":\"Contract\",\"fid\":\"1\",\"url\":null},{\"id\":\"6\",\"path\":\"/costing\",\"title\":\"成本管理\",\"component\":\"Costing\",\"fid\":\"1\",\"url\":null}],\"name\":\"项目管理\"},\"budgetAndFinalAccountsManagementcond\":{\"data\":[{\"id\":\"7\",\"path\":\"/budget\",\"title\":\"预算\",\"component\":\"Budget\",\"fid\":\"2\",\"url\":\"examine_budget_list\"},{\"id\":\"8\",\"path\":\"/finalAccounts\",\"title\":\"决算\",\"component\":\"FinalAccounts\",\"fid\":\"2\",\"url\":\"examine_final_list\"},{\"id\":\"9\",\"path\":\"/budgetAccounting\",\"title\":\"核算\",\"component\":\"BudgetAccounting\",\"fid\":\"2\",\"url\":null},{\"id\":\"10\",\"path\":\"/budgetExaminationAndApproval\",\"title\":\"审批\",\"component\":\"BudgetExaminationAndApproval\",\"fid\":\"2\",\"url\":null}],\"name\":\"预决算管理\"},\"loanExpenditureManagement\":{\"data\":[{\"id\":\"11\",\"path\":\"/loan\",\"title\":\"借款\",\"component\":\"Loan\",\"fid\":\"3\",\"url\":null},{\"id\":\"12\",\"path\":\"/expenditure\",\"title\":\"支出\",\"component\":\"Expenditure\",\"fid\":\"3\",\"url\":null},{\"id\":\"13\",\"path\":\"/loanAccounting\",\"title\":\"核算\",\"component\":\"LoanAccounting\",\"fid\":\"3\",\"url\":null},{\"id\":\"14\",\"path\":\"/loanExaminationAndApproval\",\"title\":\"审批\",\"component\":\"LoanExaminationAndApproval\",\"fid\":\"3\",\"url\":null}],\"name\":\"借款支出管理\"},\"receivablesManagement\":{\"data\":[{\"id\":\"15\",\"path\":\"/receivables\",\"title\":\"应收款\",\"component\":\"Receivables\",\"fid\":\"4\",\"url\":null},{\"id\":\"16\",\"path\":\"/cashReceipts\",\"title\":\"实收款\",\"component\":\"CashReceipts\",\"fid\":\"4\",\"url\":null},{\"id\":\"17\",\"path\":\"/receivablesAccounting\",\"title\":\"核算\",\"component\":\"ReceivablesAccounting\",\"fid\":\"4\",\"url\":null},{\"id\":\"18\",\"path\":\"/receivablesExaminationAndApproval\",\"title\":\"审批\",\"component\":\"ReceivablesExaminationAndApproval\",\"fid\":\"4\",\"url\":null}],\"name\":\"收款管理\"},\"lecturerManagement\":{\"data\":[{\"id\":\"19\",\"path\":\"/lecturer\",\"title\":\"讲师\",\"component\":\"Lecturer\",\"fid\":\"5\",\"url\":null},{\"id\":\"20\",\"path\":\"/classRemuneration\",\"title\":\"课酬\",\"component\":\"ClassRemuneration\",\"fid\":\"5\",\"url\":null},{\"id\":\"21\",\"path\":\"/teachingArrangement\",\"title\":\"授课安排\",\"component\":\"TeachingArrangement\",\"fid\":\"5\",\"url\":null}],\"name\":\"讲师管理\"},\"implementationManagement\":{\"data\":[{\"id\":\"22\",\"path\":\"/rafficTravel\",\"title\":\"交通差旅\",\"component\":\"RafficTravel\",\"fid\":\"6\",\"url\":null},{\"id\":\"23\",\"path\":\"/segmenHotel\",\"title\":\"会议酒店\",\"component\":\"SegmenHotel\",\"fid\":\"6\",\"url\":null},{\"id\":\"24\",\"path\":\"/serviceConsumables\",\"title\":\"服务耗材\",\"component\":\"ServiceConsumables\",\"fid\":\"6\",\"url\":null}],\"name\":\"实施管理\"},\"viewManagement\":{\"data\":[{\"id\":\"25\",\"path\":\"/view\",\"title\":\"视图管理\",\"component\":\"View\",\"fid\":\"7\",\"url\":null},{\"id\":\"26\",\"path\":\"/menu\",\"title\":\"菜单管理\",\"component\":\"Menu\",\"fid\":\"7\",\"url\":null},{\"id\":\"30\",\"path\":\"/urlPower\",\"title\":\"路由权限\",\"component\":\"UrlPower\",\"fid\":\"7\",\"url\":\"role_route_list\"}],\"name\":\"视图管理\"}}', 1, '9', '系统管理员');
+INSERT INTO `pmo_role_menu_static` VALUES (6, '{\"projectManagement\":{\"data\":[{\"id\":\"1\",\"path\":\"/customer\",\"title\":\"客户\",\"component\":\"Customer\",\"fid\":\"1\",\"url\":null},{\"id\":\"2\",\"path\":\"/contact\",\"title\":\"联系人\",\"component\":\"Contact\",\"fid\":\"1\",\"url\":null},{\"id\":\"3\",\"path\":\"/trainingProgram\",\"title\":\"培训项目\",\"component\":\"TrainingProgram\",\"fid\":\"1\",\"url\":\"project_manage_list\"},{\"id\":\"4\",\"path\":\"/biddingPlan\",\"title\":\"所属项目集\",\"component\":\"BiddingPlan\",\"fid\":\"1\",\"url\":null},{\"id\":\"5\",\"path\":\"/contract\",\"title\":\"合同管理\",\"component\":\"Contract\",\"fid\":\"1\",\"url\":null},{\"id\":\"6\",\"path\":\"/costing\",\"title\":\"成本管理\",\"component\":\"Costing\",\"fid\":\"1\",\"url\":null}],\"name\":\"项目管理\"},\"budgetAndFinalAccountsManagementcond\":{\"data\":[{\"id\":\"7\",\"path\":\"/budget\",\"title\":\"预算\",\"component\":\"Budget\",\"fid\":\"2\",\"url\":\"examine_budget_list\"},{\"id\":\"8\",\"path\":\"/finalAccounts\",\"title\":\"决算\",\"component\":\"FinalAccounts\",\"fid\":\"2\",\"url\":\"examine_final_list\"},{\"id\":\"9\",\"path\":\"/budgetAccounting\",\"title\":\"核算\",\"component\":\"BudgetAccounting\",\"fid\":\"2\",\"url\":null},{\"id\":\"10\",\"path\":\"/budgetExaminationAndApproval\",\"title\":\"审批\",\"component\":\"BudgetExaminationAndApproval\",\"fid\":\"2\",\"url\":\"examine_record_list\"}],\"name\":\"预决算管理\"},\"loanExpenditureManagement\":{\"data\":[{\"id\":\"11\",\"path\":\"/loan\",\"title\":\"借款\",\"component\":\"Loan\",\"fid\":\"3\",\"url\":null},{\"id\":\"12\",\"path\":\"/expenditure\",\"title\":\"支出\",\"component\":\"Expenditure\",\"fid\":\"3\",\"url\":null},{\"id\":\"13\",\"path\":\"/loanAccounting\",\"title\":\"核算\",\"component\":\"LoanAccounting\",\"fid\":\"3\",\"url\":null},{\"id\":\"14\",\"path\":\"/loanExaminationAndApproval\",\"title\":\"审批\",\"component\":\"LoanExaminationAndApproval\",\"fid\":\"3\",\"url\":null}],\"name\":\"借款支出管理\"},\"receivablesManagement\":{\"data\":[{\"id\":\"15\",\"path\":\"/receivables\",\"title\":\"应收款\",\"component\":\"Receivables\",\"fid\":\"4\",\"url\":null},{\"id\":\"16\",\"path\":\"/cashReceipts\",\"title\":\"实收款\",\"component\":\"CashReceipts\",\"fid\":\"4\",\"url\":null},{\"id\":\"17\",\"path\":\"/receivablesAccounting\",\"title\":\"核算\",\"component\":\"ReceivablesAccounting\",\"fid\":\"4\",\"url\":null},{\"id\":\"18\",\"path\":\"/receivablesExaminationAndApproval\",\"title\":\"审批\",\"component\":\"ReceivablesExaminationAndApproval\",\"fid\":\"4\",\"url\":null}],\"name\":\"收款管理\"},\"lecturerManagement\":{\"data\":[{\"id\":\"19\",\"path\":\"/lecturer\",\"title\":\"讲师\",\"component\":\"Lecturer\",\"fid\":\"5\",\"url\":null},{\"id\":\"20\",\"path\":\"/classRemuneration\",\"title\":\"课酬\",\"component\":\"ClassRemuneration\",\"fid\":\"5\",\"url\":null},{\"id\":\"21\",\"path\":\"/teachingArrangement\",\"title\":\"授课安排\",\"component\":\"TeachingArrangement\",\"fid\":\"5\",\"url\":null}],\"name\":\"讲师管理\"},\"implementationManagement\":{\"data\":[{\"id\":\"22\",\"path\":\"/rafficTravel\",\"title\":\"交通差旅\",\"component\":\"RafficTravel\",\"fid\":\"6\",\"url\":null},{\"id\":\"23\",\"path\":\"/segmenHotel\",\"title\":\"会议酒店\",\"component\":\"SegmenHotel\",\"fid\":\"6\",\"url\":null},{\"id\":\"24\",\"path\":\"/serviceConsumables\",\"title\":\"服务耗材\",\"component\":\"ServiceConsumables\",\"fid\":\"6\",\"url\":null}],\"name\":\"实施管理\"},\"viewManagement\":{\"data\":[{\"id\":\"25\",\"path\":\"/view\",\"title\":\"视图管理\",\"component\":\"View\",\"fid\":\"7\",\"url\":null},{\"id\":\"26\",\"path\":\"/menu\",\"title\":\"菜单管理\",\"component\":\"Menu\",\"fid\":\"7\",\"url\":null},{\"id\":\"30\",\"path\":\"/urlPower\",\"title\":\"路由权限\",\"component\":\"UrlPower\",\"fid\":\"7\",\"url\":\"role_route_list\"}],\"name\":\"视图管理\"}}', 1, '9', '系统管理员');
 
 -- ----------------------------
 -- Table structure for pmo_role_route
@@ -4996,7 +6035,7 @@ CREATE TABLE `pmo_route_url`  (
   `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `version` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '1.0',
   `request` varchar(225) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '接收',
-  `response.data` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '输出',
+  `response` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '输出',
   `url_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -5005,95 +6044,95 @@ CREATE TABLE `pmo_route_url`  (
 -- ----------------------------
 -- Records of pmo_route_url
 -- ----------------------------
-INSERT INTO `pmo_route_url` VALUES (1, 'user/user/client_route', '1.0', '', NULL, 'client_route', NULL);
-INSERT INTO `pmo_route_url` VALUES (2, 'examine/config/add', '1.0', NULL, NULL, 'examine_config_add', '添加审批流');
-INSERT INTO `pmo_route_url` VALUES (3, 'project/manage/add', '1.0', NULL, NULL, 'project_manage_add', '添加项目');
-INSERT INTO `pmo_route_url` VALUES (4, 'project,data/edit', '1.0', NULL, NULL, 'project_data_edit', '修改项目');
-INSERT INTO `pmo_route_url` VALUES (5, 'project/manage/list', '1.0', NULL, NULL, 'project_manage_list', '返回项目列表');
-INSERT INTO `pmo_route_url` VALUES (6, 'project/data/getByProjectId', '1.0', NULL, NULL, 'project_data_getByProjectId', '获取一条项目');
-INSERT INTO `pmo_route_url` VALUES (7, 'staff/manage/list', '1.0', NULL, NULL, 'staff_manage_list', '获取实施负责人');
-INSERT INTO `pmo_route_url` VALUES (8, 'progam/manage/list', '1.0', NULL, NULL, 'program_manage_list', '项目集表');
-INSERT INTO `pmo_route_url` VALUES (9, 'progam/manage/add', '1.0', NULL, NULL, 'progam_manage_add', '项目集新增');
-INSERT INTO `pmo_route_url` VALUES (10, 'user/project/projectTemplate', '1.0', NULL, NULL, 'project_type_list', '项目模板表');
-INSERT INTO `pmo_route_url` VALUES (11, 'lecturer/plan/getByProjectId', '1.0', NULL, NULL, 'lecturer_plan_getByProjectId', '返回讲师列表');
-INSERT INTO `pmo_route_url` VALUES (12, 'lecturer/manage/list', '1.0', NULL, NULL, 'lecturer_manage_list', '讲师表');
-INSERT INTO `pmo_route_url` VALUES (13, 'lecturer/duty/list', '1.0', NULL, NULL, 'lecturer_duty_list', '职责表');
-INSERT INTO `pmo_route_url` VALUES (14, 'lecturer/plan/add', '1.0', NULL, NULL, 'lecturer_plan_add', '添加讲师成本安排');
-INSERT INTO `pmo_route_url` VALUES (15, 'lecturer/plan/edit', '1.0', NULL, NULL, 'lecturer_plan_edit', '修改讲师成本安排');
-INSERT INTO `pmo_route_url` VALUES (16, 'lecturer/plan/del', '1.0', NULL, NULL, 'lecturer_plan_del', '删除讲师成本安排');
-INSERT INTO `pmo_route_url` VALUES (17, 'implement/plan/getByProjectId', '1.0', NULL, NULL, 'implement_plan_getByProjectId', '获取实施安排');
-INSERT INTO `pmo_route_url` VALUES (18, 'implement/plan/edit', '1.0', NULL, NULL, 'implement_plan_edit', '实施安排修改');
-INSERT INTO `pmo_route_url` VALUES (19, 'travel/plan/getByProjectId', '1.0', NULL, NULL, 'travel_plan_getByProjectId', '差旅安排');
-INSERT INTO `pmo_route_url` VALUES (20, 'travel/inCityTraffic/add', '1.0', NULL, NULL, 'travel_inCityTraffic_add', '添加市内交通');
-INSERT INTO `pmo_route_url` VALUES (21, 'travel/inCityTraffic/edit', '1.0', NULL, NULL, 'travel_inCityTraffic_edit', '修改市内交通');
-INSERT INTO `pmo_route_url` VALUES (22, 'travel/inCityTraffic/del', '1.0', NULL, NULL, 'travel_inCityTraffic_del', '删除市内交通');
-INSERT INTO `pmo_route_url` VALUES (23, 'travel/longTraffic/add', '1.0', NULL, NULL, 'travel_longTraffic_add', '添加长途交通');
-INSERT INTO `pmo_route_url` VALUES (24, 'travel/longTraffic/edit', '1.0', NULL, NULL, 'travel_longTraffic_edit', '修改长途交通');
-INSERT INTO `pmo_route_url` VALUES (25, 'travel/longTraffic/del', '1.0', NULL, NULL, 'travel_longTraffic_del', '删除长途交通');
-INSERT INTO `pmo_route_url` VALUES (26, 'travel/hotel/add', '1.0', NULL, NULL, 'travel_hotel_add', '添加住宿安排');
-INSERT INTO `pmo_route_url` VALUES (27, 'travel/hotel/edit', '1.0', NULL, NULL, 'travel_hotel_edit', '修改住宿安排');
-INSERT INTO `pmo_route_url` VALUES (28, 'travel/hotel/del', '1.0', NULL, NULL, 'travel_hotel_del', '删除住宿安排');
-INSERT INTO `pmo_route_url` VALUES (29, 'travel/longTrafficType/list', '1.0', NULL, NULL, 'travel_longTrafficType_list', '出行方式');
-INSERT INTO `pmo_route_url` VALUES (30, 'user/account/login', '1.0', NULL, NULL, 'user_account_login', '用户登录');
-INSERT INTO `pmo_route_url` VALUES (31, 'lecturer/manage/add', '1.0', NULL, NULL, 'lecturer_manage_add', '新增讲师');
-INSERT INTO `pmo_route_url` VALUES (32, 'lecturer/manage/cooperation', '1.0', NULL, NULL, 'lecturer_manage_cooperation', '讲师长期短期接口');
-INSERT INTO `pmo_route_url` VALUES (33, 'implement/venue/add', '1.0', NULL, NULL, 'implement_venue_add', '添加会场安排');
-INSERT INTO `pmo_route_url` VALUES (34, 'implement/venue/del', '1.0', NULL, NULL, 'implement_venue_del', '删除会场安排');
-INSERT INTO `pmo_route_url` VALUES (35, 'implement/venue/edit', '1.0', NULL, NULL, 'implement_venue_edit', '修改会场安排');
-INSERT INTO `pmo_route_url` VALUES (36, 'project/address/list', '1.0', NULL, NULL, 'project_address_list', '获取城市列表');
-INSERT INTO `pmo_route_url` VALUES (37, 'project/address/province', '1.0', NULL, NULL, 'project_address_province', '获取省列表');
-INSERT INTO `pmo_route_url` VALUES (38, 'project/address/city', '1.0', NULL, NULL, 'project_address_city', '获取市列表');
-INSERT INTO `pmo_route_url` VALUES (39, 'project/address/add', '1.0', NULL, NULL, 'project_address_add', '添加地址');
-INSERT INTO `pmo_route_url` VALUES (40, 'project/address/edit', '1.0', NULL, NULL, 'project_address_edit', '修改地址');
-INSERT INTO `pmo_route_url` VALUES (41, 'project/address/del', '1.0', NULL, NULL, 'project_address_del', '删除地址');
-INSERT INTO `pmo_route_url` VALUES (42, 'travel/meal/people', '1.0', NULL, NULL, 'travel_meal_people', '人员列表');
-INSERT INTO `pmo_route_url` VALUES (43, 'travel/meal/add', '1.0', NULL, NULL, 'travel_meal_add', '添加餐费');
-INSERT INTO `pmo_route_url` VALUES (44, 'travel/meal/edit', '1.0', NULL, NULL, 'travel_meal_edit', '修改餐费');
-INSERT INTO `pmo_route_url` VALUES (45, 'travel/meal/del', '1.0', NULL, NULL, 'travel_meal_del', '删除餐费');
-INSERT INTO `pmo_route_url` VALUES (46, 'travel/meal/del', '1.0', NULL, NULL, 'travel_meal_del', '删除餐费');
-INSERT INTO `pmo_route_url` VALUES (47, 'examine/manage/commit', '1.0', NULL, NULL, 'examine_manage_commit', '提交项目审批');
-INSERT INTO `pmo_route_url` VALUES (48, 'json/manage/add', '1.0', NULL, NULL, 'view_json_add', '添加json数据');
-INSERT INTO `pmo_route_url` VALUES (49, 'json/manage/edit', '1.0', NULL, NULL, 'view_json_edit', '修改json数据');
-INSERT INTO `pmo_route_url` VALUES (50, 'json/manage/list', '1.0', NULL, NULL, 'view_json_list', '返回json数据列表');
-INSERT INTO `pmo_route_url` VALUES (51, 'json/manage/name', '1.0', NULL, NULL, 'view_json_name', NULL);
-INSERT INTO `pmo_route_url` VALUES (52, 'role/route/add', '1.0', NULL, NULL, 'role_route_add', '添加角色下路由');
-INSERT INTO `pmo_route_url` VALUES (53, 'role/route/del', '1.0', NULL, NULL, 'role_route_del', '删除角色下路由');
-INSERT INTO `pmo_route_url` VALUES (54, 'role/route/list', '1.0', NULL, NULL, 'role_route_list', '角色下路由列表');
-INSERT INTO `pmo_route_url` VALUES (55, 'role/view/add', '1.0', NULL, NULL, 'role_view_add', '添加角色下视图');
-INSERT INTO `pmo_route_url` VALUES (56, 'role/view/del', '1.0', NULL, NULL, 'role_view_del', '删除角色下视图');
-INSERT INTO `pmo_route_url` VALUES (57, 'role/view/list', '1.0', NULL, NULL, 'role_view_list', '角色下视图列表');
-INSERT INTO `pmo_route_url` VALUES (58, 'menu/manage/add', '1.0', NULL, NULL, 'menu_manage_add', '静态菜单栏的添加');
-INSERT INTO `pmo_route_url` VALUES (59, 'menu/manage/del', '1.0', NULL, NULL, 'menu_manage_del', '静态菜单栏的删除');
-INSERT INTO `pmo_route_url` VALUES (60, 'menu/manage/list', '1.0', NULL, NULL, 'menu_manage_list', '角色下菜单列表');
-INSERT INTO `pmo_route_url` VALUES (61, 'project/manage/returnonlyuserlist', '1.0', NULL, NULL, 'project_manage_returnonlyuserlist', '返回自己的项目列表');
-INSERT INTO `pmo_route_url` VALUES (62, 'project/manage/returndepartmentlist', '1.0', NULL, NULL, 'project_manage_returndepartmentlist', '返回部门项目列表');
-INSERT INTO `pmo_route_url` VALUES (63, 'menu/manage/edit', '1.0', NULL, NULL, 'menu_manage_edit', '静态菜单栏的修改');
-INSERT INTO `pmo_route_url` VALUES (64, NULL, '1.0', NULL, NULL, 'examine_manage_commitbudget', NULL);
-INSERT INTO `pmo_route_url` VALUES (65, 'examine/manage/commitbudget', '1.0', NULL, NULL, 'examine_manage_commitbudget', '提交预算审批');
-INSERT INTO `pmo_route_url` VALUES (66, 'examine/manage/will', '1.0', NULL, NULL, 'examine_manage_will', '查看我需要审批的审批单');
-INSERT INTO `pmo_route_url` VALUES (67, 'examine/manage/ipassed', '1.0', NULL, NULL, 'examine_manage_ipassed', '查看我通过的审批单');
-INSERT INTO `pmo_route_url` VALUES (68, 'examine/manage/agree', '1.0', NULL, NULL, 'examine_manage_agree', '通过审批单');
-INSERT INTO `pmo_route_url` VALUES (69, 'examine/manage/refuse', '1.0', NULL, NULL, 'examine_manage_refuse', '拒绝审批单');
-INSERT INTO `pmo_route_url` VALUES (70, 'json/type/list', '1.0', NULL, NULL, 'json_type_list', '数据列表');
-INSERT INTO `pmo_route_url` VALUES (71, 'examine/budget/list', '1.0', '', NULL, 'examine_budget_list', '预算列表');
-INSERT INTO `pmo_route_url` VALUES (72, 'examine/final/list', '1.0', NULL, NULL, 'examine_final_list', '决算列表');
-INSERT INTO `pmo_route_url` VALUES (73, 'examine/budget/project', '1.0', NULL, NULL, 'examine_budget_project', '获取预算项目信息');
-INSERT INTO `pmo_route_url` VALUES (74, 'examine/budget/lecturer', '1.0', NULL, NULL, 'examine_budget_lecturer', '获取预算讲师信息');
-INSERT INTO `pmo_route_url` VALUES (75, 'examine/budget/implement', '1.0', NULL, NULL, 'examine_budget_implement', '获取预算实施信息');
-INSERT INTO `pmo_route_url` VALUES (76, 'examine/budget/travel', '1.0', NULL, NULL, 'examine_budget_travel', '获取预算差旅信息');
-INSERT INTO `pmo_route_url` VALUES (77, 'menu/data/list', '1.0', NULL, NULL, 'menu_data_list', '菜单的静态列表');
-INSERT INTO `pmo_route_url` VALUES (78, 'menu/data/listmenuleft', '1.0', NULL, NULL, 'menu_data_listmenuleft', '左侧菜单的列表');
-INSERT INTO `pmo_route_url` VALUES (79, 'menu/data/listmenuright', '1.0', NULL, NULL, 'menu_data_listmenuright', '偏右左侧菜单的列表');
-INSERT INTO `pmo_route_url` VALUES (80, 'menu/data/getone', '1.0', NULL, NULL, 'menu_data_getone', '获取一条菜单的静态列表');
-INSERT INTO `pmo_route_url` VALUES (81, 'examine/manage/cancelbudget', '1.0', NULL, NULL, 'examine_manage_cancelbudget', '撤销预算');
-INSERT INTO `pmo_route_url` VALUES (82, 'examine/manage/cancelfinal', '1.0', NULL, NULL, 'examine_manage_cancelfinal', '撤销决算');
-INSERT INTO `pmo_route_url` VALUES (83, 'examine/manage/commitfinal', '1.0', NULL, NULL, 'examine_manage_commitfinal', '提交决算');
-INSERT INTO `pmo_route_url` VALUES (84, 'examine/final/project', '1.0', NULL, NULL, 'examine_final_project', '获取决算项目信息');
-INSERT INTO `pmo_route_url` VALUES (85, 'examine/final/lecturer', '1.0', NULL, NULL, 'examine_final_lecturer', '获取决算讲师信息');
-INSERT INTO `pmo_route_url` VALUES (86, 'examine/final/implement', '1.0', NULL, NULL, 'examine_final_implement', '获取决算实施信息');
-INSERT INTO `pmo_route_url` VALUES (87, 'examine/final/travel', '1.0', NULL, NULL, 'examine_final_travel', '获取决算差旅信息');
-INSERT INTO `pmo_route_url` VALUES (88, 'role/route/list', '1.0', NULL, NULL, 'get_route_by_role_id', '角色下的所有的路由列表');
-INSERT INTO `pmo_route_url` VALUES (89, 'client/route/list', '1.0', NULL, NULL, 'client_route_list', '所有的路由列表');
+INSERT INTO `pmo_route_url` VALUES (1, 'user/user/client_route', '1.0', '[1]', '[]', 'client_route', '目录');
+INSERT INTO `pmo_route_url` VALUES (2, 'project/manage/add', '1.0', '{\"project_project_template_id\":\"string\"}', '[]', 'project_manage_add', '添加项目');
+INSERT INTO `pmo_route_url` VALUES (3, 'project/data/edit', '1.0', '{\"id\":\"string\"}', '[]', 'project_data_edit', '修改项目');
+INSERT INTO `pmo_route_url` VALUES (4, 'project/manage/list', '2.0', '[]', '[]', 'project_manage_list', '返回项目列表');
+INSERT INTO `pmo_route_url` VALUES (5, 'project/data/getByProjectId', '1.0', '{\"id\":\"string\"}', '[]', 'project_data_getByProjectId', '获取一条项目数据');
+INSERT INTO `pmo_route_url` VALUES (6, 'staff/manage/list', '1.0', '[]', '[]', 'staff_manage_list', '获取实施负责人');
+INSERT INTO `pmo_route_url` VALUES (7, 'progam/manage/list', '1.0', '[]', '[]', 'program_manage_list', '项目集列表');
+INSERT INTO `pmo_route_url` VALUES (8, 'progam/manage/add', '1.0', '[]', '[]', 'program_manage_add', '新增项目');
+INSERT INTO `pmo_route_url` VALUES (9, 'user/project/projectTemplate', '1.0', '[]', '[]', 'project_type_list', '项目模板列表');
+INSERT INTO `pmo_route_url` VALUES (10, 'lecturer/plan/getByProjectId', '1.0', '[]', '[]', 'lecturer_plan_getByProjectId', '实施安排数据');
+INSERT INTO `pmo_route_url` VALUES (11, 'lecturer/manage/list', '1.0', '[]', '[]', 'lecturer_manage_list', '讲师列表');
+INSERT INTO `pmo_route_url` VALUES (12, 'lecturer/duty/list', '1.0', '[]', '[]', 'lecturer_duty_list', '职责列表');
+INSERT INTO `pmo_route_url` VALUES (13, 'lecturer/plan/add', '1.0', '[]', '[]', 'lecturer_plan_add', '添加讲师安排');
+INSERT INTO `pmo_route_url` VALUES (14, 'lecturer/plan/edit', '1.0', '{\"id\":\"string\"}', '[]', 'lecturer_plan_edit', '修改讲师安排');
+INSERT INTO `pmo_route_url` VALUES (15, 'lecturer/plan/del', '1.0', '{\"id\":\"string\"}', '[]', 'lecturer_plan_del', '删除讲师安排');
+INSERT INTO `pmo_route_url` VALUES (16, 'implement/plan/getByProjectId', '1.0', '[]', '[]', 'implement_plan_getByProjectId', '获取实施安排');
+INSERT INTO `pmo_route_url` VALUES (17, 'implement/plan/edit', '1.0', '[]', '[]', 'implement_plan_edit', '修改实施安排');
+INSERT INTO `pmo_route_url` VALUES (18, 'travel/plan/getByProjectId', '1.0', '[]', '[]', 'travel_plan_getByProjectId', '获取差旅安排');
+INSERT INTO `pmo_route_url` VALUES (19, 'travel/inCityTraffic/add', '1.0', '[]', '[]', 'travel_inCityTraffic_add', '添加市内交通');
+INSERT INTO `pmo_route_url` VALUES (20, 'travel/inCityTraffic/edit', '1.0', '{\"id\":\"string\"}', '[]', 'travel_inCityTraffic_edit', '修改市内交通');
+INSERT INTO `pmo_route_url` VALUES (21, 'travel/inCityTraffic/del', '1.0', '{\"id\":\"string\"}', '[]', 'travel_inCityTraffic_del', '删除室内交通');
+INSERT INTO `pmo_route_url` VALUES (22, 'travel/longTraffic/add', '1.0', '[]', '[]', 'travel_longTraffic_add', '添加长途交通');
+INSERT INTO `pmo_route_url` VALUES (23, 'travel/longTraffic/edit', '1.0', '{\"id\":\"string\"}', '[]', 'travel_longTraffic_edit', '修改长途交通');
+INSERT INTO `pmo_route_url` VALUES (24, 'travel/longTraffic/del', '1.0', '{\"id\":\"string\"}', '[]', 'travel_longTraffic_del', '删除长途交通');
+INSERT INTO `pmo_route_url` VALUES (25, 'travel/hotel/add', '1.0', '[]', '[]', 'travel_hotel_add', '增加住宿安排');
+INSERT INTO `pmo_route_url` VALUES (26, 'travel/hotel/edit', '1.0', '{\"id\":\"string\"}', '[]', 'travel_hotel_edit', '修改住宿安排');
+INSERT INTO `pmo_route_url` VALUES (27, 'travel/hotel/del', '1.0', '{\"id\":\"string\"}', '[]', 'travel_hotel_del', '删除住宿安排');
+INSERT INTO `pmo_route_url` VALUES (28, 'travel/longTrafficType/list', '1.0', '[]', '[]', 'travel_longTrafficType_list', '出行方式列表');
+INSERT INTO `pmo_route_url` VALUES (29, 'user/account/login', '1.0', '{\"account\":\"string\",\"password\":\"string\"}', '[]', 'user_account_login', '登陆');
+INSERT INTO `pmo_route_url` VALUES (30, 'lecturer/manage/add', '1.0', '{\"teacher_name\":\"string\",\"teacher_price\":\"string\",\"teacher_cooperation_model_id\":\"string\"}', '{\"id\":\"string\",\"name\":\"string\"}', 'lecturer_manage_add', '新增讲师');
+INSERT INTO `pmo_route_url` VALUES (31, 'lecturer/manage/cooperation', '1.0', '[]', '[]', 'lecturer_manage_cooperation', '讲师长短期');
+INSERT INTO `pmo_route_url` VALUES (32, 'implement/venue/add', '1.0', '[]', '[]', 'implement_venue_add', '添加会场安排');
+INSERT INTO `pmo_route_url` VALUES (33, 'implement/venue/del', '1.0', '[]', '[]', 'implement_venue_del', '删除会场安排');
+INSERT INTO `pmo_route_url` VALUES (34, 'implement/venue/edit', '1.0', '[]', '[]', 'implement_venue_edit', '修改会场安排');
+INSERT INTO `pmo_route_url` VALUES (35, 'project/address/list', '1.0', '[]', '[]', 'project_address_list', '获取城市列表');
+INSERT INTO `pmo_route_url` VALUES (36, 'project/address/province', '1.0', '[]', '[]', 'project_address_province', '获取省列表');
+INSERT INTO `pmo_route_url` VALUES (37, 'project/address/city', '1.0', '[]', '[]', 'project_address_city', '获取市列表');
+INSERT INTO `pmo_route_url` VALUES (38, 'project/address/add', '1.0', '[]', '[]', 'project_address_add', '添加地址');
+INSERT INTO `pmo_route_url` VALUES (39, 'project/address/edit', '1.0', '[]', '[]', 'project_address_edit', '修改地址');
+INSERT INTO `pmo_route_url` VALUES (40, 'project/address/del', '1.0', '[]', '[]', 'project_address_del', '删除地址');
+INSERT INTO `pmo_route_url` VALUES (41, 'travel/meal/people', '1.0', '[]', '[]', 'travel_meal_people', '人员列表');
+INSERT INTO `pmo_route_url` VALUES (42, 'travel/meal/add', '1.0', '[]', '[]', 'travel_meal_add', '添加餐费');
+INSERT INTO `pmo_route_url` VALUES (43, 'travel/meal/edit', '1.0', '[]', '[]', 'travel_meal_edit', '修改餐费');
+INSERT INTO `pmo_route_url` VALUES (44, 'travel/meal/del', '1.0', '[]', '[]', 'travel_meal_del', '删除餐费');
+INSERT INTO `pmo_route_url` VALUES (45, 'examine/config/add', '1.0', '[]', '[]', 'examine_config_add', '添加审批的审批单类型');
+INSERT INTO `pmo_route_url` VALUES (46, 'examine/config/edit', '1.0', '[]', '[]', 'examine_config_edit', '修改配置的审批单类型');
+INSERT INTO `pmo_route_url` VALUES (47, 'examine/config/del', '1.0', '[]', '[]', 'examine_config_del', '删除配置的审批单类型');
+INSERT INTO `pmo_route_url` VALUES (48, 'examine/config/list', '1.0', '[]', '[]', 'examine_config_list', '审批列表');
+INSERT INTO `pmo_route_url` VALUES (49, 'json/manage/add', '1.0', '[]', '[]', 'json_manage_add', '添加json数据');
+INSERT INTO `pmo_route_url` VALUES (50, 'json/manage/edit', '1.0', '[]', '[]', 'json_manage_edit', '修改json数据');
+INSERT INTO `pmo_route_url` VALUES (51, 'json/manage/list', '1.0', '[]', '[]', 'json_manage_list', 'json数据列表');
+INSERT INTO `pmo_route_url` VALUES (52, 'json/manage/name', '1.0', '[]', '[]', 'json_manage_name', 'json列表名称');
+INSERT INTO `pmo_route_url` VALUES (53, 'role/route/add', '1.0', '[]', '[]', 'role_route_add', '为角色添加路由');
+INSERT INTO `pmo_route_url` VALUES (54, 'role/route/del', '1.0', '[]', '[]', 'role_route_del', '为角色删除路由');
+INSERT INTO `pmo_route_url` VALUES (55, 'role/view/add', '0.1', '[]', '[]', 'role_view_add', '为角色添加试图');
+INSERT INTO `pmo_route_url` VALUES (56, 'role/view/del', '0.1', '[]', '[]', 'role_view_del', '为角色删除试图');
+INSERT INTO `pmo_route_url` VALUES (57, 'role/view/list', '0.1', '[]', '[]', 'role_view_list', '角色下的试图列表');
+INSERT INTO `pmo_route_url` VALUES (58, 'menu/manage/add', '1.0', '[]', '[]', 'menu_manage_add', '静态菜单数据的添加');
+INSERT INTO `pmo_route_url` VALUES (59, 'menu/manage/edit', '1.0', '[]', '[]', 'menu_manage_edit', '静态菜单数据的修改');
+INSERT INTO `pmo_route_url` VALUES (60, 'menu/manage/del', '1.0', '[]', '[]', 'menu_manage_del', '静态菜单数据的删除');
+INSERT INTO `pmo_route_url` VALUES (61, 'menu/manage/list', '1.0', '[]', '[]', 'menu_manage_list', '菜单的列表（非静态）');
+INSERT INTO `pmo_route_url` VALUES (62, 'examine/manage/commitbudget', '1.0', '[]', '[]', 'examine_manage_commitbudget', '提交预算审批');
+INSERT INTO `pmo_route_url` VALUES (63, 'examine/manage/will', '1.0', '[]', '[]', 'examine_manage_will', '查看需要我审批的审批单');
+INSERT INTO `pmo_route_url` VALUES (64, 'examine/manage/ipassed', '1.0', '[]', '[]', 'examine_manage_ipassed', '查看我通过的审批单');
+INSERT INTO `pmo_route_url` VALUES (65, 'examine/manage/agree', '1.0', '[]', '[]', 'examine_manage_agree', '通过审批单');
+INSERT INTO `pmo_route_url` VALUES (66, 'examine/manage/refuse', '1.0', '[]', '[]', 'examine_manage_refuse', '不通过审批单');
+INSERT INTO `pmo_route_url` VALUES (67, 'json/type/list', '1.0', '[]', '[]', 'json_type_list', 'json数据列表');
+INSERT INTO `pmo_route_url` VALUES (68, 'project/manage/returnonlyuserlist', '1.0', '[]', '[]', 'project_manage_returnonlyuserlist', '返回我自己的项目列表');
+INSERT INTO `pmo_route_url` VALUES (69, 'project/manage/returndepartmentlist', '1.0', '[]', '[]', 'project_manage_returndepartmentlist', '返回我部门的项目列表');
+INSERT INTO `pmo_route_url` VALUES (70, 'examine/budget/list', '1.0', '[]', '[]', 'examine_budget_list', '预算审批列表');
+INSERT INTO `pmo_route_url` VALUES (71, 'examine/final/list', '1.0', '[]', '[]', 'examine_final_list', '决算审批列表');
+INSERT INTO `pmo_route_url` VALUES (72, 'examine/budget/project', '1.0', '[]', '[]', 'examine_budget_project', '获取预算项目信息');
+INSERT INTO `pmo_route_url` VALUES (73, 'examine/budget/lecturer', '1.0', '[]', '[]', 'examine_budget_lecturer', '获取预算讲师信息');
+INSERT INTO `pmo_route_url` VALUES (74, 'examine/budget/implement', '1.0', '[]', '[]', 'examine_budget_implement', '获取预算实施信息');
+INSERT INTO `pmo_route_url` VALUES (75, 'examine/budget/travel', '1.0', '[]', '[]', 'examine_budget_travel', '获取预算差旅信息');
+INSERT INTO `pmo_route_url` VALUES (76, 'menu/data/list', '1.0', '[]', '[]', 'menu_data_list', '菜单的静态列表');
+INSERT INTO `pmo_route_url` VALUES (77, 'menu/data/listmenuleft', '1.0', '[]', '[]', 'menu_data_listmenuleft', '左侧菜单的列表');
+INSERT INTO `pmo_route_url` VALUES (78, 'menu/data/listmenuright', '1.0', '[]', '[]', 'menu_data_listmenuright', '偏右左侧菜单的列表');
+INSERT INTO `pmo_route_url` VALUES (79, 'menu/data/getone', '1.0', '[]', '[]', 'menu_data_getone', '获取一条菜单的静态列表');
+INSERT INTO `pmo_route_url` VALUES (80, 'examine/manage/cancelbudget', '1.0', '[]', '[]', 'examine_manage_cancelbudget', '撤销预算');
+INSERT INTO `pmo_route_url` VALUES (81, 'examine/manage/cancelfinal', '1.0', '[]', '[]', 'examine_manage_cancelfinal', '撤销决算');
+INSERT INTO `pmo_route_url` VALUES (82, 'examine/manage/commitfinal', '1.0', '[]', '[]', 'examine_manage_commitfinal', '提交决算');
+INSERT INTO `pmo_route_url` VALUES (83, 'examine/final/project', '1.0', '[]', '[]', 'examine_final_project', '获取决算项目信息');
+INSERT INTO `pmo_route_url` VALUES (84, 'examine/final/lecturer', '1.0', '[]', '[]', 'examine_final_lecturer', '获取决算讲师信息');
+INSERT INTO `pmo_route_url` VALUES (85, 'examine/final/implement', '1.0', '[]', '[]', 'examine_final_implement', '获取决算实施信息');
+INSERT INTO `pmo_route_url` VALUES (86, 'examine/final/travel', '1.0', '[]', '[]', 'examine_final_travel', '获取决算差旅信息');
+INSERT INTO `pmo_route_url` VALUES (87, 'client/route/list', '1.0', '[]', '[]', 'client_route_list', '');
+INSERT INTO `pmo_route_url` VALUES (88, 'role/route/byid', '1.0', '[]', '[]', 'get_route_by_role_id', '');
+INSERT INTO `pmo_route_url` VALUES (89, 'role/route/list', '1.0', '[]', '[]', 'role_route_list', '');
 
 -- ----------------------------
 -- Table structure for pmo_staff_table
@@ -5295,15 +6334,21 @@ CREATE TABLE `pmo_travel_city`  (
   `short_fee_type` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用名称',
   `short_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用',
   `parent_id` int(11) NULL DEFAULT NULL,
-  `now_time` datetime NOT NULL,
+  `now_time` datetime(0) NOT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 66 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '人员，费用，费用名称' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 74 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '人员，费用，费用名称' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_travel_city
 -- ----------------------------
 INSERT INTO `pmo_travel_city` VALUES (65, '1', '1', '1', 94, '0000-00-00 00:00:00', 0);
+INSERT INTO `pmo_travel_city` VALUES (66, '1', '2', '34', 119, '0000-00-00 00:00:00', 0);
+INSERT INTO `pmo_travel_city` VALUES (68, '市内', '火车', '20', 127, '0000-00-00 00:00:00', 0);
+INSERT INTO `pmo_travel_city` VALUES (69, '', '', '2', 131, '0000-00-00 00:00:00', 0);
+INSERT INTO `pmo_travel_city` VALUES (70, '', '', '2', 134, '0000-00-00 00:00:00', 0);
+INSERT INTO `pmo_travel_city` VALUES (73, '寇艳艳', '出租', '300', 139, '0000-00-00 00:00:00', 0);
+INSERT INTO `pmo_travel_city` VALUES (72, '李旋', '交通费', '200', 140, '0000-00-00 00:00:00', 0);
 
 -- ----------------------------
 -- Table structure for pmo_travel_meal
@@ -5318,12 +6363,20 @@ CREATE TABLE `pmo_travel_meal`  (
   `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '金额天数备注' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 51 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '金额天数备注' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_travel_meal
 -- ----------------------------
 INSERT INTO `pmo_travel_meal` VALUES (41, '1', '1', 2, '1', 94, 0);
+INSERT INTO `pmo_travel_meal` VALUES (42, '22', '1', 2, '44', 119, 0);
+INSERT INTO `pmo_travel_meal` VALUES (44, '5000', '1', 2, '备注', 127, 0);
+INSERT INTO `pmo_travel_meal` VALUES (45, '200', '3', 1, '', 129, 0);
+INSERT INTO `pmo_travel_meal` VALUES (46, '400', '5', 2, '', 129, 0);
+INSERT INTO `pmo_travel_meal` VALUES (47, '4', '', 0, '', 131, 0);
+INSERT INTO `pmo_travel_meal` VALUES (48, '4', '', 0, '4', 134, 0);
+INSERT INTO `pmo_travel_meal` VALUES (49, '680', '4', 1, '班主任和讲师', 140, 0);
+INSERT INTO `pmo_travel_meal` VALUES (50, '170', '3', 2, '', 139, 0);
 
 -- ----------------------------
 -- Table structure for pmo_travel_mode
@@ -5371,12 +6424,12 @@ CREATE TABLE `pmo_travel_province`  (
   `long_fee_card_end_place` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束地点',
   `state` tinyint(3) NULL DEFAULT 0,
   `parent_id` int(11) NULL DEFAULT NULL,
-  `now_time` datetime NOT NULL,
+  `now_time` datetime(0) NOT NULL,
   `long_fee_card_fee` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '费用',
   `long_fee_card_vehicle_name` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `long_fee_card_vehicle_id` int(25) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 118 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '长途交通' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 127 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '长途交通' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_travel_province
@@ -5385,6 +6438,14 @@ INSERT INTO `pmo_travel_province` VALUES (114, '1', '', '', '', '', 0, 56, '0000
 INSERT INTO `pmo_travel_province` VALUES (115, '1', '', '', '', '', 0, 56, '0000-00-00 00:00:00', '20', '大巴', 3);
 INSERT INTO `pmo_travel_province` VALUES (116, '张', '', '', '', '', 0, 93, '0000-00-00 00:00:00', '11', '', 0);
 INSERT INTO `pmo_travel_province` VALUES (117, '1', '', '11', '0001-01-01T01:01', '11', 0, 94, '0000-00-00 00:00:00', '1', '', 0);
+INSERT INTO `pmo_travel_province` VALUES (118, '讲师', '2018-12-27T11:11', '北京', '2018-12-27T12:12', '上海', 0, 119, '0000-00-00 00:00:00', '500', '飞机', 2);
+INSERT INTO `pmo_travel_province` VALUES (119, '讲师', '2018-12-27T11:11', '北京1', '2018-12-28T14:44', '上海', 0, 119, '0000-00-00 00:00:00', '500', '飞机', 2);
+INSERT INTO `pmo_travel_province` VALUES (120, '1', '0001-01-01T01:01', '1', '', '1', 0, 121, '0000-00-00 00:00:00', '1', '火车', 1);
+INSERT INTO `pmo_travel_province` VALUES (123, '长途人员', '2018-12-27T11:11', '北京', '2018-12-27T22:22', '北京', 0, 127, '0000-00-00 00:00:00', '1000', '飞机', 2);
+INSERT INTO `pmo_travel_province` VALUES (122, '2', '', '', '', '1', 0, 120, '0000-00-00 00:00:00', '1', '', 0);
+INSERT INTO `pmo_travel_province` VALUES (124, '', '', '', '', '', 0, 131, '0000-00-00 00:00:00', '1', '', 0);
+INSERT INTO `pmo_travel_province` VALUES (125, '', '', '', '', '', 0, 134, '0000-00-00 00:00:00', '1', '', 0);
+INSERT INTO `pmo_travel_province` VALUES (126, '徐全', '2018-12-01T12:12', '北京', '2018-12-05T12:12', '上海', 0, 139, '0000-00-00 00:00:00', '555', '火车', 1);
 
 -- ----------------------------
 -- Table structure for pmo_travel_stay
@@ -5397,15 +6458,21 @@ CREATE TABLE `pmo_travel_stay`  (
   `hotel_expense_total` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '总价',
   `parent_id` int(11) NULL DEFAULT NULL,
   `state` tinyint(2) NULL DEFAULT 0,
-  `now_time` datetime NULL DEFAULT NULL,
+  `now_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 51 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '住宿安排' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 58 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '住宿安排' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pmo_travel_stay
 -- ----------------------------
 INSERT INTO `pmo_travel_stay` VALUES (49, '1', '11', '1', 94, 0, NULL);
 INSERT INTO `pmo_travel_stay` VALUES (50, '', '', '', 94, 0, NULL);
+INSERT INTO `pmo_travel_stay` VALUES (51, '2', '5', '6', 119, 0, NULL);
+INSERT INTO `pmo_travel_stay` VALUES (53, '住宿人', '1', '200', 127, 0, NULL);
+INSERT INTO `pmo_travel_stay` VALUES (54, '张剑', '4', '2000', 129, 0, NULL);
+INSERT INTO `pmo_travel_stay` VALUES (55, '', '', '3', 131, 0, NULL);
+INSERT INTO `pmo_travel_stay` VALUES (56, '', '', '3', 134, 0, NULL);
+INSERT INTO `pmo_travel_stay` VALUES (57, '寇艳艳', '4', '2000', 139, 0, NULL);
 
 -- ----------------------------
 -- Table structure for pmo_user
@@ -5425,22 +6492,22 @@ CREATE TABLE `pmo_user`  (
 INSERT INTO `pmo_user` VALUES (1, '柳芳', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (2, '宋丹', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (3, '吴宝辉', 'e10adc39', NULL);
-INSERT INTO `pmo_user` VALUES (4, '亢鹏', 'e10adc39', 'YsGJ3I5QwT');
+INSERT INTO `pmo_user` VALUES (4, '亢鹏', 'e10adc39', 'eTDYpuZXhn');
 INSERT INTO `pmo_user` VALUES (5, '吴春霞', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (6, '庞海燕', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (7, '李萍', 'e10adc39', NULL);
-INSERT INTO `pmo_user` VALUES (8, '吴美宏', 'e10adc39', NULL);
-INSERT INTO `pmo_user` VALUES (9, '田野', 'e10adc39', 'EqOvW9FT5L');
-INSERT INTO `pmo_user` VALUES (10, '段美静', 'e10adc39', 'HXqQCGEwnO');
+INSERT INTO `pmo_user` VALUES (8, '吴美宏', 'e10adc39', '2yLjenCRKF');
+INSERT INTO `pmo_user` VALUES (9, '田野', 'e10adc39', 'emgYtKXaxh');
+INSERT INTO `pmo_user` VALUES (10, '段美静', 'e10adc39', 'krLj3PG7iH');
 INSERT INTO `pmo_user` VALUES (11, '耿伟宁', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (12, '刘明', 'e10adc39', 'IcHYR8j3DM');
 INSERT INTO `pmo_user` VALUES (13, '冯津津', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (14, '刘静', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (15, '黄嘉丽', 'e10adc39', NULL);
-INSERT INTO `pmo_user` VALUES (16, '杜刚利', 'e10adc39', NULL);
-INSERT INTO `pmo_user` VALUES (17, '于化龙', 'e10adc39', NULL);
+INSERT INTO `pmo_user` VALUES (16, '杜刚利', 'e10adc39', 'vEIcXCtVLD');
+INSERT INTO `pmo_user` VALUES (17, '于化龙', 'e10adc39', 'ZrG16ctiNI');
 INSERT INTO `pmo_user` VALUES (18, '李忻怡', 'e10adc39', NULL);
-INSERT INTO `pmo_user` VALUES (19, '李旋', 'e10adc39', NULL);
+INSERT INTO `pmo_user` VALUES (19, '李旋', 'e10adc39', 'EbUs6YVZxp');
 INSERT INTO `pmo_user` VALUES (20, '陈丽', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (21, '曲鹤', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (22, '温越', 'e10adc39', NULL);
@@ -5448,13 +6515,13 @@ INSERT INTO `pmo_user` VALUES (23, '廖志敏', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (24, '糜研', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (25, '孙江微', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (26, '张婧竹', 'e10adc39', 'VpnqJCot2f');
-INSERT INTO `pmo_user` VALUES (27, '穆连', 'e10adc39', 'WiLdmjgDXI');
-INSERT INTO `pmo_user` VALUES (28, '褚寅良', 'e10adc39', 'fmeldpNbGw');
-INSERT INTO `pmo_user` VALUES (29, '侍尧', 'e10adc39', 'acxlkeSKZD');
-INSERT INTO `pmo_user` VALUES (30, '崔思思', 'e10adc39', 'zjFvGtiYHI');
-INSERT INTO `pmo_user` VALUES (31, '刘雪松', 'e10adc39', 'RdgWcql29w');
-INSERT INTO `pmo_user` VALUES (32, '寇艳艳', 'e10adc39', NULL);
-INSERT INTO `pmo_user` VALUES (33, '张剑', 'e10adc39', NULL);
+INSERT INTO `pmo_user` VALUES (27, '穆连', 'e10adc39', '9FnoTZsgIm');
+INSERT INTO `pmo_user` VALUES (28, '褚寅良', 'e10adc39', 'RFW5KJsI7S');
+INSERT INTO `pmo_user` VALUES (29, '侍尧', 'e10adc39', 'iwtDKmT07n');
+INSERT INTO `pmo_user` VALUES (30, '崔思思', 'e10adc39', 'InpbCxNiLy');
+INSERT INTO `pmo_user` VALUES (31, '刘雪松', 'e10adc39', '7LAIO1Gy9R');
+INSERT INTO `pmo_user` VALUES (32, '寇艳艳', 'e10adc39', 'i10ofhlwne');
+INSERT INTO `pmo_user` VALUES (33, '张剑', 'e10adc39', 'svfihWgb7I');
 INSERT INTO `pmo_user` VALUES (34, '测试', 'e10adc39', 'B76xnyRd3g');
 INSERT INTO `pmo_user` VALUES (35, '测试1', 'e10adc39', NULL);
 INSERT INTO `pmo_user` VALUES (36, '测试2', 'e10adc39', '5v8Tqc6hFS');
@@ -5480,33 +6547,33 @@ CREATE TABLE `pmo_view_json`  (
 -- Records of pmo_view_json
 -- ----------------------------
 INSERT INTO `pmo_view_json` VALUES (1, 'addProject', '新建项目', 'formlist', '{\"form-temp-name\":\"新建项目\",\"form-list\":[{\"id_name\":\"project_project_template\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"项目模板\",\"tip\":\"\",\"add_button\":\"projecttemplat\",\"descript\":\"\",\"before_api_uri\":\"project_type_list\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"保存\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"project_manage_add\",\"after_api_uri\":\"\"}]}', 0, '项目管理');
-INSERT INTO `pmo_view_json` VALUES (2, 'eidtProjectGather', '编辑项目集', 'formlist', '{\"form-temp-name\":\"编辑项目集\",\"form-list\":[{\"id_name\":\"name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"项目集名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"program_manage_sale\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"销售负责人\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"staff_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"program_customer\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"客户名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"program_training_ares\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"培训地点\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"addProjectAddress\",\"descript\":\"\",\"before_api_uri\":\"project_address_list\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"program_manage_add\",\"after_api_uri\":\"\"}]}', 0, '所属项目集');
+INSERT INTO `pmo_view_json` VALUES (2, 'eidtProjectGather', '编辑项目集', 'formlist', '{\"form-temp-name\":\"编辑项目集\",\"form-list\":[{\"id_name\":\"name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"项目集名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"program_manage_sale\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"销售负责人\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"staff_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"program_customer\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"客户名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"program_training_ares\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"培训地点\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"addProjectAddress\",\"descript\":\"\",\"before_api_uri\":\"project_address_list\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"program_manage_add\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (3, 'addTeacher', '新建讲师', 'formlist', '{\"form-temp-name\":\"新建讲师\",\"form-list\":[{\"id_name\":\"teacher_name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"讲师姓名\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"讲师姓名\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_price\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"常用单价\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_cooperation_model\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"合作模式\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"lecturer_manage_cooperation\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"保存\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"lecturer_manage_add\",\"after_api_uri\":\"\"}]}', 0, '项目管理');
-INSERT INTO `pmo_view_json` VALUES (4, 'editProject', '编辑项目', 'formlist', '{\"form-temp-name\":\"编辑项目\",\"form-list\":[{\"id_name\":\"unicode\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"项目编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"课程名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_gather\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"所属项目集\",\"tip\":\"\",\"add_button\":\"addProjectGather\",\"descript\":\"\",\"before_api_uri\":\"program_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_person_in_charge\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"实施负责人\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"staff_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_leader\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"项目负责人\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"staff_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_customer_name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"客户名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_days\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_start_date\",\"type_name\":\"TextDate\",\"key\":\"\",\"title\":\"培训开始日期\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_end_date\",\"type_name\":\"TextDate\",\"key\":\"\",\"title\":\"培训结束日期\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_training_numbers\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"培训人数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_training_ares\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"培训地点\",\"tip\":\"\",\"add_button\":\"addProjectAddress\",\"descript\":\"\",\"before_api_uri\":\"project_address_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_income\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"收入\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_tax_rate\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"税率\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"institutional_consulting_fees\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"机构咨询费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"personal_consulting_fees\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"个人咨询费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"保存\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"project_data_edit\",\"after_api_uri\":\"\"}]}', 0, '');
+INSERT INTO `pmo_view_json` VALUES (4, 'editProject', '编辑项目', 'formlist', '{\"form-temp-name\":\"编辑项目\",\"form-list\":[{\"id_name\":\"unicode\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"项目编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"课程名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_gather\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"所属项目集\",\"tip\":\"\",\"add_button\":\"addProjectGather\",\"descript\":\"\",\"before_api_uri\":\"program_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_person_in_charge\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"实施负责人\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"staff_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_leader\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"项目负责人\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"staff_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_customer_name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"客户名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_days\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_start_date\",\"type_name\":\"TextDate\",\"key\":\"\",\"title\":\"培训开始日期\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_end_date\",\"type_name\":\"TextDate\",\"key\":\"\",\"title\":\"培训结束日期\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_training_numbers\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"培训人数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_training_ares\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"培训地点\",\"tip\":\"\",\"add_button\":\"addProjectAddress\",\"descript\":\"\",\"before_api_uri\":\"project_address_list\",\"after_api_uri\":\"\"},{\"id_name\":\"project_income\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"应收款\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_tax_rate\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"税金\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"institutional_consulting_fees\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"机构咨询费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"personal_consulting_fees\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"个人咨询费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"保存\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"project_data_edit\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (5, 'addProjectAddress', '新增培训地点', 'formlist', '{\"form-temp-name\":\"新增培训地点\",\"form-list\":[{\"id_name\":\"province\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"省\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"project_address_province\",\"after_api_uri\":\"\"},{\"id_name\":\"city\",\"type_name\":\"SelectListSearch\",\"key\":\"\",\"title\":\"市\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"project_address_city\",\"after_api_uri\":\"\"},{\"id_name\":\"detailed_address\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"详细地址\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"保存\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"project_address_add\",\"after_api_uri\":\"\"}]}', 0, '项目管理');
 INSERT INTO `pmo_view_json` VALUES (6, 'teacherCardGroup', '讲师安排', 'group', '{\"form-temp-name\":\"讲师安排\",\"form-list\":[{\"id_name\":\"unicode\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"项目编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_name\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"课程名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"CardGroup\",\"title\":\"讲师安排\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"lecturer\",\"descript\":\"teacherAddForm\",\"add_button_title\":\"讲师安排修改\",\"descript_title\":\"讲师安排-组\",\"add_title\":\"添加讲师安排\",\"edit_button\":\"lecturer_plan_edit\",\"del_button\":\"lecturer_plan_del\",\"list_button\":\"lecturer_plan_getByProjectId\",\"add_button\":\"lecturer_plan_add\"}}]}', 0, '项目管理');
-INSERT INTO `pmo_view_json` VALUES (7, 'teacherAddForm', '讲师安排-组', 'formlist', '{\"form-temp-name\":\"讲师安排-组\",\"form-list\":[{\"id_name\":\"teacher_name\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"讲师姓名\",\"tip\":\"\",\"add_button\":\"addTeacher\",\"descript\":\"\",\"before_api_uri\":\"lecturer_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_income_tax\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"所得税\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_lecture_fee\",\"type_name\":\"MutiText\",\"key\":\"3000\",\"title\":\"讲课费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_lecture_days\",\"type_name\":\"TextMoney\",\"key\":\"5\",\"title\":\"课程天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_duty\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"职责\",\"tip\":\"\",\"add_button\":\"teacherDuty\",\"descript\":\"\",\"before_api_uri\":\"lecturer_duty_list\",\"after_api_uri\":\"\"}]}', 0, '系统视图');
+INSERT INTO `pmo_view_json` VALUES (7, 'teacherAddForm', '讲师安排-组', 'formlist', '{\"form-temp-name\":\"讲师安排-组\",\"form-list\":[{\"id_name\":\"teacher_name\",\"type_name\":\"ListTextSearch\",\"key\":\"\",\"title\":\"讲师姓名\",\"tip\":\"\",\"add_button\":\"addTeacher\",\"descript\":\"\",\"before_api_uri\":\"lecturer_manage_list\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_income_tax\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"所得税\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_lecture_fee\",\"type_name\":\"TextMoney\",\"key\":\"3000\",\"title\":\"讲课费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_lecture_days\",\"type_name\":\"TextMoney\",\"key\":\"5\",\"title\":\"课程天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"teacher_duty\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"职责\",\"tip\":\"\",\"add_button\":\"teacherDuty\",\"descript\":\"\",\"before_api_uri\":\"lecturer_duty_list\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (8, 'implementArrage', '实施安排', 'group', '{\"form-temp-name\":\"实施安排\",\"form-list\":[{\"id_name\":\"unicode\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"项目编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_name\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"课程名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"venue_arrange\",\"type_name\":\"CardGroup\",\"title\":\"会场安排\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"venue\",\"descript\":\"venueAddFrom\",\"add_button_title\":\"会场安排修改\",\"descript_title\":\"会场安排-组\",\"add_title\":\"添加会场安排\",\"edit_button\":\"implement_venue_edit\",\"del_button\":\"implement_venue_del\",\"list_button\":\"implement_plan_getByProjectId\",\"add_button\":\"implement_venue_add\"}},{\"id_name\":\"implement_arrange\",\"type_name\":\"CardGroup\",\"title\":\"实施安排\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"implement\",\"descript\":\"implementAddFrom\",\"add_button_title\":\"实施安排修改\",\"descript_title\":\"实施安排-组\",\"edit_button\":\"implement_plan_edit\",\"del_button\":\"\",\"list_button\":\"implement_plan_getByProjectId\",\"add_button\":\"\"}}]}', 0, '项目管理');
 INSERT INTO `pmo_view_json` VALUES (9, 'implementAddFrom', '其他实施费用-组', 'formlist', '{\"form-temp-name\":\"其他实施费用-组\",\"form-list\":[{\"id_name\":\"material_cost\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"教材费用\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"equipment_cost\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"设备费用\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"examination_fee\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"考试费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"tea_break\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"茶歇\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"stationery\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"文具\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"hospitality\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"招待费\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"postage\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"邮寄快递\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '系统视图');
-INSERT INTO `pmo_view_json` VALUES (10, 'venueAddFrom', '会场安排-组', 'formlist', '{\"form-temp-name\":\"会场安排-组\",\"form-list\":[{\"id_name\":\"room_number\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"会议室编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"unit_price\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"单价\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"days\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"total_price\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"总价\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"meetingplace_name\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"会议名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"meetingplace_address\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"会议地址\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '系统视图');
+INSERT INTO `pmo_view_json` VALUES (10, 'venueAddFrom', '会场安排-组', 'formlist', '{\"form-temp-name\":\"会场安排-组\",\"form-list\":[{\"id_name\":\"meetingplace_address\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"会场地址\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"unit_price\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"单价\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"days\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"total_price\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"总价\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (11, 'travelExpensesGroup', '差旅安排', 'group', '{\"form-temp-name\":\"差旅安排\",\"form-list\":[{\"id_name\":\"unicode\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"项目编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_name\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"课程名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"long_fee_card\",\"type_name\":\"CardGroup\",\"title\":\"长途交通费\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"province\",\"add_button\":\"travel_longTraffic_add\",\"descript\":\"longTravelAddFrom\",\"add_button_title\":\"长途交通费修改\",\"descript_title\":\"长途交通费-组\",\"add_title\":\"添加长途交通费\",\"edit_button\":\"travel_longTraffic_edit\",\"del_button\":\"travel_longTraffic_del\",\"list_button\":\"travel_plan_getByProjectId\"}},{\"id_name\":\"\",\"type_name\":\"CardGroup\",\"title\":\"市内交通费\",\"add_button_title\":\"添加市内交通费\",\"before_api_uri\":\"city\",\"add_button\":{\"before_api_uri\":\"city\",\"descript\":\"shortTravelAddFrom\",\"add_button_title\":\"市内交通费修改\",\"descript_title\":\"市内交通费-组\",\"add_title\":\"添加市内交通费\",\"edit_button\":\"travel_inCityTraffic_edit\",\"del_button\":\"travel_inCityTraffic_del\",\"list_button\":\"travel_plan_getByProjectId\",\"add_button\":\"travel_inCityTraffic_add\"}},{\"id_name\":\"\",\"type_name\":\"CardGroup\",\"title\":\"住宿费\",\"add_button_title\":\"添加住宿费\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"stay\",\"descript\":\"hotelTravelAddFrom\",\"add_button_title\":\"住宿费修改\",\"descript_title\":\"住宿费-组\",\"add_title\":\"添加住宿费\",\"edit_button\":\"travel_hotel_edit\",\"del_button\":\"travel_hotel_del\",\"list_button\":\"travel_plan_getByProjectId\",\"add_button\":\"travel_hotel_add\"}},{\"id_name\":\"meal_fee_card\",\"type_name\":\"CardGroup\",\"title\":\"餐费\",\"add_button_title\":\"添加餐费\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"meal\",\"descript\":\"mealTravelAddFrom\",\"add_button_title\":\"餐费修改\",\"descript_title\":\"餐费-组\",\"add_title\":\"添加餐费\",\"edit_button\":\"travel_meal_edit\",\"del_button\":\"travel_meal_del\",\"list_button\":\"travel_plan_getByProjectId\",\"add_button\":\"travel_meal_add\"}}]}', 0, '项目管理');
 INSERT INTO `pmo_view_json` VALUES (12, 'longTravelAddFrom', '长途交通费-组', 'formlist', '{\"form-temp-name\":\"长途交通费-组\",\"form-list\":[{\"id_name\":\"long_fee_card_people\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"人员\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"long_fee_card_start_time\",\"type_name\":\"TextDatetime\",\"key\":\"\",\"title\":\"出发时间\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"long_fee_card_start_place\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"出发地点\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"long_fee_card_end_time\",\"type_name\":\"TextDatetime\",\"key\":\"\",\"title\":\"结束时间\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"long_fee_card_end_place\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"结束地点\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"long_fee_card_vehicle\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"交通工具\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"travel_longTrafficType_list\",\"after_api_uri\":\"\"},{\"id_name\":\"long_fee_card_fee\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"金额\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '系统视图');
-INSERT INTO `pmo_view_json` VALUES (13, 'shortTravelAddFrom', '市内交通费-组', 'formlist', '{\"form-temp-name\":\"市内交通费-组\",\"form-list\":[{\"id_name\":\"short_fee_card_people\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"人员\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"short_fee_type\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"费用名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"short_fee\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"费用\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '系统视图');
+INSERT INTO `pmo_view_json` VALUES (13, 'shortTravelAddFrom', '市内交通费-组', 'formlist', '{\"form-temp-name\":\"市内交通费-组\",\"form-list\":[{\"id_name\":\"short_fee_card_people\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"人员\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"short_fee_type\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"费用类型\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"short_fee\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"费用\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (14, 'hotelTravelAddFrom', '住宿费-组', 'formlist', '{\"form-temp-name\":\"住宿费-组\",\"form-list\":[{\"id_name\":\"hotel_expense_people\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"人员\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"hotel_expense_days\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"hotel_expense_total\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"费用总价\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '系统视图');
 INSERT INTO `pmo_view_json` VALUES (15, 'mealTravelAddFrom', '餐费-组', 'formlist', '{\"form-temp-name\":\"餐费-组\",\"form-list\":[{\"id_name\":\"meal_fee_people\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"人员\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"travel_meal_people\",\"after_api_uri\":\"\"},{\"id_name\":\"meal_fee_days\",\"type_name\":\"MutiText\",\"key\":\"\",\"title\":\"天数\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"meal_fee\",\"type_name\":\"TextMoney\",\"key\":\"\",\"title\":\"金额\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"meal_fee_remarks\",\"type_name\":\"TextArea\",\"key\":\"\",\"title\":\"备注\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '系统视图');
 INSERT INTO `pmo_view_json` VALUES (16, 'projectViewCard', '项目列表-卡片', 'cards', '{\"form-temp-name\":\"项目列表-卡片\",\"form-list\":[{\"id_name\":\"card_frame\",\"type_name\":\"Cards\",\"key\":\"\",\"title\":\"\",\"tip\":\"\",\"add_button\":[{\"id_name\":\"project_card_head\",\"type_name\":\"CardHead\",\"title\":\"项目列表-卡片头\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardHead\"},{\"id_name\":\"project_card_body\",\"type_name\":\"CardBody\",\"title\":\"\",\"key\":\"\",\"tip\":\"\",\"add_button\":[{\"id_name\":\"project_show_manage\",\"type_name\":\"CardPage\",\"title\":\"项目列表-页面1\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardPage1\"},{\"id_name\":\"project_edit_btns\",\"type_name\":\"CardPage\",\"title\":\"项目列表-页面2\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardPage2\"},{\"id_name\":\"project_approve_btns\",\"type_name\":\"CardPage\",\"title\":\"项目列表-页面3\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardPage3\"}]},{\"id_name\":\"project_card_open\",\"type_name\":\"CardOpen\",\"title\":\"\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\"},{\"id_name\":\"project_card_foot\",\"type_name\":\"CardFoot\",\"title\":\"项目列表-卡片尾\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardFoot\"}],\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '项目管理');
 INSERT INTO `pmo_view_json` VALUES (17, 'projectCardHead', '项目列表-卡片头', 'formlist', '{\"form-temp-name\":\"项目列表-卡片头\",\"form-list\":[{\"id_name\":\"project_project_template_name\",\"type_name\":\"CardItem\",\"title\":\"项目类型\",\"default_value\":\"未设置项目类型\"},{\"id_name\":\"unicode\",\"type_name\":\"CardItem\",\"title\":\"班级编号\",\"default_value\":\"未设置班级编号\"},{\"id_name\":\"project_person_in_charge_name\",\"type_name\":\"CardItem\",\"title\":\"班主任\",\"default_value\":\"未设置班主任\"}]}', 0, '项目管理');
-INSERT INTO `pmo_view_json` VALUES (18, 'projectCardPage1', '项目列表-页面1', 'formlist', '{\"form-temp-name\":\"项目列表-页面1\",\"form-list\":[{\"id_name\":\"project_name\",\"type_name\":\"TitleLeftCard\",\"title\":\"课程名称:\",\"default_value\":\"未设置课程名称\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"lecturers\",\"type_name\":\"TitleCardRightGroup\",\"before_api_uri\":\"teacher_name_name\",\"title\":\"\",\"default_value\":\"未设置讲师\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_date\",\"type_name\":\"DateCard\",\"title\":\"\",\"default_value\":\"未设置日期\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_traing_ares\",\"type_name\":\"ProvinceCity\",\"title\":\"\",\"default_value\":\"未设置地区\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"address\",\"type_name\":\"CardLeftBody\",\"title\":\"\",\"default_value\":\"未设置地址\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_days\",\"type_name\":\"CardRightBody\",\"title\":\"\",\"default_value\":\"未设置天数\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_customer_name\",\"type_name\":\"CardLeftBody\",\"title\":\"\",\"default_value\":\"未设置客户\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_gather_name\",\"type_name\":\"CardRightBody\",\"title\":\"\",\"default_value\":\"未设置项目集\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"costing\",\"type_name\":\"LabelTotalMessage\",\"class\":\"\",\"key\":\"\",\"title\":\"项目总成本\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"总成本\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"expected_income\",\"type_name\":\"LabelTotalMessage\",\"title\":\"项目应收款\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_profit\",\"type_name\":\"LabelTotalMessage\",\"title\":\"项目毛利润\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"gross_interest_rate\",\"type_name\":\"LabelTotalMessage\",\"title\":\"毛利率\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"labor_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"人工成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"lecturer\",\"type_name\":\"SpellingCardGroup\",\"title\":\"讲师成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"implementation_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"实施成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"venue\",\"type_name\":\"LoopCardMoneyGroup\",\"title\":\"会议室成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"implement\",\"type_name\":\"LabelChildMessage\",\"before_api_uri\":\"material_cost,equipment_cost,examination_fee,tea_break,stationery,hospitality,postage\",\"title\":\"教材费用,设备费用,考试费,茶歇,文具,招待费,邮寄快递\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"travel_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"差旅成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"city\",\"type_name\":\"LabelMessage\",\"title\":\"市内交通\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"province\",\"type_name\":\"LabelMessage\",\"title\":\"长途交通\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"stay\",\"type_name\":\"LabelMessage\",\"title\":\"住宿\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"meal\",\"type_name\":\"LabelMessage\",\"title\":\"餐费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"consulting_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"咨询成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"institutional_consulting_fees\",\"type_name\":\"LabelMessage\",\"title\":\"机构咨询费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"personal_consulting_fees\",\"type_name\":\"LabelMessage\",\"title\":\"个人咨询费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '');
-INSERT INTO `pmo_view_json` VALUES (19, 'projectCardPage2', '项目列表-页面2', 'formlist', '{\"form-temp-name\":\"项目列表-页面2\",\"form-list\":[{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"基础信息修改\",\"tip\":\"\",\"add_button\":\"editProject\",\"descript\":\"Link按钮\",\"before_api_uri\":\"project_data_getByProjectId\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"讲师安排\",\"tip\":\"\",\"add_button\":\"teacherCardGroup\",\"descript\":\"Link按钮\",\"before_api_uri\":\"lecturer_plan_getByProjectId\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"实施安排\",\"tip\":\"\",\"add_button\":\"implementArrage\",\"descript\":\"Link按钮\",\"before_api_uri\":\"implement_plan_getByProjectId\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"差旅安排\",\"tip\":\"\",\"add_button\":\"travelExpensesGroup\",\"descript\":\"Link按钮\",\"before_api_uri\":\"travel_plan_getByProjectId\",\"after_api_uri\":\"\"}]}', 0, '');
+INSERT INTO `pmo_view_json` VALUES (18, 'projectCardPage1', '项目列表-页面1', 'formlist', '{\"form-temp-name\":\"项目列表-页面1\",\"form-list\":[{\"id_name\":\"project_name\",\"type_name\":\"TitleLeftCard\",\"title\":\"课程名称:\",\"default_value\":\"未设置课程名称\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"lecturers\",\"type_name\":\"TitleCardRightGroup\",\"before_api_uri\":\"teacher_name_name\",\"title\":\"\",\"default_value\":\"未设置讲师\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_date\",\"type_name\":\"DateCard\",\"title\":\"\",\"default_value\":\"未设置日期\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_traing_ares\",\"type_name\":\"ProvinceCity\",\"title\":\"\",\"default_value\":\"未设置地区\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"address\",\"type_name\":\"CardLeftBody\",\"title\":\"\",\"default_value\":\"未设置地址\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_days\",\"type_name\":\"CardRightBody\",\"title\":\"\",\"default_value\":\"未设置天数\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_customer_name\",\"type_name\":\"CardLeftBody\",\"title\":\"\",\"default_value\":\"未设置客户\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_gather_name\",\"type_name\":\"CardRightBody\",\"title\":\"\",\"default_value\":\"未设置项目集\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"costing\",\"type_name\":\"LabelTotalMessage\",\"class\":\"\",\"key\":\"\",\"title\":\"项目总成本\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"总成本\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"expected_income\",\"type_name\":\"LabelTotalMessage\",\"title\":\"项目应收款\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_profit\",\"type_name\":\"LabelTotalMessage\",\"title\":\"项目毛利润\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"gross_interest_rate\",\"type_name\":\"LabelTotalMessage\",\"title\":\"毛利率\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"labor_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"人工成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"lecturer\",\"type_name\":\"SpellingCardGroup\",\"title\":\"讲师成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"implementation_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"实施成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"venue\",\"type_name\":\"LoopCardMoneyGroup\",\"title\":\"会议室成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"implement\",\"type_name\":\"LabelChildMessage\",\"before_api_uri\":\"material_cost,equipment_cost,examination_fee,tea_break,stationery,hospitality,postage\",\"title\":\"教材费用,设备费用,考试费,茶歇,文具,招待费,邮寄快递\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"travel_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"差旅成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"city\",\"type_name\":\"LabelMessage\",\"title\":\"市内交通\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"province\",\"type_name\":\"LabelMessage\",\"title\":\"长途交通\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"stay\",\"type_name\":\"LabelMessage\",\"title\":\"住宿\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"meal\",\"type_name\":\"LabelMessage\",\"title\":\"餐费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"consulting_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"咨询成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"institutional_consulting_fees\",\"type_name\":\"LabelMessage\",\"title\":\"机构咨询费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"personal_consulting_fees\",\"type_name\":\"LabelMessage\",\"title\":\"个人咨询费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_tax_rate\",\"type_name\":\"LabelTitleMessage\",\"class\":\"\",\"key\":\"\",\"title\":\"税金\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"税率\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '');
+INSERT INTO `pmo_view_json` VALUES (19, 'projectCardPage2', '项目列表-页面2', 'formlist', '{\"form-temp-name\":\"项目列表-页面2\",\"form-list\":[{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"基础信息修改\",\"tip\":\"\",\"add_button\":\"editProject\",\"descript\":\"Link按钮\",\"before_api_uri\":\"project_data_getByProjectId\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"讲师安排\",\"tip\":\"\",\"add_button\":\"teacherCardGroup\",\"descript\":\"Link按钮\",\"before_api_uri\":\"lecturer_plan_getByProjectId\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"实施安排\",\"tip\":\"\",\"add_button\":\"implementArrage\",\"descript\":\"Link按钮\",\"before_api_uri\":\"implement_plan_getByProjectId\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"差旅安排\",\"tip\":\"\",\"add_button\":\"travelExpensesGroup\",\"descript\":\"Link按钮\",\"before_api_uri\":\"travel_plan_getByProjectId\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"Print\",\"class\":\"\",\"key\":\"loan_print\",\"title\":\"借款单\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"Print\",\"class\":\"\",\"key\":\"pay_box\",\"title\":\"支出单\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"Print\",\"class\":\"\",\"key\":\"travel_big_box\",\"title\":\"差旅借款单\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"Print\",\"class\":\"\",\"key\":\"travel_exp_box\",\"title\":\"差旅报销单\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (42, 'projectGatherPage3', '所属项目集-页面3', 'formlist', '{\"form-temp-name\":\"所属项目集-页面3\",\"form-list\":[]}', 0, '所属项目集');
 INSERT INTO `pmo_view_json` VALUES (21, 'projectCardFoot', '项目列表-卡片尾', 'formlist', '{\"form-temp-name\":\"项目列表-卡片尾\",\"form-list\":[{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"项目信息\",\"descript\":\"card按钮\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"编辑项目\",\"descript\":\"card按钮\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"审批项目\",\"descript\":\"card按钮\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (22, 'newCard', '新增卡片', 'formlist', '{\"form-temp-name\":\"新增卡片\",\"form-list\":[{\"id_name\":\"card_frame\",\"type_name\":\"Cards\",\"key\":\"\",\"title\":\"\",\"tip\":\"\",\"add_button\":[{\"id_name\":\"\",\"type_name\":\"CardHead\",\"title\":\"项目列表-卡片头\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardHead\"},{\"id_name\":\"\",\"type_name\":\"CardBody\",\"title\":\"\",\"key\":\"\",\"tip\":\"\",\"add_button\":[{\"id_name\":\"\",\"type_name\":\"CardPage\",\"title\":\"项目列表-页面1\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardPage1\"},{\"id_name\":\"\",\"type_name\":\"CardPage\",\"title\":\"项目列表-页面2\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardPage2\"},{\"id_name\":\"project_approve_btns\",\"type_name\":\"CardPage\",\"title\":\"项目列表-页面3\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardPage3\"}]},{\"id_name\":\"\",\"type_name\":\"CardOpen\",\"title\":\"\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\"},{\"id_name\":\"\",\"type_name\":\"CardFoot\",\"title\":\"项目列表-卡片尾\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectCardFoot\"}],\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '项目管理');
 INSERT INTO `pmo_view_json` VALUES (23, 'newFormlistGroup', '新增formlist', 'formlist', '{\"form-temp-name\":\"新增formlist\",\"form-list\":[{\"id_name\":\"\",\"type_name\":\"MutiText\",\"class\":\"class\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '项目管理');
-INSERT INTO `pmo_view_json` VALUES (40, 'projectCardPage3', '项目列表-页面3', 'formlist', '{\"form-temp-name\":\"项目列表-页面3\",\"form-list\":[{\"id_name\":\"\",\"type_name\":\"ApplicationsState\",\"class\":\"card_budget,message_label,status_box\",\"key\":\"budget\",\"title\":\"预算\",\"default_value\":\"预算状态\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"SubmitApplications\",\"class\":\"card_budget_btn,btn_list\",\"key\":\"budget\",\"title\":\"预算\",\"default_value\":\"预算提交按钮\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"examine_manage_commitbudget,examine_manage_cancelbudget\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"ApplicationsState\",\"class\":\"card_final_accounts,message_label,status_box\",\"key\":\"finalAccounts\",\"title\":\"决算\",\"default_value\":\"决算\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"SubmitApplications\",\"class\":\"card_final_btn,btn_list\",\"key\":\"finalAccounts\",\"title\":\"决算\",\"default_value\":\"决算提交按钮\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"examine_manage_commitfinal,examine_manage_cancelfinal\",\"after_api_uri\":\"\"}]}', 0, '');
+INSERT INTO `pmo_view_json` VALUES (40, 'projectCardPage3', '项目列表-页面3', 'formlist', '{\"form-temp-name\":\"项目列表-页面3\",\"form-list\":[{\"id_name\":\"\",\"type_name\":\"ApplicationsState\",\"class\":\"card_budget,message_label,status_box\",\"key\":\"budget\",\"title\":\"预算\",\"default_value\":\"预算状态\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"SubmitApplications\",\"class\":\"card_budget_btn,btn_list\",\"key\":\"budget\",\"title\":\"预算\",\"default_value\":\"预算提交按钮\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"examine_manage_commitbudget,examine_manage_cancelbudget\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"ApplicationsState\",\"class\":\"card_final_accounts,message_label,status_box\",\"key\":\"finalAccounts\",\"title\":\"决算\",\"default_value\":\"决算\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"SubmitApplications\",\"class\":\"card_budget_btn,btn_list\",\"key\":\"finalAccounts\",\"title\":\"决算\",\"default_value\":\"决算提交按钮\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"examine_manage_commitfinal,examine_manage_cancelfinal\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (37, 'projectGatherFoot', '所属项目集-卡片尾', 'formlist', '{\"form-temp-name\":\"所属项目集-卡片尾\",\"form-list\":[{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"key\":\"\",\"title\":\"展示项目集\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"card按钮\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"key\":\"\",\"title\":\"编辑项目集\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"card按钮\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"card按钮\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '所属项目集');
 INSERT INTO `pmo_view_json` VALUES (35, 'projectGatherPage2', '所属项目集-页面2', 'formlist', '{\"form-temp-name\":\"所属项目集-页面2\",\"form-list\":[{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"编辑\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"program_data_getByProjectId\",\"descript\":\"Link按钮\",\"before_api_uri\":\"eidtProjectGather\",\"after_api_uri\":\"\"}]}', 0, '所属项目集');
 INSERT INTO `pmo_view_json` VALUES (33, 'ProjectGatherHead', '所属项目集-卡片头', 'formlist', '{\"form-temp-name\":\"所属项目集-卡片头\",\"form-list\":[{\"id_name\":\"program_type\",\"type_name\":\"CardItem\",\"key\":\"未设置项目类型\",\"title\":\"项目类型\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"unicode\",\"type_name\":\"CardItem\",\"key\":\"\",\"title\":\"项目集编号\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"program_manage_sale\",\"type_name\":\"CardItem\",\"key\":\"项目集负责人\",\"title\":\"项目集负责人\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '所属项目集');
-INSERT INTO `pmo_view_json` VALUES (41, 'addProjectGather', '新建项目集', 'formlist', '{\"form-temp-name\":\"新建项目集\",\"form-list\":[{\"id_name\":\"project_gather_project_template\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"项目模板\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"projecttemplat\",\"descript\":\"\",\"before_api_uri\":\"project_type_list\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"program_manage_add\",\"after_api_uri\":\"\"}]}', 0, '所属项目集');
+INSERT INTO `pmo_view_json` VALUES (41, 'addProjectGather', '新建项目集', 'formlist', '{\"form-temp-name\":\"新建项目集\",\"form-list\":[{\"id_name\":\"project_gather_project_template\",\"type_name\":\"SelectList\",\"key\":\"\",\"title\":\"项目模板\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"projecttemplat\",\"descript\":\"\",\"before_api_uri\":\"project_type_list\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"SelectListLocal\",\"class\":\"\",\"key\":\"1,2,3\",\"title\":\"下拉选择\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"hold_btn\",\"type_name\":\"HoldBtn\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"默认值\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"保存按钮\",\"before_api_uri\":\"program_manage_add\",\"after_api_uri\":\"\"}]}', 0, '');
 INSERT INTO `pmo_view_json` VALUES (32, 'projectGatherCards', '所属项目集-卡片', 'cards', '{\"form-temp-name\":\"所属项目集-卡片\",\"form-list\":[{\"id_name\":\"card_frame\",\"type_name\":\"Cards\",\"key\":\"\",\"title\":\"\",\"tip\":\"\",\"add_button\":[{\"id_name\":\"\",\"type_name\":\"CardHead\",\"title\":\"所属项目集-卡片头\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"ProjectGatherHead\"},{\"id_name\":\"\",\"type_name\":\"CardBody\",\"title\":\"\",\"key\":\"\",\"tip\":\"\",\"add_button\":[{\"id_name\":\"\",\"type_name\":\"CardPage\",\"title\":\"所属项目集-页面1\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"programCardPage1\"},{\"id_name\":\"\",\"type_name\":\"CardPage\",\"title\":\"所属项目集-页面2\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectGatherPage2\"},{\"id_name\":\"project_approve_btns\",\"type_name\":\"CardPage\",\"title\":\"所属项目集-页面3\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectGatherPage3\"}]},{\"id_name\":\"\",\"type_name\":\"CardOpen\",\"title\":\"\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\"},{\"id_name\":\"\",\"type_name\":\"CardFoot\",\"title\":\"所属项目集-卡片尾\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"projectGatherFoot\"}],\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '所属项目集');
 INSERT INTO `pmo_view_json` VALUES (91, 'budgetTeacherCardGroup', '讲师信息', 'formlist', '{\"form-temp-name\":\"讲师信息\",\"form-list\":[{\"id_name\":\"unicode\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"项目编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_name\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"课程名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"CardGroup\",\"title\":\"讲师安排\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"lecturer\",\"descript\":\"teacherAddForm\",\"add_button_title\":\"讲师安排修改\",\"descript_title\":\"讲师安排-组\",\"add_title\":\"添加讲师安排\",\"edit_button\":\"\",\"del_button\":\"\",\"list_button\":\"lecturer_plan_getByProjectId\",\"add_button\":\"\"}}]}', 0, '预算');
 INSERT INTO `pmo_view_json` VALUES (92, 'budgetImplementArrage', '实施信息', 'group', '{\"form-temp-name\":\"实施信息\",\"form-list\":[{\"id_name\":\"unicode\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"项目编号\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_name\",\"type_name\":\"DisTextField\",\"key\":\"\",\"title\":\"课程名称\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"venue_arrange\",\"type_name\":\"CardGroup\",\"title\":\"会场安排\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"venue\",\"descript\":\"venueAddFrom\",\"add_button_title\":\"会场安排修改\",\"descript_title\":\"会场安排-组\",\"add_title\":\"添加会场安排\",\"edit_button\":\"\",\"del_button\":\"\",\"list_button\":\"implement_plan_getByProjectId\",\"add_button\":\"\"}},{\"id_name\":\"implement_arrange\",\"type_name\":\"CardGroup\",\"title\":\"实施安排\",\"before_api_uri\":\"\",\"add_button\":{\"before_api_uri\":\"implement\",\"descript\":\"implementAddFrom\",\"add_button_title\":\"实施安排修改\",\"descript_title\":\"实施安排-组\",\"edit_button\":\"\",\"del_button\":\"\",\"list_button\":\"implement_plan_getByProjectId\",\"add_button\":\"\"}}]}', 0, '预算');
@@ -5523,8 +6590,8 @@ INSERT INTO `pmo_view_json` VALUES (98, 'finalViewCard', '决算-卡片', 'forml
 INSERT INTO `pmo_view_json` VALUES (96, 'finalCardPage1', '决算-页面1', 'formlist', '{\"form-temp-name\":\"决算-页面1\",\"form-list\":[{\"id_name\":\"project_name\",\"type_name\":\"TitleLeftCard\",\"title\":\"课程名称:\",\"default_value\":\"未设置课程名称\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"lecturers\",\"type_name\":\"TitleCardRightGroup\",\"before_api_uri\":\"teacher_name_name\",\"title\":\"\",\"default_value\":\"未设置讲师\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"SpellMessage\",\"class\":\"budget_menu,spelling_div,spelling_label,spelling_content\",\"key\":\"\",\"title\":\"收入,成本,利润\",\"default_value\":\"收入,成本,利润\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"project_income,costing,project_profit\",\"after_api_uri\":\"\"},{\"id_name\":\"gross_interest_rate\",\"type_name\":\"CardRightBody\",\"class\":\"\",\"key\":\"\",\"title\":\"利润率\",\"default_value\":\"利润率\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"毛利率\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_date\",\"type_name\":\"DateCard\",\"title\":\"\",\"default_value\":\"未设置日期\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_traing_ares\",\"type_name\":\"ProvinceCity\",\"title\":\"\",\"default_value\":\"未设置地区\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"address\",\"type_name\":\"CardLeftBody\",\"title\":\"\",\"default_value\":\"未设置地址\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_days\",\"type_name\":\"CardRightBody\",\"title\":\"\",\"default_value\":\"未设置天数\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_customer_name\",\"type_name\":\"CardLeftBody\",\"title\":\"\",\"default_value\":\"未设置客户\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_gather_name\",\"type_name\":\"CardRightBody\",\"title\":\"\",\"default_value\":\"未设置项目集\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"expected_income\",\"type_name\":\"LabelTotalMessage\",\"title\":\"项目应收款\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"project_profit\",\"type_name\":\"LabelTotalMessage\",\"title\":\"项目利润\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"gross_interest_rate\",\"type_name\":\"LabelTotalMessage\",\"title\":\"毛利率\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"labor_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"人工成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"lecturer\",\"type_name\":\"SpellingCardGroup\",\"title\":\"讲师成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"implementation_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"实施成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"venue\",\"type_name\":\"LoopCardMoneyGroup\",\"title\":\"会议室成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"implement\",\"type_name\":\"LabelChildMessage\",\"before_api_uri\":\"material_cost,equipment_cost,examination_fee,tea_break,stationery,hospitality,postage\",\"title\":\"教材费用,设备费用,考试费,茶歇,文具,招待费,邮寄快递\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"travel_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"差旅成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"city\",\"type_name\":\"LabelMessage\",\"title\":\"市内交通\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"province\",\"type_name\":\"LabelMessage\",\"title\":\"长途交通\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"stay\",\"type_name\":\"LabelMessage\",\"title\":\"住宿\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"meal\",\"type_name\":\"LabelMessage\",\"title\":\"餐费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"consulting_cost\",\"type_name\":\"LabelTitleMessage\",\"title\":\"咨询成本\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"institutional_consulting_fees\",\"type_name\":\"LabelMessage\",\"title\":\"机构咨询费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"personal_consulting_fees\",\"type_name\":\"LabelMessage\",\"title\":\"个人咨询费\",\"key\":\"\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '决算');
 INSERT INTO `pmo_view_json` VALUES (99, 'finalCardHead', '决算-卡片头', 'formlist', '{\"form-temp-name\":\"决算-卡片头\",\"form-list\":[{\"id_name\":\"project_project_template_name\",\"type_name\":\"CardItem\",\"title\":\"项目类型\",\"default_value\":\"未设置项目类型\"},{\"id_name\":\"unicode\",\"type_name\":\"CardItem\",\"title\":\"班级编号\",\"default_value\":\"未设置班级编号\"},{\"id_name\":\"project_person_in_charge_name\",\"type_name\":\"CardItem\",\"title\":\"班主任\",\"default_value\":\"未设置班主任\"}]}', 0, '决算');
 INSERT INTO `pmo_view_json` VALUES (100, 'finalCardPage2', '决算-页面2', 'formlist', '{\"form-temp-name\":\"决算-页面2\",\"form-list\":[{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"项目信息\",\"tip\":\"\",\"add_button\":\"projectMessage\",\"descript\":\"Link按钮\",\"before_api_uri\":\"examine_final_project\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"讲师信息\",\"tip\":\"\",\"add_button\":\"budgetTeacherCardGroup\",\"descript\":\"Link按钮\",\"before_api_uri\":\"examine_final_lecturer\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"实施信息\",\"tip\":\"\",\"add_button\":\"budgetImplementArrage\",\"descript\":\"Link按钮\",\"before_api_uri\":\"examine_final_implement\",\"after_api_uri\":\"\"},{\"id_name\":\"link_btn\",\"type_name\":\"Link\",\"key\":\"\",\"title\":\"差旅信息\",\"tip\":\"\",\"add_button\":\"budgetTravelExpensesGroup\",\"descript\":\"Link按钮\",\"before_api_uri\":\"examine_final_travel\",\"after_api_uri\":\"\"}]}', 0, '');
-INSERT INTO `pmo_view_json` VALUES (101, 'finalCardFoot', '决算-卡片尾', 'formlist', '{\"form-temp-name\":\"决算-卡片尾\",\"form-list\":[{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"预算详情\",\"descript\":\"card按钮\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"项目详情\",\"descript\":\"card按钮\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"审批进度\",\"descript\":\"card按钮\"}]}', 0, '决算');
-INSERT INTO `pmo_view_json` VALUES (102, 'finalCardPage3', '决算-页面3', 'formlist', '{\"form-temp-name\":\"决算-页面3\",\"form-list\":[{\"id_name\":\"\",\"type_name\":\"IsAgreeApplications\",\"class\":\"card_ask\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"决算审批\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"examine_manage_agree,examine_manage_refuse\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"LabelShowMessage\",\"class\":\"card_approval\",\"key\":\"\",\"title\":\"审批流程\",\"default_value\":\"审批流程\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"application_people\",\"type_name\":\"GetDataSpellingLabel\",\"class\":\"card_launch_approval\",\"key\":\"\",\"title\":\"发起审批\",\"default_value\":\"发起审批\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"提交申请人\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"application_time\",\"type_name\":\"ApplicationsDefault\",\"class\":\"card_get_time\",\"key\":\"\",\"title\":\"提交申请时间\",\"default_value\":\"提交申请时间\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"提交申请时间\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"ApplicationsFlow\",\"class\":\"status_flow,message_left,message_right\",\"key\":\"budget\",\"title\":\"审批流程\",\"default_value\":\"审批流程列\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '');
+INSERT INTO `pmo_view_json` VALUES (101, 'finalCardFoot', '决算-卡片尾', 'formlist', '{\"form-temp-name\":\"决算-卡片尾\",\"form-list\":[{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"决算详情\",\"descript\":\"card按钮\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"项目详情\",\"descript\":\"card按钮\"},{\"id_name\":\"card_btn\",\"type_name\":\"CardTitleItem\",\"title\":\"审批进度\",\"descript\":\"card按钮\"}]}', 0, '决算');
+INSERT INTO `pmo_view_json` VALUES (102, 'finalCardPage3', '决算-页面3', 'formlist', '{\"form-temp-name\":\"决算-页面3\",\"form-list\":[{\"id_name\":\"\",\"type_name\":\"IsAgreeApplications\",\"class\":\"card_ask\",\"key\":\"\",\"title\":\"未设置名称\",\"default_value\":\"决算审批\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"examine_manage_finalagree,examine_manage_finalrefuse\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"LabelShowMessage\",\"class\":\"card_approval\",\"key\":\"\",\"title\":\"审批流程\",\"default_value\":\"审批流程\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"application_people\",\"type_name\":\"GetDataSpellingLabel\",\"class\":\"card_launch_approval\",\"key\":\"\",\"title\":\"发起审批\",\"default_value\":\"发起审批\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"提交申请人\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"application_time\",\"type_name\":\"ApplicationsDefault\",\"class\":\"card_get_time\",\"key\":\"\",\"title\":\"提交申请时间\",\"default_value\":\"提交申请时间\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"提交申请时间\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"},{\"id_name\":\"\",\"type_name\":\"ApplicationsFlow\",\"class\":\"status_flow,message_left,message_right\",\"key\":\"finalAccounts\",\"title\":\"审批流程\",\"default_value\":\"审批流程列\",\"tip\":\"\",\"add_button\":\"\",\"descript\":\"\",\"before_api_uri\":\"\",\"after_api_uri\":\"\"}]}', 0, '');
 
 -- ----------------------------
 -- Table structure for pmo_view_menu
@@ -5574,7 +6641,7 @@ INSERT INTO `pmo_view_on_menu` VALUES (6, '/costing', '成本管理', 'Costing',
 INSERT INTO `pmo_view_on_menu` VALUES (7, '/budget', '预算', 'Budget', 2, 'examine_budget_list');
 INSERT INTO `pmo_view_on_menu` VALUES (8, '/finalAccounts', '决算', 'FinalAccounts', 2, 'examine_final_list');
 INSERT INTO `pmo_view_on_menu` VALUES (9, '/budgetAccounting', '核算', 'BudgetAccounting', 2, NULL);
-INSERT INTO `pmo_view_on_menu` VALUES (10, '/budgetExaminationAndApproval', '审批', 'BudgetExaminationAndApproval', 2, NULL);
+INSERT INTO `pmo_view_on_menu` VALUES (10, '/budgetExaminationAndApproval', '审批', 'BudgetExaminationAndApproval', 2, 'examine_record_list');
 INSERT INTO `pmo_view_on_menu` VALUES (11, '/loan', '借款', 'Loan', 3, NULL);
 INSERT INTO `pmo_view_on_menu` VALUES (12, '/expenditure', '支出', 'Expenditure', 3, NULL);
 INSERT INTO `pmo_view_on_menu` VALUES (13, '/loanAccounting', '核算', 'LoanAccounting', 3, NULL);
@@ -5594,5 +6661,22 @@ INSERT INTO `pmo_view_on_menu` VALUES (28, '/trainingProgram', '培训项目', '
 INSERT INTO `pmo_view_on_menu` VALUES (26, '/menu', '菜单管理', 'Menu', 7, NULL);
 INSERT INTO `pmo_view_on_menu` VALUES (29, '/trainingProgram', '培训项目', 'TrainingProgram', 1, 'project_manage_returndepartmentlist');
 INSERT INTO `pmo_view_on_menu` VALUES (30, '/urlPower', '路由权限', 'UrlPower', 7, 'role_route_list');
+
+-- ----------------------------
+-- Table structure for pmo_workpack
+-- ----------------------------
+DROP TABLE IF EXISTS `pmo_workpack`;
+CREATE TABLE `pmo_workpack`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `workpack_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '工作包名称',
+  `workpack_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '工作包编码',
+  `workpack_accountable` int(11) NULL DEFAULT NULL COMMENT '工作包负责人',
+  `workpack_responsible` int(11) NULL DEFAULT NULL COMMENT '工作包执行人',
+  `workpack_plan_start_ime` int(11) NULL DEFAULT NULL COMMENT '工作包计划开始时间',
+  `workpack_plan_end_time` int(11) NULL DEFAULT NULL COMMENT '工作包计划结束时间',
+  `workpack_plan_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '工作包计划值',
+  `add_time` int(11) NULL DEFAULT NULL COMMENT '工作包添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

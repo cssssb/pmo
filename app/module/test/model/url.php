@@ -16,7 +16,7 @@ class url extends model {
     public function __construct() {
         $this->db_config = app::load_config('database');
         $this->db_setting = 'default';
-        $this->table_name = 'new_url';
+        $this->table_name = 'route_url';
         parent::__construct();
     }
     

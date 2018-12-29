@@ -52,7 +52,8 @@ final class operation_class
         //把通过token查询变成用户id查询
         $user = $this->user->get_one("token='$token'");
         if(!$user){
-       return  $this->data->out(4002,[]);
+            $return['token'] = $token;
+       return  $this->data->out(4003,$return);
         }
     
         //如果没有数据就添加

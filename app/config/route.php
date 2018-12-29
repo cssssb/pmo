@@ -104,16 +104,18 @@ return array(
         "examine_manage_commitbudget" => ["examine", "manage", "commitbudget", [], [], '1.0',"提交预算审批"],        //提交项目审批
         "examine_manage_will" => ["examine", "manage", "will", [], [], '1.0',"查看需要我审批的审批单"],        //查看需要我审批的审批单
         "examine_manage_ipassed" => ["examine", "manage", "ipassed", [], [], '1.0',"查看我通过的审批单"],        //查看我通过的审批单
-        "examine_manage_agree" => ["examine", "manage", "agree", [], [], '1.0',"通过审批单"],        //通过审批单
-        "examine_manage_refuse" => ["examine", "manage", "refuse", [], [], '1.0',"不通过审批单"],        //拒绝审批单
+        "examine_manage_agree" => ["examine", "manage", "budgetagree", [], [], '1.0',"通过预算审批单"],        //通过预算
+        "examine_manage_finalagree" => ["examine", "manage", "finalagree", [], [], '1.0',"通过决算审批单"],        //通过决算
+        "examine_manage_refuse" => ["examine", "manage", "budgetrefuse", [], [], '1.0',"不通过预算审批单"],        //不通过预算
+        "examine_manage_finalrefuse" => ["examine", "manage", "finalrefuse", [], [], '1.0',"不通过决算审批单"],        //不通过决算
         //数据名称list
         "json_type_list"=>["json","type","list",[],[],'1.0',"json数据列表"],                               //数据列表
         "project_manage_returnonlyuserlist" => ["project", "manage", "returnonlyuserlist", [], [], '1.0',"返回我自己的项目列表"],    //返回项目列表
         "project_manage_returndepartmentlist" => ["project", "manage", "returndepartmentlist", [], [], '1.0',"返回我部门的项目列表"],    //返回项目列表
 
         // //12.17预算视图json
-        "examine_budget_list" => ["examine", "budget", "list", [], [], '1.0',"预算审批列表"],    //预算列表
-        "examine_final_list" => ["examine", "final", "list", [], [], '1.0',"决算审批列表"],    //决算算列表
+        "examine_budget_list" => ["examine", "notes", "budget", [], [], '1.0',"预算审批列表"],    //预算列表
+        "examine_final_list" => ["examine", "notes", "final", [], [], '1.0',"决算审批列表"],    //决算算列表
         "examine_budget_project" => ["examine", "budget", "project", [], [], '1.0',"获取预算项目信息"],    //获取项目信息
         "examine_budget_lecturer" => ["examine", "budget", "lecturer", [], [], '1.0',"获取预算讲师信息"],    //获取讲师信息
         "examine_budget_implement" => ["examine", "budget", "implement", [], [], '1.0',"获取预算实施信息"],    //获取实施信息
@@ -137,6 +139,11 @@ return array(
 
          //路由
          "client_route_list"=>["client","route","list",[],[],'1.0',"返回所有的路由列表"], //所有的路由列表
-         "get_route_by_role_id"=>["role","route","list",[],[],'1.0',"返回角色下的路由列表"], //角色下的路由列表
+         "get_route_by_role_id"=>["role","route","byid",[],[],'1.0',"角色下的路由列表"], //角色下的路由列表
+         "role_route_list"=>["role","route","list",[],[],'1.0',"角色列表"], //角色列表
+         //12.27
+         "examine_record_list"=>["examine","record","list",[],[],'0.1',"审批历史记录列表"], //角色列表
+         
+
     ),
 );

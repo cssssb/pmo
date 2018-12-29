@@ -38,12 +38,10 @@ class route_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $post = [
-            "token"=>'lalal',
-            "role_id"=>'8',
-            "route_id"=>'1,2,3,4,9,11,25'
-        ];
-        $data = $this->route->add_route($post['role_id'],$post['route_id']);
+        if(!isset($post['route_ids'])){
+            $this->data->out(2006,$post);
+        }
+        $data = $this->route->add_route($post['role_id'],$post['route_ids']);
         $data?$cond = 0:$cond = 1;
         
         //开始输出
@@ -71,7 +69,7 @@ class route_controller
         //     "role_id"=>'2',
         //     "route_id"=>'1,2,3,2,4,123'
         // ];
-        $data = $this->route->del_route($post['role_id'],$post['route_id']);
+        $data = $this->route->del_route($post['role_id'],$post['route_ids']);
         $data?$cond = 0:$cond = 1;
         
         //开始输出
@@ -83,7 +81,7 @@ class route_controller
                 $this->data->out(3802,$post);
             }
     }
-    public function list()
+    public function byid()
     {
         /**
          * ================
@@ -95,14 +93,13 @@ class route_controller
          */
         $post = $this->data->get_post();//获得post
         // $post['token'] = "";
-        $role_id = '8';
         //返回角色下的路由列表
-        $data = $this->route->return_role_in_route($role_id);
-        echo json_encode($data,true);die;
+        $data = $this->route->return_role_in_route($post['id']);
         foreach($data as $k=>$v){
-            $ass[$k]['id'] = $v['id'];
-            $ass[$k]['name'] = $v['url_name'];
-            $ass[$k]['note'] = $v['note'];
+            $ass['id'] = $v['id'];
+            $ass['name'] = $v['url_name'];
+            $ass['note'] = $v['note'];
+            $return[] = $ass;
         }
         $ass?$cond = 0:$cond = 1;
         //开始输出
@@ -111,8 +108,31 @@ class route_controller
                 $this->data->out(2002,[]);
                 break;
             default:
-                $this->data->out(2001,$ass);
+                $this->data->out(2001,$return);
             }
     }
-    
+    public function list()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         
+         * @DataTime:  2018-12-26
+         * @describe:  list function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->route->route_list();
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
 }

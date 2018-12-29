@@ -62,14 +62,16 @@ final class route_class
     }
     //add role_in_route
     public function add_route($role_id,$route_id){
-        $ass = explode(",",$route_id);
         $data_id['role_id'] = $role_id;
         $have_role_id = $this->role_in_route->select($data_id);
         foreach($have_role_id as $k){
             $route_ids[] = $k['route_id'];
         }
+        if(!isset($route_ids)){
+            $route_ids = [];
+        }
         //array_diff 返回在数组1中不在其他数组中的值
-        $insert_route_id = array_diff($ass,$route_ids);
+        $insert_route_id = array_diff($route_id,$route_ids);
        foreach($insert_route_id as $k){
            $data['route_id'] = $k;
            $data['role_id'] = $role_id;
@@ -82,9 +84,8 @@ final class route_class
     
     //del
     public function del_route($role_id,$route_id){
-        $ass = explode(",",$route_id);
         $data_id['role_id'] = $role_id;
-        foreach($ass as $k){
+        foreach($route_id as $k){
             $data_id['route_id'] = $k;
             $css = $this->role_in_route->delete($data_id);
         }
@@ -100,4 +101,18 @@ final class route_class
         return $data_all;
     }
     
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     route_list
+     * @DataTime:      2018-12-26
+     * @Return:        data
+     * @Notes:         角色列表
+     * @ErrorReason:   
+     * ================
+     */
+     public function route_list(){
+        $data = app::load_model_class('role', 'examine')->select(1);
+        return $data;
+        }
 }
