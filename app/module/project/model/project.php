@@ -147,7 +147,6 @@ class project extends \system\model
 			plan.state = 0
 			and
 			plan.parent_id = $parent_id
-
 		";
 		$all = $this->query($sql);
 		$data = $this->fetch_array($all);

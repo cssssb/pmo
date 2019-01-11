@@ -19,7 +19,7 @@ return array(
 		'port' => 3306,
 		'database' => 'pmo_c',
 		'username' => 'root',
-		'password' => '123456',
+		'password' => '',
 		'tablepre' => 'pmo_',
 		'charset' => 'utf8',
 		'type' => 'mysqli',
