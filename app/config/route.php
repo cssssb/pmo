@@ -142,8 +142,10 @@ return array(
          "get_route_by_role_id"=>["role","route","byid",[],[],'1.0',"角色下的路由列表"], //角色下的路由列表
          "role_route_list"=>["role","route","list",[],[],'1.0',"角色列表"], //角色列表
          //12.27
-         "examine_record_list"=>["examine","record","list",[],[],'0.1',"审批历史记录列表"], //角色列表
-         
+         "examine_record_list"=>["examine","record","adminlist",[],[],'1.0',"审批者历史记录列表"], //审批历史记录列表
+         "examine_record_admincsv"=>["examine","record","admincsv",[],[],'1.0',"审批者历史记录列表导出csv"], //审批历史记录列表
+         "examine_record_userlist"=>["examine","record","userlist",[],[],"1.0","用户提交数据列表"],
+         "examine_record_usercsv"=>["examine","record","usercsv",[],[],"1.0","用户历史记录列表导出csv"],
 
     ),
 );

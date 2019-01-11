@@ -190,4 +190,8 @@ class app
 			return $default;
 		}
 	}
+	public function load_text($name,$type='txt'){
+		$path = TEXT_PATH . DIRECTORY_SEPARATOR . $name . '.'.$type;
+		return file_get_contents($path);
+	}
 }

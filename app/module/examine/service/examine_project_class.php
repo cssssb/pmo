@@ -54,26 +54,31 @@ final class examine_project_class
          }
          return $list;
      }
-     public function record_list($id){
-         $data = $this->model->record_list($id);
-        //  return $data;
+     public function select_user_list2($user_id,$page_num='1',$page_size='100'){
+         $data = $this->model->select_user_list($user_id,$page_num,$page_size);
          foreach($data as $k){
-             $list[] = json_decode($k['data'],true);
+             $list[] = json_decode($k['data_field'],true);
          }
          return $list;
      }
-     
-    //  public function data_body($id){
-    //      $data = $this->record_list($id);
-    //  }
+     public function record_list3($id,$page_num='1',$page_size='100'){
+         $data = $this->model->record_list($id,$page_num,$page_size);
+         foreach($data as $k){
+             $list[] = json_decode($k['data_field'],true);
+         }
+         return $list;
+     }
+     public function data_body($id){
+         $data = $this->record_list($id);
+     }
     //数据模板
-     public function data_hade($id){
+     public function data_hade(){
          $data = [
             ["key"=>"unicode","value"=>"项目编号"],
             ["key"=>"project_project_template_name","value"=>"部门"],
             ["key"=>"examine_type","value"=>"预算/决算"],
             ["key"=>"project_person_in_charge_name","value"=>"项目负责人"],
-            ["key"=>"#######","value"=>"月份"],
+            ["key"=>"month","value"=>"月份"],
             ["key"=>"project_customer_name","value"=>"客户名称"],
             ["key"=>"project_name","value"=>"课程名称"],
             ["key"=>"project_training_numbers","value"=>"培训人数"],

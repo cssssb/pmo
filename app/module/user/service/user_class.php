@@ -28,6 +28,7 @@ final class user_class{
         $where['password'] = $password;
         $token = $this->token();
         $data['token'] = $token;
+        $data['time'] = date('Y-m-d H:i:s',time());
         $return = $this->model->get_one($where);
         $this->model->update($data,$where);
         if(!$return){
