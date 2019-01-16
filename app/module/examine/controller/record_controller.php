@@ -42,23 +42,18 @@ class record_controller
          */
         $post = $this->data->get_post();//获得post
         //获取token判断是哪个id
-        // $id = $this->common->return_user_id($post['token']);
+        $id = $this->common->return_user_id($post['token']);
 
-        $id['id'] = 30;
+        // $id['id'] = 10;
         //搜索条件
-        $unicode = $post['unicode'];
-
-
+        $post['query_condition']['unicode']?$unicode = $post['query_condition']['unicode']:$unicode=null;
+        $post['query_condition']['project_person_in_charge_name']?$project_person_in_charge_name = $post['query_condition']['project_person_in_charge_name']:$project_person_in_charge_name=null;
+        $post['query_condition']['project_project_template_name']?$project_project_template_name = $post['query_condition']['project_project_template_name']:$project_project_template_name=null;
+        $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']:$page_num=1;
+        $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']:$page_size=100;
         // $unicode = '201901';
 
-        if($post['page_num'] && $post['page_size']){
-            $page_num = $post['page_num'];
-            $page_size = $post['page_size'];
-            $list = $this->examine->model->select_user_list($id['id'],$unicode,$page_num,$page_size);}else{
-                // $page_num = 1;
-                // $page_size = 5;
-                $list = $this->examine->model->select_user_list($id['id'],$unicode);
-            }
+            $list = $this->examine->model->select_user_list($id['id'],$unicode,$project_person_in_charge_name,$project_project_template_name,$page_num,$page_size);
             $data['data_body'] = $list;
             $data['data_head'] = $this->examine->data_hade();
             $data['page_num'] = $page_num;
@@ -89,26 +84,21 @@ class record_controller
         $post = $this->data->get_post();//获得post
         //获取token 判断是哪个id
         // $id = $this->common->return_user_id($post['token']);
-        $id['id'] = 10;
+        // $id['id'] = 10;
         // $page_num = $post['page_num'];
         // $page_size = $post['page_size'];
-        
-        $unicode = $post['unicode'];
+        $post['query_condition']['unicode']?$unicode = $post['query_condition']['unicode']:$unicode=null;
+        $post['query_condition']['project_person_in_charge_name']?$project_person_in_charge_name = $post['query_condition']['project_person_in_charge_name']:$project_person_in_charge_name=null;
+        $post['query_condition']['project_project_template_name']?$project_project_template_name = $post['query_condition']['project_project_template_name']:$project_project_template_name=null;
+        $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']:$page_num=1;
+        $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']:$page_size=100;
 
-
-        if($post['page_num'] && $post['page_size']){
-        $page_num = $post['page_num'];
-        $page_size = $post['page_size'];
-        $admin_list = $this->examine->model->record_list($id['id'],$unicode,$page_num,$page_size);}else{
-            $page_num = 1;
-            $page_size = 5;
-            $admin_list = $this->examine->model->record_list($id['id'],$unicode);
-        }
+        $admin_list = $this->examine->model->record_list($unicode,$project_person_in_charge_name,$project_project_template_name,$page_num,$page_size);
         $data['data_body'] = $admin_list;
         $data['data_head'] = $this->examine->data_hade();
         $data['page_num'] = $page_num;
         $data['page_size'] = $page_size;
-        $data['count'] = $this->examine->model->record_count($id['id'])[0]['count(*)'];
+        $data['count'] = $this->examine->model->record_count()[0]['count(*)'];
         // $data['data_body'] = $this->examine->data_body($id['id']);
         $data?$cond = 0:$cond = 1;
         

@@ -72,4 +72,15 @@ class data_controller
         }
         return $tree;
     }
+    public function out_json(){
+        $this->json = app::load_model_class('json', 'course');
+        $data = $this->json->select(1);
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);die;
+    }
+    public function out_json_type(){
+        $this->json_type = app::load_model_class('json_type', 'course');
+        $data = $this->json_type->select(1);
+        $as = $this->tree($data);
+        echo json_encode($as,JSON_UNESCAPED_UNICODE);die;
+    }
 }

@@ -26,12 +26,16 @@ class examine_project extends model {
         $data = $this->get_one($where);
         return $data['state'];
     }
-    public function select_user_list($user_id,$unicode,$page_num='1',$page_size='100'){
+    public function select_user_list($user_id,$unicode,$project_person_in_charge_name,$project_project_template_name,$page_num='1',$page_size='100'){
         $offset = $page_size*($page_num-1);
         $where = " WHERE
         apply_user = $user_id
         ";
         $unicode?$where.=" and unicode like '%$unicode%'":true;
+        if($project_person_in_charge_name==true){
+            strpos($project_person_in_charge_name,',')?$where .= $this->project_person_in_charge_name($project_person_in_charge_name):$where.="  and  find_in_set ('$project_person_in_charge_name',project_person_in_charge_name) ";
+        }
+        $project_project_template_name?$where.="  and project_person_in_charge_name in ($project_project_template_name) ":true;
         $sql = "
                         SELECT
                         unicode,
@@ -101,12 +105,29 @@ class examine_project extends model {
             $data = $this->fetch_array();
             return $data;
     }
+    private function project_person_in_charge_name($data){
+        $project = explode(',',$data);
+        foreach($project as $k){
+            $str .= "find_in_set('".$k."',project_person_in_charge_name) or ";
+        }
+        $str = substr($str,0,strrpos($str,'or '));
+        $where = ' and ('.$str.')';
 
-    public function record_list($admin_id,$unicode,$page_num='1',$page_size='100'){
+        return $where;
+    }
+    public function record_list($unicode,$project_person_in_charge_name,$project_project_template_name,$page_num='1',$page_size='100'){
         $offset = $page_size*($page_num-1);
         $where = " WHERE
-        id IN ( SELECT n.examine_id FROM pmo_examine_notes n WHERE n.admin_id = $admin_id )";
-        $unicode? $where.=" and unicode like '%$unicode%' ":true;
+        id IN ( SELECT n.examine_id FROM pmo_examine_notes n WHERE 1 )";
+        $unicode?$where.=" and unicode like '%$unicode%'":true;
+        // $user_name?$where.=" and user_name like '%$user_name%'":true;
+        // $project_person_in_charge_name = '张三,李四';
+        // $where .= " and (find_in_set('张三',project_person_in_charge_name) or find_in_set('李四',project_person_in_charge_name))";
+        if($project_person_in_charge_name==true){
+        strpos($project_person_in_charge_name,',')?$where .= $this->project_person_in_charge_name($project_person_in_charge_name):$where.="  and  find_in_set ('$project_person_in_charge_name',project_person_in_charge_name) ";
+    }
+        $project_project_template_name?$where.="  and  find_in_set ('$project_project_template_name',project_project_template_name) ":true;
+
         $sql = "
                     SELECT
                     unicode,
@@ -139,10 +160,9 @@ class examine_project extends model {
                     project_profit,
                     gross_interest_rate
             FROM
-                pmo_examine_project p 
-           $where
-                order by id  limit $offset,$page_size;
-        ";
+                pmo_examine_project p $where
+           
+                order by id  limit $offset,$page_size";
         $this->query($sql);
         $data = $this->fetch_array();
 		return $data;
@@ -165,14 +185,14 @@ class examine_project extends model {
         $data = $this->fetch_array();
 		return $data;
     }
-    public function record_count($admin_id){
+    public function record_count(){
         $count_sql = "
         SELECT
       count(*)
     FROM
         pmo_examine_project p 
     WHERE
-        id IN ( SELECT n.examine_id FROM pmo_examine_notes n WHERE n.admin_id = $admin_id )
+        id IN ( SELECT n.examine_id FROM pmo_examine_notes n WHERE 1 )
        
         ";
         $this->query($count_sql);

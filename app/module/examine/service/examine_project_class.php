@@ -75,7 +75,7 @@ final class examine_project_class
      public function data_hade(){
          $data = [
             ["key"=>"unicode","value"=>"项目编号"],
-            ["key"=>"project_project_template_name","value"=>"部门"],
+            ["key"=>"project_project_template_name","value"=>"项目模板"],
             ["key"=>"examine_type","value"=>"预算/决算"],
             ["key"=>"project_person_in_charge_name","value"=>"项目负责人"],
             ["key"=>"month","value"=>"月份"],

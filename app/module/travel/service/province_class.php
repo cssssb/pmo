@@ -51,6 +51,7 @@ final class province_class
         if($data){
         foreach($data as $key){
             $fe[] = $key['long_fee_card_fee'];
+            array_push($fe,$key['mail_fee']);
         }
         return array_sum($fe);}
         return 0;

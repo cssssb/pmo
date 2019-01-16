@@ -147,5 +147,22 @@ return array(
          "examine_record_userlist"=>["examine","record","userlist",[],[],"1.0","用户提交数据列表"],
          "examine_record_usercsv"=>["examine","record","usercsv",[],[],"1.0","用户历史记录列表导出csv"],
 
+         //2019/1/15  
+         "payment/manage/add"=>["payment","manage","add",[],[],"0.1","创建支出"],
+         "payment/manage/my_list"=>["payment","manage","my_list",[],[],"0.1","查看我的支出"],
+         "payment/manage/by"=>["payment","manage","by",[],[],"0.1","查看指定支出id的支出"],
+         "payment/manage/my_dep_list"=>["payment","manage","my_dep_list",[],[],"0.1","查看部门支出"],
+         "payment/manage/list"=>["payment","manage","list",[],[],"0.1","查看所有支出"],
+         "payment/manage/edit"=>["payment","manage","edit",[],[],"0.1","修改支出数据"],
+         "payment/manage/edit_financial_number"=>["payment","manage","edit_financial_number",[],[],"0.1","创建支出unicode"],
+         "payment/project/add"=>["payment","project","add",[],[],"0.1","关联支出到项目"],
+         "payment/project/list"=>["payment","manage","list",[],[],"0.1","查看所有支出及其所属项目"],
+         "payment/state/pass"=>["payment","state","pass",[],[],"0.1","通过支出"],
+         "payment/state/submit"=>["payment","state","submit",[],[],"0.1","提交支出"],
+         "payment/state/cancel"=>["payment","state","cancel",[],[],"0.1","作废支出"],
+         "payment/state/del"=>["payment","state","del",[],[],"0.1","删除支出"],
+         "payment/state/recall"=>["payment","state","recall",[],[],"0.1","撤回支出"],
+
+
     ),
 );
