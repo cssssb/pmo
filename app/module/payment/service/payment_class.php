@@ -20,7 +20,17 @@ final class payment_class
     {
         $this->model = app::load_model_class('payment', 'payment');
         $this->common = app::load_service_class('common_class', 'examine');//
-
+        $this->token_code();
+    }
+    public function token_code(){
+        $this->data = app::load_sys_class('protocol');
+        $post = $this->data->get_post();
+        if(!$post['token']){
+            $this->data->out();//未发送token
+        }
+        if(!$this->common->return_user_id($post['token'])){
+            $this->data->out();//token有误重新登录
+        }
     }
     /**
      * ================
@@ -33,8 +43,10 @@ final class payment_class
      * ================
      */
      public function add($token,$data){
-        $data['create_time'] = date('Y-m-d H:i:s',time());
-        $data['payee'] = $this->common->return_user_id($token)['id'];
+        $data['create_time'] = time();
+        $user = $this->common->return_user_id($token);
+        $data['payee_id'] = $user['id'];
+        $data['payee_name'] = $user['username'];
         return $this->model->insert($data);
     }
    
@@ -49,7 +61,8 @@ final class payment_class
      * ================
      */
      public function my_list($token){
-        $where['payee'] = $this->common->return_user_id($token)['id'];
+        $payee_id = $this->common->return_user_id($token)['id'];
+        $where = "payee_id = $payee_id and state in (0,1,2)";
         return $this->model->select($where);
      }
 
@@ -64,7 +77,7 @@ final class payment_class
       * ================
       */
       public function by($token,$id){
-        $where['patee'] = $this->common->return_user_id($token)['id'];
+        $where['payee_id'] = $this->common->return_user_id($token)['id'];
         $where['id'] = $id;
         return $this->model->get_one($where);
       }
@@ -117,9 +130,12 @@ final class payment_class
         * @ErrorReason:   
         * ================
         */
-        public function edit($data){
-            $where['id'] = $data['id'];
-            return $this->model->update($data,$where);
+        public function edit($list){
+            $where['id'] = $list['id'];
+            $data = $this->model->get_one($where);
+            if($data['state']==="0"){
+            return $this->model->update($list,$where);}
+            return false;
         }
 
 
@@ -135,7 +151,10 @@ final class payment_class
          */
         public function edit_financial_number($id,$financial_number){
             $where['id'] = $id;
-            $data['financial_number'] = $financial_number;
-            return $this->model->update($data,$where);
+            $data = $this->model->get_one($where);
+            if($data['state']==="2"){
+                $data['financial_number'] = $financial_number;
+                return $this->model->update($data,$where);}
+            return false;
         }
 }

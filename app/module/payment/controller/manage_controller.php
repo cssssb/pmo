@@ -22,7 +22,7 @@ class manage_controller
     public function __construct()
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
-        // $this->code = app::load_cont_class('common','user');//加载token
+        $this->code = app::load_cont_class('common','user');//加载token
         //todo 加载相关模块
         $this->payment = app::load_service_class('payment_class', 'payment');//
     }
@@ -50,16 +50,17 @@ class manage_controller
          $post['token']?$token = $post['token']:true;
          $post['data']['item_content']?$data['item_content'] = $post['data']['item_content']:true;//支出内容
          $post['data']['amount']?$data['amount'] = $post['data']['amount']:true;//支出金额
+         $post['data']['describe']?$data['describe'] = $post['data']['describe']:true;//描述 注释
          $data = $this->payment->add($token,$data);
          $data?$cond = 0:$cond = 1;
          
          //开始输出
          switch ($cond) {
              case   1://异常1
-                 $this->data->out(2004);
+                 $this->data->out(2004,[]);
                  break;
              default:
-                 $this->data->out(2003);
+                 $this->data->out(2003,[]);
              }
      }
      
@@ -74,7 +75,7 @@ class manage_controller
       * @ErrorReason:   
       * ================
       */
-      public function mylist()
+      public function my_list()
       {
           /**
            * ================
@@ -85,16 +86,16 @@ class manage_controller
            * ================
            */
           $post = $this->data->get_post();//获得post
-          $data = $this->payment->mylist($post['token']);
+          $data = $this->payment->my_list($post['token']);
           $data?$cond = 0:$cond = 1;
           
           //开始输出
           switch ($cond) {
               case   1://异常1
-                  $this->data->out(2002);
+                  $this->data->out(2002,[]);
                   break;
               default:
-                  $this->data->out(2001);
+                  $this->data->out(2001,$data);
               }
       }
       /**
@@ -124,10 +125,10 @@ class manage_controller
           //开始输出
           switch ($cond) {
               case   1://异常1
-                  $this->data->out(2002);
+                  $this->data->out(2002,[]);
                   break;
               default:
-                  $this->data->out(2001);
+                  $this->data->out(2001,$data);
               }
       }
        
@@ -159,7 +160,7 @@ class manage_controller
             //开始输出
             switch ($cond) {
                 case   1://异常1
-                    $this->data->out(2002);
+                    $this->data->out(2002,[]);
                     break;
                 default:
                     $this->data->out(2001,$data);
@@ -194,10 +195,10 @@ class manage_controller
             //开始输出
             switch ($cond) {
                 case   1://异常1
-                    $this->data->out(2002);
+                    $this->data->out(2002,[]);
                     break;
                 default:
-                    $this->data->out(2001);
+                    $this->data->out(2001,$data);
                 }
         }
 
@@ -212,6 +213,14 @@ class manage_controller
          * @ErrorReason:   
          * ================
          */
+        //  public function test_utf8(){
+        //      $a = '中文';
+        //      $b = 'china';
+        //      $c = ',';
+        //      echo strlen($a);
+        //      echo '</br>'.strlen($b);
+        //      echo '</br>'.strlen($c);
+        //  }
          public function edit()
          {
              /**
@@ -226,16 +235,17 @@ class manage_controller
              $post['data']['item_content']?$data['item_content'] = $post['data']['item_content']:true;
              $post['data']['id']?$data['id'] = $post['data']['id']:true;
              $post['data']['amount']?$data['amount'] = $post['data']['amount']:true;
+             $post['data']['describe']?$data['describe'] = $post['data']['describe']:true;
              $data = $this->payment->edit($data);
              $data?$cond = 0:$cond = 1;
              
              //开始输出
              switch ($cond) {
                  case   1://异常1
-                     $this->data->out(2003);
+                     $this->data->out(2006,[]);
                      break;
                  default:
-                     $this->data->out(2003);
+                     $this->data->out(2005,$data);
                  }
          }
 
@@ -267,10 +277,10 @@ class manage_controller
              //开始输出
              switch ($cond) {
                  case   1://异常1
-                     $this->data->out(2004);
+                     $this->data->out(2004,[]);
                      break;
                  default:
-                     $this->data->out(2003);
+                     $this->data->out(2003,$data);
                  }
          }
 }

@@ -32,8 +32,13 @@ final class project_class
      * ================
      */
      public function add($payment_id,$proejct_id){
-        $data['payment_id'] = $payment_id;
+        $where['payment_id'] = $payment_id;
         $data['project_id'] = $proejct_id;
+        $a = $this->model->get_one($where);
+        if($a==true){
+            return $this->model->update($data,$where);
+        }
+        $data['payment_id'] = $payment_id;
         return $this->model->insert($data);
      }
 
@@ -47,8 +52,12 @@ final class project_class
       * @ErrorReason:   
       * ================
       */
-      public function list($token){
+      public function list($token,$page_num,$page_size){
           $id = $this->common->return_user_id($token)['id'];
-          return $this->model->payment_project_list($id);
+          $data['data_body'] = $this->model->payment_project_list($id,$page_num,$page_size);
+          $data['page_num'] = $page_num;
+          $data['page_size'] = $page_size;
+          $data['count'] = $this->model->payment_project_count($id);
+          return $data;
       }
 }

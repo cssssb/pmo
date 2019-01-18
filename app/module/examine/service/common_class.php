@@ -26,7 +26,7 @@ final class common_class
     // 通过token返回用户id
     public function return_user_id($token){
         $where['token'] = $token;
-       return $this->user->get_one($where,'id');
+       return $this->user->get_one($where);
     }
     //通过token获取职工角色详细信息
     public function return_staff_user_id($token){

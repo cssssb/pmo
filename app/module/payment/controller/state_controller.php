@@ -36,6 +36,9 @@ class state_controller
      * @ErrorReason:   
      * ================
      */
+     public function sql(){
+         app::load_sys_class('request')->request_page_json();
+     }
      public function pass()
      {
          /**
@@ -53,10 +56,33 @@ class state_controller
          //开始输出
          switch ($cond) {
              case   1://异常1
-                 $this->data->out(2013);
+                 $this->data->out(2013,[]);
                  break;
              default:
-                 $this->data->out(2012);
+                 $this->data->out(2012,[]);
+             }
+     }
+     public function pass_many()
+     {
+         /**
+          * ================
+          * @Author:    css
+          * @ver:       
+          * @DataTime:  2019-01-17
+          * @describe:  pass_many function
+          * ================
+          */
+         $post = $this->data->get_post();//获得post
+         $data = $this->state->pass_many($post['ids']);;
+         $data?$cond = 0:$cond = 1;
+         
+         //开始输出
+         switch ($cond) {
+             case   1://异常1
+                 $this->data->out(2013,[]);
+                 break;
+             default:
+                 $this->data->out(2012,[]);
              }
      }
      /**
@@ -86,10 +112,33 @@ class state_controller
           //开始输出
           switch ($cond) {
               case   1://异常1
-                  $this->data->out(2013);
+                  $this->data->out(2013,[]);
                   break;
               default:
-                  $this->data->out(2012);
+                  $this->data->out(2012,[]);
+              }
+      }
+      public function submit_many()
+      {
+          /**
+           * ================
+           * @Author:    css
+           * @ver:       1.0
+           * @DataTime:  2019-01-16
+           * @describe:  submit function
+           * ================
+           */
+          $post = $this->data->get_post();//获得post
+          $data = $this->state->submit_many($post['ids']);
+          $data?$cond = 0:$cond = 1;
+          
+          //开始输出
+          switch ($cond) {
+              case   1://异常1
+                  $this->data->out(2013,[]);
+                  break;
+              default:
+                  $this->data->out(2012,[]);
               }
       }
       /**
@@ -125,7 +174,29 @@ class state_controller
                    $this->data->out(2012);
                }
        }
-       
+       public function cancel_many()
+       {
+           /**
+            * ================
+            * @Author:    css
+            * @ver:       1.0
+            * @DataTime:  2019-01-16
+            * @describe:  cancel function
+            * ================
+            */
+           $post = $this->data->get_post();//获得post
+           $data = $this->state->cancel_many($post['ids']);
+           $data?$cond = 0:$cond = 1;
+           
+           //开始输出
+           switch ($cond) {
+               case   1://异常1
+                   $this->data->out(2013);
+                   break;
+               default:
+                   $this->data->out(2012);
+               }
+       }
        /**
         * ================
         * @Author:        css
@@ -159,7 +230,29 @@ class state_controller
                     $this->data->out(2012);
                 }
         }
-
+        public function del_many()
+        {
+            /**
+             * ================
+             * @Author:    css
+             * @ver:       1.0
+             * @DataTime:  2019-01-16
+             * @describe:  del function
+             * ================
+             */
+            $post = $this->data->get_post();//获得post
+            $data = $this->state->del_many($post['ids']);
+            $data?$cond = 0:$cond = 1;
+            
+            //开始输出
+            switch ($cond) {
+                case   1://异常1
+                    $this->data->out(2013);
+                    break;
+                default:
+                    $this->data->out(2012);
+                }
+        }
         /**
          * ================
          * @Author:        css
@@ -182,6 +275,29 @@ class state_controller
               */
              $post = $this->data->get_post();//获得post
              $data = $this->state->recall($post['id']);
+             $data?$cond = 0:$cond = 1;
+             
+             //开始输出
+             switch ($cond) {
+                 case   1://异常1
+                     $this->data->out(2013);
+                     break;
+                 default:
+                     $this->data->out(2012);
+                 }
+         }
+         public function recall_many()
+         {
+             /**
+              * ================
+              * @Author:    css
+              * @ver:       1.0
+              * @DataTime:  2019-01-16
+              * @describe:  recall function
+              * ================
+              */
+             $post = $this->data->get_post();//获得post
+             $data = $this->state->recall_many($post['ids']);
              $data?$cond = 0:$cond = 1;
              
              //开始输出

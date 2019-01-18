@@ -30,11 +30,27 @@ final class state_class
      * @ErrorReason:   
      * ================
      */
+    public function pass_many($id_list){
+        $new['state'] = 2;
+        $ids = implode(",",$id_list);
+        $where = "id in ($ids)";
+        $data = $this->model->select($where);
+        foreach($data as $k){
+            if($k['state']!=="1"){
+                return false;
+            }
+        }
+        // if($data['state']==="1"){
+            return $this->model->update($new,$where);
+        // }
+        // return false;
+    }
+
     public function pass($id){
         $new['state'] = 2;
         $where['id'] = $id;
         $data = $this->model->get_one($where);
-        if($data['state']===1){
+        if($data['state']==="1"){
             return $this->model->update($new,$where);
         }
         return false;
@@ -51,13 +67,25 @@ final class state_class
      */
      public function submit($id){
         $new['state'] = 1;
-        $new['submit_time'] = date('Y-m-d H:i:s',time());
+        $new['submit_time'] = time();
         $where['id'] = $id;
         $data = $this->model->get_one($where);
-        if($data['state']===0){
+        if($data['state']==="0"){
             return $this->model->update($new,$where);
         }
         return false;
+     }
+     public function submit_many($id_list){
+         $new['state'] = 1;
+         $ids = implode(',',$id_list);
+         $where = "id in ($ids)";
+         $data = $this->model->select($where);
+         foreach($data as $k){
+             if($k['state']!=0){
+                 return false;
+             }
+         }
+         return  $this->model->update($new,$where);
      }
      /**
       * ================
@@ -69,11 +97,26 @@ final class state_class
       * @ErrorReason:   
       * ================
       */
-      public function cancle(){
+      public function cancel_many($id_list){
+        $new['state'] = -1;
+        $ids = implode(",",$id_list);
+        $where = "id in ($ids)";
+        $data = $this->model->select($where);
+        foreach($data as $k){
+            if($k['state']!=="1"){
+                return false;
+            }
+        }
+        // if($data['state']==="1"){
+            return $this->model->update($new,$where);
+        // }
+        // return false;
+      }
+      public function cancel($id){
         $new['state'] = -1;
         $where['id'] = $id;
         $data = $this->model->get_one($where);
-        if($data['state']===1){
+        if($data['state']==="1"){
             return $this->model->update($new,$where);
         }
         return false;
@@ -88,14 +131,26 @@ final class state_class
        * @ErrorReason:   
        * ================
        */
-       public function del(){
+       public function del($id){
         $new['state'] = -2;
         $where['id'] = $id;
         $data = $this->model->get_one($where);
-        if($data['state']===0){
+        if($data['state']==="0"){
             return $this->model->update($new,$where);
         }
         return false;
+       }
+       public function del_many($id_list){
+        $new['state'] = -2;
+        $ids = implode(',',$id_list);
+        $where="in ($ids)";
+        $data = $this->model->slelct($where);
+        foreach($data as $k){
+            if($k['state']!=0){
+                return false;
+            }
+        }
+        return $this->model->update($new,$where);
        }
        /**
         * ================
@@ -107,13 +162,28 @@ final class state_class
         * @ErrorReason:   
         * ================
         */
-        public function recall(){
+        public function recall_many($id_list){
         $new['state'] = 0;
-        $where['id'] = $id;
-        $data = $this->model->get_one($where);
-        if($data['state']===1){
-            return $this->model->update($new,$where);
+        $ids = implode(",",$id_list);
+        $where = "id in ($ids)";
+        $data = $this->model->select($where);
+        foreach($data as $k){
+            if($k['state']!=="1"){
+                return false;
+            }
         }
-        return false;
+        // if($data['state']==="1"){
+            return $this->model->update($new,$where);
+        // }
+        // return false;
+        }
+        public function recall($id){
+            $new['state'] = 0;
+            $where['id'] = $id;
+            $data = $this->model->get_one($id);
+            if($data['state']==="1"){
+                return $this->model->update($new,$where);
+            }
+            return false;
         }
 }

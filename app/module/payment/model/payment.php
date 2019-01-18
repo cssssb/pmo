@@ -27,7 +27,7 @@ use \system\model;
             FROM
                 pmo_payment 
             WHERE
-                payee IN ($user_ids)
+                payee_id IN ($user_ids)
         ";
 		
 		$this->query($sql);

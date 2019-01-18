@@ -81,14 +81,47 @@ class project_controller
            * @describe:  list function
            * ================
            */
-          $post = $this->data->get_post();//获得post
-          $data = $this->project->list($post['token']);
-          $data?$cond = 0:$cond = 1;
+        //    $post['query_condition']['unicode']?$unicode = $post['query_condition']['unicode']:$unicode=null;
+        //    $post['query_condition']['project_person_in_charge_name']?$project_person_in_charge_name = $post['query_condition']['project_person_in_charge_name']:$project_person_in_charge_name=null;
+        //    $post['query_condition']['project_project_template_name']?$project_project_template_name = $post['query_condition']['project_project_template_name']:$project_project_template_name=null;
+        //    $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']:$page_num=1;
+        //    $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']:$page_size=100;
+   
+        //    $admin_list = $this->examine->model->record_list($unicode,$project_person_in_charge_name,$project_project_template_name,$page_num,$page_size);
+        //    $data['data_body'] = $admin_list;
+        //    $data['data_head'] = $this->examine->data_hade();
+        //    $data['page_num'] = $page_num;
+        //    $data['page_size'] = $page_size;
+        //    $data['count'] = $this->examine->model->record_count()[0]['count(*)'];
+        //    // $data['data_body'] = $this->examine->data_body($id['id']);
+        //    $data?$cond = 0:$cond = 1;
+
+
+            $post = $this->data->get_post();//获得post
+            $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']:$page_num=1;
+            $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']:$page_size=20;
+            $data = $this->project->list($post['token'],$page_num,$page_size);
+            $data['data_head'] = [
+                ["key"=> "id", "value"=> "系统编号"],
+                ["key"=> "financial_number", "value"=> "财务编号"],
+                ["key"=> "unicode", "value"=> "项目编号"],
+                ["key"=> "project_name", "value"=> "项目名称"],
+                ["key"=> "item_content", "value"=> "支出内容"],
+                ["key"=> "amount", "value"=> "支出金额"],
+                ["key"=> "payee_name", "value"=> "领款人"]
+                ];
+            // $data['page_num'] = 1;
+            // $data['page_size'] = 20;
+            // $data['count'] = 20;
+                // $data['data_body'] = $this->examine->data_body($id['id']);
+            $data?$cond = 0:$cond = 1;
+          
+
           
           //开始输出
           switch ($cond) {
               case   1://异常1
-                  $this->data->out(2002);
+                  $this->data->out(2002,[]);
                   break;
               default:
                   $this->data->out(2001,$data);
