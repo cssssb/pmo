@@ -71,7 +71,7 @@ class project_controller
       * @ErrorReason:   
       * ================
       */
-      public function list()
+      public function list2()
       {
           /**
            * ================
@@ -126,5 +126,89 @@ class project_controller
               default:
                   $this->data->out(2001,$data);
               }
+      }
+      public function list()
+      {
+          /**
+           * ================
+           * @Author:    css
+           * @ver:       1.0
+           * @DataTime:  2019-01-21
+           * @describe:  list function
+           * ================
+           */
+          $post = $this->data->get_post();//获得post
+          
+          //开始输出
+          switch ($post['data_type']) {
+            case   'page_json'://异常1
+                  $this->list_page_json($post);
+                  break;
+            case   'json'://异常1
+                  $this->list_json($post);
+                  break;
+            case   'csv'://异常1
+                  $this->list_csv($post);
+                  break;
+              default:
+                  $this->data->out();
+              }
+      }
+      private function list_page_json($post){
+            $data['data_body'] = $this->project->model->list_page_json($post);
+            $data['count'] = $this->project->model->list_page_json($post,1)[0]['count(*)'];
+            $data?$cond = 0:$cond = 1;
+            $data['page_num'] = $post['query_condition']['page_num']['query_data'];
+            $data['page_size'] = $post['query_condition']['page_size']['query_data'];
+            $data['data_head'] = [
+                ["key"=> "id", "value"=> "系统编号","size"=>"5"],
+                ["key"=> "financial_number", "value"=> "财务编号","size"=>"5"],
+                ["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
+                ["key"=> "project_name", "value"=> "项目名称","size"=>"5"],
+                ["key"=> "item_content", "value"=> "支出内容","size"=>"5"],
+                ["key"=> "amount", "value"=> "支出金额","size"=>"5"],
+                ["key"=> "payee_name", "value"=> "领款人","size"=>"5"]
+                ];
+          //开始输出
+          switch ($cond) {
+              case   1://异常1
+                  $this->data->out(2002,[]);
+                  break;
+              default:
+                  $this->data->out(2001,$data);
+              }
+      }
+      private function list_json($post){
+        $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']['query_data']:$page_num=1;
+            $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']['query_data']:$page_size=20;
+            $data['body'] = $this->project->list($post['token'],$page_num,$page_size);
+            $data['data_head'] = [
+                ["key"=> "id", "value"=> "系统编号"],
+                ["key"=> "financial_number", "value"=> "财务编号"],
+                ["key"=> "unicode", "value"=> "项目编号"],
+                ["key"=> "project_name", "value"=> "项目名称"],
+                ["key"=> "item_content", "value"=> "支出内容"],
+                ["key"=> "amount", "value"=> "支出金额"],
+                ["key"=> "payee_name", "value"=> "领款人"]
+                ];
+            // $data['page_num'] = 1;
+            // $data['page_size'] = 20;
+            // $data['count'] = 20;
+                // $data['data_body'] = $this->examine->data_body($id['id']);
+            $data?$cond = 0:$cond = 1;
+          
+
+          
+          //开始输出
+          switch ($cond) {
+              case   1://异常1
+                  $this->data->out(2002,[]);
+                  break;
+              default:
+                  $this->data->out(2001,$data);
+              }
+      }
+      private function list_csv($post){
+
       }
 }

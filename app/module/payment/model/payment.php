@@ -33,4 +33,34 @@ use \system\model;
 		$this->query($sql);
         return $this->fetch_array();
         }
+
+        public function sql(){
+           $this->request = app::load_sys_class('request');
+           $database = 'pmo_payment';
+           $data = [
+               "page_num"=>["condition"=>"equal", "query_data"=>1,"database"=>"pmo_payment"],
+               "page_size"=>["condition"=>"equal", "query_data"=>5,"database"=>"pmo_payment"],
+               "project_person_in_charge_name"=>["condition"=>"equal_many", "query_data"=>["柳芳","宋丹"],"database"=>"pmo_payment"],
+               "project_project_template_name"=>["condition"=>"equal", "query_data"=>"内训","database"=>"pmo_payment"],
+               "submit_time"=>["condition"=>"between", "query_data"=>[1546272000,1577807999],"database"=>"pmo_payment"],
+               "unicode"=>["condition"=>"like", "query_data"=>"1","database"=>"pmo_project_header"],
+           ];
+           $left_join = [
+               0=>['base'=>'pmo_project_header',
+                   'base_field'=>'id',
+                   'chain_base'=>'pmo_project_body',
+                   'chain_base_field'=>'parent_id'
+           ],
+               1=>['base'=>'pmo_project_header',
+                   'base_field'=>'id',
+                   'chain_base'=>'pmo_project_static',
+                   'chain_base_field'=>'parent_id'
+           ],
+           ];
+           
+           $page_json = $this->request->sql_make_page($database,$data,$left_join);
+        //    $sql = "select * from ";
+            $this->query($sql);
+            return $this->fetch_array();
+        }
 }

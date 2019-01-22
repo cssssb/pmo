@@ -23,6 +23,25 @@ final class examine_project_class
         $this->fee = app::load_model_class('examine_project_fee', 'examine');
         $this->user = app::load_model_class('user', 'user');
     }
+    public function new_admin_list($data,$count){
+        switch ($data['data_type']) {
+            case 'page_json':
+                return $this->model->new_admin_list($data,$count);
+                break;
+            case 'josn':
+            //还得传数据 所以不行还
+                $this->model->record_list();
+                break;
+            case 'csv':
+                break;
+            default:
+                # code...
+                break;
+        }
+    }
+
+
+
     public function state_examine($parent_id,$examine_type){
         $where['parent_id'] = $parent_id;
         $where['examine_type'] = $examine_type;
@@ -74,35 +93,35 @@ final class examine_project_class
     //数据模板
      public function data_hade(){
          $data = [
-            ["key"=>"unicode","value"=>"项目编号"],
-            ["key"=>"project_project_template_name","value"=>"项目模板"],
-            ["key"=>"examine_type","value"=>"预算/决算"],
-            ["key"=>"project_person_in_charge_name","value"=>"项目负责人"],
-            ["key"=>"month","value"=>"月份"],
-            ["key"=>"project_customer_name","value"=>"客户名称"],
-            ["key"=>"project_name","value"=>"课程名称"],
-            ["key"=>"project_training_numbers","value"=>"培训人数"],
-            ["key"=>"project_start_date","value"=>"开始日期"],
-            ["key"=>"project_end_date","value"=>"结束日期"],
-            ["key"=>"project_days","value"=>"授课天数"],
-            ["key"=>"project_training_ares_name","value"=>"开课地点"],
-            ["key"=>"travel_cost","value"=>"差旅费"],
-            ["key"=>"labor_cost","value"=>"讲师成本"],
-            ["key"=>"personal_consulting_fees","value"=>"个人咨询费"],
-            ["key"=>"institutional_consulting_fees","value"=>"企业咨询费"],
-            ["key"=>"conference_cost","value"=>"会议费"],
-            ["key"=>"material_cost","value"=>"教材费用"],
-            ["key"=>"equipment_cost","value"=>"设备费用"],
-            ["key"=>"examination_fee","value"=>"考试费"],
-            ["key"=>"tea_break","value"=>"茶歇"],
-            ["key"=>"stationery","value"=>"文具"],
-            ["key"=>"hospitality","value"=>"招待费"],
-            ["key"=>"postage","value"=>"邮寄快递"],
-            ["key"=>"project_tax_rate","value"=>"税"],
-            ["key"=>"costing","value"=>"成本合计"],
-            ["key"=>"expected_income","value"=>"收款"],
-            ["key"=>"project_profit","value"=>"利润"],
-            ["key"=>"gross_interest_rate","value"=>"毛利率"]
+            ["key"=>"unicode","value"=>"项目编号","size"=>"6"],
+            ["key"=>"project_project_template_name","value"=>"项目模板","size"=>"2"],
+            ["key"=>"examine_type","value"=>"预算/决算","size"=>"1"],
+            ["key"=>"project_person_in_charge_name","value"=>"项目负责人","size"=>"2"],
+            ["key"=>"month","value"=>"月份","size"=>"1"],
+            ["key"=>"project_customer_name","value"=>"客户名称","size"=>"2"],
+            ["key"=>"project_name","value"=>"课程名称","size"=>"20"],
+            ["key"=>"project_training_numbers","value"=>"培训人数","size"=>"1"],
+            ["key"=>"project_start_date","value"=>"开始日期","size"=>"2"],
+            ["key"=>"project_end_date","value"=>"结束日期","size"=>"2"],
+            ["key"=>"project_days","value"=>"授课天数","size"=>"1"],
+            ["key"=>"project_training_ares_name","value"=>"开课地点","size"=>"3"],
+            ["key"=>"travel_cost","value"=>"差旅费","size"=>"1"],
+            ["key"=>"labor_cost","value"=>"讲师成本","size"=>"1"],
+            ["key"=>"personal_consulting_fees","value"=>"个人咨询费","size"=>"1"],
+            ["key"=>"institutional_consulting_fees","value"=>"企业咨询费","size"=>"1"],
+            ["key"=>"conference_cost","value"=>"会议费","size"=>"1"],
+            ["key"=>"material_cost","value"=>"教材费用","size"=>"1"],
+            ["key"=>"equipment_cost","value"=>"设备费用","size"=>"1"],
+            ["key"=>"examination_fee","value"=>"考试费","size"=>"1"],
+            ["key"=>"tea_break","value"=>"茶歇","size"=>"1"],
+            ["key"=>"stationery","value"=>"文具","size"=>"1"],
+            ["key"=>"hospitality","value"=>"招待费","size"=>"1"],
+            ["key"=>"postage","value"=>"邮寄快递","size"=>"1"],
+            ["key"=>"project_tax_rate","value"=>"税","size"=>"1"],
+            ["key"=>"costing","value"=>"成本合计","size"=>"1"],
+            ["key"=>"expected_income","value"=>"收款","size"=>"1"],
+            ["key"=>"project_profit","value"=>"利润","size"=>"1"],
+            ["key"=>"gross_interest_rate","value"=>"毛利率","size"=>"1"]
          ];
          return $data;
      }

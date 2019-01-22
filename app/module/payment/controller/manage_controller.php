@@ -178,6 +178,54 @@ class manage_controller
          * @ErrorReason:   
          * ================
          */
+        //  public function list()
+        //  {
+        //      /**
+        //       * ================
+        //       * @Author:    css
+        //       * @ver:       1.0
+        //       * @DataTime:  2019-01-21
+        //       * @describe:  list function
+        //       * ================
+        //       */
+        //      $post = $this->data->get_post();//获得post
+        //      //开始输出
+        //      switch ($post['data_type']) {
+        //          case   'page_json'://异常1
+        //              $this->list_page_json($post);
+        //              break;
+        //         case 'json':
+        //             $this->list_json();
+        //             break;
+        //         case 'csv':
+        //             $this->list_csv();
+        //             break;
+        //          default:
+        //              $this->data->out();
+        //          }
+        //  }
+        //  public function list_page_json($post)
+        //  {
+        //      /**
+        //       * ================
+        //       * @Author:    css
+        //       * @ver:       
+        //       * @DataTime:  2019-01-21
+        //       * @describe:  list_page_json function
+        //       * ================
+        //       */
+        //     //  $data = ;
+        //      $data?$cond = 0:$cond = 1;
+             
+        //      //开始输出
+        //      switch ($cond) {
+        //          case   1://异常1
+        //              $this->data->out();
+        //              break;
+        //          default:
+        //              $this->data->out();
+        //          }
+        //  }
         public function list()
         {
             /**
@@ -188,7 +236,6 @@ class manage_controller
              * @describe:  list function
              * ================
              */
-            $post = $this->data->get_post();//获得post
             $data = $this->payment->list();
             $data?$cond = 0:$cond = 1;
             

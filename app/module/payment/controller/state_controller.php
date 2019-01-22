@@ -37,7 +37,7 @@ class state_controller
      * ================
      */
      public function sql(){
-         app::load_sys_class('request')->request_page_json();
+         return $this->state->model->sql();
      }
      public function pass()
      {

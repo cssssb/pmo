@@ -19,6 +19,13 @@ class examine_project extends model {
         $this->table_name = 'examine_project';
         parent::__construct();
     }
+    public function new_admin_list($data,$count){
+        $this->request = app::load_sys_class('request');
+        $database = 'pmo_examine_project';
+        $sql = $this->request->sql_make_page($database,$data,'*','',$count);
+        $this->query($sql);
+        return $this->fetch_array();
+    }
     public function examine_state($id,$type){
         //
         $where['parent_id'] = $id;

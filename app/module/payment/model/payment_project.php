@@ -19,6 +19,33 @@ use \system\model;
            $this->table_name = 'payment_project';
            parent::__construct();
            }
+    public function list_page_json($data,$count=''){
+        $this->request = app::load_sys_class('request');
+        $database = 'pmo_payment';
+        $left_join = [
+            0=>[
+                'base'=>'pmo_payment',
+                'base_field'=>'id',
+                'chain_base'=>'pmo_payment_project',
+                'chain_base_field'=>'payment_id',
+            ],
+            1=>[
+                'base'=>'pmo_payment_project',
+                'base_field'=>'project_id',
+                'chain_base'=>'pmo_project_header',
+                'chain_base_field'=>'id',
+            ],
+            2=>[
+                'base'=>'pmo_payment_project',
+                'base_field'=>'project_id',
+                'chain_base'=>'pmo_project_body',
+                'chain_base_field'=>'parent_id',
+            ],
+        ];
+        $sql = $this->request->sql_make_page($database,$data,'*',$left_join,$count);
+        $this->query($sql);
+        return $this->fetch_array();
+    }
     public function payment_project_list($payee_id,$page_num,$page_size){
         $offset = $page_size*($page_num-1);
         $sql = "

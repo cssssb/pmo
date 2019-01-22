@@ -76,12 +76,64 @@ class record_controller
         /**
          * ================
          * @Author:    css
+         * @ver:       
+         * @DataTime:  2019-01-21
+         * @describe:  adminlist function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        
+        switch ($post['data_type']){
+            case 'page_json'://异常1
+                $this->adminlist_page_json($post);
+                break;
+            case 'json'://异常1
+                $this->adminlist_json($post);
+                break;
+                //csv这个还不行
+            // case 'csv':
+            // $this->admincsv($post);
+            // break;
+            default:
+                $this->data->out(2001);
+            }
+    }
+    public function adminlist_page_json($post)
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-01-21
+         * @describe:  adminlist function
+         * ================
+         */
+        $data['data_body'] = $this->examine->new_admin_list($post);
+        $data['data_head'] = $this->examine->data_hade();
+        $data['page_num'] = $post['query_condition']['page_num']['query_data'];
+        $data['page_size'] = $post['query_condition']['page_size']['query_data'];
+        $data['count'] = $this->examine->new_admin_list($post,1)[0]['count(*)'];
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
+    public function adminlist_json($post)
+    {
+        /**
+         * ================
+         * @Author:    css
          * @ver:       1.0
          * @DataTime:  2018-12-27
          * @describe:  list function xx审批过的项目
          * ================
          */
-        $post = $this->data->get_post();//获得post
         //获取token 判断是哪个id
         // $id = $this->common->return_user_id($post['token']);
         // $id['id'] = 10;
