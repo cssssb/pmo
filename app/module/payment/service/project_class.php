@@ -25,6 +25,73 @@ final class project_class
      * ================
      * @Author:        css
      * @Parameter:     
+     * @DataTime:      2019-01-22
+     * @Return:        
+     * @Notes:         list_csv 根据查询条件导出csv数据
+     * @ErrorReason:   
+     * ================
+     */
+     
+     public function list_csv($post){
+        $list = $this->model->list_csv($post);
+        foreach($list as &$k){
+            $k['submit_time'] = date('Y-m-d H:i:s',$k['submit_time']);
+            $k['create_time'] = date('Y-m-d H:i:s',$k['create_time']);
+        }
+        $header_data = array(
+            '支出内容',
+            '支出金额',
+            '创建时间',
+            '领款人姓名',
+            '提交时间',
+            '财务编号',
+            '项目编号',
+            '项目名称'
+        );
+        $file_name = date('Y-m-d', time())."file.csv"; 
+        return  $this->csv_class($list,$file_name,$header_data);
+    }
+     
+    private function csv_class($data,$file_name,$header_data)
+    {    
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename='.$file_name);
+        header('Cache-Control: max-age=1000');
+        // header( "Content-Type:   application/force-download ");
+        $fp = fopen('php://output', 'a');
+        if (!empty($header_data)){
+            foreach ($header_data as $key => $value) {
+                 $header_data[$key] = iconv('utf-8', 'gbk//IGNORE', $value);
+            }
+            fputcsv($fp, $header_data);
+        }
+        $num = 0;
+        //每隔$limit行，刷新一下输出buffer，不要太大，也不要太小
+        $limit = 1000;
+        //逐行取出数据，不浪费内存
+        $count = count($data);
+             if ($count > 0) {
+                 for ($i = 0; $i < $count; $i++) {
+                   $num++;
+                     //刷新一下输出buffer，防止由于数据过多造成问题
+                     if ($limit == $num) {
+                         ob_flush();
+                         flush();
+                         $num = 0;
+                     }
+                     $row = $data[$i];
+                     foreach ($row as $key => $value) {
+                         $row[$key] = iconv('utf-8', 'gbk//IGNORE', $value);
+                     }
+                    fputcsv($fp, $row);
+                 }
+             }
+        fclose($fp);
+    }
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
      * @DataTime:      2019-01-16
      * @Return:        
      * @Notes:         add 关联支出到项目

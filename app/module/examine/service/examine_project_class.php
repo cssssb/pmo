@@ -23,22 +23,7 @@ final class examine_project_class
         $this->fee = app::load_model_class('examine_project_fee', 'examine');
         $this->user = app::load_model_class('user', 'user');
     }
-    public function new_admin_list($data,$count){
-        switch ($data['data_type']) {
-            case 'page_json':
-                return $this->model->new_admin_list($data,$count);
-                break;
-            case 'josn':
-            //还得传数据 所以不行还
-                $this->model->record_list();
-                break;
-            case 'csv':
-                break;
-            default:
-                # code...
-                break;
-        }
-    }
+    
 
 
 

@@ -22,7 +22,7 @@ class examine_project extends model {
     public function new_admin_list($data,$count){
         $this->request = app::load_sys_class('request');
         $database = 'pmo_examine_project';
-        $sql = $this->request->sql_make_page($database,$data,'*','',$count);
+        $sql = $this->request->sql_make_page($database,$data,'*','','',$count);
         $this->query($sql);
         return $this->fetch_array();
     }
@@ -213,7 +213,7 @@ class examine_project extends model {
                 FROM
                     pmo_examine_project p 
                 WHERE
-                    id IN ( SELECT n.examine_id FROM pmo_examine_notes n WHERE n.admin_id = $admin_id )
+                    id IN ( SELECT n.examine_id FROM pmo_examine_notes n WHERE 1 )
             ";
             $this->query($sql);
             $data = $this->fetch_array();

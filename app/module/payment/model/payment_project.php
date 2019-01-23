@@ -19,8 +19,9 @@ use \system\model;
            $this->table_name = 'payment_project';
            parent::__construct();
            }
-    public function list_page_json($data,$count=''){
+    public function list_csv($data){
         $this->request = app::load_sys_class('request');
+        $data['query_condition']['state']['database'] = 'pmo_payment';
         $database = 'pmo_payment';
         $left_join = [
             0=>[
@@ -42,7 +43,65 @@ use \system\model;
                 'chain_base_field'=>'parent_id',
             ],
         ];
-        $sql = $this->request->sql_make_page($database,$data,'*',$left_join,$count);
+        $requirement = "
+        pmo_payment.id,
+        pmo_payment.state,
+        pmo_payment.item_content,
+        pmo_payment.amount,
+        pmo_payment.create_time,
+        pmo_payment.payee_id,
+        pmo_payment.payee_name,
+        pmo_payment.state,
+        pmo_payment.submit_time,
+        pmo_payment.financial_number,
+        pmo_project_header.unicode,
+        pmo_project_body.project_name
+        ";
+        $where = ' and pmo_payment.state!=0 ';
+        $sql = $this->request->sql_make_page($database,$data,$requirement,$left_join,$where,$count);
+        $this->query($sql);
+        return $this->fetch_array();
+    }
+    public function list_page_json($data,$count=''){
+        $this->request = app::load_sys_class('request');
+        $data['query_condition']['state']['database'] = 'pmo_payment';
+        $database = 'pmo_payment';
+        $left_join = [
+            0=>[
+                'base'=>'pmo_payment',
+                'base_field'=>'id',
+                'chain_base'=>'pmo_payment_project',
+                'chain_base_field'=>'payment_id',
+            ],
+            1=>[
+                'base'=>'pmo_payment_project',
+                'base_field'=>'project_id',
+                'chain_base'=>'pmo_project_header',
+                'chain_base_field'=>'id',
+            ],
+            2=>[
+                'base'=>'pmo_payment_project',
+                'base_field'=>'project_id',
+                'chain_base'=>'pmo_project_body',
+                'chain_base_field'=>'parent_id',
+            ],
+        ];
+        $requirement = "
+        pmo_payment.id,
+        pmo_payment.state,
+        pmo_payment.item_content,
+        pmo_payment.amount,
+        pmo_payment.create_time,
+        pmo_payment.payee_id,
+        pmo_payment.payee_name,
+        pmo_payment.state,
+        pmo_payment.submit_time,
+        pmo_payment.financial_number,
+        pmo_project_header.unicode,
+        pmo_project_body.project_name
+        ";
+        $where = ' and pmo_payment.state!=0 ';
+        $sql = $this->request->sql_make_page($database,$data,$requirement,$left_join,$where,$count);
         $this->query($sql);
         return $this->fetch_array();
     }

@@ -20,8 +20,8 @@ final class csv_class
     {
         $this->model = app::load_model_class('examine_project', 'examine');
     }
-    public function admin_list_csv($id){
-        $body_list = $this->model->admin_body_list($id);
+    public function admin_list_csv($data){
+        $body_list = $this->model->new_admin_list($data);
         foreach($body_list as $k){
             $list[] = json_decode($k['data_field'],true);
             

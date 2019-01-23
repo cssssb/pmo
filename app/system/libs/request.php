@@ -22,29 +22,8 @@ defined('IN_LION') or exit('No permission resources.');
     public function __construct()
     {
     }
-    // final public function request($request){
-    //     //传过来的数组
-    //     switch ($request['data_type']) {
-    //         case 'csv':
-    //           return  $this->request_csv($request['query_condition']);
-    //             break;
-    //         case 'page_json':
-    //           return $this->request_page_json($request['query_condition']);
-    //             break;
-    //         default:
-    //           return $this->request_json($request['query_condition']);
-    //             break;
-    //     }
-        
-    // }
-    // final public function request_csv($data){
-    //     $page_sql = $this->page_sql($data['page_size'],$data['page_num']);
-    //     unset($data['page_size'],$data['page_num']);
-    //     $where_sql = $this->where_sql($data);
-    //     $sql = $where_sql.$page_Sql;
-    //     return $sql;
-    // }
-    final public function sql_make_page($database,$list,$nature,$left_join='',$count){
+    
+    final public function sql_make_page($database,$list,$nature,$left_join='',$where,$count){
         $data = $list['query_condition'];
         $page_sql = $this->page_sql($data['page_size'],$data['page_num']);
         // $page_sql = $this->page_sql();
@@ -52,21 +31,9 @@ defined('IN_LION') or exit('No permission resources.');
         $where_sql = $this->where_sql($data);
         if($left_join!==''){
         $left_join_sql = $this->left_join_sql_all($left_join);}
-        // foreach($data as $k=>$v){
-        //     if(isset($v['database'])){
-        //     $nature .=
-        //     $v['database'].".$k "; 
-        //    }
-        //    $nature .= "$k
-        //     ";
-        // }
-        // if(!isset($nature)){
-        //     $nature = '*';
-        // }
-        // $nature = '*';
         if($count!=true){
-        return "select $nature from $database $left_join_sql where ".$where_sql.$page_sql;}else{
-            return "select count(*) from $database $left_join_sql where ".$where_sql.$page_sql;
+        return "select $nature from $database $left_join_sql where ".$where_sql.$where.$page_sql;}else{
+            return "select count(*) from $database $left_join_sql where ".$where_sql.$where;
         }
     }
     final public function sql_make($database,$data,$left_join){
@@ -80,42 +47,40 @@ defined('IN_LION') or exit('No permission resources.');
         }
         return $return;
     }
-    // final public function request_json($data){
-    //     $where_sql = $this->where_sql($data);
-    // }
+  
     final public function page_sql($page_size_data,$page_num_data){
-        $page_size_data['query_data']? $page_size = $page_size_data['query_data']:$page_size=20;
-        $page_num_data['query_data']? $page_num = $page_num_data['query_data']:$page_num = 1;
+        $page_size_data['query_data']? $page_size = $page_size_data['query_data']:true;
+        $page_num_data['query_data']? $page_num = $page_num_data['query_data']:true;
         $offset = $page_size*($page_num-1);
-        return " limit $offset,$page_size";
+        if($page_size ==true && $page_num==true){
+        return " limit $offset,$page_size";}
+        return null;
 
     }
         final public function where_sql($data){
-        // $where_sql  = "";
         foreach($data as $k=>$v){
-            
             if($v['condition']=='equal'){
-                $v['batabase']?
+                $v['database']?
                 $where_sql .=  $v['database'].".$k = '".$v['query_data']."' and ":
                 $where_sql .=  "$k = '".$v['query_data']."' and ";
             }
             if($v['condition']=='more'){
-                $v['batabase']?
+                $v['database']?
                 $where_sql .= $v['database'].".$k >= ".$v['query_data']." and":
                 $where_sql .= "$k >= ".$v['query_data']." and";
             }
             if($v['condition']=='less'){
-                $v['batabase']?
+                $v['database']?
                 $where_sql .= $v['database'].".$k <= ".$v['query_data']." and ":
                 $where_sql .= "$k <= ".$v['query_data']." and ";
             }
             if($v['condition']=='like'){
-                $v['batabase']?
+                $v['database']?
                 $where_sql .= $v['database'].".$k like '%".$v['query_data']."%' and ":
                 $where_sql .= "$k like '%".$v['query_data']."%' and ";
             }
             if($v['condition']=='between'){
-                $v['batabase']?
+                $v['database']?
                 $where_sql .= $v['database'].".$k >= ".$v['query_data'][0]." and ".$v['database'].".$k <= ".$v['query_data'][1]." and ":
                 $where_sql .= "$k >= ".$v['query_data'][0]." and $k <= ".$v['query_data'][1]." and ";
             }
@@ -129,9 +94,7 @@ defined('IN_LION') or exit('No permission resources.');
         $sql = 1;
        }
         return $sql;
-        // echo $sql;
     }
-    
     final public function equal_many($data){
         if(is_numeric($data['query_data'][0])==true){
             $data['batabase']?
@@ -148,28 +111,9 @@ defined('IN_LION') or exit('No permission resources.');
         $sql = ' ('.$str.') and ';
         return $sql;
     }
-    
-    // final public function selelct_data(){
-        
-    //     $left = $this->left_join_sql();
-    //     $sql_all = "
-    //     SELECT
-    //     *
-    //     FORM
-    //     WHERE
-    //     ";
-    // }
-    
     final public function left_join_sql($base,$base_field,$chain_base,$chain_base_field){
         $str = "
         LEFT JOIN $chain_base on $base.$base_field = $chain_base.$chain_base_field";
         return $str;
     }
-    // final public function total_sql($data,$where,$database,$left){
-    //     $data = [
-    //         0=>[],
-    //         1=>[],
-    //         2=>[],
-    //     ];
-    // }
 }

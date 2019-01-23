@@ -22,7 +22,7 @@ class project_controller
     public function __construct()
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
-        $this->code = app::load_cont_class('common','user');//加载token
+        // $this->code = app::load_cont_class('common','user');//加载token
         $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->project = app::load_service_class('project_class', 'payment');//
@@ -142,13 +142,13 @@ class project_controller
           //开始输出
           switch ($post['data_type']) {
             case   'page_json'://异常1
-                  $this->list_page_json($post);
+                return $this->list_page_json($post);
                   break;
             case   'json'://异常1
-                  $this->list_json($post);
+                 return $this->list_json($post);
                   break;
-            case   'csv'://异常1
-                  $this->list_csv($post);
+            case   'page_csv'://异常1
+                 return $this->list_csv($post);
                   break;
               default:
                   $this->data->out();
@@ -160,15 +160,17 @@ class project_controller
             $data?$cond = 0:$cond = 1;
             $data['page_num'] = $post['query_condition']['page_num']['query_data'];
             $data['page_size'] = $post['query_condition']['page_size']['query_data'];
-            $data['data_head'] = [
+            $data_head = [
                 ["key"=> "id", "value"=> "系统编号","size"=>"5"],
                 ["key"=> "financial_number", "value"=> "财务编号","size"=>"5"],
                 ["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
                 ["key"=> "project_name", "value"=> "项目名称","size"=>"5"],
                 ["key"=> "item_content", "value"=> "支出内容","size"=>"5"],
                 ["key"=> "amount", "value"=> "支出金额","size"=>"5"],
-                ["key"=> "payee_name", "value"=> "领款人","size"=>"5"]
+                ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
+                ["key"=> "describe", "value"=> "备注","size"=>"3"]
                 ];
+            $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
           //开始输出
           switch ($cond) {
               case   1://异常1
@@ -208,7 +210,8 @@ class project_controller
                   $this->data->out(2001,$data);
               }
       }
-      private function list_csv($post){
-
+      public function list_csv($post){
+         return $data = $this->project->list_csv($post);
+        //    $this->data->out(2001,$data);
       }
 }
