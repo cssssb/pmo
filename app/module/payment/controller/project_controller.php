@@ -37,6 +37,52 @@ class project_controller
      * @ErrorReason:   
      * ================
      */
+     public function add_ids()
+     {
+         /**
+          * ================
+          * @Author:    css
+          * @ver:       
+          * @DataTime:  2019-01-24
+          * @describe:  add_ids function
+          * ================
+          */
+         $post = $this->data->get_post();//获得post
+         $data = $this->project->add_ids($post['ids'],$post['project_id']);
+         $data?$cond = 0:$cond = 1;
+         
+         //开始输出
+         switch ($cond) {
+             case   1://异常1
+                 $this->data->out(2004);
+                 break;
+             default:
+                 $this->data->out(2003);
+             }
+     }
+    public function add_project_ids()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       
+         * @DataTime:  2019-01-24
+         * @describe:   function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->project->add_project_ids($post['id'],$post['project_ids']);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2004);
+                break;
+            default:
+                $this->data->out(2003);
+            }
+    }     
      public function add()
      {
          /**
@@ -156,6 +202,14 @@ class project_controller
       }
       private function list_page_json($post){
             $data['data_body'] = $this->project->model->list_page_json($post);
+            // foreach($data['data_body'] as &$k){
+            //     if($k['state']==-1){
+            //         $k['state'] = '作废';
+            //     }
+            //     if($k['state']==2){
+
+            //     }
+            // }
             $data['count'] = $this->project->model->list_page_json($post,1)[0]['count(*)'];
             $data?$cond = 0:$cond = 1;
             $data['page_num'] = $post['query_condition']['page_num']['query_data'];
@@ -168,7 +222,8 @@ class project_controller
                 ["key"=> "item_content", "value"=> "支出内容","size"=>"5"],
                 ["key"=> "amount", "value"=> "支出金额","size"=>"5"],
                 ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
-                ["key"=> "describe", "value"=> "备注","size"=>"3"]
+                ["key"=> "describe", "value"=> "备注","size"=>"3"],
+                ["key"=> "state", "value"=> "支出状态","size"=>"5"]
                 ];
             $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
           //开始输出
@@ -211,7 +266,7 @@ class project_controller
               }
       }
       public function list_csv($post){
-         return $data = $this->project->list_csv($post);
+         $data = $this->project->list_csv($post);
         //    $this->data->out(2001,$data);
       }
 }

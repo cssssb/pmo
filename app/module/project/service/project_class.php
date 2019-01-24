@@ -17,7 +17,19 @@ final class project_class
 		// $this->province = \app::load_model_class('province_class', 'travel');
 
 	}
-	
+	/**
+	 * ================
+	 * @Author:        css
+	 * @Parameter:     
+	 * @DataTime:      2019-01-24
+	 * @Return:        $data
+	 * @Notes:         project data_type:page_json
+	 * @ErrorReason:   
+	 * ================
+	 */
+	 public function page_json_list($post){
+		 return $this->model->page_json_list($post);
+	 }
 	/**
 	 * ================
 	 * @Function:     add_project

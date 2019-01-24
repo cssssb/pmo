@@ -21,6 +21,12 @@ class project extends \system\model
 		$this->table_name = 'project_header';
 		parent::__construct();
 	}
+	public function page_json_list($data){
+		$this->request = app::load_sys_class('request');
+		$database = 'pmo_project_header';
+		$sql = $this->request->sql_make_page($database,$data,'*','',$where,$count);
+
+	}
 	public function listProject($user_id = '')
 	{
 		$sql = "

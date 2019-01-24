@@ -41,9 +41,7 @@ final class view_class
         }
         return $css;
     }
-    public function list(){
-        
-    }
+
     public function return_json($role_id){
         //查找表中所有role_id=$role_id 在表role_view中
         $where['role_id'] = $role_id;

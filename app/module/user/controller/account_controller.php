@@ -26,7 +26,6 @@ class account_controller
         $this->user = app::load_service_class('user_class', 'user');//
         $this->route = app::load_service_class('route_class', 'role');//
         $this->common = app::load_service_class('common_class', 'examine');//
-        $this->route = app::load_service_class('route_class', 'role');//
         $this->json = app::load_service_class('view_class', 'role');//
         $this->staff = app::load_service_class('staff_user_class','user');
         $this->menu = app::load_service_class('menu_class','role');

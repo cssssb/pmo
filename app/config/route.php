@@ -167,6 +167,9 @@ return array(
          "payment_state_cancel_many"=>["payment","state","cancel_many",[],[],"1.0","批量作废支出"],
          "payment_state_del_many"=>["payment","state","del_many",[],[],"1.0","批量删除支出"],
          "payment_state_recall_many"=>["payment","state","recall_many",[],[],"1.0","批量撤回支出"],
+         //1.24 两个一对多支出和项目的关联
+         "payment_project_projects"=>["payment","project","add_project_ids",[],[],"1.0","支出关联多个项目"],
+         "payment_project_ids"=>["payment","project","add_ids",[],[],"1.0","项目关联多个支出"],
 
 
     ),

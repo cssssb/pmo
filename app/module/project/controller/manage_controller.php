@@ -54,7 +54,42 @@ class manage_controller
 		 * ================
 		 */
 		$post = $this->data->get_post();//获得post
+		switch ($post['data_type']) {
+			case 'page_json':
+				# code...
+				$this->page_json_list($post);
+				break;
+			case 'csv_json':
+			//暂时没做
+			break;
+			default:
+				# code...
+				break;
+		}
 		$data = $this->static->list();
+		$data?$cond = 0:$cond = 1;
+		
+		//开始输出
+		switch ($cond) {
+			case   1://异常1
+				$this->data->out(2002,[]);
+				break;
+			default:
+				$this->data->out(2001,$data);
+			}
+	}
+	public function page_json_list($post)
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       1.0
+		 * @DataTime:  2019-01-24
+		 * @describe:  page_json_list function
+		 * ================
+		 */
+		$post = $this->data->get_post();//获得post
+		$data = $this->project->page_json_list($post);
 		$data?$cond = 0:$cond = 1;
 		
 		//开始输出

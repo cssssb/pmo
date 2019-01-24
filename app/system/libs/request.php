@@ -54,7 +54,7 @@ defined('IN_LION') or exit('No permission resources.');
         $offset = $page_size*($page_num-1);
         if($page_size ==true && $page_num==true){
         return " limit $offset,$page_size";}
-        return null;
+        return " limit 0,40";;
 
     }
         final public function where_sql($data){

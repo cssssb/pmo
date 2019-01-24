@@ -35,10 +35,13 @@ final class project_class
      public function list_csv($post){
         $list = $this->model->list_csv($post);
         foreach($list as &$k){
+            unset($k['id'],$k['payee_id']);
+            $k['state']== -2? $k['state']='删除':$k['state']='通过';
             $k['submit_time'] = date('Y-m-d H:i:s',$k['submit_time']);
             $k['create_time'] = date('Y-m-d H:i:s',$k['create_time']);
         }
         $header_data = array(
+            '状态',
             '支出内容',
             '支出金额',
             '创建时间',
@@ -102,13 +105,35 @@ final class project_class
         $where['payment_id'] = $payment_id;
         $data['project_id'] = $proejct_id;
         $a = $this->model->get_one($where);
+        
         if($a==true){
             return $this->model->update($data,$where);
         }
         $data['payment_id'] = $payment_id;
         return $this->model->insert($data);
      }
-
+     public function add_ids($payment_ids,$proejct_id){
+        $data['project_id']=$where['project_id'] = $proejct_id;
+        foreach($payment_ids as $k){
+           $data['payment_id'] = $where['payment_id'] = $k['ids'];
+            $have = $this->model->get_one($where);
+            if($have!=true){
+                $this->model->insert($data);
+            }
+        }
+        return true;
+     }
+     public function add_project_ids($payment_id,$proejct_ids){
+        $data['payment_id']=$where['payment_id'] = $payment_id;
+        foreach($proejct_ids as $k){
+           $data['proejct_id'] = $where['proejct_id'] = $k['proejct_ids'];
+            $have = $this->model->get_one($where);
+            if($have!=true){
+                $this->model->insert($data);
+            }
+        }
+        return true;
+     }
      /**
       * ================
       * @Author:        css
