@@ -89,8 +89,16 @@ class manage_controller
 		 * ================
 		 */
 		$post = $this->data->get_post();//获得post
-		$data = $this->project->page_json_list($post);
+		$data['data_body'] = $this->project->page_json_list($post);
 		$data?$cond = 0:$cond = 1;
+			$data_head = [
+				["key"=> "id", "value"=> "项目id","size"=>"5"],
+				["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
+			];
+			$data['page_num'] = $post['query_condition']['page_num']['query_data'];
+			$data['page_size'] = $post['query_condition']['page_size']['query_data'];
+			$data['count'] = 2;
+			$data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
 		
 		//开始输出
 		switch ($cond) {

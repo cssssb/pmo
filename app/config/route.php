@@ -156,7 +156,7 @@ return array(
          "payment_manage_edit"=>["payment","manage","edit",[],[],"1.0","修改支出数据"],
          "payment_manage_edit_financial_number"=>["payment","manage","edit_financial_number",[],[],"1.0","创建支出unicode"],
          "payment_project_add"=>["payment","project","add",[],[],"1.0","关联支出到项目"],
-         "payment_project_list"=>["payment","project","list",[],[],"1.0","查看所有支出及其所属项目"],
+         "payment_project_list"=>["payment","project","list",[],[],"1.1","查看所有支出及其所属项目"],
          "payment_state_pass"=>["payment","state","pass",[],[],"1.0","通过支出"],
          "payment_state_submit"=>["payment","state","submit",[],[],"1.0","提交支出"],
          "payment_state_cancel"=>["payment","state","cancel",[],[],"1.0","作废支出"],
@@ -168,9 +168,12 @@ return array(
          "payment_state_del_many"=>["payment","state","del_many",[],[],"1.0","批量删除支出"],
          "payment_state_recall_many"=>["payment","state","recall_many",[],[],"1.0","批量撤回支出"],
          //1.24 两个一对多支出和项目的关联
-         "payment_project_projects"=>["payment","project","add_project_ids",[],[],"1.0","支出关联多个项目"],
-         "payment_project_ids"=>["payment","project","add_ids",[],[],"1.0","项目关联多个支出"],
-
+         "payment_project_add_ids_by_project"=>["payment","project","add_ids_by_project",[],[],"1.0","支出关联多个项目"],
+         "payment_project_add_projects_by_id"=>["payment","project","add_projects_by_id",[],[],"1.0","项目关联多个支出"],
+         "payment_project_add_by_price"=>["payment","project","add_by_price",[],[],"1.0","创建支出并关联项目"],
+         "payment_project_edit"=>["payment","project","edit",[],[],"1.0","修改指定支出到项目的金额"],
+         "payment_project_cancel"=>["payment","project","cancel",[],[],"1.0","取消支出和项目关联"],
+         "payment_project_list_by_project_id"=>["payment","project","list_by_project_id",[],[],"0.1","查看项目关联的支出"],
 
     ),
 );

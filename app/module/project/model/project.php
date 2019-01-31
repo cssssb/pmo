@@ -22,10 +22,11 @@ class project extends \system\model
 		parent::__construct();
 	}
 	public function page_json_list($data){
-		$this->request = app::load_sys_class('request');
+		$this->request = \app::load_sys_class('request');
 		$database = 'pmo_project_header';
-		$sql = $this->request->sql_make_page($database,$data,'*','',$where,$count);
-
+		$sql = $this->request->sql_make_page($database,$data,'*');
+		$this->query($sql);
+        return $this->fetch_array();
 	}
 	public function listProject($user_id = '')
 	{

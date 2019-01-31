@@ -62,7 +62,7 @@ use \system\model;
         $this->query($sql);
         return $this->fetch_array();
     }
-    public function list_page_json($data,$count=''){
+    public function list_page_json1($data,$count=''){
         $this->request = app::load_sys_class('request');
         $data['query_condition']['state']['database'] = 'pmo_payment';
         $database = 'pmo_payment';
@@ -105,6 +105,102 @@ use \system\model;
         $this->query($sql);
         return $this->fetch_array();
     }
+
+    public function list_page_json2(){
+        $sql = "
+        SELECT
+            * 
+        FROM
+            pmo_payment_project 
+        
+            left JOIN pmo_payment ON pmo_payment.id = pmo_payment_project.payment_id where pmo_payment.state!=0  
+
+        UNION
+
+        SELECT
+            * 
+        FROM
+            pmo_payment_project 
+        
+            right JOIN pmo_payment ON pmo_payment.id = pmo_payment_project.payment_id where pmo_payment.state!=0  
+        ";
+        $this->query($sql);
+        return $this->fetch_array();
+    }
+    public function list_page_json($page_num,$page_size){
+        $offset = $page_size*($page_num-1);
+        $sql = "
+                            SELECT
+                        header.unicode,
+                        body.project_name,
+                        b.relation_id,
+                        b.payment_id,
+                        b.project_id,
+                        b.price,
+                        b.id,
+                        b.item_content,
+                        b.create_time,
+                        b.amount,
+                        b.payee_id,
+                        b.`state`,
+                        b.submit_time,
+                        b.financial_number,
+                        b.payee_name,
+                        b.`describe` 
+                    FROM
+                        (
+                            (
+                            SELECT
+                                pro.id AS relation_id,
+                                pro.payment_id,
+                                pro.project_id,
+                                pro.price,
+                                ment.id,
+                                ment.item_content,
+                                ment.create_time,
+                                ment.amount,
+                                ment.payee_id,
+                                ment.`state`,
+                                ment.submit_time,
+                                ment.financial_number,
+                                ment.payee_name,
+                                ment.`describe` 
+                            FROM
+                                pmo_payment_project AS pro
+                                LEFT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
+                            WHERE
+                                ment.state != 0 
+                            ) UNION
+                            (
+                            SELECT
+                                pro.id AS relation_id,
+                                pro.payment_id,
+                                pro.project_id,
+                                pro.price,
+                                ment.id,
+                                ment.item_content,
+                                ment.create_time,
+                                ment.amount,
+                                ment.payee_id,
+                                ment.`state`,
+                                ment.submit_time,
+                                ment.financial_number,
+                                ment.payee_name,
+                                ment.`describe` 
+                            FROM
+                                pmo_payment_project AS pro
+                                RIGHT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
+                            WHERE
+                                ment.state != 0 
+                            ) 
+                        ) AS b
+                        LEFT JOIN pmo_project_header AS header ON b.project_id = header.id
+                        LEFT JOIN pmo_project_body AS body ON b.project_id = body.parent_id 
+                        LIMIT $offset,$page_size
+        ";
+        $this->query($sql);
+        return $this->fetch_array();
+    }
     public function payment_project_list($payee_id,$page_num,$page_size){
         $offset = $page_size*($page_num-1);
         $sql = "
@@ -133,6 +229,62 @@ use \system\model;
 		
 		$this->query($sql);
         return $this->fetch_array();
+    }
+    public function list_page_json_count(){
+        $sql = "
+        SELECT
+                        count(*)
+                    FROM
+                        (
+                            (
+                            SELECT
+                                pro.id AS relation_id,
+                                pro.payment_id,
+                                pro.project_id,
+                                pro.price,
+                                ment.id,
+                                ment.item_content,
+                                ment.create_time,
+                                ment.amount,
+                                ment.payee_id,
+                                ment.`state`,
+                                ment.submit_time,
+                                ment.financial_number,
+                                ment.payee_name,
+                                ment.`describe` 
+                            FROM
+                                pmo_payment_project AS pro
+                                LEFT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
+                            WHERE
+                                ment.state != 0 
+                            ) UNION
+                            (
+                            SELECT
+                                pro.id AS relation_id,
+                                pro.payment_id,
+                                pro.project_id,
+                                pro.price,
+                                ment.id,
+                                ment.item_content,
+                                ment.create_time,
+                                ment.amount,
+                                ment.payee_id,
+                                ment.`state`,
+                                ment.submit_time,
+                                ment.financial_number,
+                                ment.payee_name,
+                                ment.`describe` 
+                            FROM
+                                pmo_payment_project AS pro
+                                RIGHT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
+                            WHERE
+                                ment.state != 0 
+                            ) 
+                        ) AS b
+        ";
+		
+		$this->query($sql);
+        return $this->fetch_array()[0]['count(*)'];
     }
     public function payment_project_count($payee_id){
         $sql = "

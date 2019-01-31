@@ -19,7 +19,13 @@ final class project_class
     public function __construct()
     {
         $this->model = app::load_model_class('payment_project', 'payment');
+        $this->payment = app::load_model_class('payment', 'payment');
         $this->common = app::load_service_class('common_class','examine');
+    }
+    public function edit($id,$price){
+        $where['id'] = $id;
+        $price? $data['price'] = $price:true;
+        return $this->model->update($data,$where);
     }
     /**
      * ================
@@ -115,10 +121,13 @@ final class project_class
      public function add_ids($payment_ids,$proejct_id){
         $data['project_id']=$where['project_id'] = $proejct_id;
         foreach($payment_ids as $k){
-           $data['payment_id'] = $where['payment_id'] = $k['ids'];
+           $data['payment_id'] = $where['payment_id'] = $k['id'];
+           $data['price'] = $k['price'];
             $have = $this->model->get_one($where);
             if($have!=true){
                 $this->model->insert($data);
+            }else{
+                $this->model->update($data,$where);
             }
         }
         return true;
@@ -126,10 +135,13 @@ final class project_class
      public function add_project_ids($payment_id,$proejct_ids){
         $data['payment_id']=$where['payment_id'] = $payment_id;
         foreach($proejct_ids as $k){
-           $data['proejct_id'] = $where['proejct_id'] = $k['proejct_ids'];
+           $data['project_id'] = $where['project_id'] = $k['project_id'];
+           $data['price'] = $k['price'];
             $have = $this->model->get_one($where);
             if($have!=true){
                 $this->model->insert($data);
+            }else{
+                $this->model->update($data,$where);
             }
         }
         return true;
@@ -152,4 +164,37 @@ final class project_class
           $data['count'] = $this->model->payment_project_count($id);
           return $data;
       }
+      /**
+       * ================
+       * @Author:        css
+       * @Parameter:     
+       * @DataTime:      2019-01-29
+       * @Return:        
+       * @Notes:         取消和项目关联
+       * @ErrorReason:   
+       * ================
+       */
+       public function cancel($id,$project){
+        $where['id'] = $id;
+        return $this->model->delete($where);
+       }
+       /**
+        * ================
+        * @Author:        css
+        * @Parameter:     
+        * @DataTime:      2019-01-29
+        * @Return:        
+        * @Notes:         查看项目关联的支出
+        * @ErrorReason:   
+        * ================
+        */
+        public function list_by_project_id($parent_id){
+            $where['project_id'] = $parent_id;
+            $data = $this->model->select($where);
+            foreach($data as $k){
+                $list[] = $k['payment_id'];
+            }
+            $list = implode(',',$list);
+            return $this->payment->select('id in ('.$list.')');
+        }
 }

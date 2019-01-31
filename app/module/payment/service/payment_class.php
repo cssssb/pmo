@@ -20,18 +20,18 @@ final class payment_class
     {
         $this->model = app::load_model_class('payment', 'payment');
         $this->common = app::load_service_class('common_class', 'examine');//
-        $this->token_code();
+        // $this->token_code();
     }
-    public function token_code(){
-        $this->data = app::load_sys_class('protocol');
-        $post = $this->data->get_post();
-        if(!$post['token']){
-            $this->data->out();//未发送token
-        }
-        if(!$this->common->return_user_id($post['token'])){
-            $this->data->out();//token有误重新登录
-        }
-    }
+    // public function token_code(){
+    //     $this->data = app::load_sys_class('protocol');
+    //     $post = $this->data->get_post();
+    //     if(!$post['token']){
+    //         $this->data->out();//未发送token
+    //     }
+    //     if(!$this->common->return_user_id($post['token'])){
+    //         $this->data->out();//token有误重新登录
+    //     }
+    // }
     /**
      * ================
      * @Author:        css
@@ -47,7 +47,7 @@ final class payment_class
         $user = $this->common->return_user_id($token);
         $data['payee_id'] = $user['id'];
         $data['payee_name'] = $user['username'];
-        return $this->model->insert($data);
+        return $this->model->insert($data,true);
     }
    
     /**

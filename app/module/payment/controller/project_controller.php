@@ -23,21 +23,56 @@ class project_controller
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         // $this->code = app::load_cont_class('common','user');//加载token
-        $this->operation = app::load_service_class('operation_class','operation');//加载操作
+        // $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->project = app::load_service_class('project_class', 'payment');//
+        $this->payment = app::load_service_class('payment_class', 'payment');//
     }
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-01-29
+     * @Return:        
+     * @Notes:         查看项目关联的支出
+     * @ErrorReason:   
+     * ================
+     */
+     public function list_by_project_id()
+     {
+         /**
+          * ================
+          * @Author:    css
+          * @ver:       1.0
+          * @DataTime:  2019-01-29
+          * @describe:  list_by_project_id function
+          * ================
+          */
+         $post = $this->data->get_post();//获得post
+         $post['id'] = '164';
+         $data = $this->project->list_by_project_id($post['id']);
+         $data?$cond = 0:$cond = 1;
+         
+         //开始输出
+         switch ($cond) {
+             case   1://异常1
+                 $this->data->out(2002,[]);
+                 break;
+             default:
+                 $this->data->out(2001,$data);
+             }
+     }
     /**
      * ================
      * @Author:        css
      * @Parameter:     
      * @DataTime:      2019-01-16
      * @Return:        
-     * @Notes:         关联支出到项目表
+     * @Notes:         关联多个支出到一个项目表
      * @ErrorReason:   
      * ================
      */
-     public function add_ids()
+     public function add_ids_by_project()
      {
          /**
           * ================
@@ -48,7 +83,7 @@ class project_controller
           * ================
           */
          $post = $this->data->get_post();//获得post
-         $data = $this->project->add_ids($post['ids'],$post['project_id']);
+         $data = $this->project->add_ids($post['payment_object_list'],$post['project_id']);
          $data?$cond = 0:$cond = 1;
          
          //开始输出
@@ -60,7 +95,8 @@ class project_controller
                  $this->data->out(2003);
              }
      }
-    public function add_project_ids()
+     //关联一个支出到多个项目
+    public function add_projects_by_id()
     {
         /**
          * ================
@@ -71,7 +107,7 @@ class project_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $data = $this->project->add_project_ids($post['id'],$post['project_ids']);
+        $data = $this->project->add_project_ids($post['id'],$post['project_object_list']);
         $data?$cond = 0:$cond = 1;
         
         //开始输出
@@ -106,7 +142,110 @@ class project_controller
                  $this->data->out(2003);
              }
      }
-
+     /**
+      * ================
+      * @Author:        css
+      * @Parameter:     
+      * @DataTime:      2019-01-25
+      * @Return:        
+      * @Notes:         创建支出并关联项目
+      * @ErrorReason:   
+      * ================
+      */
+      public function add_by_price()
+      {
+          /**
+           * ================
+           * @Author:    css
+           * @ver:       
+           * @DataTime:  2019-01-25
+           * @describe:  add_by_price function
+           * ================
+           */
+          $post = $this->data->get_post();//获得post
+          $post['token']?$token = $post['token']:true;
+          $post['data']['item_content']?$data['item_content'] = $post['data']['item_content']:true;//支出内容
+          $post['data']['amount']?$data['amount'] = $post['data']['amount']:true;//支出金额
+          $post['data']['describe']?$data['describe'] = $post['data']['describe']:true;//描述 注释
+          $payment_id = $this->payment->add($token,$data);
+          $data = $this->project->add($payment_id,$post['project_id']);
+          $data?$cond = 0:$cond = 1;
+          
+          //开始输出
+          switch ($cond) {
+              case   1://异常1
+                  $this->data->out(2004,[]);
+                  break;
+              default:
+                  $this->data->out(2003,$data);
+              }
+      }
+      /**
+       * ================
+       * @Author:        css
+       * @Parameter:     
+       * @DataTime:      2019-01-25
+       * @Return:        
+       * @Notes:         修改指定支出到项目的金额
+       * @ErrorReason:   
+       * ================
+       */
+       public function edit()
+       {
+           /**
+            * ================
+            * @Author:    css
+            * @ver:       1.0
+            * @DataTime:  2019-01-25
+            * @describe:  edit function
+            * ================
+            */
+           $post = $this->data->get_post();//获得post
+           $data = $this->project->edit($post['id'],$post['price']);
+           $data?$cond = 0:$cond = 1;
+           
+           //开始输出
+           switch ($cond) {
+               case   1://异常1
+                   $this->data->out(2006,[]);
+                   break;
+               default:
+                   $this->data->out(2005,[]);
+               }
+       }
+       /**
+        * ================
+        * @Author:        css
+        * @Parameter:     
+        * @DataTime:      2019-01-25
+        * @Return:        
+        * @Notes:         取消支出和项目关联
+        * @ErrorReason:   
+        * ================
+        */
+        public function cancel()
+        {
+            /**
+             * ================
+             * @Author:    css
+             * @ver:       1.0
+             * @DataTime:  2019-01-25
+             * @describe:  cancel function
+             * ================
+             */
+            $post = $this->data->get_post();//获得post
+            $data = $this->project->cancel($post['id'],$post['project_id']);
+            $data?$cond = 0:$cond = 1;
+            
+            //开始输出
+            switch ($cond) {
+                case   1://异常1
+                    $this->data->out(2013,[]);
+                    break;
+                default:
+                    $this->data->out(2012,[]);
+                }
+        }
      /**
       * ================
       * @Author:        css
@@ -201,7 +340,7 @@ class project_controller
               }
       }
       private function list_page_json($post){
-            $data['data_body'] = $this->project->model->list_page_json($post);
+            $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data']);
             // foreach($data['data_body'] as &$k){
             //     if($k['state']==-1){
             //         $k['state'] = '作废';
@@ -210,7 +349,7 @@ class project_controller
 
             //     }
             // }
-            $data['count'] = $this->project->model->list_page_json($post,1)[0]['count(*)'];
+            $data['count'] = $this->project->model->list_page_json_count();
             $data?$cond = 0:$cond = 1;
             $data['page_num'] = $post['query_condition']['page_num']['query_data'];
             $data['page_size'] = $post['query_condition']['page_size']['query_data'];
