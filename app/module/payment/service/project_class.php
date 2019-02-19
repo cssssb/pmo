@@ -120,6 +120,7 @@ final class project_class
      }
      public function add_ids($payment_ids,$proejct_id){
         $data['project_id']=$where['project_id'] = $proejct_id;
+        // $condition[''] = $
         foreach($payment_ids as $k){
            $data['payment_id'] = $where['payment_id'] = $k['id'];
            $data['price'] = $k['price'];
@@ -134,6 +135,7 @@ final class project_class
      }
      public function add_project_ids($payment_id,$proejct_ids){
         $data['payment_id']=$where['payment_id'] = $payment_id;
+        
         foreach($proejct_ids as $k){
            $data['project_id'] = $where['project_id'] = $k['project_id'];
            $data['price'] = $k['price'];
@@ -191,10 +193,20 @@ final class project_class
         public function list_by_project_id($parent_id){
             $where['project_id'] = $parent_id;
             $data = $this->model->select($where);
+            if($data[0]!=null){
             foreach($data as $k){
                 $list[] = $k['payment_id'];
             }
             $list = implode(',',$list);
-            return $this->payment->select('id in ('.$list.')');
+            return $this->payment->select('id in ('.$list.')');}
+            return null;
+        }
+
+        public function get_project_unicode($parent_id){
+            // app::load_model_class('payment', 'payment')->
+        }
+        
+        public function get_project_project_name($parent_id){
+
         }
 }

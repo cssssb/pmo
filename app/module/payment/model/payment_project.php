@@ -167,9 +167,9 @@ use \system\model;
                                 ment.`describe` 
                             FROM
                                 pmo_payment_project AS pro
-                                LEFT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
+                                RIGHT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
                             WHERE
-                                ment.state != 0 
+                                1
                             ) UNION
                             (
                             SELECT
@@ -189,9 +189,9 @@ use \system\model;
                                 ment.`describe` 
                             FROM
                                 pmo_payment_project AS pro
-                                RIGHT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
+                                LEFT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
                             WHERE
-                                ment.state != 0 
+                                1
                             ) 
                         ) AS b
                         LEFT JOIN pmo_project_header AS header ON b.project_id = header.id
@@ -199,7 +199,8 @@ use \system\model;
                         LIMIT $offset,$page_size
         ";
         $this->query($sql);
-        return $this->fetch_array();
+        $data = $this->fetch_array();
+        return $data;
     }
     public function payment_project_list($payee_id,$page_num,$page_size){
         $offset = $page_size*($page_num-1);

@@ -173,7 +173,11 @@ return array(
          "payment_project_add_by_price"=>["payment","project","add_by_price",[],[],"1.0","创建支出并关联项目"],
          "payment_project_edit"=>["payment","project","edit",[],[],"1.0","修改指定支出到项目的金额"],
          "payment_project_cancel"=>["payment","project","cancel",[],[],"1.0","取消支出和项目关联"],
-         "payment_project_list_by_project_id"=>["payment","project","list_by_project_id",[],[],"0.1","查看项目关联的支出"],
+         "payment_project_list_by_project_id"=>["payment","project","list_by_project_id",[],[],"1.0","查看项目关联的支出"],
+        //左侧视图数据的导入和导出 2.18
 
+        //  "json_menu_get_data"=>["json","menu","json_menu_get_data",[],[],"1.0","左侧视图数据的导入"],
+        //  "json_menu_write_data"=>["json","menu","json_menu_write_data",[],[],"1.0","左侧视图数据的导出"],
+        
     ),
 );

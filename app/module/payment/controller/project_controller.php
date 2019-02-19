@@ -27,6 +27,7 @@ class project_controller
         //todo 加载相关模块
         $this->project = app::load_service_class('project_class', 'payment');//
         $this->payment = app::load_service_class('payment_class', 'payment');//
+        $this->state = app::load_service_class('state_class', 'payment');//
     }
     /**
      * ================
@@ -49,9 +50,10 @@ class project_controller
           * ================
           */
          $post = $this->data->get_post();//获得post
-         $post['id'] = '164';
-         $data = $this->project->list_by_project_id($post['id']);
+         $data['payment'] = $this->project->list_by_project_id($post['id']);
          $data?$cond = 0:$cond = 1;
+         $data['unicode'] = $this->project->get_project_unicode($post['id']);
+         $data['project_name'] = $this->project->get_project_project_name($post['id']);
          
          //开始输出
          switch ($cond) {
@@ -83,6 +85,8 @@ class project_controller
           * ================
           */
          $post = $this->data->get_post();//获得post
+         //验证状态
+         $this->state->payment_is_pass($post['payment_object_list']);
          $data = $this->project->add_ids($post['payment_object_list'],$post['project_id']);
          $data?$cond = 0:$cond = 1;
          
@@ -107,6 +111,7 @@ class project_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
+        $this->state->payment_is_pass($post['id']);
         $data = $this->project->add_project_ids($post['id'],$post['project_object_list']);
         $data?$cond = 0:$cond = 1;
         
@@ -341,14 +346,26 @@ class project_controller
       }
       private function list_page_json($post){
             $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data']);
-            // foreach($data['data_body'] as &$k){
-            //     if($k['state']==-1){
-            //         $k['state'] = '作废';
-            //     }
-            //     if($k['state']==2){
-
-            //     }
-            // }
+            foreach($data['data_body'] as &$k){
+            switch ($k['state']) {
+                case '-2':
+                    $k['state'] = '删除';
+                    break;
+                case '-1':
+                    $k['state'] = '作废';
+                    break;
+                case '0':
+                    $k['state'] = '作废';
+                    break;
+                case '1':
+                    $k['state'] = '提交审批中';
+                    break;
+                case '2':
+                    $k['state'] = '通过';
+                    break;
+                    
+                }
+            }
             $data['count'] = $this->project->model->list_page_json_count();
             $data?$cond = 0:$cond = 1;
             $data['page_num'] = $post['query_condition']['page_num']['query_data'];

@@ -18,6 +18,7 @@ final class state_class
 {
     public function __construct()
     {
+        $this->data = app::load_sys_class('protocol');//加载json数据模板
         $this->model = app::load_model_class('payment', 'payment');
     }
     /**
@@ -37,7 +38,7 @@ final class state_class
         $data = $this->model->select($where);
         foreach($data as $k){
             if($k['state']!=="1"){
-                return false;
+               $this->data->out(3032,[]);
             }
         }
         // if($data['state']==="1"){
@@ -53,7 +54,7 @@ final class state_class
         if($data['state']==="1"){
             return $this->model->update($new,$where);
         }
-        return false;
+        $this->data->out(3032,[]);
     }
     /**
      * ================
@@ -73,7 +74,7 @@ final class state_class
         if($data['state']==="0"){
             return $this->model->update($new,$where);
         }
-        return false;
+        $this->data->out(3032,[]);
      }
      public function submit_many($id_list){
          $new['state'] = 1;
@@ -82,7 +83,7 @@ final class state_class
          $data = $this->model->select($where);
          foreach($data as $k){
              if($k['state']!=0){
-                 return false;
+                $this->data->out(3032,[]);
              }
          }
          return  $this->model->update($new,$where);
@@ -104,7 +105,7 @@ final class state_class
         $data = $this->model->select($where);
         foreach($data as $k){
             if($k['state']!=="1"){
-                return false;
+                $this->data->out(3032,[]);
             }
         }
         // if($data['state']==="1"){
@@ -119,7 +120,7 @@ final class state_class
         if($data['state']==="1"){
             return $this->model->update($new,$where);
         }
-        return false;
+        $this->data->out(3032,[]);
       }
       /**
        * ================
@@ -138,7 +139,7 @@ final class state_class
         if($data['state']==="0"){
             return $this->model->update($new,$where);
         }
-        return false;
+        $this->data->out(3032,[]);
        }
        public function del_many($id_list){
         $new['state'] = -2;
@@ -147,7 +148,7 @@ final class state_class
         $data = $this->model->slelct($where);
         foreach($data as $k){
             if($k['state']!=0){
-                return false;
+                $this->data->out(3032,[]);
             }
         }
         return $this->model->update($new,$where);
@@ -169,7 +170,7 @@ final class state_class
         $data = $this->model->select($where);
         foreach($data as $k){
             if($k['state']!=="1"){
-                return false;
+                $this->data->out(3032,[]);
             }
         }
         // if($data['state']==="1"){
@@ -184,6 +185,25 @@ final class state_class
             if($data['state']==="1"){
                 return $this->model->update($new,$where);
             }
-            return false;
+            $this->data->out(3032,[]);
+        }
+
+        //判断支出的状态 如果不为通过 那么返回错误信息
+        public function payment_is_pass($id){
+            if(is_array($id)){
+                foreach($id as $k){
+                    $where['id'] = $k['id'];
+                    $is_pass = $this->model->get_one($where)['state'];
+                    if($is_pass!=2){
+                        $this->data->out(3032,[]);
+                    }
+                }
+            }
+            $where['id'] = $id;
+            $is_pass = $this->model->get_one($where)['state'];
+            if($is_pass!=2){
+                $this->data->out(3032,[]);
+            }
+            return true;
         }
 }
