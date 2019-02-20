@@ -157,6 +157,7 @@ return array(
          "payment_manage_edit_financial_number"=>["payment","manage","edit_financial_number",[],[],"1.0","创建支出unicode"],
          "payment_project_add"=>["payment","project","add",[],[],"1.0","关联支出到项目"],
          "payment_project_list"=>["payment","project","list",[],[],"1.1","查看所有支出及其所属项目"],
+         "payment_project_list_pass"=>["payment","project","list_pass",[],[],"1.0","查看已通过的支出"],
          "payment_state_pass"=>["payment","state","pass",[],[],"1.0","通过支出"],
          "payment_state_submit"=>["payment","state","submit",[],[],"1.0","提交支出"],
          "payment_state_cancel"=>["payment","state","cancel",[],[],"1.0","作废支出"],

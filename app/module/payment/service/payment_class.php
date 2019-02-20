@@ -157,4 +157,21 @@ final class payment_class
                 return $this->model->update($data,$where);}
             return false;
         }
+        /**
+         * ================
+         * @Author:        css
+         * @Parameter:     
+         * @DataTime:      2019-02-20
+         * @Return:        
+         * @Notes:         查看通过的支出
+         * @ErrorReason:   
+         * ================
+         */
+         public function list_pass($limit){
+             $where='state = 2';
+             return $this->model->select_list_pass($where,$limit);
+         }
+         public function list_pass_count(){
+             return $this->model->list_pass_count();
+         }
 }

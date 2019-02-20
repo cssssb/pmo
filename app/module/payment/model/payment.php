@@ -19,7 +19,32 @@ use \system\model;
            $this->table_name = 'payment'; 
            parent::__construct();
            }
-    
+        public function select_list_pass($where,$limit){
+            $sql  = "
+                select
+                *
+                from
+                pmo_payment
+                where
+                $where
+                limit
+                $limit
+            ";
+            $this->query($sql);
+            return $this->fetch_array();
+        }
+        public function list_pass_count(){
+            $sql= "
+            select
+            count(*)
+            from
+            pmo_payment
+            where
+            state=2
+            ";
+            $this->query($sql);
+        return $this->fetch_array()[0]['count(*)'];
+        }
         public function my_dep_list($user_ids){
         $sql = "
             SELECT
@@ -58,7 +83,7 @@ use \system\model;
            ],
            ];
            
-           $page_json = $this->request->sql_make_page($database,$data,$left_join);
+           $page_json = $this->request->sql_make_page($database,$data,$left_join,'','','');
         //    $sql = "select * from ";
             $this->query($sql);
             return $this->fetch_array();

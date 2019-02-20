@@ -62,7 +62,7 @@ use \system\model;
         $this->query($sql);
         return $this->fetch_array();
     }
-    public function list_page_json1($data,$count=''){
+    public function list_page_json1($data,$count){
         $this->request = app::load_sys_class('request');
         $data['query_condition']['state']['database'] = 'pmo_payment';
         $database = 'pmo_payment';
@@ -127,8 +127,9 @@ use \system\model;
         $this->query($sql);
         return $this->fetch_array();
     }
-    public function list_page_json($page_num,$page_size){
+    public function list_page_json($page_num,$page_size,$where=null){
         $offset = $page_size*($page_num-1);
+        $where==null ? $where=1:true;
         $sql = "
                             SELECT
                         header.unicode,
@@ -169,7 +170,7 @@ use \system\model;
                                 pmo_payment_project AS pro
                                 RIGHT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
                             WHERE
-                                1
+                                $where
                             ) UNION
                             (
                             SELECT
@@ -191,7 +192,7 @@ use \system\model;
                                 pmo_payment_project AS pro
                                 LEFT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
                             WHERE
-                                1
+                            $where
                             ) 
                         ) AS b
                         LEFT JOIN pmo_project_header AS header ON b.project_id = header.id
@@ -231,7 +232,8 @@ use \system\model;
 		$this->query($sql);
         return $this->fetch_array();
     }
-    public function list_page_json_count(){
+    public function list_page_json_count($where=null){
+        $where==null ? $where=1:true;
         $sql = "
         SELECT
                         count(*)
@@ -257,7 +259,7 @@ use \system\model;
                                 pmo_payment_project AS pro
                                 LEFT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
                             WHERE
-                                ment.state != 0 
+                            $where
                             ) UNION
                             (
                             SELECT
@@ -279,7 +281,7 @@ use \system\model;
                                 pmo_payment_project AS pro
                                 RIGHT JOIN pmo_payment AS ment ON ment.id = pro.payment_id 
                             WHERE
-                                ment.state != 0 
+                                $where
                             ) 
                         ) AS b
         ";

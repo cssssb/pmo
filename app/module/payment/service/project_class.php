@@ -18,6 +18,7 @@ final class project_class
 {
     public function __construct()
     {
+        $this->data = app::load_sys_class('protocol');//加载json数据模板
         $this->model = app::load_model_class('payment_project', 'payment');
         $this->payment = app::load_model_class('payment', 'payment');
         $this->common = app::load_service_class('common_class','examine');
@@ -107,9 +108,9 @@ final class project_class
      * @ErrorReason:   
      * ================
      */
-     public function add($payment_id,$proejct_id){
+     public function add($payment_id,$project_id){
         $where['payment_id'] = $payment_id;
-        $data['project_id'] = $proejct_id;
+        $data['project_id'] = $project_id;
         $a = $this->model->get_one($where);
         
         if($a==true){
@@ -118,25 +119,48 @@ final class project_class
         $data['payment_id'] = $payment_id;
         return $this->model->insert($data);
      }
-     public function add_ids($payment_ids,$proejct_id){
-        $data['project_id']=$where['project_id'] = $proejct_id;
-        // $condition[''] = $
+     //关联多个支出到一个项目表
+     public function add_ids($payment_ids,$project){
+        $data['project_id']=$where['project_id'] = $project;
+        //查看支出所剩的余额是否足够
+        $this->balance_add_ids_is_reach($payment_ids,$project);
         foreach($payment_ids as $k){
            $data['payment_id'] = $where['payment_id'] = $k['id'];
            $data['price'] = $k['price'];
+           
             $have = $this->model->get_one($where);
             if($have!=true){
                 $this->model->insert($data);
             }else{
                 $this->model->update($data,$where);
             }
+
         }
         return true;
      }
-     public function add_project_ids($payment_id,$proejct_ids){
+     //关联多个支出到一个项目 查看余额是否满足要求
+     private function balance_add_ids_is_reach($payment_ids,$project){
+        foreach($payment_ids as $k){
+            $where['id'] = $k['id'];
+            $data = $this->payment->get_one($where);
+            $money = $data['amount'];
+            // $all_payment_data = $this->model->select("payment_id=".$where['id']);
+            $all_payment_data = $this->model->select("payment_id=".$where['id']." and !(payment_id=".$where['id']." and project_id=$project)");
+            foreach($all_payment_data as $key){
+                $all_money[] = $key['price'];
+            }
+            $all_money = array_sum($all_money);
+            if(($money - $all_money) < $k['price']){
+            $this->data->out(2014,[]);    
+            }
+        }
+     }
+     //关联多个项目到一个支出 
+     public function add_project_ids($payment_id,$project_ids){
         $data['payment_id']=$where['payment_id'] = $payment_id;
-        
-        foreach($proejct_ids as $k){
+        //查看支出所剩的余额是否足够
+        $this->balance_add_project_ids_is_reach($payment_id,$project_ids);
+        foreach($project_ids as $k){
            $data['project_id'] = $where['project_id'] = $k['project_id'];
            $data['price'] = $k['price'];
             $have = $this->model->get_one($where);
@@ -147,6 +171,30 @@ final class project_class
             }
         }
         return true;
+     }
+     //一个支出关联多个项目 查看余额是否满足要求
+     public function balance_add_project_ids_is_reach($payment_id,$proejct_ids){
+         foreach($proejct_ids as $k){
+             $add_money[] = $k['price'];
+             $project_id[] = $k['project_id'];
+         }
+         $add_money = array_sum($add_money);
+         $where['id'] = $payment_id;
+         $final_money = $this->payment->get_one($where)['amount'];
+         if($final_money < $add_money){
+            $this->data->out(2014,[]);
+         }
+         //查找此支出的关系表里的金额总和
+         $project_id = implode(',',$project_id);
+         $data_money = $this->model->select('payment_id = '.$payment_id.' and project_id not in('.$project_id.')'); 
+         foreach($data_money as $k){
+             $old_money[] = $k['price'];
+         }
+         $old_money = array_sum($old_money);
+         if($final_money-$old_money<$add_money){
+             $this->data->out(2014,[]);
+         }
+         return true;
      }
      /**
       * ================

@@ -21,11 +21,26 @@ class project extends \system\model
 		$this->table_name = 'project_header';
 		parent::__construct();
 	}
-	public function page_json_list($data){
+	public function page_json_list($data,$count){
 		$this->request = \app::load_sys_class('request');
 		$database = 'pmo_project_header';
-		$sql = $this->request->sql_make_page($database,$data,'*');
+		$left_join = [
+            0=>[
+                'base'=>'pmo_project_header',
+                'base_field'=>'id',
+                'chain_base'=>'pmo_project_body',
+                'chain_base_field'=>'parent_id',
+			],];
+			$requirement = '
+			pmo_project_header.id,
+			pmo_project_header.unicode,
+			pmo_project_body.project_name
+			';
+		$sql = $this->request->sql_make_page($database,$data,$requirement,$left_join,'',$count);
 		$this->query($sql);
+		if(isset($count)){
+			return $this->fetch_array()[0]['count(*)'];
+		}
         return $this->fetch_array();
 	}
 	public function listProject($user_id = '')

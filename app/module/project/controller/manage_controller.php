@@ -94,10 +94,11 @@ class manage_controller
 			$data_head = [
 				["key"=> "id", "value"=> "项目id","size"=>"5"],
 				["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
+				["key"=> "project_name", "value"=> "项目名称","size"=>"5"],
 			];
 			$data['page_num'] = $post['query_condition']['page_num']['query_data'];
 			$data['page_size'] = $post['query_condition']['page_size']['query_data'];
-			$data['count'] = 2;
+			$data['count'] = $this->project->page_json_list($post,1);
 			$data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
 		
 		//开始输出

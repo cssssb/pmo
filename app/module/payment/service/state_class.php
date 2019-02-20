@@ -198,12 +198,12 @@ final class state_class
                         $this->data->out(3032,[]);
                     }
                 }
-            }
+            }else{
             $where['id'] = $id;
             $is_pass = $this->model->get_one($where)['state'];
             if($is_pass!=2){
                 $this->data->out(3032,[]);
-            }
+            }}
             return true;
         }
 }

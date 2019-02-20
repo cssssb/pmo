@@ -191,7 +191,7 @@ class project_controller
        * @Parameter:     
        * @DataTime:      2019-01-25
        * @Return:        
-       * @Notes:         修改指定支出到项目的金额
+       * @Notes:         修改指定支出到项目的金额   判断金额
        * @ErrorReason:   
        * ================
        */
@@ -206,7 +206,9 @@ class project_controller
             * ================
             */
            $post = $this->data->get_post();//获得post
-           $data = $this->project->edit($post['id'],$post['price']);
+           //判断金额
+           $this->project->balance_add_project_ids_is_reach();
+           $data = $this->project->edit($post['relation_id'],$post['price']);
            $data?$cond = 0:$cond = 1;
            
            //开始输出
@@ -239,7 +241,7 @@ class project_controller
              * ================
              */
             $post = $this->data->get_post();//获得post
-            $data = $this->project->cancel($post['id'],$post['project_id']);
+            $data = $this->project->cancel($post['relation_id'],$post['project_id']);
             $data?$cond = 0:$cond = 1;
             
             //开始输出
@@ -331,21 +333,67 @@ class project_controller
           
           //开始输出
           switch ($post['data_type']) {
-            case   'page_json'://异常1
+            case   'page_json'://
                 return $this->list_page_json($post);
                   break;
-            case   'json'://异常1
+            case   'json'://
                  return $this->list_json($post);
                   break;
-            case   'page_csv'://异常1
+            case   'page_csv'://
                  return $this->list_csv($post);
                   break;
               default:
                   $this->data->out();
               }
       }
-      private function list_page_json($post){
-            $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data']);
+      public function list_pass()
+      {
+          /**
+           * ================
+           * @Author:    css
+           * @ver:       1.0
+           * @DataTime:  2019-02-20
+           * @describe:  list_pass function
+           * ================
+           */
+          $post = $this->data->get_post();//获得post
+          $offset = $post['query_condition']['page_size']['query_data']*($post['query_condition']['page_num']['query_data']-1);
+          $limit = $offset.','.$post['query_condition']['page_size']['query_data'];
+          $data['data_body'] = $this->payment->list_pass($limit);
+
+          foreach($data['data_body'] as &$k){
+            switch ($k['state']) {
+                case '2':
+                    $k['state'] = '通过';
+                    break;
+          }}
+
+          $data['count'] = $this->payment->list_pass_count();
+          $data?$cond = 0:$cond = 1;
+          $data['page_num'] = $post['query_condition']['page_num']['query_data'];
+          $data['page_size'] = $post['query_condition']['page_size']['query_data'];
+
+          $data_head = [
+            ["key"=> "id", "value"=> "系统编号","size"=>"5"],
+            ["key"=> "financial_number", "value"=> "财务编号","size"=>"5"],
+            ["key"=> "item_content", "value"=> "支出内容","size"=>"5"],
+            ["key"=> "amount", "value"=> "支出总金额","size"=>"5"],
+            ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
+            ["key"=> "describe", "value"=> "备注","size"=>"3"],
+            ["key"=> "state", "value"=> "支出状态","size"=>"5"],
+            ];
+            $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
+            //开始输出
+            switch ($cond) {
+                case   1://异常1
+                    $this->data->out(2002,[]);
+                    break;
+                default:
+                    $this->data->out(2001,$data);
+                }
+      }
+      private function list_page_json($post,$where=null){
+            $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$where);
             foreach($data['data_body'] as &$k){
             switch ($k['state']) {
                 case '-2':
@@ -366,7 +414,7 @@ class project_controller
                     
                 }
             }
-            $data['count'] = $this->project->model->list_page_json_count();
+            $data['count'] = $this->project->model->list_page_json_count($where);
             $data?$cond = 0:$cond = 1;
             $data['page_num'] = $post['query_condition']['page_num']['query_data'];
             $data['page_size'] = $post['query_condition']['page_size']['query_data'];
@@ -376,10 +424,11 @@ class project_controller
                 ["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
                 ["key"=> "project_name", "value"=> "项目名称","size"=>"5"],
                 ["key"=> "item_content", "value"=> "支出内容","size"=>"5"],
-                ["key"=> "amount", "value"=> "支出金额","size"=>"5"],
+                ["key"=> "amount", "value"=> "支出总金额","size"=>"5"],
+                ["key"=> "price", "value"=> "支出金额","size"=>"5"],
                 ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
                 ["key"=> "describe", "value"=> "备注","size"=>"3"],
-                ["key"=> "state", "value"=> "支出状态","size"=>"5"]
+                ["key"=> "state", "value"=> "支出状态","size"=>"5"],
                 ];
             $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
           //开始输出

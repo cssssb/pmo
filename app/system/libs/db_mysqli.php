@@ -119,7 +119,6 @@ final class db_mysqli {
 		$field = explode(',', $data);
 		array_walk($field, array($this, 'add_special_char'));
 		$data = implode(',', $field);
-
 		$sql = 'SELECT '.$data.' FROM `'.$this->config['database'].'`.`'.$table.'`'.$where.$group.$order.$limit;
 		$this->execute($sql);
 		if(!is_object($this->lastqueryid)) {

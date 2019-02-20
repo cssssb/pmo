@@ -27,8 +27,8 @@ final class project_class
 	 * @ErrorReason:   
 	 * ================
 	 */
-	 public function page_json_list($post){
-		 return $this->model->page_json_list($post);
+	 public function page_json_list($post,$count){
+		 return $this->model->page_json_list($post,$count);
 	 }
 	/**
 	 * ================
