@@ -38,7 +38,7 @@ class project extends \system\model
 			';
 		$sql = $this->request->sql_make_page($database,$data,$requirement,$left_join,'',$count);
 		$this->query($sql);
-		if(isset($count)){
+		if($count!=null){
 			return $this->fetch_array()[0]['count(*)'];
 		}
         return $this->fetch_array();

@@ -108,9 +108,10 @@ final class project_class
      * @ErrorReason:   
      * ================
      */
-     public function add($payment_id,$project_id){
+     public function add($payment_id,$project_id,$price){
         $where['payment_id'] = $payment_id;
         $data['project_id'] = $project_id;
+        $data['price'] = $price;
         $a = $this->model->get_one($where);
         
         if($a==true){
@@ -195,6 +196,21 @@ final class project_class
              $this->data->out(2014,[]);
          }
          return true;
+     }
+     //一个项目关联一个支出 查看余额是否足够
+     public function balance_a_project_is_associated_with_an_expenditure($id,$price){
+        $where['id'] = $id;
+        $payment_id = $this->model->get_one($where)['payment_id'];
+        $count_money = $this->payment->get_one('id='.$payment_id)['amount'];
+        $data = $this->model->select('payment_id='.$payment_id.' and id != '.$id);
+        foreach($data as $k){
+            $old_money[] = $k['price'];
+        }
+        $old_money = array_sum($old_money);
+        if($count_money-$old_money<$price){
+            $this->data->out(2014,[]);
+        }
+        return true;
      }
      /**
       * ================

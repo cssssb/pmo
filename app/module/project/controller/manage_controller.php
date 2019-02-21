@@ -88,8 +88,8 @@ class manage_controller
 		 * @describe:  page_json_list function
 		 * ================
 		 */
-		$post = $this->data->get_post();//获得post
 		$data['data_body'] = $this->project->page_json_list($post);
+		$data['data_body']?true:$data['data_body'] = [];
 		$data?$cond = 0:$cond = 1;
 			$data_head = [
 				["key"=> "id", "value"=> "项目id","size"=>"5"],

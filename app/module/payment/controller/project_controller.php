@@ -173,7 +173,7 @@ class project_controller
           $post['data']['amount']?$data['amount'] = $post['data']['amount']:true;//支出金额
           $post['data']['describe']?$data['describe'] = $post['data']['describe']:true;//描述 注释
           $payment_id = $this->payment->add($token,$data);
-          $data = $this->project->add($payment_id,$post['project_id']);
+          $data = $this->project->add($payment_id,$post['data']['parent_id'],$data['amount']);
           $data?$cond = 0:$cond = 1;
           
           //开始输出
@@ -207,7 +207,7 @@ class project_controller
             */
            $post = $this->data->get_post();//获得post
            //判断金额
-           $this->project->balance_add_project_ids_is_reach();
+           $this->project->balance_a_project_is_associated_with_an_expenditure($post['relation_id'],$post['price']);
            $data = $this->project->edit($post['relation_id'],$post['price']);
            $data?$cond = 0:$cond = 1;
            

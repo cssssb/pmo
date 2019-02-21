@@ -19,6 +19,8 @@ define('IN_LION', true);
 // echo "load app";
 // echo  microtime();
 // echo "\n";
+// error_reporting(-1);
+// ini_set('display_errors', 1);
 class app
 {
     //初始化web应用
