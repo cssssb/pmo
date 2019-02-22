@@ -19,49 +19,57 @@ use \system\model;
            $this->table_name = 'payment_project';
            parent::__construct();
            }
-    public function list_csv($data){
-        $this->request = app::load_sys_class('request');
-        $data['query_condition']['state']['database'] = 'pmo_payment';
-        $database = 'pmo_payment';
-        $left_join = [
-            0=>[
-                'base'=>'pmo_payment',
-                'base_field'=>'id',
-                'chain_base'=>'pmo_payment_project',
-                'chain_base_field'=>'payment_id',
-            ],
-            1=>[
-                'base'=>'pmo_payment_project',
-                'base_field'=>'project_id',
-                'chain_base'=>'pmo_project_header',
-                'chain_base_field'=>'id',
-            ],
-            2=>[
-                'base'=>'pmo_payment_project',
-                'base_field'=>'project_id',
-                'chain_base'=>'pmo_project_body',
-                'chain_base_field'=>'parent_id',
-            ],
-        ];
-        $requirement = "
-        pmo_payment.id,
-        pmo_payment.state,
-        pmo_payment.item_content,
-        pmo_payment.amount,
-        pmo_payment.create_time,
-        pmo_payment.payee_id,
-        pmo_payment.payee_name,
-        pmo_payment.state,
-        pmo_payment.submit_time,
-        pmo_payment.financial_number,
-        pmo_project_header.unicode,
-        pmo_project_body.project_name
-        ";
-        $where = ' and pmo_payment.state!=0 ';
-        $sql = $this->request->sql_make_page($database,$data,$requirement,$left_join,$where,$count);
-        $this->query($sql);
-        return $this->fetch_array();
-    }
+    // public function list_csv($data){
+    //     $this->request = app::load_sys_class('request');
+    //     $data['query_condition']['state']['database'] = 'pmo_payment';
+    //     $database = 'pmo_payment';
+    //     $left_join = [
+    //         0=>[
+    //             'base'=>'pmo_payment',
+    //             'base_field'=>'id',
+    //             'chain_base'=>'pmo_payment_project',
+    //             'chain_base_field'=>'payment_id',
+    //         ],
+    //         1=>[
+    //             'base'=>'pmo_payment_project',
+    //             'base_field'=>'project_id',
+    //             'chain_base'=>'pmo_project_header',
+    //             'chain_base_field'=>'id',
+    //         ],
+    //         2=>[
+    //             'base'=>'pmo_payment_project',
+    //             'base_field'=>'project_id',
+    //             'chain_base'=>'pmo_project_body',
+    //             'chain_base_field'=>'parent_id',
+    //         ],
+    //     ];
+    //     // 支出ID 
+    //     // 支出单内容 
+    //     // 支出单金额 
+    //     // 支出财务编号 
+    //     // 关联项目编号   
+    //     // 关联项目名称 
+    //     // 关联项目金额 
+    //     // 领款人
+    //     // 备注
+    //     // 支出状态
+    //     $requirement = "
+    //     pmo_payment.id,
+    //     pmo_payment.item_content,
+    //     pmo_payment.amount,
+    //     pmo_payment.financial_number,
+    //     pmo_project_header.unicode,
+    //     pmo_project_body.project_name,
+    //     pmo_payment_project.price,
+    //     pmo_payment.payee_name,
+    //     pmo_payment.describe,
+    //     pmo_payment.state
+    //     ";
+    //     $where = ' and pmo_payment.state!=0 ';
+    //     $sql = $this->request->sql_make_page($database,$data,$requirement,$left_join,$where,$count);
+    //     $this->query($sql);
+    //     return $this->fetch_array();
+    // }
     public function list_page_json1($data,$count){
         $this->request = app::load_sys_class('request');
         $data['query_condition']['state']['database'] = 'pmo_payment';
@@ -196,9 +204,9 @@ use \system\model;
                             ) 
                         ) AS b
                         LEFT JOIN pmo_project_header AS header ON b.project_id = header.id
-                        LEFT JOIN pmo_project_body AS body ON b.project_id = body.parent_id 
-                        LIMIT $offset,$page_size
-        ";
+                        LEFT JOIN pmo_project_body AS body ON b.project_id = body.parent_id  ";
+                    if($page_size!=null){$sql.="    LIMIT $offset,$page_size";}
+       
         $this->query($sql);
         $data = $this->fetch_array();
         return $data;

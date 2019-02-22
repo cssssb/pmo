@@ -23,81 +23,29 @@ final class project_class
         $this->payment = app::load_model_class('payment', 'payment');
         $this->common = app::load_service_class('common_class','examine');
     }
+    public function edit_surplus_relation_id($relation_id){
+        $payment_id = $this->model->get_one('id='.$relation_id)['payment_id'];
+        return $this->edit_surplus($payment_id);
+    }
+    public function edit_surplus($payment_id){
+        $relation = $this->model->select('payment_id='.$payment_id);
+        foreach($relation as $k){
+            $data_money[] = $k['price'];
+        }
+        $data_money = array_sum($data_money);
+        $where['id'] = $payment_id;
+        $count_money = $this->payment->get_one($where)['amount'];
+        $data['surplus'] = $count_money-$data_money;
+        return $this->payment->update($data,$where);
+    }
     public function edit($id,$price){
         $where['id'] = $id;
         $price? $data['price'] = $price:true;
         return $this->model->update($data,$where);
     }
-    /**
-     * ================
-     * @Author:        css
-     * @Parameter:     
-     * @DataTime:      2019-01-22
-     * @Return:        
-     * @Notes:         list_csv 根据查询条件导出csv数据
-     * @ErrorReason:   
-     * ================
-     */
+   
      
-     public function list_csv($post){
-        $list = $this->model->list_csv($post);
-        foreach($list as &$k){
-            unset($k['id'],$k['payee_id']);
-            $k['state']== -2? $k['state']='删除':$k['state']='通过';
-            $k['submit_time'] = date('Y-m-d H:i:s',$k['submit_time']);
-            $k['create_time'] = date('Y-m-d H:i:s',$k['create_time']);
-        }
-        $header_data = array(
-            '状态',
-            '支出内容',
-            '支出金额',
-            '创建时间',
-            '领款人姓名',
-            '提交时间',
-            '财务编号',
-            '项目编号',
-            '项目名称'
-        );
-        $file_name = date('Y-m-d', time())."file.csv"; 
-        return  $this->csv_class($list,$file_name,$header_data);
-    }
-     
-    private function csv_class($data,$file_name,$header_data)
-    {    
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment;filename='.$file_name);
-        header('Cache-Control: max-age=1000');
-        // header( "Content-Type:   application/force-download ");
-        $fp = fopen('php://output', 'a');
-        if (!empty($header_data)){
-            foreach ($header_data as $key => $value) {
-                 $header_data[$key] = iconv('utf-8', 'gbk//IGNORE', $value);
-            }
-            fputcsv($fp, $header_data);
-        }
-        $num = 0;
-        //每隔$limit行，刷新一下输出buffer，不要太大，也不要太小
-        $limit = 1000;
-        //逐行取出数据，不浪费内存
-        $count = count($data);
-             if ($count > 0) {
-                 for ($i = 0; $i < $count; $i++) {
-                   $num++;
-                     //刷新一下输出buffer，防止由于数据过多造成问题
-                     if ($limit == $num) {
-                         ob_flush();
-                         flush();
-                         $num = 0;
-                     }
-                     $row = $data[$i];
-                     foreach ($row as $key => $value) {
-                         $row[$key] = iconv('utf-8', 'gbk//IGNORE', $value);
-                     }
-                    fputcsv($fp, $row);
-                 }
-             }
-        fclose($fp);
-    }
+    
     /**
      * ================
      * @Author:        css
@@ -128,14 +76,13 @@ final class project_class
         foreach($payment_ids as $k){
            $data['payment_id'] = $where['payment_id'] = $k['id'];
            $data['price'] = $k['price'];
-           
             $have = $this->model->get_one($where);
             if($have!=true){
                 $this->model->insert($data);
             }else{
                 $this->model->update($data,$where);
             }
-
+            $this->edit_surplus($data['payment_id']);
         }
         return true;
      }
@@ -155,6 +102,7 @@ final class project_class
             $this->data->out(2014,[]);    
             }
         }
+        return true;
      }
      //关联多个项目到一个支出 
      public function add_project_ids($payment_id,$project_ids){
@@ -171,6 +119,7 @@ final class project_class
                 $this->model->update($data,$where);
             }
         }
+        $this->edit_surplus($payment_id);
         return true;
      }
      //一个支出关联多个项目 查看余额是否满足要求

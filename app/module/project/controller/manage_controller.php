@@ -59,8 +59,8 @@ class manage_controller
 				# code...
 				$this->page_json_list($post);
 				break;
-			case 'csv_json':
-			//暂时没做
+			case 'page_csv':
+				$this->page_csv_list($post);die;
 			break;
 			default:
 				# code...
@@ -78,6 +78,25 @@ class manage_controller
 				$this->data->out(2001,$data);
 			}
 	}
+	public function page_csv_list($post){
+		$data = $this->project->page_json_list($post);
+		$data?true:$data = [];
+		$data_head = [
+			["key"=> "id", "value"=> "项目ID","size"=>"5"],
+			["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
+			["key"=> "project_name", "value"=> "项目名称","size"=>"5"],
+		];
+		foreach($data as $k){
+			$list[$k]['id'] = $k['id'];
+			$list[$k]['unicode'] = $k['unicode'];
+			$list[$k]['project_name'] = $k['project_name'];
+		}
+		foreach($data_head as $k){
+			$heade[] = $k['value'];
+		}
+		$file_name = time();
+		return app::load_sys_class('csv_out')->csv_class($data,$file_name,$heade);
+	}
 	public function page_json_list($post)
 	{
 		/**
@@ -92,7 +111,7 @@ class manage_controller
 		$data['data_body']?true:$data['data_body'] = [];
 		$data?$cond = 0:$cond = 1;
 			$data_head = [
-				["key"=> "id", "value"=> "项目id","size"=>"5"],
+				["key"=> "id", "value"=> "项目ID","size"=>"5"],
 				["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
 				["key"=> "project_name", "value"=> "项目名称","size"=>"5"],
 			];

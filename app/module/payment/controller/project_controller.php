@@ -209,6 +209,7 @@ class project_controller
            //判断金额
            $this->project->balance_a_project_is_associated_with_an_expenditure($post['relation_id'],$post['price']);
            $data = $this->project->edit($post['relation_id'],$post['price']);
+           $this->project->edit_surplus_relation_id($post['relation_id']);
            $data?$cond = 0:$cond = 1;
            
            //开始输出
@@ -253,72 +254,7 @@ class project_controller
                     $this->data->out(2012,[]);
                 }
         }
-     /**
-      * ================
-      * @Author:        css
-      * @Parameter:     
-      * @DataTime:      2019-01-16
-      * @Return:        
-      * @Notes:         查看所有支出和其所属项目
-      * @ErrorReason:   
-      * ================
-      */
-      public function list2()
-      {
-          /**
-           * ================
-           * @Author:    css
-           * @ver:       1.0
-           * @DataTime:  2019-01-16
-           * @describe:  list function
-           * ================
-           */
-        //    $post['query_condition']['unicode']?$unicode = $post['query_condition']['unicode']:$unicode=null;
-        //    $post['query_condition']['project_person_in_charge_name']?$project_person_in_charge_name = $post['query_condition']['project_person_in_charge_name']:$project_person_in_charge_name=null;
-        //    $post['query_condition']['project_project_template_name']?$project_project_template_name = $post['query_condition']['project_project_template_name']:$project_project_template_name=null;
-        //    $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']:$page_num=1;
-        //    $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']:$page_size=100;
-   
-        //    $admin_list = $this->examine->model->record_list($unicode,$project_person_in_charge_name,$project_project_template_name,$page_num,$page_size);
-        //    $data['data_body'] = $admin_list;
-        //    $data['data_head'] = $this->examine->data_hade();
-        //    $data['page_num'] = $page_num;
-        //    $data['page_size'] = $page_size;
-        //    $data['count'] = $this->examine->model->record_count()[0]['count(*)'];
-        //    // $data['data_body'] = $this->examine->data_body($id['id']);
-        //    $data?$cond = 0:$cond = 1;
-
-
-            $post = $this->data->get_post();//获得post
-            $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']:$page_num=1;
-            $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']:$page_size=20;
-            $data = $this->project->list($post['token'],$page_num,$page_size);
-            $data['data_head'] = [
-                ["key"=> "id", "value"=> "系统编号"],
-                ["key"=> "financial_number", "value"=> "财务编号"],
-                ["key"=> "unicode", "value"=> "项目编号"],
-                ["key"=> "project_name", "value"=> "项目名称"],
-                ["key"=> "item_content", "value"=> "支出内容"],
-                ["key"=> "amount", "value"=> "支出金额"],
-                ["key"=> "payee_name", "value"=> "领款人"]
-                ];
-            // $data['page_num'] = 1;
-            // $data['page_size'] = 20;
-            // $data['count'] = 20;
-                // $data['data_body'] = $this->examine->data_body($id['id']);
-            $data?$cond = 0:$cond = 1;
-          
-
-          
-          //开始输出
-          switch ($cond) {
-              case   1://异常1
-                  $this->data->out(2002,[]);
-                  break;
-              default:
-                  $this->data->out(2001,$data);
-              }
-      }
+  
       public function list()
       {
           /**
@@ -330,23 +266,165 @@ class project_controller
            * ================
            */
           $post = $this->data->get_post();//获得post
-          
+          $data_head = [
+            ["key"=> "id", "value"=> "支出ID","size"=>"5"],
+            ["key"=> "item_content", "value"=> "支出单内容","size"=>"5"],
+            ["key"=> "amount", "value"=> "支出单金额","size"=>"5"],
+            ["key"=> "financial_number", "value"=> "支出财务编号","size"=>"6"],
+            ["key"=> "unicode", "value"=> "关联项目编号","size"=>"5"],
+            ["key"=> "project_name", "value"=> "关联项目名称","size"=>"5"],
+            ["key"=> "price", "value"=> "关联项目金额","size"=>"6"],
+            ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
+            ["key"=> "describe", "value"=> "备注","size"=>"3"],
+            ["key"=> "state", "value"=> "支出状态","size"=>"5"],
+            ];
           //开始输出
           switch ($post['data_type']) {
             case   'page_json'://
-                return $this->list_page_json($post);
+                return $this->list_page_json($post,$data_head);
                   break;
             case   'json'://
-                 return $this->list_json($post);
+                 return $this->list_json($post,$data_head);
                   break;
             case   'page_csv'://
-                 return $this->list_csv($post);
+                 return $this->list_csv($post,$data_head);
                   break;
-              default:
-                  $this->data->out();
+             
               }
       }
-      public function list_pass()
+      private function list_page_json($post,$data_head,$where=null){
+        $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$where);
+        foreach($data['data_body'] as &$k){
+        switch ($k['state']) {
+            case '-2':
+                $k['state'] = '删除';
+                break;
+            case '-1':
+                $k['state'] = '作废';
+                break;
+            case '0':
+                $k['state'] = '作废';
+                break;
+            case '1':
+                $k['state'] = '提交审批中';
+                break;
+            case '2':
+                $k['state'] = '通过';
+                break;
+                
+            }
+        }
+        $data['count'] = $this->project->model->list_page_json_count($where);
+        $data?$cond = 0:$cond = 1;
+        $data['page_num'] = $post['query_condition']['page_num']['query_data'];
+        $data['page_size'] = $post['query_condition']['page_size']['query_data'];
+       
+        $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
+      //开始输出
+      switch ($cond) {
+          case   1://异常1
+              $this->data->out(2002,[]);
+              break;
+          default:
+              $this->data->out(2001,$data);
+          }
+  }
+       //!!!!!
+       private function list_csv($post,$data_head){
+        $list = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$where);
+        
+        foreach($list as $k){
+        switch ($k['state']) {
+            case '-2':
+                $k['state'] = '删除';
+                break;
+            case '-1':
+                $k['state'] = '作废';
+                break;
+            case '0':
+                $k['state'] = '作废';
+                break;
+            case '1':
+                $k['state'] = '提交审批中';
+                break;
+            case '2':
+                $k['state'] = '通过';
+                break;
+                
+            }
+        }
+        foreach($data_head as $k){
+            $head[] = $k['value'];
+            $data[] = $k['key'];
+        }
+        //只取出以一维数组的值为键值的二维数组的值
+        foreach($list as $key=>$val){
+            $a = array_keys($val);
+            foreach($data as $k){
+            if(in_array($k,$a)){
+                $ass[$key][$k] = $val[$k];
+            }
+        }
+    }
+        $name = time();
+
+       return  app::load_sys_class('csv_out')->csv_class($ass,$name,$head);
+    }
+
+
+      public function list_pass(){
+        $post = $this->data->get_post();//获得post
+        $data_head = [
+            ["key"=> "id", "value"=> "支出ID","size"=>"5"],
+            ["key"=> "item_content", "value"=> "支出单内容","size"=>"5"],
+            ["key"=> "amount", "value"=> "支出单金额","size"=>"5"],
+            ["key"=> "financial_number", "value"=> "支出财务编号","size"=>"6"],
+            // ["key"=> "unicode", "value"=> "关联项目编号","size"=>"5"],
+            // ["key"=> "project_name", "value"=> "关联项目名称","size"=>"5"],
+            // ["key"=> "price", "value"=> "关联项目金额","size"=>"6"],
+            ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
+            ["key"=> "describe", "value"=> "备注","size"=>"3"],
+            ["key"=> "state", "value"=> "支出状态","size"=>"5"],
+            ];
+        //开始输出
+        switch ($post['data_type']) {
+          case   'page_json'://
+              return $this->list_page_pass($post,$data_head);
+                break;
+          case   'json'://
+               return $this->list_pass_json($post,$data_head);
+                break;
+          case   'page_csv'://
+               return $this->list_pass_csv($post,$data_head);
+                break;
+            default:
+                $this->data->out();
+            }
+      }
+     private function list_pass_csv($post,$data_head){
+        $list = $this->payment->list_pass();
+        foreach($data as &$k){
+            if($k['state']=='2'){
+                $k['state']='通过';
+            }
+        }
+        foreach($data_head as $k){
+            $head[] = $k['value'];
+            $data[] = $k['key'];
+        }
+         //只取出以一维数组的值为键值的二维数组的值
+         foreach($list as $key=>$val){
+            $a = array_keys($val);
+            foreach($data as $k){
+            if(in_array($k,$a)){
+                $ass[$key][$k] = $val[$k];
+            }
+        }}
+        $name = time();
+
+        return  app::load_sys_class('csv_out')->csv_class($ass,$name,$head);
+    }
+      private function list_page_pass($post,$data_head)
       {
           /**
            * ================
@@ -356,7 +434,6 @@ class project_controller
            * @describe:  list_pass function
            * ================
            */
-          $post = $this->data->get_post();//获得post
           $offset = $post['query_condition']['page_size']['query_data']*($post['query_condition']['page_num']['query_data']-1);
           $limit = $offset.','.$post['query_condition']['page_size']['query_data'];
           $data['data_body'] = $this->payment->list_pass($limit);
@@ -373,15 +450,6 @@ class project_controller
           $data['page_num'] = $post['query_condition']['page_num']['query_data'];
           $data['page_size'] = $post['query_condition']['page_size']['query_data'];
 
-          $data_head = [
-            ["key"=> "id", "value"=> "系统编号","size"=>"5"],
-            ["key"=> "financial_number", "value"=> "财务编号","size"=>"5"],
-            ["key"=> "item_content", "value"=> "支出内容","size"=>"5"],
-            ["key"=> "amount", "value"=> "支出总金额","size"=>"5"],
-            ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
-            ["key"=> "describe", "value"=> "备注","size"=>"3"],
-            ["key"=> "state", "value"=> "支出状态","size"=>"5"],
-            ];
             $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
             //开始输出
             switch ($cond) {
@@ -392,75 +460,17 @@ class project_controller
                     $this->data->out(2001,$data);
                 }
       }
-      private function list_page_json($post,$where=null){
-            $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$where);
-            foreach($data['data_body'] as &$k){
-            switch ($k['state']) {
-                case '-2':
-                    $k['state'] = '删除';
-                    break;
-                case '-1':
-                    $k['state'] = '作废';
-                    break;
-                case '0':
-                    $k['state'] = '作废';
-                    break;
-                case '1':
-                    $k['state'] = '提交审批中';
-                    break;
-                case '2':
-                    $k['state'] = '通过';
-                    break;
-                    
-                }
-            }
-            $data['count'] = $this->project->model->list_page_json_count($where);
-            $data?$cond = 0:$cond = 1;
-            $data['page_num'] = $post['query_condition']['page_num']['query_data'];
-            $data['page_size'] = $post['query_condition']['page_size']['query_data'];
-            $data_head = [
-                ["key"=> "id", "value"=> "系统编号","size"=>"5"],
-                ["key"=> "financial_number", "value"=> "财务编号","size"=>"5"],
-                ["key"=> "unicode", "value"=> "项目编号","size"=>"5"],
-                ["key"=> "project_name", "value"=> "项目名称","size"=>"5"],
-                ["key"=> "item_content", "value"=> "支出内容","size"=>"5"],
-                ["key"=> "amount", "value"=> "支出总金额","size"=>"5"],
-                ["key"=> "price", "value"=> "支出金额","size"=>"5"],
-                ["key"=> "payee_name", "value"=> "领款人","size"=>"4"],
-                ["key"=> "describe", "value"=> "备注","size"=>"3"],
-                ["key"=> "state", "value"=> "支出状态","size"=>"5"],
-                ];
-            $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
-          //开始输出
-          switch ($cond) {
-              case   1://异常1
-                  $this->data->out(2002,[]);
-                  break;
-              default:
-                  $this->data->out(2001,$data);
-              }
-      }
-      private function list_json($post){
+
+      private function list_json($post,$data_head){
         $post['query_condition']['page_num']?$page_num = $post['query_condition']['page_num']['query_data']:$page_num=1;
             $post['query_condition']['page_size']?$page_size = $post['query_condition']['page_size']['query_data']:$page_size=20;
             $data['body'] = $this->project->list($post['token'],$page_num,$page_size);
-            $data['data_head'] = [
-                ["key"=> "id", "value"=> "系统编号"],
-                ["key"=> "financial_number", "value"=> "财务编号"],
-                ["key"=> "unicode", "value"=> "项目编号"],
-                ["key"=> "project_name", "value"=> "项目名称"],
-                ["key"=> "item_content", "value"=> "支出内容"],
-                ["key"=> "amount", "value"=> "支出金额"],
-                ["key"=> "payee_name", "value"=> "领款人"]
-                ];
+            $data['data_head'] = $data_head;
             // $data['page_num'] = 1;
             // $data['page_size'] = 20;
             // $data['count'] = 20;
                 // $data['data_body'] = $this->examine->data_body($id['id']);
             $data?$cond = 0:$cond = 1;
-          
-
-          
           //开始输出
           switch ($cond) {
               case   1://异常1
@@ -470,8 +480,5 @@ class project_controller
                   $this->data->out(2001,$data);
               }
       }
-      public function list_csv($post){
-         $data = $this->project->list_csv($post);
-        //    $this->data->out(2001,$data);
-      }
+     
 }

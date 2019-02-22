@@ -20,6 +20,7 @@ use \system\model;
            parent::__construct();
            }
         public function select_list_pass($where,$limit){
+            
             $sql  = "
                 select
                 *
@@ -27,9 +28,12 @@ use \system\model;
                 pmo_payment
                 where
                 $where
-                limit
-                $limit
             ";
+            if($limit!=null){
+                $sql.="
+                limit
+                $limit";
+            }
             $this->query($sql);
             return $this->fetch_array();
         }

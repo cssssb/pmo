@@ -15,11 +15,11 @@ return array(
 		'autoconnect' => 0
 	),
 	'default' => array(
-		'hostname' => '192.168.4.41',
+		'hostname' => 'localhost',
 		'port' => 3306,
 		'database' => 'pmo_c',
 		'username' => 'root',
-		'password' => '123456',
+		'password' => 'root',
 		'tablepre' => 'pmo_',
 		'charset' => 'utf8',
 		'type' => 'mysqli',
@@ -28,11 +28,11 @@ return array(
 		'autoconnect' => 0
 	),
 	'course' => array(
-		'hostname' => '192.168.4.41',
+		'hostname' => 'localhost',
 		'port' => 3306,
 		'database' => 'pmo_c',
 		'username' => 'root',
-		'password' => '123456',
+		'password' => 'root',
 		'tablepre' => 'erp_',
 		'charset' => 'utf8',
 		'type' => 'mysqli',
