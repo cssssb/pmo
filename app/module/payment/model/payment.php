@@ -19,32 +19,32 @@ use \system\model;
            $this->table_name = 'payment'; 
            parent::__construct();
            }
-        public function select_list_pass($where,$limit){
-            
+        public function select_list_pass($page_num,$page_size,$condition=null){
+            $offset = $page_size*($page_num-1);
+            $condition==null ? $where=1:true;
+        $where = app::load_sys_class('request')->where_sql($condition);
             $sql  = "
                 select
                 *
                 from
                 pmo_payment
                 where
-                $where
+                $where 
             ";
-            if($limit!=null){
-                $sql.="
-                limit
-                $limit";
-            }
+            if($page_size!=null){$sql.="    LIMIT $offset,$page_size";}
             $this->query($sql);
             return $this->fetch_array();
         }
-        public function list_pass_count(){
+        public function list_pass_count($condition){
+            $condition==null ? $where=1:true;
+            $where = app::load_sys_class('request')->where_sql($condition);
             $sql= "
             select
             count(*)
             from
             pmo_payment
             where
-            state=2
+            $where
             ";
             $this->query($sql);
         return $this->fetch_array()[0]['count(*)'];

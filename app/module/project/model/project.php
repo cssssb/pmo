@@ -34,7 +34,8 @@ class project extends \system\model
 			$requirement = '
 			pmo_project_header.id,
 			pmo_project_header.unicode,
-			pmo_project_body.project_name
+			pmo_project_body.project_name,
+			pmo_project_header.time
 			';
 		$sql = $this->request->sql_make_page($database,$data,$requirement,$left_join,'',$count);
 		$this->query($sql);

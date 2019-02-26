@@ -167,11 +167,11 @@ final class payment_class
          * @ErrorReason:   
          * ================
          */
-         public function list_pass($limit){
-             $where='state = 2';
-             return $this->model->select_list_pass($where,$limit);
-         }
-         public function list_pass_count(){
-             return $this->model->list_pass_count();
-         }
+        //  public function list_pass($limit){
+        //      $where='state = 2';
+        //      return $this->model->select_list_pass($where,$limit);
+        //  }
+        //  public function list_pass_count(){
+        //      return $this->model->list_pass_count();
+        //  }
 }

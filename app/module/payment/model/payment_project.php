@@ -135,9 +135,10 @@ use \system\model;
         $this->query($sql);
         return $this->fetch_array();
     }
-    public function list_page_json($page_num,$page_size,$where=null){
+    public function list_page_json($page_num,$page_size,$condition=null){
         $offset = $page_size*($page_num-1);
-        $where==null ? $where=1:true;
+        $condition==null ? $condition=1:true;
+        $where = app::load_sys_class('request')->where_sql($condition);
         $sql = "
                             SELECT
                         header.unicode,
@@ -206,7 +207,6 @@ use \system\model;
                         LEFT JOIN pmo_project_header AS header ON b.project_id = header.id
                         LEFT JOIN pmo_project_body AS body ON b.project_id = body.parent_id  ";
                     if($page_size!=null){$sql.="    LIMIT $offset,$page_size";}
-       
         $this->query($sql);
         $data = $this->fetch_array();
         return $data;
@@ -240,8 +240,9 @@ use \system\model;
 		$this->query($sql);
         return $this->fetch_array();
     }
-    public function list_page_json_count($where=null){
-        $where==null ? $where=1:true;
+    public function list_page_json_count($condition=null){
+        $condition==null ? $where=1:true;
+        $where = app::load_sys_class('request')->where_sql($condition);
         $sql = "
         SELECT
                         count(*)

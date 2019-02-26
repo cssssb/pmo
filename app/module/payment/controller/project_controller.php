@@ -292,8 +292,10 @@ class project_controller
              
               }
       }
-      private function list_page_json($post,$data_head,$where=null){
-        $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$where);
+      private function list_page_json($post,$data_head){
+        $condition = $post['query_condition'];
+        unset($condition['page_num'],$condition['page_size']);
+        $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
         foreach($data['data_body'] as &$k){
         switch ($k['state']) {
             case '-2':
@@ -314,7 +316,7 @@ class project_controller
                 
             }
         }
-        $data['count'] = $this->project->model->list_page_json_count($where);
+        $data['count'] = $this->project->model->list_page_json_count($condition);
         $data?$cond = 0:$cond = 1;
         $data['page_num'] = $post['query_condition']['page_num']['query_data'];
         $data['page_size'] = $post['query_condition']['page_size']['query_data'];
@@ -331,7 +333,9 @@ class project_controller
   }
        //!!!!!
        private function list_csv($post,$data_head){
-        $list = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$where);
+        $condition = $post['query_condition'];
+        unset($condition['page_num'],$condition['page_size']);
+        $list = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
         
         foreach($list as $k){
         switch ($k['state']) {
@@ -402,7 +406,12 @@ class project_controller
             }
       }
      private function list_pass_csv($post,$data_head){
-        $list = $this->payment->list_pass();
+        $condition = $post['query_condition'];
+        unset($condition['page_num'],$condition['page_size']);
+        // $list = $this->payment->list_pass($condition);
+        $condition['state'] = ['condition'=>'equal','query_data'=>'2'];
+        $list = $this->payment->model->select_list_pass($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
+
         foreach($data as &$k){
             if($k['state']=='2'){
                 $k['state']='通过';
@@ -434,9 +443,10 @@ class project_controller
            * @describe:  list_pass function
            * ================
            */
-          $offset = $post['query_condition']['page_size']['query_data']*($post['query_condition']['page_num']['query_data']-1);
-          $limit = $offset.','.$post['query_condition']['page_size']['query_data'];
-          $data['data_body'] = $this->payment->list_pass($limit);
+           $condition = $post['query_condition'];
+           $condition['state'] = ['condition'=>'equal','query_data'=>'2'];
+        unset($condition['page_num'],$condition['page_size']);
+        $data['data_body'] = $this->payment->model->select_list_pass($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
 
           foreach($data['data_body'] as &$k){
             switch ($k['state']) {
@@ -445,7 +455,7 @@ class project_controller
                     break;
           }}
 
-          $data['count'] = $this->payment->list_pass_count();
+          $data['count'] = $this->payment->model->list_pass_count($condition);
           $data?$cond = 0:$cond = 1;
           $data['page_num'] = $post['query_condition']['page_num']['query_data'];
           $data['page_size'] = $post['query_condition']['page_size']['query_data'];

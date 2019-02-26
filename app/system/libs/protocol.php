@@ -24,6 +24,7 @@ final class protocol
         $this->set_code(1001);
         $this->body["data"]=[];
     }
+    
     //获取post值
     final public function get_post($key='')
     {

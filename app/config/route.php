@@ -180,5 +180,11 @@ return array(
         //  "json_menu_get_data"=>["json","menu","json_menu_get_data",[],[],"1.0","左侧视图数据的导入"],
         //  "json_menu_write_data"=>["json","menu","json_menu_write_data",[],[],"1.0","左侧视图数据的导出"],
         
+        "clazz_manage_list"=>["clazz","manage","list",[],[],"1.0","课程页面列表"],
+        "clazz_manage_add"=>["clazz","manage","add",[],[],"1.0","添加page"],
+        "clazz_manage_edit"=>["clazz","manage","edit",[],[],"1.0","修改page"],
+        "clazz_manage_del"=>["clazz","manage","del",[],[],"1.0","删除page"],
+        "clazz_data_getByClassId"=>["clazz","manage","getByClassId",[],[],"1.0","获取一条课程列表"],
+
     ),
 );
