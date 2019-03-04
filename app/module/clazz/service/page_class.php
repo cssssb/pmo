@@ -19,6 +19,7 @@ final class page_class
     public function __construct()
     {
         $this->model = app::load_model_class('page', 'clazz');
+        $this->signup = app::load_model_class('enroll_signup', 'activity');
         $this->form = app::load_model_class('enroll_activity', 'activity');
 
     }
@@ -47,4 +48,35 @@ final class page_class
     public function get_class($where){
         return $this->model->get_one($where);
     }
+    public function enroll_manage_list($id){
+        return $this->signup->select('form_id='.$id.' and state!=1');
+    }
+
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-02-27
+     * @Return:        
+     * @Notes:         修改状态为通过
+     * @ErrorReason:   
+     * ================
+     */
+     public function enroll_is_agree($where){
+         $data['state'] = 3;
+         return $this->signup->update($data,$where);
+     }
+     /**
+      * ================
+      * @Author:        css
+      * @Parameter:     
+      * @DataTime:      2019-02-27
+      * @Return:        
+      * @Notes:         删除此条报名信息
+      * @ErrorReason:   
+      * ================
+      */
+      public function enroll_is_refuse($where){
+          return $this->signup->delete($where);
+      }
 }

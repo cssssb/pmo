@@ -26,4 +26,21 @@ final class lecturer_class
     public function cooperation_list(){
         return $this->coop->select(1);
     }
+
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-02-28
+     * @Return:        
+     * @Notes:         
+     * @ErrorReason:   
+     * ================
+     */
+     public function list_page_json($query){
+        
+     }
+     public function list_page_json_count($query){
+
+     }
 }

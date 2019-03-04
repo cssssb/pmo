@@ -13,7 +13,6 @@ return array(
         "program_manage_add" => ["progam", "manage", "add", [], [], '1.0',"新增项目"],//项目集新增
         "project_type_list" => ["user", "project", "projectTemplate", [], [], '1.0',"项目模板列表"],//项目模板表
         "lecturer_plan_getByProjectId" => ["lecturer", "plan", "getByProjectId", [], [], '1.0',"实施安排数据"],//返回讲师列表
-        "lecturer_manage_list" => ["lecturer", "manage", "list", [], [], '1.0',"讲师列表"],//讲师表
         "lecturer_duty_list" => ["lecturer", "duty", "list", [], [], '1.0',"职责列表"],//职责表
         "lecturer_plan_add" => ["lecturer", "plan", "add", [], [], '1.0',"添加讲师安排"],               //添加、修改讲师成本安排
         "lecturer_plan_edit" => ["lecturer", "plan", "edit", ["id" => "string"], [], '1.0',"修改讲师安排"],               //添加、修改讲师成本安排
@@ -33,21 +32,7 @@ return array(
         "travel_longTrafficType_list" => ["travel", "longTrafficType", "list", [], [], '1.0',"出行方式列表"], //出行方式  
 
         "user_account_login"=>["user","account","login",["account"=>"string","password"=>"string"],[],'1.0',"登陆"],//用户登录
-        "lecturer_manage_add"=>["lecturer","manage","add",
-        [
-        // "teacher_cooperation_model_id"=>"string",
-        // "add_a_teacher_cooperation_model_name"=>"string",
-        // "add_a_teacher_message"=>"string",
-        // "add_a_teacher_price"=>"string",
-        "teacher_name"=>"string",
-        "teacher_price"=>"string",
-        "teacher_cooperation_model_id"=>"string",
-        ]
-        ,[
-            "id"=>"string",
-            "name"=>"string",
-        ],'1.0',"新增讲师"],//新增讲师
-        "lecturer_manage_cooperation"=>["lecturer","manage","cooperation",[],[],'1.0',"讲师长短期"],//讲师长期短期接口
+
         "implement_venue_add"=>["implement","venue","add",[],[],'1.0',"添加会场安排"],//添加会场安排
         "implement_venue_del"=>["implement","venue","del",[],[],'1.0',"删除会场安排"],//删除会场安排
         "implement_venue_edit"=>["implement","venue","edit",[],[],'1.0',"修改会场安排"],//修改会场安排
@@ -185,6 +170,24 @@ return array(
         "clazz_manage_edit"=>["clazz","manage","edit",[],[],"1.0","修改page"],
         "clazz_manage_del"=>["clazz","manage","del",[],[],"1.0","删除page"],
         "clazz_data_getByClassId"=>["clazz","manage","getByClassId",[],[],"1.0","获取一条课程列表"],
+        "clazz_manage_enroll_is_agree"=>["clazz","manage","enroll_is_agree",[],[],"1.0","修改报名人员状态为通过"],
+        "clazz_manage_enroll_is_refuse"=>["clazz","manage","enroll_is_refuse",[],[],"1.0","删除报名人员"],
 
+        "lecturer_manage_list" => ["lecturer", "manage", "list", [], [], '0.1',"讲师列表"],//讲师表
+        "lecturer_manage_cooperation"=>["lecturer","manage","cooperation",[],[],'0.1',"讲师长短期"],//讲师长期短期接口
+        "lecturer_manage_add"=>["lecturer","manage","add",
+        [
+        // "teacher_cooperation_model_id"=>"string",
+        // "add_a_teacher_cooperation_model_name"=>"string",
+        // "add_a_teacher_message"=>"string",
+        // "add_a_teacher_price"=>"string",
+        "teacher_name"=>"string",
+        "teacher_price"=>"string",
+        "teacher_cooperation_model_id"=>"string",
+        ]
+        ,[
+            "id"=>"string",
+            "name"=>"string",
+        ],'0.1',"新增讲师"],//新增讲师
     ),
 );

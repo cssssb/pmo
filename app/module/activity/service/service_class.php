@@ -33,34 +33,36 @@ final class service_class
     }
     //发送验证码
    public function commit_code($number,$act_token){
-    $where['page_token'] = $act_token;
-    $data['form_id'] = $this->page->get_one($where)['id'];
+    $data['form_id'] = $this->page->get_one("page_token='$act_token'")['id'];
     $data['phone'] = $number;
     $data['code'] = rand(1000, 9999);
     $data['code_time'] = time();
-    $have = $this->signup->get_one('phone ='.$number.' and state=1 and form_id='.$data['from_id']);
+    $data['page_id'] = 3;
+    $have = $this->signup->get_one('phone ='.$number.' and (state=1 or state=2) and form_id='.$data['form_id']);
+    app::load_sys_class('message')->send_mes($number,$data['code']);
     if($have){
-       return $this->signup->update('code='.$data['code'],'phone='.$number.' and form_id='.$data['from_id']);
+       return $this->signup->update('code='.$data['code'],'phone='.$number.' and form_id='.$data['form_id']);
     }
     return $this->signup->insert($data);
    }
     //添加到用户表 手机号、姓名、时间、公司名称
     public function  send_data($number,$code,$name,$company_name,$act_token){
+        $where_page['page_token'] = $act_token;
+        $page_data = $this->page->get_one($where_page);
+        $where['form_id'] = $page_data['id'];
         $where['phone'] = $number;
+        $where['code'] = $code;
         $code_data = $this->signup->get_one($where);
-        $is_have = $code_data['state'];
         //已有此手机号
-        if($is_have==2){
+        if($code_data['state']==2){
             return 1;
         }
          //手机号码不相符
-         $where['code'] = $code;
-         $bool = $this->signup->get_one($where);
-         if($bool!=true){
+         if($code_data!=true){
              return 2;
          }
          // 时间过长
-        $code_time = time() - $bool['code_time'];
+        $code_time = time() - $code_data['code_time'];
         if($code_time>3600){
             return 3;
         }
@@ -71,16 +73,15 @@ final class service_class
         $data['company_name'] = $company_name;
         //通过验证 将数据添加到表signup 状态字段改为2
         if($this->signup->update($data,$where)){
-            return $this->update_sign_up_number($act_token);
+            return $this->update_sign_up_number($page_data);
             
         }
         return 5;
     }
-   private function update_sign_up_number($act_token){
-       $where['page_token'] = $act_token;
-        $data = $this->page->get_one($where);
-        $data['sign_up_number'] = $data['sign_up_number']++;
-        $this->page->update($data,$where);
+   private function update_sign_up_number($page_data){
+        $where['id'] = $page_data['id'];
+        $page_data['sign_up_number'] += $page_data['sign_up_number'];
+        $this->page->update($page_data,$where);
         return 4;
    }
 

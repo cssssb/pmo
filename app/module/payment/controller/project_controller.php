@@ -320,7 +320,6 @@ class project_controller
         $data?$cond = 0:$cond = 1;
         $data['page_num'] = $post['query_condition']['page_num']['query_data'];
         $data['page_size'] = $post['query_condition']['page_size']['query_data'];
-       
         $data['data_head'] = app::load_sys_class('length')->return_length($data['data_body'],$data_head);
       //开始输出
       switch ($cond) {

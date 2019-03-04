@@ -23,12 +23,25 @@ class enroll_controller
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         $this->enroll = app::load_service_class('service_class', 'activity');//
     }
+    private function ip() {
+        //strcasecmp 比较两个字符，不区分大小写。返回0，>0，<0。
+        if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+            $ip = getenv('HTTP_CLIENT_IP');
+        } elseif(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+            $ip = getenv('HTTP_X_FORWARDED_FOR');
+        } elseif(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+            $ip = getenv('REMOTE_ADDR');
+        } elseif(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        $res =  preg_match ( '/[\d\.]{7,15}/', $ip, $matches ) ? $matches [0] : '';
+        return $res;
+    }
     //发送验证码
     public function commit(){
-        $post = $this->data->get_post();
-        $number = $post['number'];
-        $act_token = $post['act_token'];
-        $ip = ip();
+        $_POST['number']?$number = $_POST['number']:$this->data->out(5012);
+        $_POST['act_token']?$act_token = $_POST['act_token']:$this->data->out(5013);
+        $ip = $this->ip();
         $data = $this->enroll->commit_code($number,$act_token,$ip);
         if($data==true){
             $this->data->out(5005);
@@ -37,12 +50,11 @@ class enroll_controller
     }
     //发送详细数据
     public function send_data(){
-        $post = $this->data->get_post();
-        $number = $post['number'];
-        $code = $post['code'];
-        $name = $post['name'];
-        $company_name = $post['company_name'];
-        $act_token = $post['act_token'];
+        $code = $_POST['code'];
+        $name = $_POST['name'];
+        $company_name = $_POST['company_name'];
+        $act_token = $_POST['act_token'];
+        $number = $_POST['number'];
         (int)$data = $this->enroll->send_data($number,$code,$name,$company_name,$act_token);
         switch ($data) {
             case 1:
@@ -72,12 +84,12 @@ class enroll_controller
     }
     //验证登录 V0.1
     public function send_tel(){
-        $post = $this->data->get_post();
+       
     }
     //验证页面
     public function page(){
-        $post = $this->data->get_post();
-        $act_token = $post['act_token'];
+       
+        $act_token = $_POST['act_token'];
         $act_token = 'afuxnsd524d';
         isset($act_token)?true:$this->data->out(5004);
         $data = $this->enroll->page_list($act_token);
