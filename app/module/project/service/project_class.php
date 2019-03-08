@@ -207,12 +207,15 @@ final class project_class
     //   return $str;
 	$date = date('Ym',time());
 	$like = date('Y-m',time());
-	$where = "time like '$like%'";
+	$where = "unicode like '$date%'";
 	$number = $this->model->count($where);
-	if(strlen($number)<10){
+	$number==0?$number=1:true;
+	if($number<10){
 		$numbers = '00'.$number;
-	}elseif(strlen($number)<100){
+	}elseif($number<100){
 		$numbers = '0'.$number;
+	}else{
+		$numbers .= $number;
 	}
 	$str = $date.$numbers;
 	return $str;

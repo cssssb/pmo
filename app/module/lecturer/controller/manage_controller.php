@@ -23,55 +23,10 @@ class manage_controller
         $this->data = app::load_sys_class('protocol');//加载json数据模板
         //todo 加载相关模块
         $this->lecturer = \app::load_service_class('lecturer_class', 'lecturer');//加载项目大表
-        $this->code = \app::load_cont_class('common','user');//加载token
+        // $this->code = \app::load_cont_class('common','user');//加载token
        
     }
-    // public function list()
-    // {
-    //     //获取一条项目信息
-    //     $post = $this->data->get_post();//获得post
-    //     $cond = 0;//默认成功
-    //     // $post['id'] = 93;
-	// 	$data = $this->lecturer->of_list(1);
-    //     $data?$cond = 0:$cond = 1;
-    //     switch ($cond) {
-    //         case   1://异常1
-    //             $this->data->out(2002,[]);
-    //             break;
-          
-    //         default:
-    //             $this->data->out(2001, $data);
-    //         }
-       
-    // }
-    // public function add()
-    // {
-    //     /**
-    //      * ================
-    //      * @Author:    css
-    //      * @ver:       0.1
-    //      * @DataTime:  2018-10-20
-    //      * @describe:  add function
-    //      * ================
-    //      */
-    //     $post = $this->data->get_post();//获得post
-    //     $data['name'] = $post['data']['teacher_name'];
-    //     $data['unit_price'] = $post['data']['teacher_price'];
-    //     $data['coop_id'] = $post['data']['teacher_cooperation_model_id'];
-    //     if(!$data['name']){
-    //         $this->data->out(2010);
-    //     }
-    //     $ass = $this->lecturer->add($data);
-    //     $ass?$cond = 0:$cond = 1;
-    //     //开始输出
-    //     switch ($cond) {
-    //         case   1://异常1
-    //             $this->data->out(2004);
-    //             break;
-    //         default:
-    //             $this->data->out(2003,$post['data']);
-    //         }
-    // }
+
     public function cooperation()
     {
         /**
@@ -124,6 +79,7 @@ class manage_controller
             ["key"=> "pay_record", "value"=> "付款记录","size"=>"5"],
         ];
         $post = $this->data->get_post();
+        // $post['data_type'] = 'page_json';
         switch ($post['data_type']) {
             case   'page_json'://
                 return $this->list_page_json($post['query_condition'],$head);
@@ -131,17 +87,156 @@ class manage_controller
             case   'page_csv'://
                  return $this->list_csv($post['query_condition'],$head);
                   break;
+            default:
+                return $this->list_json();
               }
     }
 
     private function list_page_json($query_condition,$head){
-        
-        $data['body'] = $this->lecturer->list_page_json($query_condition);
+        $query = $query_condition;
+        unset($query['page_num'],$query['page_size']);
+        $data['data_body'] = $this->lecturer->model->list_page_json($query_condition['page_num'],$query_condition['page_size'],$query);
         $data?$cond = 0:$cond = 1;
-        $data['count'] = $this->lectuter->list_page_json_count($query_condition);
+        $data['count'] = $this->lecturer->model->list_page_json_count($query_condition);
         $data['page_num'] = $query_condition['page_num']['query_data'];
         $data['page_size'] = $query_condition['page_size']['query_data'];
         $data['data_head'] = $head;
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
+    private function list_json(){
+      $data = $this->lecturer->list_json();
+      $data?$cond=0:$cond=1;
+      //开始输出
+      switch($cond){
+          case 1://异常1
+          $this->data->out(2002,[]);
+          break;
+          default:
+            $this->data->out(2001,$data);
+      }
+    }
+    public function data_filter($post){
+        isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
+        isset($post['data']['parent_id'])?$data['id'] = $post['data']['parent_id']:true;
+        isset($post['data']['contact_information'])?$data['contact_information'] = $post['data']['contact_information']:true;//联系方式
+        isset($post['data']['describe'])?$data['describe'] = $post['data']['describe']:true;//讲师描述
+        isset($post['data']['intermediator'])?$data['intermediator'] = $post['data']['intermediator']:true;//联系人
+        isset($post['data']['name'])?$data['name'] = $post['data']['name']:true;//讲师姓名
+        isset($post['data']['pay_record'])?$data['pay_record'] = $post['data']['pay_record']:true;//支付记录
+        isset($post['data']['state_id'])?$data['state'] = $post['data']['state_id']:true;//讲师状态
+        isset($post['data']['teaching_direction'])?$data['teaching_direction'] = $post['data']['teaching_direction']:true;//讲师授课方向
+        isset($post['data']['teaching_record'])?$data['teaching_record'] = $post['data']['teaching_record']:true;//教学记录
+        isset($post['data']['unit_price'])?$data['unit_price'] = $post['data']['unit_price']:true;//基础课价
+        return $data;
+    }
+    public function add()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-03-04
+         * @describe:  add function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $list = $this->data_filter($post);
+        $data = $this->lecturer->add($list);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
+    public function edit()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-03-04
+         * @describe:  edit function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $list = $this->data_filter($post);
+        $data = $this->lecturer->edit($list);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2006);
+                break;
+            default:
+                $this->data->out(2005);
+            }
+    }
+    public function del()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-03-04
+         * @describe:  del function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->lecturer->del($post);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2009);
+                break;
+            default:
+                $this->data->out(2008);
+            }
+    }
+    // public function getByLeturerId(){
+    //     echo 1;
+    // }
+    public function getByLeturerId()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       
+         * @DataTime:  2019-03-04
+         * @describe:   function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->lecturer->get_one($post['id']);
+            $data['state_id'] = $data['state'];
+            switch ($data['state']) {
+                case '0':
+                    $data['state_name'] = '没联系过';
+                    break;
+                case '1':
+                    # code...
+                    $data['state_name'] = '偶尔联系';
+                    break;
+                case '2':
+                    # code...
+                    $data['state_name'] = '经常联系';
+                    break;
+            }
+        $data?$cond = 0:$cond = 1;
         //开始输出
         switch ($cond) {
             case   1://异常1

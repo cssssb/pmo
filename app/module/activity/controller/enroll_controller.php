@@ -125,4 +125,21 @@ class enroll_controller
 }
     return $return;
     }
+    //浏览次数
+    public function browse(){
+        $user_token = $_GET['user_token'];
+        $act_token = $_GET['act_token'];
+        // $act_token = 'afuxnsd524d';
+        // $user_token = 'afuxnsd524d';
+        $bool = $this->enroll->browse($user_token,$act_token);
+        $data?$cond = 0:$cond = 1;
+        switch ($cond) {
+            case 0:
+                $this->data->out(5016);
+                break;
+            default:
+                $this->data->out(5015);
+                break;
+        }
+    }
 }

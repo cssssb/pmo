@@ -21,12 +21,12 @@ final class static_class
 		$this->model = app::load_model_class('projectstatic', 'project');
 		$this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
 		$this->implement = \app::load_service_class('implement_plan_class', 'implement');//加载实施安排
+		$this->room = \app::load_service_class('implement_room_class', 'implement');//加载会场
 		$this->stay = \app::load_service_class('stay_class', 'travel');//加载差旅
 		$this->city = \app::load_service_class('city_class', 'travel');//加载室内交通
 		$this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
 		$this->meal = \app::load_service_class('meal_class', 'travel');//加载餐费
 		$this->project = \app::load_service_class('project_class', 'project');//加载项目大表
-		$this->room = \app::load_service_class('implement_room_class', 'implement');//加载会场
 		$this->examine = \app::load_service_class('examine_notes_class', 'examine');//加载审批
 	}
 	/**
@@ -65,7 +65,11 @@ final class static_class
 		$this->model->insert($data);
 		return $this->static_service($parent_id);
 	}
-
+	public function add_project_final($parent_id){
+		$data['parent_id'] = $parent_id;
+		$this->model->insert($data);
+		return $this->static_service($parent_id,2);
+	}
 	/**
 	 * ================
 	 * @Author:        css

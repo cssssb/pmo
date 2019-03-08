@@ -150,7 +150,7 @@ final class examine_project_class
         /*
             提交人并不为点击提交预算者。
             是项目的项目经理
-           先不修改
+            先不修改
         */
         $where['token'] = $token;
         $username = $this->user->get_one($where);

@@ -173,21 +173,11 @@ return array(
         "clazz_manage_enroll_is_agree"=>["clazz","manage","enroll_is_agree",[],[],"1.0","修改报名人员状态为通过"],
         "clazz_manage_enroll_is_refuse"=>["clazz","manage","enroll_is_refuse",[],[],"1.0","删除报名人员"],
 
-        "lecturer_manage_list" => ["lecturer", "manage", "list", [], [], '0.1',"讲师列表"],//讲师表
-        "lecturer_manage_cooperation"=>["lecturer","manage","cooperation",[],[],'0.1',"讲师长短期"],//讲师长期短期接口
-        "lecturer_manage_add"=>["lecturer","manage","add",
-        [
-        // "teacher_cooperation_model_id"=>"string",
-        // "add_a_teacher_cooperation_model_name"=>"string",
-        // "add_a_teacher_message"=>"string",
-        // "add_a_teacher_price"=>"string",
-        "teacher_name"=>"string",
-        "teacher_price"=>"string",
-        "teacher_cooperation_model_id"=>"string",
-        ]
-        ,[
-            "id"=>"string",
-            "name"=>"string",
-        ],'0.1',"新增讲师"],//新增讲师
+        "lecturer_manage_list" => ["lecturer", "manage", "list", [], [], '1.0',"讲师列表"],//讲师表
+        "lecturer_manage_cooperation"=>["lecturer","manage","cooperation",[],[],'1.0',"讲师长短期"],//讲师长期短期接口
+        "lecturer_manage_add"=>["lecturer","manage","add",[],[],'1.0',"新增讲师"],//新增讲师
+        "lecturer_manage_edit"=>["lecturer","manage","edit",[],[],'1.0',"新增讲师"],//修改讲师
+        "lecturer_manage_del"=>["lecturer","manage","del",[],[],'1.0',"新增讲师"],//删除讲师
+        "lecturer_data_getByLeturerId"=>["lecturer","manage","getByLeturerId",[],[],'1.0',"新增讲师"],//获取一条讲师信息
     ),
 );

@@ -21,8 +21,8 @@ use \system\model;
            }
         public function select_list_pass($page_num,$page_size,$condition=null){
             $offset = $page_size*($page_num-1);
-            $condition==null ? $where=1:true;
-        $where = app::load_sys_class('request')->where_sql($condition);
+            $condition==null ? $where=1:$where = app::load_sys_class('request')->where_sql($condition);
+        
             $sql  = "
                 select
                 *
@@ -36,8 +36,7 @@ use \system\model;
             return $this->fetch_array();
         }
         public function list_pass_count($condition){
-            $condition==null ? $where=1:true;
-            $where = app::load_sys_class('request')->where_sql($condition);
+            $condition==null ? $where=1:$where = app::load_sys_class('request')->where_sql($condition);;
             $sql= "
             select
             count(*)

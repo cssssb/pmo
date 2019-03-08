@@ -21,7 +21,7 @@ final class service_class
         $this->user = app::load_model_class('enroll_user', 'activity');//admin用户
         $this->signup = app::load_model_class('enroll_signup', 'activity');//报名用户
         $this->page = app::load_model_class('enroll_page', 'activity');//页面详细信息
-        $this->visitor = app::load_model_class('enroll_visitor', 'activity');//记录浏览用户
+        $this->browse = app::load_model_class('enroll_browse', 'activity');//记录浏览用户
         $this->activity = app::load_model_class('enroll_activity', 'activity');//活动列表
     }
     private function token()
@@ -88,7 +88,33 @@ final class service_class
    public function page_list($from_token){
        $where['access_token'] = $from_token;
         $from_id = $this->activity->get_one($where)['id'];
-        $page_data = $this->page->select('f_id='.$from_id);
+        $number = $this->page->select('f_id='.$from_id,'count(*)')[0]['count(*)']-4;
+        $page_data = $this->page->select('f_id='.$from_id,'*',"$number,4");
         return $page_data;
+   }
+   public function browse($user_token,$act_token){
+    $where['user_token'] = $user_token;   
+    $where['act_token'] = $act_token;
+    $page_id = $this->activity->get_one("access_token='$act_token'")['id'];
+    $number = $this->page->select('f_id='.$page_id,'count(*)')[0]['count(*)']-4;
+    $act_ids = $this->page->select('f_id'.$from_id,'id',"$number,4");
+    foreach($act_ids as $k){
+        $ids[] = $k['id'];
+    }
+    $ids = implode(',',$ids);
+    //获取
+    $bool = $this->browse->get_one($where);
+    if($bool==true){
+        // 增加浏览次数
+        $this->page->update('page_browse_number=page_browse_number+1 '," id in ($ids)");
+        return true;
+    }else{
+        $this->browse->insert($where);
+        //增加浏览次数和用户浏览次数
+        $this->page->update('page_browse_number=page_browse_number+1 , user_browse_number=user_browse_number+1'," id in ($ids)");
+
+        return true;
+    }
+    return false;
    }
 }
