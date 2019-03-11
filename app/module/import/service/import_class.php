@@ -33,11 +33,11 @@ final class import_class
         $this->travel_meal = app::load_model_class('meal', 'travel');
         $this->travel_province = app::load_model_class('province_cost', 'travel');
 		$this->travel_stay = app::load_model_class('stay_cost', 'travel');
-        $this->staff_user = app::load_model_class('staff_user', 'user');
+        // $this-> = app::load_model_class('staff_user', 'user');
         $this->address = app::load_model_class('address','project');
         $this->static = app::load_service_class('static_class','project');//加载列表json
         $this->user = app::load_model_class('user','user');//加载列表json
-        
+        $this->staff_user = \app::load_model_class('staff', 'staff');
         
 		$this->implement = app::load_service_class('implement_plan_class', 'implement');//加载实施安排
 		$this->room = app::load_service_class('implement_room_class', 'implement');//加载会场
@@ -80,7 +80,7 @@ final class import_class
             return $id;
         }else{
             $data['name'] = $name;
-            $data['remark'] = '已离职';
+            $data['quit'] = '0';
             $id = $this->staff_user->insert($data,true);
             return $id;
         }

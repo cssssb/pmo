@@ -65,10 +65,11 @@ final class static_class
 		$this->model->insert($data);
 		return $this->static_service($parent_id);
 	}
-	public function add_project_final($parent_id){
+	public function add_project_final($parent_id)
+	{
 		$data['parent_id'] = $parent_id;
 		$this->model->insert($data);
-		return $this->static_service($parent_id,2);
+		return $this->static_service($parent_id, 2);
 	}
 	/**
 	 * ================
@@ -84,7 +85,7 @@ final class static_class
 	{
 		$data = $this->model->select(1, 'data', '', 'id DESC');
 		foreach ($data as $k) {
-			$ass[] = json_decode($k['data'],true);
+			$ass[] = json_decode($k['data'], true);
 		}
 		return $ass;
 	}
@@ -185,7 +186,7 @@ final class static_class
 				$data[$key]['gross_interest_rate'] = round($data[$key]['project_profit'] / $data[$key]['expected_income'] * 100, 2) . '%';
 			}
 		// echo json_encode($data);die;
-			if (isset($is_unset_examine_type) && ($is_unset_examine_type == 1 || $is_unset_examine_type==2)) {
+			if (isset($is_unset_examine_type) && ($is_unset_examine_type == 1 || $is_unset_examine_type == 2)) {
 				$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_get_unpass($val['id']);//预算最后一个
 			} else {
 				$data[$key]['examine']['budget']['step'] = $this->examine->examine_notes_list($val['id']);
