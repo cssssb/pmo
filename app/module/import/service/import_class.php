@@ -36,6 +36,7 @@ final class import_class
         $this->staff_user = app::load_model_class('staff_user', 'user');
         $this->address = app::load_model_class('address','project');
         $this->static = app::load_service_class('static_class','project');//加载列表json
+        $this->user = app::load_model_class('user','user');//加载列表json
         
         
 		$this->implement = app::load_service_class('implement_plan_class', 'implement');//加载实施安排
@@ -94,6 +95,13 @@ final class import_class
         $id = $this->address->insert($where,true);
         return $id;
     }
+    private function add_user_id($name){
+        $where['username'] = $name;
+        $id = $this->user->get_one($where)['id'];
+       if($id==true){
+        return $id;}
+        return 0;
+    }
     //数据源表
     private function project_header($list){
     //   id                    项目id       *
@@ -108,17 +116,18 @@ final class import_class
     
         switch ($list['department']) {
             case '行业培训部':
-                $data['progam_id'] = 1;
+                $data['template_id'] = 1;
                 break;
             case '公共培训部';
-                $data['progam_id'] = 2;
+                $data['template_id'] = 2;
                 break;
             default:
-                $data['progam_id'] = 3;
+                $data['template_id'] = 3;
                 break;
         }
-        
         $data['project_leader_id'] = $this->staff_user_id($list['project_leader']);
+        $data['staff_id'] = $this->staff_user_id($list['project_leader']);
+        $data['add_user_id'] = $this->add_user_id($list['project_leader']);
         $data['time'] = date('Y-m-d',time());
         $data['unicode'] = $list['unicode'];
         return $this->project_header->insert($data,true);
@@ -138,11 +147,11 @@ final class import_class
         // institutional_consulting_fees   机构咨询费
         // personal_consulting_fees        个人咨询费
         $data['project_name'] = $list['course_name'];
-        $data['project_customer_name'] = $list['customer_name'];
+        $data['project_customer_name'] = $list['customer_name']; 
         $data['project_days'] = $list['number_data'];
         $data['project_date'] = $list['start_data'];
-        $data['project_end_date'] = preg_replace("/[.]/","-",$list['end_data']);
-        $data['project_start_date'] = preg_replace("/[.]/","-",$list['start_data']);
+        $data['project_end_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['end_data']);
+        $data['project_start_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['start_data']);
         $data['project_training_numbers'] = $list['number_of_trainees'];
         $data['project_training_ares'] = $this->project_training_ares($list['class_city']);
         $data['project_income'] = $list['all_income'];

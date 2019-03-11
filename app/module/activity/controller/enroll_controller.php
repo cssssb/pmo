@@ -19,8 +19,9 @@ class enroll_controller
      * 构造函数
      */
     public function __construct()
-    {
+    {   
         $this->data = app::load_sys_class('protocol');//加载json数据模板
+         
         $this->enroll = app::load_service_class('service_class', 'activity');//
     }
     private function ip() {
@@ -40,6 +41,10 @@ class enroll_controller
     //发送验证码
     public function commit(){
         $_POST['number']?$number = $_POST['number']:$this->data->out(5012);
+        if (preg_match("/^1[34578]{1}\d{9}$/", $number)!=true) {
+            $this->data->out(5017);
+        }
+       
         $_POST['act_token']?$act_token = $_POST['act_token']:$this->data->out(5013);
         $ip = $this->ip();
         $data = $this->enroll->commit_code($number,$act_token,$ip);
@@ -55,6 +60,12 @@ class enroll_controller
         $company_name = $_POST['company_name'];
         $act_token = $_POST['act_token'];
         $number = $_POST['number'];
+        if (preg_match("/^1[34578]{1}\d{9}$/", $number)!=true) {
+            $this->data->out(5017);
+        }
+        if(preg_match('/^[\x{4e00}-\x{9fa5}]+$/u',$name)!=true){
+            $this->data->out(5018);
+        }
         (int)$data = $this->enroll->send_data($number,$code,$name,$company_name,$act_token);
         switch ($data) {
             case 1:
@@ -88,9 +99,9 @@ class enroll_controller
     }
     //验证页面
     public function page(){
-       
         $act_token = $_POST['act_token'];
-        $act_token = 'afuxnsd524d';
+        // $act_token = 'afuxnsd524d';
+
         isset($act_token)?true:$this->data->out(5004);
         $data = $this->enroll->page_list($act_token);
         
@@ -129,8 +140,6 @@ class enroll_controller
     public function browse(){
         $user_token = $_GET['user_token'];
         $act_token = $_GET['act_token'];
-        // $act_token = 'afuxnsd524d';
-        // $user_token = 'afuxnsd524d';
         $bool = $this->enroll->browse($user_token,$act_token);
         $data?$cond = 0:$cond = 1;
         switch ($cond) {

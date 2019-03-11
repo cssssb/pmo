@@ -88,7 +88,7 @@ class newding_controller
      }
 
      //和表里的老员工进行匹配  有此id quit值变为1
-     public function to_equally($new){
+     private function to_equally($new){
         $mode = app::load_model_class('staff','staff');
          $old = $this->old_staff();
          foreach($new as $k){
