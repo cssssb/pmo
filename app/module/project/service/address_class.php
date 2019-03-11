@@ -58,12 +58,12 @@ final class address_class
         return $this->model->update($where);
     }
     //拼接
-    public function connect($id){
+    public function connect($id=0){
         $where['id'] = $id;
         $data = $this->model->get_one($where);
-        $one = $this->ares->get_one('id = '.$data['province_id'],'name');
-        $two = $this->ares->get_one('id = '.$data['city_id'],'name');
-        $return = $one['name'].'--'.$two['name'].'--'.$data['name'];
+        $data==true ?$one = $this->ares->get_one('id = '.$data['province_id'],'name'):true;
+        $data==true?$two = $this->ares->get_one('id = '.$data['city_id'],'name'):true;
+        $data==true?$return = $one['name'].'--'.$two['name'].'--'.$data['name']:$return = true;
         return $return;
     }
 }

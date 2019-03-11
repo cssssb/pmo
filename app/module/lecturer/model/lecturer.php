@@ -33,7 +33,7 @@ class lecturer extends \system\model {
 		$data = $this->fetch_array($all);
 		return $data;
 	}
-	public function list_page_json($page_num,$page_size,$query=null){
+	public function list_page_json($page_num='',$page_size='',$query=null){
 		$offset = $page_size*($page_num-1);
 		$query==null ? $where=1:$where = app::load_sys_class('request')->where_sql($query);
 		$sql = "

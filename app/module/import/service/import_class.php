@@ -150,10 +150,13 @@ final class import_class
         $data['project_customer_name'] = $list['customer_name']; 
         $data['project_days'] = $list['number_data'];
         $data['project_date'] = $list['start_data'];
+        //把9.23改为09.23；
+        strpos($list['end_data'],'.')==2?true:$list['end_data']='0'.$list['end_data'];
+        strpos($list['start_data'],'.')==2?true:$list['start_data']='0'.$list['start_data'];
         $data['project_end_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['end_data']);
         $data['project_start_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['start_data']);
         $data['project_training_numbers'] = $list['number_of_trainees'];
-        $data['project_training_ares'] = $this->project_training_ares($list['class_city']);
+        // $data['project_training_ares'] = $this->project_training_ares($list['class_city']);
         $data['project_income'] = $list['all_income'];
         $data['project_tax_rate'] = $list['tax'];
         $data['institutional_consulting_fees'] = $list['provinces_cooperation_fee'];
