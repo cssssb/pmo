@@ -305,7 +305,7 @@ class project_controller
                 $k['state'] = '作废';
                 break;
             case '0':
-                $k['state'] = '作废';
+                $k['state'] = '未提交';
                 break;
             case '1':
                 $k['state'] = '提交审批中';
@@ -345,7 +345,7 @@ class project_controller
                 $k['state'] = '作废';
                 break;
             case '0':
-                $k['state'] = '作废';
+                $k['state'] = '未提交';
                 break;
             case '1':
                 $k['state'] = '提交审批中';

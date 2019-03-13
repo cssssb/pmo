@@ -151,10 +151,13 @@ final class import_class
         $data['project_days'] = $list['number_data'];
         $data['project_date'] = $list['start_data'];
         //把9.23改为09.23；
-        strpos($list['end_data'],'.')==2?true:$list['end_data']='0'.$list['end_data'];
-        strpos($list['start_data'],'.')==2?true:$list['start_data']='0'.$list['start_data'];
-        $data['project_end_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['end_data']);
-        $data['project_start_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['start_data']);
+        // strpos($list['end_data'],'.')==2?true:$list['end_data']='0'.$list['end_data'];
+        // strpos($list['start_data'],'.')==2?true:$list['start_data']='0'.$list['start_data'];
+        // $data['project_end_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['end_data']);
+        // $data['project_start_date'] = substr($list['unicode'],0,4).'-'.preg_replace("/[.]/","-",$list['start_data']);
+        $data['project_end_date'] = $list['end_data'];
+        $data['project_start_date'] = $list['start_data'];
+        
         $data['project_training_numbers'] = $list['number_of_trainees'];
         // $data['project_training_ares'] = $this->project_training_ares($list['class_city']);
         $data['project_income'] = $list['all_income'];
@@ -205,6 +208,33 @@ final class import_class
         $data['total_price'] = $list['meeting_fee'];
         return $this->implement_room->insert($data);
     }
+    // private function lecturer_plan($list,$parent_id){
+    //     // id
+    //     // parent_id               项目id
+    //     // lecturer_id             讲师表id（暂时没用）
+    //     // tax                     税
+    //     // fee                     讲课费
+    //     // day                     讲课天数
+    //     // duty_id                 职责id
+    //     // state
+    //     // time
+
+    //     $data['parent_id'] = $parent_id;
+    //     if($list['full_time_lecturer_name']!=='无'){
+    //         $lecturer_name = $list['full_time_lecturer_name'];}else{
+    //             if(strstr($list['part_time_lecturer_name'],'、')==true){
+    //         $lecturer_name = substr($list['part_time_lecturer_name'],0,strrpos($a,'、'));}else{
+    //             $lecturer_name  = $list['part_time_lecturer_name'];
+    //         }}
+    //     $lecturer_id = $this->get_lecturer_id($lecturer_name);
+    //     $data['lecturer_id'] = $lecturer_id;
+    //     $data['duty_id'] = 1;
+    //     $data['tax'] = $list['part_time_lecturer_tax'];
+    //     $data['day'] = $list['number_data'];
+    //     $data['fee'] = $list['all_lecturer_fee'];
+    //     return $this->lecturer_plan->insert($data);
+        
+    // }
     private function lecturer_plan($list,$parent_id){
         // id
         // parent_id               项目id
@@ -217,20 +247,31 @@ final class import_class
         // time
 
         $data['parent_id'] = $parent_id;
-        if($list['full_time_lecturer_name']!=='无'){
-            $lecturer_name = $list['full_time_lecturer_name'];}else{
-                if(strstr($list['part_time_lecturer_name'],'、')==true){
-            $lecturer_name = substr($list['part_time_lecturer_name'],0,strrpos($a,'、'));}else{
-                $lecturer_name  = $list['part_time_lecturer_name'];
-            }}
-        $lecturer_id = $this->get_lecturer_id($lecturer_name);
-        $data['lecturer_id'] = $lecturer_id;
-        $data['duty_id'] = 1;
-        $data['tax'] = $list['part_time_lecturer_tax'];
-        $data['day'] = $list['number_data'];
-        $data['fee'] = $list['all_lecturer_fee'];
+        if($list['full_time_lecturer_name']==true){
+            $this->add_full_time_lecturer_name($parent_id,$list['part_time_lecturer_tax'],$list['number_data'],$list['all_lecturer_fee'],$list['full_time_lecturer_name']);
+        }
+        if($list['part_time_lecturer_name']==true){
+            $this->add_part_time_lecturer_name($parent_id,$list['part_time_lecturer_name']);
+        }
+        return true;
+    }
+    private function add_part_time_lecturer_name($parent_id,$part_time_lecturer_name){
+        strstr($part_time_lecturer_name,',')?$data = explode(',',$part_time_lecturer_name):$data[0]=$part_time_lecturer_name;
+        $project_data['parent_id'] = $parent_id;
+        foreach($data as $k){
+            $project_data['lecturer_id'] = $this->get_lecturer_id($k);
+            $this->lecturer_plan->insert($project_data);
+        }
+        return true;
+    }
+    private function add_full_time_lecturer_name($parent_id,$tax,$number_data,$fee,$lecturer_name){
+        $data['parent_id'] = $parent_id;
+        $data['tax'] = $tax;
+        $data['day'] = $number_data;
+        $fee == '无'?$data['fee'] = 0:$data['fee']=$fee;
+        // $data['fee'] = $fee;
+        $data['lecturer_id'] = $this->get_lecturer_id($lecturer_name);
         return $this->lecturer_plan->insert($data);
-        
     }
     private function get_lecturer_id($lecturer_name){
         $where['name'] = $lecturer_name;

@@ -176,8 +176,8 @@ return array(
         "lecturer_manage_list" => ["lecturer", "manage", "list", [], [], '1.0',"讲师列表"],//讲师表
         "lecturer_manage_cooperation"=>["lecturer","manage","cooperation",[],[],'1.0',"讲师长短期"],//讲师长期短期接口
         "lecturer_manage_add"=>["lecturer","manage","add",[],[],'1.0',"新增讲师"],//新增讲师
-        "lecturer_manage_edit"=>["lecturer","manage","edit",[],[],'1.0',"新增讲师"],//修改讲师
-        "lecturer_manage_del"=>["lecturer","manage","del",[],[],'1.0',"新增讲师"],//删除讲师
-        "lecturer_data_getByLeturerId"=>["lecturer","manage","getByLeturerId",[],[],'1.0',"新增讲师"],//获取一条讲师信息
+        "lecturer_manage_edit"=>["lecturer","manage","edit",[],[],'1.0',"修改讲师"],//修改讲师
+        "lecturer_manage_del"=>["lecturer","manage","del",[],[],'1.0',"删除讲师"],//删除讲师
+        "lecturer_data_getByLeturerId"=>["lecturer","manage","getByLeturerId",[],[],'1.0',"获取一条讲师信息"],//获取一条讲师信息
     ),
 );

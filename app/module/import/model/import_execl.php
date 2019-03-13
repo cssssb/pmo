@@ -16,7 +16,7 @@ use \system\model;
        public function __construct() {
            $this->db_config = app::load_config('database');
            $this->db_setting = 'default';
-           $this->table_name = 'import_execl';
+           $this->table_name = 'import_execl_copy1';
            parent::__construct();
            }
     
