@@ -7,6 +7,11 @@ final class user_class{
 		$this->model = \app::load_model_class('user','user');
 	
     }
+    public function edit_password($token,$new_password){
+        $data['password'] = $new_password;
+        $where['token'] = $token;
+        return $this->model->update($data,$where);
+    }
     /**
      * ================
      * @Author:        lion
@@ -17,23 +22,18 @@ final class user_class{
      * @ErrorReason:   
      * ================
      */
-    public function login($username='',$password=''){
-        if(!$username){
-            return  1;
-        }
-        if(!$password){
-            return  2;
-        }
+    public function login($username,$password){
+        
         $where['username'] = $username;
         $where['password'] = $password;
         $token = $this->token();
         $data['token'] = $token;
         $data['time'] = date('Y-m-d H:i:s',time());
         $return = $this->model->get_one($where);
-        $this->model->update($data,$where);
-        if(!$return){
+        if($return!=true){
             return 3;
         }
+        $this->model->update($data,$where);
         
             return $token;
     }

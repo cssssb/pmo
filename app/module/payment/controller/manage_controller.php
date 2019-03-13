@@ -318,7 +318,7 @@ class manage_controller
               * ================
               */
              $post = $this->data->get_post();//获得post
-             $data = $this->payment->edit_financial_number($post['id'],$post['financial_number']);
+             $data = $this->payment->edit_financial_number($post['id'],$post['financial_number'],$post['describe']);
              $data?$cond = 0:$cond = 1;
              
              //开始输出

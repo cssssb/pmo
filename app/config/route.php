@@ -179,5 +179,7 @@ return array(
         "lecturer_manage_edit"=>["lecturer","manage","edit",[],[],'1.0',"修改讲师"],//修改讲师
         "lecturer_manage_del"=>["lecturer","manage","del",[],[],'1.0',"删除讲师"],//删除讲师
         "lecturer_data_getByLeturerId"=>["lecturer","manage","getByLeturerId",[],[],'1.0',"获取一条讲师信息"],//获取一条讲师信息
+        //3/13
+        "user_account_edit_password"=>["user","account","edit_password",[],[],'1.0',"修改密码"],//修改密码
     ),
 );

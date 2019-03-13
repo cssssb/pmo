@@ -149,11 +149,12 @@ final class payment_class
          * @ErrorReason:   
          * ================
          */
-        public function edit_financial_number($id,$financial_number){
+        public function edit_financial_number($id,$financial_number,$describe=''){
             $where['id'] = $id;
             $data = $this->model->get_one($where);
             if($data['state']==="2"){
                 $data['financial_number'] = $financial_number;
+                $data['describe'] = $describe;
                 return $this->model->update($data,$where);}
             return false;
         }

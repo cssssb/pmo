@@ -51,35 +51,33 @@ class account_controller
          $post = $this->data->get_post();//获得post
         //  $post['account'] = '褚寅良'; 
         //  $post['password'] = '123456';
+        if($post['account']!=true){
+            $this->data->out(3001,$post);
+            
+        }
+        if($post['password']!=true){
+        $this->data->out(3002,$post);
+    }
          $strlen_username = strlen($post['account']);
          $strlen_password = strlen($post['password']);
          if(!preg_match(
              "/^[a-zA-Z0-9_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/",$post['account'])){
-             $cond = 4;
              $this->data->out(3004,$post);
          } elseif (20 < $strlen_username || $strlen_username < 2) {
-             $cond = 5;
              $this->data->out(3005,$post);
          }
          if (!preg_match(
             "/^[a-zA-Z\d_]{6,}$/",$post['password']
         )) {
-            $cond = 6;   
             $this->data->out(3006);        
         } elseif (19 < $strlen_password) {
-            $cond = 7;
             $this->data->out(3007);
         }
          $cond = $this->user->login($post['account'],substr(md5($post['password']),0,8));
         //  var_dump($code);die;
         //开始输出
         switch ($cond) {
-            case   1://未发送账号
-                $this->data->out(3001,$post);
-                break;
-            case   2://未发送密码
-                $this->data->out(3002,$post);
-                break;
+           
             case   3://账号密码不符
                 $this->data->out(3003,$post);
                 break;
@@ -150,7 +148,7 @@ class account_controller
         }
      //分配账号密码器
     public function admin_user(){
-        $password = '123456';
+        $password = '1233211234567';
         $password_user = substr(md5($password),0,8);
         echo $password_user;
     }
@@ -177,4 +175,44 @@ class account_controller
             echo 2;
         }
     }
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-03-13
+     * @Return:        
+     * @Notes:         修改密码
+     * @ErrorReason:   
+     * ================
+     */
+     public function edit_password()
+     {
+         /**
+          * ================
+          * @Author:    css
+          * @ver:       
+          * @DataTime:  2019-03-13
+          * @describe:  edit_password function
+          * ================
+          */
+         $post = $this->data->get_post();//获得post
+         if (!preg_match(
+            "/^[a-zA-Z\d_]{6,}$/",$post['new_password']
+        )){
+            $this->data->out(3006);
+        }
+         $new_password = substr(md5($post['new_password']),0,8);
+         $data = $this->user->edit_password($post['token'],$new_password);
+         $data?$cond = 0:$cond = 1;
+         
+         //开始输出
+         switch ($cond) {
+             case   1://异常1
+                 $this->data->out(4007);
+                 break;
+             default:
+                 $this->data->out(4006);
+             }
+     }
+    
 } 
