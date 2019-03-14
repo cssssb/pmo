@@ -83,7 +83,7 @@ final class static_class
 	 */
 	public function list()
 	{
-		$data = $this->model->select(1, 'data', '', 'id DESC');
+		$data = $this->model->select(1, 'data', '1,20','id DESC');
 		foreach ($data as $k) {
 			$ass[] = json_decode($k['data'], true);
 		}

@@ -66,8 +66,8 @@ defined('IN_LION') or exit('No permission resources.');
             }
             if($v['condition']=='more'){
                 $v['database']?
-                $where_sql .= $v['database'].".$k >= ".$v['query_data']." and":
-                $where_sql .= "$k >= ".$v['query_data']." and";
+                $where_sql .= $v['database'].".$k >= ".$v['query_data']." and ":
+                $where_sql .= "$k >= ".$v['query_data']." and ";
             }
             if($v['condition']=='less'){
                 $v['database']?

@@ -91,7 +91,27 @@ class manage_controller
                 return $this->list_json();
               }
     }
+    private function list_csv($condition,$data_head){
+        unset($condition['page_num'],$condition['page_size']);
+        // $list = $this->payment->list_pass($condition);
+        $list = $this->lecturer->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
 
+        foreach($data_head as $k){
+            $head[] = $k['value'];
+            $data[] = $k['key'];
+        }
+         //只取出以一维数组的值为键值的二维数组的值
+         foreach($list as $key=>$val){
+            $a = array_keys($val);
+            foreach($data as $k){
+            if(in_array($k,$a)){
+                $ass[$key][$k] = $val[$k];
+            }
+        }}
+        $name = time();
+
+        return  app::load_sys_class('csv_out')->csv_class($ass,$name.'.csv',$head);
+    }
     private function list_page_json($query_condition,$head){
         $query = $query_condition;
         unset($query['page_num'],$query['page_size']);
@@ -122,7 +142,7 @@ class manage_controller
             $this->data->out(2001,$data);
       }
     }
-    public function data_filter($post){
+    private function data_filter($post){
         isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
         isset($post['data']['parent_id'])?$data['id'] = $post['data']['parent_id']:true;
         isset($post['data']['contact_information'])?$data['contact_information'] = $post['data']['contact_information']:true;//联系方式

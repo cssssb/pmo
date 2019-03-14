@@ -181,5 +181,11 @@ return array(
         "lecturer_data_getByLeturerId"=>["lecturer","manage","getByLeturerId",[],[],'1.0',"获取一条讲师信息"],//获取一条讲师信息
         //3/13
         "user_account_edit_password"=>["user","account","edit_password",[],[],'1.0',"修改密码"],//修改密码
+        //3、13课程的接口
+        "course_manage_list"=>["course","manage","list",[],[],'1.0',"课程列表"],//课程列表
+        "course_manage_add"=>["course","manage","add",[],[],'1.0',"课程列表"],//添加课程
+        "course_manage_edit"=>["course","manage","edit",[],[],'1.0',"课程列表"],//修改课程
+        "course_manage_del"=>["course","manage","del",[],[],'1.0',"课程列表"],//删除课程
+        "course_data_getByCourseId"=>["course","manage","getByCourseId",[],[],'1.0',"课程列表"],//获取一条课程
     ),
 );

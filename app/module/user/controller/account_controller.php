@@ -148,9 +148,12 @@ class account_controller
         }
      //分配账号密码器
     public function admin_user(){
-        $password = '1233211234567';
-        $password_user = substr(md5($password),0,8);
-        echo $password_user;
+        // $password = '1233211234567';
+        // $password_user = substr(md5($password),0,8);
+        // echo $password_user;
+        $where_sql = 'state >= 0 and ';
+        $a = substr($where_sql,0,strrpos($where_sql,'and '));
+        echo $a;
     }
 
     //账号分配器

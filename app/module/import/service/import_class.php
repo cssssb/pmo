@@ -46,6 +46,7 @@ final class import_class
         
     }
     public function analysis(){
+        echo 1;die;
         $list = $this->model->select(1);
     //    return $list;
         $bool = $this->manage($list);

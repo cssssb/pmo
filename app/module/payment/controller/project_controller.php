@@ -295,6 +295,8 @@ class project_controller
       private function list_page_json($post,$data_head){
         $condition = $post['query_condition'];
         unset($condition['page_num'],$condition['page_size']);
+        $condition['state']['condition'] = 'more';
+        $condition['state']['query_data'] = 1;
         $data['data_body'] = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
         foreach($data['data_body'] as &$k){
         switch ($k['state']) {
