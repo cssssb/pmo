@@ -15,8 +15,8 @@ use \system\model;
    class classification extends model {
        public function __construct() {
            $this->db_config = app::load_config('database');
-           $this->db_setting = 'default';
-           $this->table_name = '';
+           $this->db_setting = 'course';
+           $this->table_name = 'course_type';
            parent::__construct();
            }
     

@@ -116,6 +116,9 @@ class manage_controller
         $query = $query_condition;
         unset($query['page_num'],$query['page_size']);
         $data['data_body'] = $this->lecturer->model->list_page_json($query_condition['page_num'],$query_condition['page_size'],$query);
+        foreach($data['data_body'] as &$k){
+            $k['describe']? $k['describe'] = json_decode($k['describe'],true):$k['describe']=[];
+         }
         $data?$cond = 0:$cond = 1;
         $data['count'] = $this->lecturer->model->list_page_json_count($query_condition);
         $data['page_num'] = $query_condition['page_num']['query_data'];
@@ -132,6 +135,9 @@ class manage_controller
     }
     private function list_json(){
       $data = $this->lecturer->list_json();
+      foreach($data as &$k){
+       $k['describe']? $k['describe'] = json_decode($k['describe'],true):$k['describe']=[];
+    }
       $data?$cond=0:$cond=1;
       //开始输出
       switch($cond){
@@ -146,7 +152,7 @@ class manage_controller
         isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
         isset($post['data']['parent_id'])?$data['id'] = $post['data']['parent_id']:true;
         isset($post['data']['contact_information'])?$data['contact_information'] = $post['data']['contact_information']:true;//联系方式
-        isset($post['data']['describe'])?$data['describe'] = $post['data']['describe']:true;//讲师描述
+        isset($post['data']['describe'])?$data['describe'] = json_encode($post['data']['describe'],JSON_UNESCAPED_UNICODE):true;//讲师描述
         isset($post['data']['intermediator'])?$data['intermediator'] = $post['data']['intermediator']:true;//联系人
         isset($post['data']['name'])?$data['name'] = $post['data']['name']:true;//讲师姓名
         isset($post['data']['pay_record'])?$data['pay_record'] = $post['data']['pay_record']:true;//支付记录
@@ -242,6 +248,7 @@ class manage_controller
          */
         $post = $this->data->get_post();//获得post
         $data = $this->lecturer->get_one($post['id']);
+        $data['describe'] = json_decode($data['describe'],true);
             $data['state_id'] = $data['state'];
             switch ($data['state']) {
                 case '0':

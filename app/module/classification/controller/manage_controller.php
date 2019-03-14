@@ -57,15 +57,54 @@ class manage_controller
                 $this->data->out(1003);
             }
     }
-    private function list_page_json($post,$head){
-
+    public function list_page_json()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-03-14
+         * @describe:  list_page_json function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        
+        $data = $this->classification->model->list_page_json($post);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out();
+                break;
+            default:
+                $this->data->out();
+            }
     }
-    private function list_json($post,$head){
-
+    private function list_json()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       
+         * @DataTime:  2019-03-14
+         * @describe:  list_json function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        // $data = ;
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out();
+                break;
+            default:
+                $this->data->out();
+            }
     }
-    private function list_csv($post,$head){
-
-    }
+    
     public function data_filter($post){
         isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
         return $data;

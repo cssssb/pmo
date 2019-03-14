@@ -41,7 +41,7 @@ final class service_class
     $have = $this->signup->get_one('phone ='.$number.' and (state=1 or state=2) and form_id='.$data['form_id']);
     app::load_sys_class('message')->send_mes($number,$data['code']);
     if($have){
-       return $this->signup->update('code_time='.time().'code='.$data['code'],'phone='.$number.' and form_id='.$data['form_id']);
+       return $this->signup->update('code_time='.time().',code='.$data['code'],'phone='.$number.' and form_id='.$data['form_id']);
     }
     return $this->signup->insert($data);
    }
@@ -76,6 +76,9 @@ final class service_class
             return $this->update_sign_up_number($page_data);
             
         }
+        $course = $page_data['name'].'-'.$page_data['head_name'].'-'.$page_data['title1'];
+        app::load_sys_class('message')->root_send_mes('18801213590',$course,$name,$number,$company_name);
+        app::load_sys_class('message')->root_send_mes('13552323831',$course,$name,$number,$company_name);
         return 5;
     }
    private function update_sign_up_number($page_data){
