@@ -73,13 +73,13 @@ final class service_class
         $data['company_name'] = $company_name;
         //通过验证 将数据添加到表signup 状态字段改为2
         if($this->signup->update($data,$where)){
+            $course = $page_data['name'].'-'.$page_data['head_name'].'-'.$page_data['title1'];
+        app::load_sys_class('message')->root_send_mes('18801213590',$course,$name,$number,$company_name);
+        app::load_sys_class('message')->root_send_mes('13552323831',$course,$name,$number,$company_name);
             return $this->update_sign_up_number($page_data);
             
         }
-        $course = $page_data['name'].'-'.$page_data['head_name'].'-'.$page_data['title1'];
-        app::load_sys_class('message')->root_send_mes('18801213590',$course,$name,$number,$company_name);
-        app::load_sys_class('message')->root_send_mes('13552323831',$course,$name,$number,$company_name);
-        return 5;
+        
     }
    private function update_sign_up_number($page_data){
         $where['id'] = $page_data['id'];

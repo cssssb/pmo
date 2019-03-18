@@ -1,0 +1,57 @@
+Listen 666
+Listen 777
+Listen 196
+<VirtualHost _default_:80> 
+  ServerName www.csst.com.cn
+  DocumentRoot e:/code/php/csstwebsite
+  <Directory  "e:/code/php/csstwebsite/">
+    Options +Indexes +Includes +FollowSymLinks +MultiViews
+    AllowOverride All
+    Require all granted
+    Header set Access-Control-Allow-Origin *
+  </Directory>
+</VirtualHost>
+
+
+
+<VirtualHost *:777>
+ DocumentRoot D:\PHPTutorial\code\test\app
+  <Directory  "D:\PHPTutorial\code\test\app">
+    Options -Indexes +Includes +FollowSymLinks +MultiViews
+    AllowOverride All
+    Require all granted
+    <IfModule mod_rewrite.c>
+      RewriteEngine On
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteCond %{REQUEST_FILENAME} !-d
+      RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+    </IfModule>
+  
+  </Directory>
+</VirtualHost>
+
+<VirtualHost *:666>
+ DocumentRoot D:\PHPTutorial\code\erp\app
+  <Directory  "D:\PHPTutorial\code\erp\app">
+    Options -Indexes +Includes +FollowSymLinks +MultiViews
+    AllowOverride All
+    Require all granted
+    <IfModule mod_rewrite.c>
+      RewriteEngine On
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteCond %{REQUEST_FILENAME} !-d
+      RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+    </IfModule>
+  
+  </Directory>
+</VirtualHost>
+<VirtualHost *:196>
+ DocumentRoot D:\PHPTutorial\WWW
+  <Directory  "D:\PHPTutorial\WWW">
+    Options -Indexes -FollowSymLinks +ExecCGI
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  </Directory>
+</VirtualHost>

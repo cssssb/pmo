@@ -187,5 +187,25 @@ return array(
         "course_manage_edit"=>["course","manage","edit",[],[],'1.0',"课程列表"],//修改课程
         "course_manage_del"=>["course","manage","del",[],[],'1.0',"课程列表"],//删除课程
         "course_data_getByCourseId"=>["course","manage","getByCourseId",[],[],'1.0',"课程列表"],//获取一条课程
+        //3.15创建班级
+        "clazz_manage_page_list"=>["clazz","manage","page_list",[],[],'1.0',"活动页面列表"],//活动页面列表
+        "lecturer_manage_getByCourseId"=>["lecturer","course","getByCourseId",[],[],'1.0',"获取课程关联讲师"],//活动页面列表
+        "lecturer_course_add"=>["lecturer","course","add",[],[],'1.0',"添加课程关联讲师"],//添加课程关联讲师
+        "lecturer_course_edit"=>["lecturer","course","edit",[],[],'1.0',"修改课程关联讲师"],//修改课程关联讲师
+        "lecturer_course_del"=>["lecturer","course","del",[],[],'1.0',"删除课程关联讲师"],//删除课程关联讲师
+
+        "course_type_add"=>["course","type","add",[],[],'1.0',"添加课程关联分类"],//添加课程关联分类
+        "course_type_edit"=>["course","type","edit",[],[],'1.0',"修改课程关联分类"],//修改课程关联分类
+        "course_type_del"=>["course","type","del",[],[],'1.0',"删除课程关联分类"],//删除课程关联分类
+        "course_type_getByCourseId"=>["course","type","getByCourseId",[],[],'1.0',"获取一条课程关联分类"],//获取一条课程关联分类
+
+        "classification_manage_type_filter_list"=>["classification","manage","type_filter_list",[],[],'1.0',"获取一条课程关联分类"],//获取一条课程关联分类
+        "classification_manage_list"=>["classification","manage","list",[],[],'1.0',"获取分类列表"],//获取一条课程关联分类
+        "classification_manage_add"=>["classification","manage","add",[],[],'1.0',"添加分类"],//添加课程关联分类
+        "classification_manage_edit"=>["classification","manage","edit",[],[],'1.0',"修改分类"],//修改课程关联分类
+        "classification_manage_del"=>["classification","manage","del",[],[],'1.0',"删除分类"],//删除课程关联分类
+        "classification_manage_is_leaf_list"=>["classification","manage","is_leaf_list",[],[],'1.0',"获取叶子节点的分类"],//删除课程关联分类
+
+        // ""
     ),
 );

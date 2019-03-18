@@ -26,6 +26,29 @@ class manage_controller
         //todo 加载相关模块
         $this->page = app::load_service_class('page_class', 'clazz');//
     }
+    public function page_list()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-03-15
+         * @describe:  page_list function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->page->page_list();
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
     /**
      * ================
      * @Author:        css
@@ -142,8 +165,8 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $form_token = 'afuxnsd524d';
-        $data = $this->page->list($form_token);
+        // $form_token = 'afuxnsd524d';
+        $data = $this->page->list();
         foreach ($data as &$k) {
             $enroll_manage = $this->page->enroll_manage_list($k['id']);
             foreach($enroll_manage as &$key){
@@ -154,6 +177,7 @@ class manage_controller
                 }
                 $key ? $k['enroll_manage'][] = $key : $k['enroll_manage'][] = [];
             }
+            $k['f_name'] = $this->page->get_one_page_name($k['f_id']);
         }
         $data ? $cond = 0 : $cond = 1;
         

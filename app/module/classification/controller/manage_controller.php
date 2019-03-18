@@ -22,10 +22,19 @@ class manage_controller
     public function __construct()
     {
         $this->data = app::load_sys_class('protocol');//加载json数据模板
-        $this->code = app::load_cont_class('common','user');//加载token
-        $this->operation = app::load_service_class('operation_class','operation');//加载操作
+        // $this->code = app::load_cont_class('common','user');//加载token
+        // $this->operation = app::load_service_class('operation_class','operation');//加载操作
         //todo 加载相关模块
         $this->classification = app::load_service_class('classification_class', 'classification');//
+    }
+    public function type_filter_list($type=''){
+        $data = [
+            1=>['id'=>1,'name'=>'等级'],
+            2=>['id'=>2,'name'=>'周期'],
+            3=>['id'=>3,'name'=>'是否认证'],
+        ]; 
+        if($type==true){return $data;}
+        $this->data->out(2001,$data);
     }
     public function list()
     {
@@ -39,7 +48,11 @@ class manage_controller
          */
         $post = $this->data->get_post();//获得post
         $data_head = [
-        
+            ["key"=>"id","value"=>"类型id","size"=>"5"],
+            ["key"=>"name","value"=>"课程名称","size"=>"5"],
+            ["key"=>"type_name","value"=>"所属分类名称","size"=>"7"],
+            ["key"=>"is_leaf_name","value"=>"最小分类","size"=>"5"],
+            ["key"=>"filter_list_name","value"=>"筛选条件","size"=>"5"],
         ];
         
         //开始输出
@@ -54,10 +67,60 @@ class manage_controller
                 $this->list_csv($post,$data_head);
                 break;
             default:
-                $this->data->out(1003);
+            $this->list_json($post,$data_head);
+            // $this->data->out(1003);
             }
     }
-    public function list_page_json()
+    private function list_csv($post,$data_head){
+        $condition = $post['query_condition'];
+        unset($condition['page_num'],$condition['page_size']);
+        $data_body = $this->classification->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
+        foreach($data_body as &$k){
+            $k['filter_list_name'] = $this->return_filter_list($k['filter_list']);
+            $k['type_name'] = $this->classification->return_type_name($k['type_id']);
+            switch ($k['is_leaf']) {
+                case '1':
+                    $k['is_leaf_name'] = '是';
+                    break;
+                case '0':
+                    $k['is_leaf_name'] = '否';
+                    break;
+
+                default:
+                    $k['is_leaf_name'] = '未知';
+                    break;
+            }
+        }
+        foreach($data_head as $k){
+            $head[] = $k['value'];
+            $data[] = $k['key'];
+        }
+         //只取出以一维数组的值为键值的二维数组的值
+         foreach($data_body as $key=>$val){
+            $a = array_keys($val);
+            foreach($data as $k){
+            if(in_array($k,$a)){
+                $ass[$key][$k] = $val[$k];
+            }
+        }}
+        $name = time();
+        // $data['1'] = $ass;
+        // $data['2'] = $name;
+        // $data['head'] = $head;
+        // $this->data->out(2001,$data);
+        return  app::load_sys_class('csv_out')->csv_class($ass,$name.'.csv',$head);
+
+    }
+    private function return_filter_list($number){
+        $data = explode(',',$number);
+        foreach($data as $k){
+            $list .= $this->type_filter_list(1)[$k]['name'].',';
+        }
+        $list =  substr($list,0,strlen($list)-1); 
+        return $list;
+    }
+    
+    private function list_page_json($post,$data_head)
     {
         /**
          * ================
@@ -68,17 +131,40 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        
-        $data = $this->classification->model->list_page_json($post);
+        $condition = $post['query_condition'];
+        unset($condition['page_num'],$condition['page_size']);
+        $data_body = $this->classification->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
+        foreach($data_body as &$k){
+            $k['filter_list_id'] = $k['filter_list'];
+            $k['filter_list_name'] = $this->return_filter_list($k['filter_list']);
+            $k['type_name'] = $this->classification->return_type_name($k['type_id']);
+            $k['is_leaf_id'] = $k['is_leaf'];
+            switch ($k['is_leaf']) {
+                case '1':
+                    $k['is_leaf_name'] = '是';
+                    break;
+                case '0':
+                    $k['is_leaf_name'] = '否';
+                    break;
+
+                default:
+                    $k['is_leaf_name'] = '未知';
+                    break;
+            }
+        }
         $data?$cond = 0:$cond = 1;
-        
+        $data['data_body'] = $data_body;
+        $data['count'] = $this->classification->model->list_page_json_count($condition);
+        $data['data_head'] = $data_head;
+        $data['page_num'] = $post['query_condition']['page_num'];
+        $data['page_size'] = $post['query_condition']['page_size'];
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out();
+                $this->data->out(2002,$data);
                 break;
             default:
-                $this->data->out();
+                $this->data->out(2001,$data);
             }
     }
     private function list_json()
@@ -92,21 +178,41 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        // $data = ;
+        $data = $this->classification->list();
+        foreach($data as &$k){
+            $k['filter_list_name'] = $this->return_filter_list($k['filter_list']);
+            $k['type_name'] = $this->classification->return_type_name($k['type_id']);
+            switch ($k['is_leaf']) {
+                case '1':
+                    $k['is_leaf_name'] = '是';
+                    break;
+                case '0':
+                    $k['is_leaf_name'] = '否';
+                    break;
+
+                default:
+                    $k['is_leaf_name'] = '未知';
+                    break;
+            }
+        }
         $data?$cond = 0:$cond = 1;
         
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out();
+                $this->data->out(2002,[]);
                 break;
             default:
-                $this->data->out();
+                $this->data->out(2001,$data);
             }
     }
     
     public function data_filter($post){
         isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
+        isset($post['data']['name'])?$data['name'] = $post['data']['name']:true;
+        isset($post['data']['type_id'])?$data['type_id'] = $post['data']['type_id']:true;
+        isset($post['data']['is_leaf_id'])?$data['is_leaf'] = $post['data']['is_leaf_id']:true;
+        isset($post['data']['filter_list_id'])?$data['filter_list'] = implode(',',$post['data']['filter_list_id']):true;
         return $data;
     }
     public function add()
@@ -151,10 +257,10 @@ class manage_controller
         //开始输出
         switch ($cond) {
             case   1://异常1
-                $this->data->out(2005);
+                $this->data->out(2006);
                 break;
             default:
-                $this->data->out(2006);
+                $this->data->out(2005);
             }
     }
     public function del()
@@ -192,6 +298,29 @@ class manage_controller
          */
         $post = $this->data->get_post();//获得post
         $data = $this->classification->get_one($post);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
+    public function is_leaf_list()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-03-18
+         * @describe:  is_leaf_list function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->classification->is_leaf_list();
         $data?$cond = 0:$cond = 1;
         
         //开始输出

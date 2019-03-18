@@ -69,7 +69,7 @@ class message {
         $username = '15652185697';  //用户名
         $password_md5 = '2b31525a4c099fc30f6662b479578a3b';  //32位MD5密码加密，不区分大小写
         $apikey = '4ebef9c33cb520e77c6f7bdb254b037f';  //apikey秘钥（请登录 http://m.5c.com.cn 短信平台-->账号管理-->我的信息 中复制apikey）
-        $content = '通知: '.$company_name.'公司的'.$name.'报名参加课程：' . $course.'。联系方式为:'.$number.'\n--市场部支持';  //要发送的短信内容，特别注意：签名必须设置，网页验证码应用需要加添加【图形识别码】。
+        $content = '通知: '.$company_name.' 公司的  '.$name.'  报名参加课程：' . $course.'。联系方式为:'.$number.'                             --市场部支持';  //要发送的短信内容，特别注意：签名必须设置，网页验证码应用需要加添加【图形识别码】。
         $contentUrlEncode = urlencode($content);//执行URLencode编码  ，$content = urldecode($content);解码
         $result = $this->sendSMS($username, $password_md5, $apikey, $mobile, $contentUrlEncode, $encode);
         if (strpos($result, "success") > -1) {

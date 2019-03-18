@@ -55,11 +55,16 @@ class enroll_controller
     }
     //发送详细数据
     public function send_data(){
-        $code = $_POST['code'];
-        $name = $_POST['name'];
-        $company_name = $_POST['company_name'];
-        $act_token = $_POST['act_token'];
-        $number = $_POST['number'];
+        $number = '13552323831';
+        $code = '1111';
+        $name = '测试';
+        $company_name = '测试有限公司';
+        $act_token = 'lEIgKjm4oH';
+        // $code = $_POST['code'];
+        // $name = $_POST['name'];
+        // $company_name = $_POST['company_name'];
+        // $act_token = $_POST['act_token'];
+        // $number = $_POST['number'];
         if (preg_match("/^1[34578]{1}\d{9}$/", $number)!=true) {
             $this->data->out(5017);
         }

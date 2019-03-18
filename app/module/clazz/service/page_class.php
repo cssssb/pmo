@@ -23,6 +23,18 @@ final class page_class
         $this->form = app::load_model_class('enroll_activity', 'activity');
 
     }
+    public function get_one_page_name($id){
+        $where['id'] = $id;
+        return $this->form->get_one($where)['name'];
+    }
+    public function page_list(){
+        $list = $this->form->select('id>2');
+        // foreach($list as $k){
+        //     $data['name'] = $k['name'];
+        //     $return[] = $data;
+        // }
+        return $list;
+    }
     public function add($data){
         $data['page_token'] = $this->token();
         return $this->model->insert($data);
@@ -41,9 +53,8 @@ final class page_class
     public function del($where){
         return $this->model->delete($where);
     }
-    public function list($form_token){
-        $where['f_id'] =$this->form->get_one("access_token='$form_token'")['id'];
-        return $this->model->select($where);
+    public function list(){
+        return $this->model->select('f_id>2');
     }
     public function get_class($where){
         return $this->model->get_one($where);

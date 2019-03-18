@@ -38,5 +38,11 @@ final class classification_class
     public function list(){
         return $this->model->select(1);
     }
-    
+    public function return_type_name($id){
+        $where['id'] = $id;
+        return $this->model->get_one($where)['name'];
+    }
+    public function is_leaf_list(){
+        return $this->model->select('is_leaf=1');
+    }
 }
