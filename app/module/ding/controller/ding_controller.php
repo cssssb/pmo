@@ -31,9 +31,91 @@ class ding_controller
         // var_dump($this->ding_corp());
         $this->ding = \app::load_service_class('ding', 'user');//加载json数据模板
         $this->view = \app::load_view_class('budget_paper', 'user');//加载json数据模板
+        $this->course_list = \app::load_model_class('course_list', 'ding');//加载json数据模板
+        $this->course_list_2 = \app::load_model_class('course_list_2', 'ding');//加载json数据模板
     }
     public function t(){
-        
+        header("Content-type: text/html; charset=utf-8");
+
+        $str=file_get_contents("https://www.easthome.com/front/courseSyllabuss/list/searchables?page.pn=1&page.size=30");
+
+        //拿出网页中所有《a》标签放到数组
+        $reg1="/<a .*?>.*?<\/a>/";
+        $reg3="/<a.*?>.*?<\/a>/";
+       $reg2="/<a target=\"_blank\" href=\"front.*?>.*?<\/a>/";
+        $aarray;//这个存放的就是正则匹配出来的所有《a》标签数组
+         preg_match_all($reg2,$str,$aarray);
+        echo json_encode($aarray);
+
+        //拿出《a》标签中的链接和标签内容
+        $hrefarray;//这个存放的是匹配出来的href的链接地址
+        $acontent;//存放匹配出来的a标签的内容
+        $reg2="/href=\"([^\"]+)/";
+        for($i=0;$i<count($aarray[0]);$i++){
+        preg_match_all($reg2,$aarray[0][$i],$hrefarray);
+        echo $hrefarray[1][0]."\r\n";//这里输出的就是遍历出来的所有a标签的链接
+        //拿出《a》标签的内容
+        $reg3="/>(.*)<\/a>/";
+        preg_match_all($reg3,$aarray[0][$i],$acontent);
+        echo $acontent[1][0]."\r\n";//这里输出的就是a标签的文字了
+}
+    }
+    public function pa(){
+        header("Content-type: text/html; charset=utf-8");
+        for ($i=1; $i < 32; $i++) { 
+            $str=file_get_contents("https://www.easthome.com/front/courseSyllabuss/list/searchables?page.pn=$i&page.size=30");
+            $preg = "/\s([A-Z]|[\x{4e00}-\x{9fa5}]{1,4}).*<\/a>\n/u";
+            preg_match_all($preg,$str,$array);
+            $data[] = $array[0];
+            // $list[] = $data;
+        }
+        $this->pa_filter($data);
+        // var_dump($array);
+        // echo json_encode($data);
+    }
+    private function pa_filter($data){
+        return 1; die;
+        foreach($data as $key){
+            foreach($key as &$k){
+                $list[] = substr($k,0,strrpos($k,'</a>'));
+                $as['name'] = $k;
+                $this->course_list->insert($as);
+            }
+            
+        }
+
+        echo json_encode($list);
+    }
+    public function pa_2(){
+        header("Content-type: text/html; charset=utf-8");
+        // $preg = "/\s([A-Z]|[\x{4e00}-\x{9fa5}]{1,4}).*<\/a>\n/u"; |[\x{4e00}-\x{9fa5}]{1,4}
+        for ($i=461; $i < 468; $i++) { 
+            
+        $str = file_get_contents("https://edu.51cto.com/courselist/index-p$i.html");
+        $preg = "/alt=\"([【2019a-zA-z]|[\x{4e00}-\x{9fa5}]{1,4}).*\n/u";
+        preg_match_all($preg,$str,$array);
+        unset($array[0][0],$array[0][1],$array[0][2],$array[0][3],$array[0][4]);
+        $data[] = $array[0];
+        }
+        $this->pa_filter_2($data);
+        // echo json_encode($data);die;
+        // $str1 = "alt=\"python全栈开发高薪就业班\">";
+        // var_dump($array);
+        // var_dump($str);die;
+    }
+    private function pa_filter_2($data){
+        foreach($data as $key){
+            foreach($key as &$k){
+                $k = substr($k,0,strrpos($k,'"></a>'));
+                // $k = substr($k,1,strrpos($k,'alt="'));
+                $k = str_replace('alt="','',$k);
+
+                $list[] = $k;
+                $as['name'] = $k;
+                $this->course_list_2->insert($as);
+            }
+        }
+        echo json_encode($list);die;
     }
     public function ding_roles(){
         $token = $this->ding_token();

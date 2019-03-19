@@ -18,7 +18,7 @@ final class type_class
 {
     public function __construct()
     {
-        $this->model = app::load_model_class('type', 'course');
+        $this->model = app::load_model_class('course_group_type', 'course');
     }
     public function add($data){
         if($this->model->get_one($data)){
@@ -32,7 +32,7 @@ final class type_class
             return false;
         }
         $where['id'] = $data['id'];
-        return $this->model->edit($data,$where);
+        return $this->model->update($data,$where);
     }
     public function del($data){
         $where['id'] = $data['id'];

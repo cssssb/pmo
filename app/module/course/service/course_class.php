@@ -20,6 +20,11 @@ final class course_class
     {
         $this->model = app::load_model_class('course', 'course');
         $this->course_lecturer = app::load_model_class('course_lecturer','course');
+        $this->type = app::load_model_class('course_type','classification');
+    }
+    public function get_one_type($id){
+        $where['id'] = $id;
+        return $this->type->get_one($where)['name'];
     }
     public function add($data){
          $course_id = $this->model->insert($data,true);

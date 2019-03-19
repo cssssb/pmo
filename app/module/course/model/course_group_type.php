@@ -12,7 +12,7 @@ use \system\model;
  * @describe:  course_type model class
  * ================
  */
-   class type extends model {
+   class course_group_type extends model {
        public function __construct() {
            $this->db_config = app::load_config('database');
            $this->db_setting = 'course';

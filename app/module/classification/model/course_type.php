@@ -12,7 +12,7 @@ use \system\model;
  * @describe:  classification_classification model class
  * ================
  */
-   class classification extends model {
+   class course_type extends model {
        public function __construct() {
            $this->db_config = app::load_config('database');
            $this->db_setting = 'course';

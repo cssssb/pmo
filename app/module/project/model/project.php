@@ -44,6 +44,7 @@ class project extends \system\model
 		}
         return $this->fetch_array();
 	}
+	
 	public function listProject($user_id = '')
 	{
 		$sql = "

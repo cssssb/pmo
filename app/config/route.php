@@ -206,6 +206,9 @@ return array(
         "classification_manage_del"=>["classification","manage","del",[],[],'1.0',"删除分类"],//删除课程关联分类
         "classification_manage_is_leaf_list"=>["classification","manage","is_leaf_list",[],[],'1.0',"获取叶子节点的分类"],//删除课程关联分类
 
+        //3.18技术分类
+        "classification_manage_course"=>["classification","manage","course",[],[],'1.0',"关联课程和分类"],//关联课程和分类
+
         // ""
     ),
 );

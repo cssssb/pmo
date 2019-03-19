@@ -27,6 +27,29 @@ class manage_controller
         //todo 加载相关模块
         $this->classification = app::load_service_class('classification_class', 'classification');//
     }
+    public function course()
+    {
+        /**
+         * ================
+         * @Author:    css
+         * @ver:       1.0
+         * @DataTime:  2019-03-18
+         * @describe:  course function
+         * ================
+         */
+        $post = $this->data->get_post();//获得post
+        $data = $this->classification->insert_course_type($post['course_object_list'],$post['type_object_list']);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2004);
+                break;
+            default:
+                $this->data->out(2003);
+            }
+    }
     public function type_filter_list($type=''){
         $data = [
             1=>['id'=>1,'name'=>'等级'],
@@ -49,7 +72,7 @@ class manage_controller
         $post = $this->data->get_post();//获得post
         $data_head = [
             ["key"=>"id","value"=>"类型id","size"=>"5"],
-            ["key"=>"name","value"=>"课程名称","size"=>"5"],
+            ["key"=>"name","value"=>"分类名称","size"=>"5"],
             ["key"=>"type_name","value"=>"所属分类名称","size"=>"7"],
             ["key"=>"is_leaf_name","value"=>"最小分类","size"=>"5"],
             ["key"=>"filter_list_name","value"=>"筛选条件","size"=>"5"],
@@ -135,9 +158,9 @@ class manage_controller
         unset($condition['page_num'],$condition['page_size']);
         $data_body = $this->classification->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
         foreach($data_body as &$k){
-            $k['filter_list_id'] = $k['filter_list'];
+            $k['filter_list_id'] = explode(',',$k['filter_list']);
             $k['filter_list_name'] = $this->return_filter_list($k['filter_list']);
-            $k['type_name'] = $this->classification->return_type_name($k['type_id']);
+            $k['type_name'] = $this->classification->return_parent_name($k['parent_id']);
             $k['is_leaf_id'] = $k['is_leaf'];
             switch ($k['is_leaf']) {
                 case '1':
@@ -211,6 +234,7 @@ class manage_controller
         isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
         isset($post['data']['name'])?$data['name'] = $post['data']['name']:true;
         isset($post['data']['type_id'])?$data['type_id'] = $post['data']['type_id']:true;
+        isset($post['data']['type_id'])?$data['parent_id'] = $post['data']['type_id']:true;
         isset($post['data']['is_leaf_id'])?$data['is_leaf'] = $post['data']['is_leaf_id']:true;
         isset($post['data']['filter_list_id'])?$data['filter_list'] = implode(',',$post['data']['filter_list_id']):true;
         return $data;

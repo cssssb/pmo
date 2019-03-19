@@ -117,6 +117,10 @@ class type_controller
          */
         $post = $this->data->get_post();//获得post
         $data['type'] = $this->type->get_type($post);
+        foreach($data['type'] as &$k){
+            $k['parent_id'] = $k['course_id'];
+            $k['name'] = $k['type_name'];
+        }
         $data?$cond = 0:$cond = 1;
         
         //开始输出

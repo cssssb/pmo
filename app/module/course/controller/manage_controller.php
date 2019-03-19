@@ -80,6 +80,9 @@ class manage_controller
         unset($condition['page_num'],$condition['page_size']);
         $data_body = $this->course->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
         foreach($data_body as &$k){
+            if($k['type_name']!=true){
+                $k['type_name'] = $this->course->get_one_type($k['type_id']);
+            }
             switch ($k['is_short']) {
                 case '0':
                     $k['is_short_name'] = '长期三天以上';
@@ -132,6 +135,9 @@ class manage_controller
         unset($condition['page_num'],$condition['page_size']);
         $data_body = $this->course->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
         foreach($data_body as &$k){
+            if($k['type_name']!=true){
+                $k['type_name'] = $this->course->get_one_type($k['type_id']);
+            }
             switch ($k['is_short']) {
                 case '0':
                     $k['is_short_id'] = '0';
@@ -182,6 +188,7 @@ class manage_controller
         isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
         isset($post['data']['name'])?$data['name'] = $post['data']['name']:true;
         isset($post['data']['type_id'])?$data['type_id'] = $post['data']['type_id']:true;
+        isset($post['data']['type_name'])?$data['type_name'] = $post['data']['type_name']:true;
         isset($post['data']['depth'])?$data['depth'] = $post['data']['depth']:true;
         isset($post['data']['is_leaf_id'])?$data['is_leaf'] = $post['data']['is_leaf_id']:true;
         isset($post['data']['parent_id'])?$data['parent_id'] = $post['data']['parent_id']:true;
