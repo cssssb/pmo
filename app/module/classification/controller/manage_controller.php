@@ -153,7 +153,6 @@ class manage_controller
          * @describe:  list_page_json function
          * ================
          */
-        $post = $this->data->get_post();//获得post
         $condition = $post['query_condition'];
         unset($condition['page_num'],$condition['page_size']);
         $data_body = $this->classification->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
@@ -200,7 +199,6 @@ class manage_controller
          * @describe:  list_json function
          * ================
          */
-        $post = $this->data->get_post();//获得post
         $data = $this->classification->list();
         foreach($data as &$k){
             $k['filter_list_name'] = $this->return_filter_list($k['filter_list']);
@@ -237,6 +235,10 @@ class manage_controller
         isset($post['data']['type_id'])?$data['parent_id'] = $post['data']['type_id']:true;
         isset($post['data']['is_leaf_id'])?$data['is_leaf'] = $post['data']['is_leaf_id']:true;
         isset($post['data']['filter_list_id'])?$data['filter_list'] = implode(',',$post['data']['filter_list_id']):true;
+        // if($data['is_short']===''){unset($data['is_short']);}
+        // if($data['is_cert']===''){unset($data['is_cert']);}
+        if($data['filter_list']===''){unset($data['filter_list']);}
+        if($data['is_leaf']===''){unset($data['is_leaf']);}
         return $data;
     }
     public function add()
@@ -344,7 +346,28 @@ class manage_controller
          * ================
          */
         $post = $this->data->get_post();//获得post
-        $data = $this->classification->is_leaf_list();
+        $data_head = [
+            ["key"=>"id","value"=>"类型id","size"=>"5"],
+            ["key"=>"name","value"=>"分类名称","size"=>"5"],
+            ["key"=>"type_name","value"=>"所属分类名称","size"=>"7"],
+            ["key"=>"is_leaf_name","value"=>"最小分类","size"=>"5"],
+            ["key"=>"filter_list_name","value"=>"筛选条件","size"=>"5"],
+        ];
+        $post['query_condition']['is_leaf']['condition'] = 'equal';
+        $post['query_condition']['is_leaf']['query_data'] = '1';
+        switch ($post['data_type']) {
+            case 'page_json':
+                
+                $this->list_page_json($post, $data_head);
+                break;
+            case 'page_csv':
+                $this->list_csv($post, $data_head);
+                break;
+            default:
+                $data = $this->classification->is_leaf_list();
+                break;
+        }
+        
         $data?$cond = 0:$cond = 1;
         
         //开始输出

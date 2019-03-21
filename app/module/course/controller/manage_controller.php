@@ -55,7 +55,7 @@ class manage_controller
             ["key"=>"is_short_name","value"=>"周期","size"=>"3"],
             ["key"=>"is_cert_name","value"=>"是否认证","size"=>"5"],
             ["key"=>"level_name","value"=>"级别","size"=>"3"],
-            ["key"=>"course_plan","value"=>"课程计划","size"=>"5"],
+            // ["key"=>"course_plan","value"=>"课程计划","size"=>"5"],
             ["key"=>"type_name","value"=>"所属分类","size"=>"5"],
             ["key"=>"lecturer_name","value"=>"授课讲师","size"=>"5"],
          ];
@@ -185,19 +185,26 @@ class manage_controller
      }
  
      private function data_filter($post){
-        isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;
-        isset($post['data']['name'])?$data['name'] = $post['data']['name']:true;
-        isset($post['data']['type_id'])?$data['type_id'] = $post['data']['type_id']:true;
-        isset($post['data']['type_name'])?$data['type_name'] = $post['data']['type_name']:true;
-        isset($post['data']['depth'])?$data['depth'] = $post['data']['depth']:true;
-        isset($post['data']['is_leaf_id'])?$data['is_leaf'] = $post['data']['is_leaf_id']:true;
-        isset($post['data']['parent_id'])?$data['parent_id'] = $post['data']['parent_id']:true;
+         
+        isset($post['data']['id'])?$data['id'] = $post['data']['id']:true;//id
+        isset($post['data']['name'])?$data['name'] = $post['data']['name']:true;//课程名称
+        isset($post['data']['type_id'])?$data['type_id'] = $post['data']['type_id']:true;//所属分类id
+        isset($post['data']['type_name'])?$data['type_name'] = $post['data']['type_name']:true;//所属分类名称
+        isset($post['data']['depth'])?$data['depth'] = $post['data']['depth']:true;//描述
+        isset($post['data']['is_leaf_id'])?$data['is_leaf'] = $post['data']['is_leaf_id']:true;//是否是叶子
+        isset($post['data']['parent_id'])?$data['parent_id'] = $post['data']['parent_id']:true;//***** */course_plan
+
         isset($post['data']['priority'])?$data['priority'] = $post['data']['priority']:true;
+        isset($post['data']['course_plan'])?$data['course_plan'] = $post['data']['course_plan']:true;
         isset($post['data']['is_short_id'])?$data['is_short'] = $post['data']['is_short_id']:true;
         isset($post['data']['is_cert_id'])?$data['is_cert'] = $post['data']['is_cert_id']:true;
         isset($post['data']['level_id'])?$data['level'] = $post['data']['level_id']:true;
         isset($post['data']['lecturer_id'])?$data['lecturer_id'] = $post['data']['lecturer_id']:true;
         isset($post['data']['lecturer_name'])?$data['lecturer_name'] = $post['data']['lecturer_name']:true;
+        if($data['is_short']===''){unset($data['is_short']);}
+        if($data['is_cert']===''){unset($data['is_cert']);}
+        if($data['level']===''){unset($data['level']);}
+        if($data['is_leaf']===''){unset($data['is_leaf']);}
         return $data;
      }
      public function add()

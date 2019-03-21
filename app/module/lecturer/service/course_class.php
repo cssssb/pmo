@@ -28,6 +28,7 @@ final class course_class
     }
     public function edit($data){
         $where['id'] = $data['id'];
+        unset($data['id']);
         if($this->model->get_one($data)){
             return false;
         }

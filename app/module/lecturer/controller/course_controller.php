@@ -46,6 +46,7 @@ class course_controller
          */
         $post = $this->data->get_post();//获得post
         $list = $this->data_fitler($post);
+        //添加到后还需要修改表
         $data = $this->course->add($list);
         $data?$cond = 0:$cond = 1;
         

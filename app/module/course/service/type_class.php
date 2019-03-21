@@ -27,11 +27,11 @@ final class type_class
         return $this->model->insert($data);
     }
     public function edit($data){
-        $a = $this->model->get_one($data);
-        if($a){
+        $where['id'] = $data['id'];
+        unset($data['id']);
+        if($this->model->get_one($data)){
             return false;
         }
-        $where['id'] = $data['id'];
         return $this->model->update($data,$where);
     }
     public function del($data){

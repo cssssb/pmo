@@ -46,7 +46,7 @@ final class course_class
     }
     public function del($data){
         $where['id'] = $data['id'];
-         $this->course->delete($where);
+         $this->model->delete($where);
          return $this->course_lecturer->delete('course_id='.$where['id']);
     }
     public function get_one($data){

@@ -183,10 +183,10 @@ return array(
         "user_account_edit_password"=>["user","account","edit_password",[],[],'1.0',"修改密码"],//修改密码
         //3、13课程的接口
         "course_manage_list"=>["course","manage","list",[],[],'1.0',"课程列表"],//课程列表
-        "course_manage_add"=>["course","manage","add",[],[],'1.0',"课程列表"],//添加课程
-        "course_manage_edit"=>["course","manage","edit",[],[],'1.0',"课程列表"],//修改课程
-        "course_manage_del"=>["course","manage","del",[],[],'1.0',"课程列表"],//删除课程
-        "course_data_getByCourseId"=>["course","manage","getByCourseId",[],[],'1.0',"课程列表"],//获取一条课程
+        "course_manage_add"=>["course","manage","add",[],[],'1.0',"添加课程"],//添加课程
+        "course_manage_edit"=>["course","manage","edit",[],[],'1.0',"修改课程"],//修改课程
+        "course_manage_del"=>["course","manage","del",[],[],'1.0',"删除课程"],//删除课程
+        "course_data_getByCourseId"=>["course","manage","getByCourseId",[],[],'1.0',"获取一条课程"],//获取一条课程
         //3.15创建班级
         "clazz_manage_page_list"=>["clazz","manage","page_list",[],[],'1.0',"活动页面列表"],//活动页面列表
         "lecturer_manage_getByCourseId"=>["lecturer","course","getByCourseId",[],[],'1.0',"获取课程关联讲师"],//活动页面列表
@@ -208,7 +208,10 @@ return array(
 
         //3.18技术分类
         "classification_manage_course"=>["classification","manage","course",[],[],'1.0',"关联课程和分类"],//关联课程和分类
-
+        "course_plan_getByCourseId"=>["course","plan","getByCourseId",[],[],'1.0',"获取课程方案"],//获取课程方案
+        "course_plan_edit"=>["course","plan","edit",[],[],'1.0',"修改课程方案"],//修改课程方案
+        "course_plan_getListCourseId"=>["course","plan","getListCourseId",[],[],'1.0',"获取课程方案"],//获取课程方案
+        
         // ""
     ),
 );

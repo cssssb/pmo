@@ -33,6 +33,7 @@ class ding_controller
         $this->view = \app::load_view_class('budget_paper', 'user');//加载json数据模板
         $this->course_list = \app::load_model_class('course_list', 'ding');//加载json数据模板
         $this->course_list_2 = \app::load_model_class('course_list_2', 'ding');//加载json数据模板
+        $this->course_list_3 = \app::load_model_class('course_list_3', 'ding');//加载json数据模板
     }
     public function t(){
         header("Content-type: text/html; charset=utf-8");
@@ -73,6 +74,56 @@ class ding_controller
         // var_dump($array);
         // echo json_encode($data);
     }
+    public function time_test(){
+        echo 1;die;
+        ignore_user_abort();//关闭浏览器后，继续执行php代码
+        set_time_limit(0);//程序执行时间无限制
+        $sleep_time = 15;//多长时间执行一次
+        $data['name'] = 1;
+        $this->course_list_3->insert($data);
+        sleep($sleep_time);
+        $url = 'http://localhost:666/ding/ding/time_test';
+        $html = file_get_contents($url);
+        // echo 1;
+    }
+
+    public function timer(){
+        header("Content-type: text/html; charset=utf-8");
+        ignore_user_abort();//关闭浏览器后，继续执行php代码
+        set_time_limit(0);//程序执行时间无限制
+        $sleep_time = 5;//多长时间执行一次
+        $_GET['number'] ? $number = $_GET['number']+1 : $number = 1; 
+        if($number >= 467){
+            return true;
+        }
+        for ($i=$number; $i < $number*5; $i++) { 
+            
+            $str = file_get_contents("https://edu.51cto.com/courselist/index-p$i.html");
+            $preg = "/alt=\"([【2019a-zA-z]|[\x{4e00}-\x{9fa5}]{1,4}).*\n/u";
+            preg_match_all($preg,$str,$array);
+            unset($array[0][0],$array[0][1],$array[0][2],$array[0][3],$array[0][4]);
+            $data[] = $array[0];
+            }
+            $this->pa_filter_3($data);
+            sleep($sleep_time);
+            $url = "http://localhost:666/ding/ding/timer&number=$number";
+            file_get_contents($url);
+    }
+    public function get_number(){
+        $url = "http://localhost:666/ding/ding/timer?number=$number";
+            $html = file_get_contents($url);
+    }
+    private function pa_filter_3($data){
+        foreach($data as $key){
+            foreach($key as &$k){
+                $k = substr($k,0,strrpos($k,'"></a>'));
+                // $k = substr($k,1,strrpos($k,'alt="'));
+                $k = str_replace('alt="','',$k);
+                $as['name'] = $k;
+                $this->course_list_3->insert($as);
+            }
+        }
+    }
     private function pa_filter($data){
         return 1; die;
         foreach($data as $key){
@@ -104,6 +155,7 @@ class ding_controller
         // var_dump($str);die;
     }
     private function pa_filter_2($data){
+        echo 1;die;
         foreach($data as $key){
             foreach($key as &$k){
                 $k = substr($k,0,strrpos($k,'"></a>'));
