@@ -26,7 +26,10 @@ final class crawler{
      * @ErrorReason:   
      * ================
      */
-    public function get_web_content(){
+    public function get_51cto_title_csv(){
+        $this->return_csv($this->get_51cto_title());
+    }
+    public function get_51cto_title(){
         $regex = "/alt=\"([【2019a-zA-z]|[\x{4e00}-\x{9fa5}]{1,4}).*\n/u";
         $head = 'alt="';
         $tail = '"></a>';
@@ -36,19 +39,47 @@ final class crawler{
             $preg = $regex;
             preg_match_all($preg,$str,$array);
             $data[] = $array[0];
-            // $list[] = $data;
         }
-        $this->filter($data);
+       return $this->filter($data,$head,$tail);
     }
-    // public function 
-    private function filter($data,$head,$fail){
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-03-22
+     * @Return:        
+     * @Notes:         东方瑞通
+     * @ErrorReason:   
+     * ================
+     */
+     public function get_easthome_title_csv(){
+         $this->return_csv($this->get_easthome_title());
+     }
+    public function get_easthome_title(){
+            $regex = "/\s([A-Z]|[\x{4e00}-\x{9fa5}]{1,4}).*<\/a>\n/u";
+            $head = '';
+            $tail = '</a>';
+        for ($i=1; $i < 2; $i++) { 
+            $str=file_get_contents("https://www.easthome.com/front/courseSyllabuss/list/searchables?page.pn=$i&page.size=30");
+            preg_match_all($regex,$str,$array);
+            $data[] = $array[0];
+        }
+        return $this->filter($data,$head,$tail);
+    }
+
+
+
+    private function filter($data,$head='',$tail=''){
         foreach($data as $key){
             foreach($key as &$k){
-                $k = substr($k,0,strrpos($k,$tail));
-                $k = str_replace($head,'',$k);
-                $list[] = $k;
+               $tail==true? $k = substr($k,0,strrpos($k,$tail)):true;
+               $head==true? $k = str_replace($head,'',$k):true;
+               $list[] = $k;
             }
         }
+        return $list;
+    }
+    private function return_csv($list){
         foreach($list as $key=>$v)
             {
             $a[$key][]=$v;
@@ -56,5 +87,6 @@ final class crawler{
         $header = [0=>'课程名称'];
         \app::load_sys_class('csv_out')->csv_class($a,time().'.csv',$header);
     }
+    
 }
 ?>

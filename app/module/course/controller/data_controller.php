@@ -83,4 +83,5 @@ class data_controller
         $as = $this->tree($data);
         echo json_encode($as,JSON_UNESCAPED_UNICODE);die;
     }
+    
 }

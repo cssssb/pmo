@@ -35,6 +35,9 @@ class ding_controller
         $this->course_list_2 = \app::load_model_class('course_list_2', 'ding');//加载json数据模板
         $this->course_list_3 = \app::load_model_class('course_list_3', 'ding');//加载json数据模板
     }
+    public function cto(){
+        \app::load_sys_class('crawler')->get_easthome_title_csv();
+    }
     public function t(){
         header("Content-type: text/html; charset=utf-8");
 
