@@ -15,8 +15,8 @@ class ding_department extends \system\model {
 	}
 	public function of_ding(){
 		// $department = 
-		// $sql = "select * from pmo_staff_table as be   inner JOIN  pmo_department_table as te on be.department = te.department_id";
-		$sql = "select * from pmo_department_table as de  inner join  pmo_staff_table as st on FIND_IN_SET(de.department_id,st.department)";
+		// $sql = "select * from pmo_staff_user as be   inner JOIN  pmo_department_table as te on be.department = te.department_id";
+		$sql = "select * from pmo_department_table as de  inner join  pmo_staff_user as st on FIND_IN_SET(de.department_id,st.department)";
 		
 		$all = $this->query($sql);
 		$date = $this->fetch_array($all);

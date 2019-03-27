@@ -94,7 +94,7 @@ class plan_controller
         // $post['id'] = 1;
         // $post['data'] = ['a'=>[1,2,3],
         //                     'b'=>[5,6,7]];
-        $data = $this->plan->edit($post['data']['id'],json_encode($post['data']['course_plan']));
+        $data = $this->plan->edit($post['data']['id'],json_encode($post['data']['course_plan'],JSON_UNESCAPED_UNICODE));
         $data?$cond = 0:$cond = 1;
         
         //开始输出

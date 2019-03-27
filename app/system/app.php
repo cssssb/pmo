@@ -21,6 +21,7 @@ define('IN_LION', true);
 // echo "\n";
 // error_reporting(-1);
 // ini_set('display_errors', 1);
+// ini_set('display_startup_errors',1);
 class app
 {
     //初始化web应用

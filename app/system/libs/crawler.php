@@ -66,7 +66,26 @@ final class crawler{
         }
         return $this->filter($data,$head,$tail);
     }
-
+    public function get_ke_qq_title(){
+        // https://ke.qq.com/course/list?mt=1001
+        // print_r($a);
+        // exit;
+        // echo json_encode($str,JSON_UNESCAPED_UNICODE);exit;
+        // $regex = "/cors-name=\"course\">.*<\/a>/";
+        $regex = "/cors-name=\"course\">.*<\/a>/";
+        $head = 'cors-name="course">';
+        $tail = '</a>';
+        for($i=1;$i<2;$i++){
+            $str =  file_get_contents("https://ke.qq.com/course/list?mt=1001&page=$i");
+            // var_dump($str);
+            preg_match_all($regex,$str,$array);
+            $data[] = $array[0];
+        }
+        return $this->filter($data,$head,$tail);
+    }
+    public function get_ke_qq_title_csv(){
+        $this->return_csv($this->get_ke_qq_title());
+    }
 
 
     private function filter($data,$head='',$tail=''){

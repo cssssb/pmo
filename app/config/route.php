@@ -213,5 +213,7 @@ return array(
         "course_plan_getListCourseId"=>["course","plan","getListCourseId",[],[],'1.0',"获取课程方案"],//获取课程方案
         
         // ""
+        // "project_manage_list_static"=>["project","manage","list_static",[],[],'1.0','项目列表分夜版'],
+        "project_manage_list_static"=>["project","manage","list_pmo",[],[],'1.0','PMO专用列表查询'],
     ),
 );

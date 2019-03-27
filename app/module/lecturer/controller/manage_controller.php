@@ -82,10 +82,10 @@ class manage_controller
         // $post['data_type'] = 'page_json';
         switch ($post['data_type']) {
             case   'page_json'://
-                return $this->list_page_json($post['query_condition'],$head);
+                return $this->list_page_json($post,$head);
                   break;
             case   'page_csv'://
-                 return $this->list_csv($post['query_condition'],$head);
+                 return $this->list_csv($post,$head);
                   break;
             default:
                 return $this->list_json();
@@ -94,7 +94,7 @@ class manage_controller
     private function list_csv($condition,$data_head){
         unset($condition['page_num'],$condition['page_size']);
         // $list = $this->payment->list_pass($condition);
-        $list = $this->lecturer->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
+        $list = $this->lecturer->model->list_page_json($condition['query_condition']['page_num']['query_data'],$condition['query_condition']['page_size']['query_data'],$condition['query_condition']);
 
         foreach($data_head as $k){
             $head[] = $k['value'];
@@ -103,7 +103,20 @@ class manage_controller
          //只取出以一维数组的值为键值的二维数组的值
          foreach($list as $key=>$val){
             $a = array_keys($val);
-            foreach($data as $k){
+            foreach($data as &$k){
+                switch ($k['state']) {
+                    case '0':
+                        $k['state_name'] = '没联系过';
+                        break;
+                    case '1':
+                        # code...
+                        $k['state_name'] = '偶尔联系';
+                        break;
+                    case '2':
+                        # code...
+                        $k['state_name'] = '经常联系';
+                        break;
+                }
             if(in_array($k,$a)){
                 $ass[$key][$k] = $val[$k];
             }
@@ -114,10 +127,23 @@ class manage_controller
     }
     private function list_page_json($query_condition,$head){
         $query = $query_condition;
-        unset($query['page_num'],$query['page_size']);
-        $data['data_body'] = $this->lecturer->model->list_page_json($query_condition['page_num'],$query_condition['page_size'],$query);
+        unset($query['query_condition']['page_num'],$query['query_condition']['page_size']);
+        $data['data_body'] = $this->lecturer->model->list_page_json($query_condition['query_condition']['page_num']['query_data'],$query_condition['query_condition']['page_size']['query_data'],$query['query_condition']);
         foreach($data['data_body'] as &$k){
             $k['describe']? $k['describe'] = json_decode($k['describe'],true):$k['describe']=[];
+            switch ($k['state']) {
+                case '0':
+                    $k['state_name'] = '没联系过';
+                    break;
+                case '1':
+                    # code...
+                    $k['state_name'] = '偶尔联系';
+                    break;
+                case '2':
+                    # code...
+                    $k['state_name'] = '经常联系';
+                    break;
+            }
          }
         $data?$cond = 0:$cond = 1;
         $data['count'] = $this->lecturer->model->list_page_json_count($query_condition);

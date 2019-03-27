@@ -81,15 +81,18 @@ final class static_class
 	 * @ErrorReason:   
 	 * ================
 	 */
-	public function list()
+	public function list($page=1,$size=20)
 	{
-		$data = $this->model->select(1, 'data', '1,20','id DESC');
+		$offset = $size*($page-1);
+		$data = $this->model->select(1, 'data', "$offset,$size",'id DESC');
 		foreach ($data as $k) {
 			$ass[] = json_decode($k['data'], true);
 		}
 		return $ass;
 	}
-
+	public function count(){
+		return $this->model->count();
+	}
 
 	/**
 	 * ================
@@ -212,7 +215,28 @@ final class static_class
 			return $this->model->update($json_data, $id);
 		}
 	}
-
+	/**
+	 * ================
+	 * @Author:        css
+	 * @Parameter:     
+	 * @DataTime:      2019-03-26
+	 * @Return:        
+	 * @Notes:         返回部门的项目列表
+	 * @ErrorReason:   
+	 * ================
+	 */
+	 public function returndepartmentlist($ids,$num='1',$size='20'){
+		 $offset = $size*($num-1);
+		 $data = $this->model->select("user_id in ($ids)","*","$offset,$size",'id DESC');
+		 foreach($data as $k){
+			 $list = json_decode($k['data'],true); 
+			 $return[] = $list;
+		 }
+		 return $return;
+	 }
+	 public function returndepartmentlist_count($ids){
+		 return $this->model->select("user_id in ($ids)","count(*)")[0]['count(*)'];
+	 }
 	/**
 	 * ================
 	 * @Author:        css
@@ -223,13 +247,17 @@ final class static_class
 	 * @ErrorReason:   
 	 * ================
 	 */
-	public function return_only_user($user_id)
+	public function return_only_user($user_id,$num='1',$size='20')
 	{
+		$offset = $size*($num-1);
 		$where['user_id'] = $user_id;
-		$data = $this->model->select($where);
+		$data = $this->model->select($where,'*',"$offset,$size","id DESC");
 		foreach ($data as $key) {
 			$ass[] = json_decode($key['data'], true);
 		}
 		return $ass;
+	}
+	public function return_only_user_count($user_id){
+		return $this->model->select('user_id='.$user_id,'count(*)')[0]['count(*)'];
 	}
 }

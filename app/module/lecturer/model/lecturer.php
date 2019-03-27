@@ -35,7 +35,7 @@ class lecturer extends \system\model {
 	}
 	public function list_page_json($page_num='',$page_size='',$query=null){
 		$offset = $page_size*($page_num-1);
-		$query==null ? $where=1:$where = app::load_sys_class('request')->where_sql($query);
+		$query==null ? $where=1:$where = \app::load_sys_class('request')->where_sql($query);
 		$sql = "
 			SELECT	
 			*
@@ -45,12 +45,12 @@ class lecturer extends \system\model {
 				$where
 		";
 		if($page_size!=null){$sql.="    LIMIT $offset,$page_size";}
-		$this->query($sql);
+		$a = $this->query($sql);
 		$data = $this->fetch_array();
 		return $data;
 	}
 	public function list_page_json_count($query=null){
-		$query==null?$where=1:$where = app::load_sys_class('request')->where_sql($query);
+		$query==null?$where=1:$where = \app::load_sys_class('request')->where_sql($query);
 		$sql  ="
 				SELECT
 				count(*)

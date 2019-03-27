@@ -36,13 +36,124 @@ class manage_controller
         $this->meal = \app::load_service_class('meal_class', 'travel');//加载餐费
         $this->province = \app::load_service_class('province_class', 'travel');//加载长途交通
         $this->lecturer = \app::load_service_class('lecturer_plan_class', 'lecturer');//加载讲师安排
-		$this->code = app::load_cont_class('common','user');//加载token
+		// $this->code = app::load_cont_class('common','user');//加载token
         $this->operation = \app::load_service_class('operation_class','operation');//加载操作
         $this->examine = \app::load_service_class('examine_notes_class','examine');//加载审批
 		$this->static = \app::load_service_class('static_class','project');//加载列表json
 		$this->user = \app::load_service_class('common_class','examine');//在审批的公共服务加载用户
+		$this->pmo = \app::load_service_class('pmo_class','project');//在审批的公共服务加载用户
 	}
+	//12.12PMO专用项目列表的三种接口格式
+	public function list_pmo()
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       PMO
+		 * @DataTime:  2019-03-27
+		 * @describe:  PMO function
+		 * ================
+		 */
+		$post = $this->data->get_post();//获得post
+		$data_head = [
+		];
+		$post['data_type'] = 'page_json';
+		//开始输出
+		switch ($post['data_type']) {
+			case   'page_json':
+				$this->pmo_list_page_json($post['query_condition'],$data_head);
+				break;
+			// case   'json':
+			// 	$this->pmo_list_json($post,$data_head);
+			// 	break;
+			// case   'page_csv':
+			// 	$this->pmo_list_csv($post,$data_head);
+			// 	break;
+			default:
+				$this->data->out(1003);
+			}
+	}
+	private function pmo_list_page_json($post,$data_head=[]){
+		$post['page_num']['query_data']?true:$post['page_num']['query_data'] = 1;
+		$post['page_size']['query_data']?true:$post['page_size']['query_data'] = 20;
+		$query = $post;
+		unset($query['page_num'],$query['page_size']);
+		$data['data_body'] = $this->pmo->pmo_return_data_body($post,$query);
+		$data ? $cond = 0 : $cond = 1;
+		$data['count'] = $this->project->model->pmo_json_list_count($query);
+		// $data['count'] = "100";
+		$data['data_head'] = [];
+		$data['page_size'] = $post['page_size'];
+		$data['page_num'] = $post['page_num'];
+		//开始输出
+		switch ($cond) {
+			case 1://异常1
+				$this->data->out(2002, $data);
+				break;
+			default:
+				$this->data->out(2001, $data);
+		}
+	}
+	
 	//12/12返回所有项目静态列表
+	public function list_static()
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       
+		 * @DataTime:  2019-03-26
+		 * @describe:   function
+		 * ================
+		 */
+		$post = $this->data->get_post();//获得post
+		
+		//开始输出
+		switch ($post['data_type']) {
+			case   'page_json':
+				$this->list_page_json_static($post['query_condition']);
+				break;
+			case   '':
+				$this->list_page_json_static($post['query_condition']);
+				break;
+			// case   'page_csv':
+			// 	$this->list_csv_static($post);
+			// 	break;
+			default:
+				$this->data->out(1003);
+			}
+	}
+	private function list_page_json_static($post)
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       1.0
+		 * @DataTime:  2019-03-26
+		 * @describe:  list_page_json_static function
+		 * ================
+		 */
+		if ($post['page_num'] == true) {
+			$condition = $post;
+			unset($condition['page_num'], $condition['page_size']);
+			$data['data_body'] = $this->static->list($post['page_num']['query_data'], $post['page_size']['query_data'], $condition);
+		} else {
+			$data['data_body'] = $this->static->list();
+		}
+		$data ? $cond = 0 : $cond = 1;
+		$data['count'] = $this->static->count();
+		$data['data_head'] = [];
+		$data['page_size'] = $post['page_size'];
+		$data['page_num'] = $post['page_num'];
+		//开始输出
+		switch ($cond) {
+			case 1://异常1
+				$this->data->out(2002, $data);
+				break;
+			default:
+				$this->data->out(2001, $data);
+		}
+	}
 	public function list()
 	{
 		/**
@@ -142,9 +253,12 @@ class manage_controller
 		 */
 		$post = $this->data->get_post();//获得post
 		$user_id = $this->user->return_user_id($post['token']);
-		$data = $this->static->return_only_user($user_id['id']);
+		$data['data_body'] = $this->static->return_only_user($user_id['id'],$post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data']);
 		$data?$cond = 0:$cond = 1;
-		
+		$data['data_head']  = [];
+		$data['count'] = $this->static->return_only_user_count($user_id['id']);
+		$data['page_num'] = $post['query_condition']['page_num'];
+		$data['page_size'] = $post['query_condition']['page_size'];
 		//开始输出
 		switch ($cond) {
 			case   1://异常1
@@ -154,8 +268,36 @@ class manage_controller
 				$this->data->out(2001,$data);
 			}
 	}
-	//返回自己部门的项目静态列表
 	public function returndepartmentlist()
+	{
+		/**
+		 * ================
+		 * @Author:    css
+		 * @ver:       
+		 * @DataTime:  2019-03-26
+		 * @describe:   function
+		 * ================
+		 */
+		$post = $this->data->get_post();//获得post
+		$data_head = [];
+		$post['data_type'] = 'page_json';
+		//开始输出
+		switch ($post['data_type']) {
+			case   'page_json':
+				$this->returndepartmentlist_page_json($post,$data_head);
+				break;
+			// case   'json':
+			// 	$this->returndepartmentlist_list_json($post,$data_head);
+			// 	break;
+			// case   'page_csv':
+			// 	$this->returndepartmentlist_list_csv($post,$data_head);
+			// 	break;
+			default:
+				$this->data->out(1003);
+			}
+	}
+	//返回自己部门的项目静态列表
+	private function returndepartmentlist_page_json($post,$data_head=[])
 	{
 		/**
 		 * ================
@@ -165,23 +307,21 @@ class manage_controller
 		 * @describe:  return_about_department function
 		 * ================
 		 */
-		$post = $this->data->get_post();//获得post
-		// $post['token'] = 'aGrH0YvXE8';
+		// $post['token'] = '654321';
 		$user_ids = $this->user->return_user_department_user_id($post['token']);
-		foreach($user_ids as $key=>$val){
-			$have = $this->static->return_only_user($val['id']);
-			if($have){
-				foreach($have as $k){
-				$data[] = $k;
-			}
-			}
-		}
+		$post['query_condition']['page_num']['query_data']&&$post['query_condition']['page_size']['query_data']?
+		true:
+		$post['query_condition']['page_num']['query_data']=1&&$post['query_condition']['page_size']['query_data']=20;
+		$data['data_body'] = $this->static->returndepartmentlist($user_ids,$post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data']);
 		$data?$cond = 0:$cond = 1;
-		
+		$data['page_num'] = $post['query_condition']['page_num']['query_data'];
+		$data['page_page'] = $post['query_condition']['page_page']['query_data'];
+		$data['count'] = $this->static->returndepartmentlist_count($user_ids);
+
 		//开始输出
 		switch ($cond) {
 			case   1://异常1
-				$this->data->out(2002,[]);
+				$this->data->out(2002,$data);
 				break;
 			default:
 				$this->data->out(2001,$data);

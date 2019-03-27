@@ -33,16 +33,27 @@ class staff_user extends model {
     //         $admin_id = $this->get_one($admin);
     //         return $admin_id;
     // }
+   
+    
     public function get_the_leader_department($deparment_id)
 	{
+        $deparment_id = explode(',',$deparment_id);
+        $where = $this->find_in_set_sql($deparment_id);
 		$sql = "SELECT
 		* 
 		FROM
-		pmo_staff_user where  FIND_IN_SET($deparment_id,department)";
+		pmo_staff_user where  $where";
 
 		$all = $this->query($sql);
 		$date = $this->fetch_array($all);
 		return $date;
+    }
+    private function find_in_set_sql($did){
+        foreach($did as $k){
+            $sql .= " find_in_set($k,department) or ";
+        }
+        $sql = substr($sql,0,strrpos($sql,'or '));
+        return $sql;
     }
     
 }
