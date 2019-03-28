@@ -215,5 +215,35 @@ return array(
         // ""
         // "project_manage_list_static"=>["project","manage","list_static",[],[],'1.0','项目列表分夜版'],
         "project_manage_list_static"=>["project","manage","list_pmo",[],[],'1.0','PMO专用列表查询'],
+
+        //3.27开启借款
+        "loan_manage_add"=>["loan","manage","add",[],[],'1.0','创建借款'],
+        "loan_manage_my_list"=>["loan","manage","my_list",[],[],'1.0','查看我的借款'],
+        "loan_manage_by"=>["loan","manage","abydd",[],[],'1.0','查看指定借款id的借款'],
+        "loan_manage_my_dep_list"=>["loan","manage","my_dep_list",[],[],'1.0','查看部门借款'],
+        "loan_manage_list"=>["loan","manage","list",[],[],'1.0','查看所有借款'],
+        "loan_manage_edit"=>["loan","manage","edit",[],[],'1.0','修改借款数据'],
+        "loan_manage_edit_financial_number"=>["loan","manage","edit_financial_number",[],[],'1.0','创建借款unicode'],
+
+        "loan_state_pass"=>["loan","loan_state","pass",[],[],'1.0','通过借款'],
+        "loan_state_submit"=>["loan","loan_state","submit",[],[],'1.0','提交借款'],
+        "loan_state_cancel"=>["loan","loan_state","cancel",[],[],'1.0','作废借款'],
+        "loan_state_del"=>["loan","loan_state","del",[],[],'1.0','删除借款'],
+        "loan_state_recall"=>["loan","loan_state","recall",[],[],'1.0','撤回借款'],
+        "loan_state_pass_many"=>["loan","loan_state","pass_many",[],[],'1.0','批量通过借款'],
+        "loan_state_submit_many"=>["loan","loan_state","submit_many",[],[],'1.0','批量提交借款'],
+        "loan_state_cancel_many"=>["loan","loan_state","cancel_many",[],[],'1.0','批量作废借款'],
+        "loan_state_del_many"=>["loan","loan_state","del_many",[],[],'1.0','批量删除借款'],
+        "loan_state_recall_many"=>["loan","loan_state","recall_many",[],[],'1.0','批量撤回指出'],
+
+        "loan_project_list_by_project_id"=>["loan","project","list_by_project_id",[],[],'1.0','查看项目关联的借款'],
+        "loan_project_add_ids_by_project"=>["loan","project","add_ids_by_project",[],[],'1.0','借款关联多个项目'],
+        "loan_project_add_projects_by_id"=>["loan","project","add_projects_by_id",[],[],'1.0','项目关联多个借款'],
+        "loan_project_add"=>["loan","project","add",[],[],'1.0','关联借款到项目'],
+        "loan_project_add_by_price"=>["loan","project","add_by_price",[],[],'1.0','创建借款并关联项目'],
+        "loan_project_edit"=>["loan","project","edit",[],[],'1.0','修改指定借款到项目的金额'],
+        "loan_project_cancel"=>["loan","project","cancel",[],[],'1.0','取消借款和项目的关联'],
+        "loan_project_list"=>["loan","project","list",[],[],'1.0','查看所有借款及其所属项目'],
+        "loan_project_list_pass"=>["loan","project","list_pass",[],[],'1.0','查看已通过的借款'],
     ),
 );

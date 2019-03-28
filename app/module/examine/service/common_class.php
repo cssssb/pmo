@@ -132,6 +132,7 @@ final class common_class
     private function return_son_department($department,$str=''){
         // if($department==true){
        $data = $this->department->select("parentid in ($department)");
+       $son_department = '';
        foreach($data as $k){
            $son_department.= $k['department_id'];
        }
