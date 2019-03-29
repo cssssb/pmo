@@ -413,7 +413,7 @@ class project_controller
         $condition['state'] = ['condition'=>'equal','query_data'=>'2'];
         $list = $this->payment->model->select_list_pass($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
 
-        foreach($data as &$k){
+        foreach($list as &$k){
             if($k['state']=='2'){
                 $k['state']='通过';
             }

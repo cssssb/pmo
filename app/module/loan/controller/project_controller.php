@@ -170,10 +170,10 @@ class project_controller
           $post = $this->data->get_post();//获得post
           $post['token']?$token = $post['token']:true;
           $post['data']['loan_content']?$data['loan_content'] = $post['data']['loan_content']:true;//借款内容
-          $post['data']['loan_fee']?$data['loan_fee'] = $post['data']['loan_fee']:true;//借款金额
+          $post['data']['loan_price']?$data['loan_price'] = $post['data']['loan_price']:true;//借款金额
           $post['data']['loan_describe']?$data['loan_describe'] = $post['data']['loan_describe']:true;//描述 注释
           $loan_id = $this->loan->add($token,$data);
-          $data = $this->project->add($loan_id,$post['data']['parent_id'],$data['loan_fee']);
+          $data = $this->project->add($loan_id,$post['data']['parent_id'],$data['loan_price']);
           $data?$cond = 0:$cond = 1;
           
           //开始输出
@@ -207,8 +207,8 @@ class project_controller
             */
            $post = $this->data->get_post();//获得post
            //判断金额
-           $this->project->balance_a_project_is_associated_with_an_expenditure($post['relation_id'],$post['price']);
-           $data = $this->project->edit($post['relation_id'],$post['price']);
+           $this->project->balance_a_project_is_associated_with_an_expenditure($post['relation_id'],$post['loan_price']);
+           $data = $this->project->edit($post['relation_id'],$post['loan_price']);
            $this->project->edit_loan_surplus_relation_id($post['relation_id']);
            $data?$cond = 0:$cond = 1;
            
@@ -273,11 +273,13 @@ class project_controller
             ["key"=> "loan_number", "value"=> "借款财务编号","size"=>"6"],
             ["key"=> "unicode", "value"=> "关联项目编号","size"=>"6"],
             ["key"=> "project_name", "value"=> "关联项目名称","size"=>"6"],
-            ["key"=> "price", "value"=> "关联项目金额","size"=>"6"],
+            ["key"=> "loan_price", "value"=> "关联项目金额","size"=>"6"],
             ["key"=> "loan_user_name", "value"=> "领款人","size"=>"4"],
             ["key"=> "loan_describe", "value"=> "备注","size"=>"3"],
             ["key"=> "loan_state", "value"=> "借款状态","size"=>"5"],
             ];
+        //    $post['query_condition']['loan_state'] = ['condition'=>'equal','query_data'=>'2'];
+
           //开始输出
           switch ($post['data_type']) {
             case   'page_json'://
@@ -336,6 +338,8 @@ class project_controller
        private function list_csv($post,$data_head){
         $condition = $post['query_condition'];
         unset($condition['page_num'],$condition['page_size']);
+        $condition['loan_state']['condition'] = 'more';
+        $condition['loan_state']['query_data'] = 1;
         $list = $this->project->model->list_page_json($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
         
         foreach($list as $k){
@@ -412,8 +416,8 @@ class project_controller
         // $list = $this->loan->list_pass($condition);
         $condition['loan_state'] = ['condition'=>'equal','query_data'=>'2'];
         $list = $this->loan->model->select_list_pass($post['query_condition']['page_num']['query_data'],$post['query_condition']['page_size']['query_data'],$condition);
-
-        foreach($data as &$k){
+        
+        foreach($list as &$k){
             if($k['loan_state']=='2'){
                 $k['loan_state']='通过';
             }

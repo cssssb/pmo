@@ -51,7 +51,7 @@ class manage_controller
          $post['token']?$token = $post['token']:true;
          $post['data']['loan_content']?$data['loan_content'] = $post['data']['loan_content']:true;//借款内容
          $post['data']['loan_fee']?$data['loan_fee'] = $post['data']['loan_fee']:true;//借款金额
-         $post['data']['loan_describeloan_describeloan_describe']?$data['loan_describeloan_describeloan_describe'] = $post['data']['loan_describeloan_describeloan_describe']:true;//描述 注释
+         $post['data']['loan_describe']?$data['loan_describe'] = $post['data']['loan_describe']:true;//描述 注释
          $data = $this->loan->add($token,$data);
          $data?$cond = 0:$cond = 1;
          
@@ -226,7 +226,7 @@ class manage_controller
              $post['data']['loan_content']?$data['loan_content'] = $post['data']['loan_content']:true;
              $post['data']['id']?$data['id'] = $post['data']['id']:true;
              $post['data']['loan_fee']?$data['loan_fee'] = $post['data']['loan_fee']:true;
-             $post['data']['loan_describeloan_describe']?$data['loan_describeloan_describe'] = $post['data']['loan_describeloan_describe']:true;
+             $post['data']['loan_describe']?$data['loan_describe'] = $post['data']['loan_describe']:true;
              $data = $this->loan->edit($data);
              $data?$cond = 0:$cond = 1;
              
@@ -251,7 +251,7 @@ class manage_controller
           * @ErrorReason:   
           * ================
           */
-         public function edit_loan_number()
+         public function edit_financial_number()
          {
              /**
               * ================

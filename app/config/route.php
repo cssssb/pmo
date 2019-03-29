@@ -219,7 +219,7 @@ return array(
         //3.27开启借款
         "loan_manage_add"=>["loan","manage","add",[],[],'1.0','创建借款'],
         "loan_manage_my_list"=>["loan","manage","my_list",[],[],'1.0','查看我的借款'],
-        "loan_manage_by"=>["loan","manage","abydd",[],[],'1.0','查看指定借款id的借款'],
+        "loan_manage_by"=>["loan","manage","by",[],[],'1.0','查看指定借款id的借款'],
         "loan_manage_my_dep_list"=>["loan","manage","my_dep_list",[],[],'1.0','查看部门借款'],
         "loan_manage_list"=>["loan","manage","list",[],[],'1.0','查看所有借款'],
         "loan_manage_edit"=>["loan","manage","edit",[],[],'1.0','修改借款数据'],

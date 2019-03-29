@@ -189,7 +189,6 @@ class app
 		} elseif (isset($configs[$file][$key])) {
 			return $configs[$file][$key];
 		} else {
-			
 			return $default;
 		}
 	}
