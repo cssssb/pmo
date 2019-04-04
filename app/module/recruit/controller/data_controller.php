@@ -42,11 +42,13 @@ class data_controller
         echo json_encode($ver_list,JSON_UNESCAPED_UNICODE);
     }
     public function list(){
-        $str = ['abc','acc','and'];
-        $number = count($str);
-        for ($i=0; $i < $number; $i++) { 
-            echo $str[$i][0];
-        }
+        // $str = ['abc','acc','and'];
+        // $number = count($str);
+        // $str_len = 0;
+        // for ($i=0; $i < $number; $i++) { 
+        //     echo $str[$i][0];
+        //     if($str)
+        // }
     }
     public function all_out(){
         echo json_encode($this->job->all_out(),JSON_UNESCAPED_UNICODE);

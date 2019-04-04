@@ -78,7 +78,7 @@ class manage_controller
         isset($post['content2']) ? $data['content2'] = $post['content2'] : true;
         isset($post['content3']) ? $data['content3'] = $post['content3'] : true;
         isset($post['content4']) ? $data['content4'] = $post['content4'] : true;
-        isset($post['f_id'])?$data['f_id'] = $post['f_id']:$data['f_id']=3;
+        // isset($post['f_id'])?$data['f_id'] = $post['f_id']:$data['f_id']=3;
         return $data;
     }
     public function add()

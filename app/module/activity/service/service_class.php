@@ -91,6 +91,9 @@ final class service_class
        $where['access_token'] = $from_token;
         $from_id = $this->activity->get_one($where)['id'];
         $number = $this->page->select('f_id='.$from_id,'count(*)')[0]['count(*)']-4;
+        if($number<0){
+            $number = 0;
+        }
         $page_data = $this->page->select('f_id='.$from_id,'*',"$number,4");
         return $page_data;
    }
@@ -99,7 +102,10 @@ final class service_class
     $where['act_token'] = $act_token;
     $page_id = $this->activity->get_one("access_token='$act_token'")['id'];
     $number = $this->page->select('f_id='.$page_id,'count(*)')[0]['count(*)']-4;
-    $act_ids = $this->page->select('f_id'.$from_id,'id',"$number,4");
+    if($number<0){
+        $number = 0;
+    }
+    $act_ids = $this->page->select('f_id='.$page_id,'id',"$number,4");
     foreach($act_ids as $k){
         $ids[] = $k['id'];
     }
