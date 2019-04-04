@@ -21,10 +21,71 @@ class manage_controller
      */
     public function __construct()
     {
+        $this->job = app::load_service_class('jobr_class','recruit');
         // echo 1;
         // include 'D:\PHPTutorial\code\erp\app\system\libs\phpexcel.php';
     }
-  
+    public function index(){
+        echo  "<!DOCTYPE html>" ;
+        echo  " <html lang='en'>" ;
+        echo  " <head>" ;
+        echo  "     <meta charset='UTF-8'>" ;
+        echo  "     <meta name='viewport' content='width=device-width, initial-scale=1.0'>" ;
+        echo  "     <meta http-equiv='X-UA-Compatible' content='ie=edge'>" ;
+        echo  "     <title>招聘</title>" ;
+        echo  " </head>" ;
+        echo  " <body>" ;
+        echo  "     <form action='http://192.168.60.175:666/recruit/manage/post_job' method='post' enctype='multipart/form-data'>" ;
+        echo  "     <input type='file' name='file' accept='application/vnd.ms-excel'>智联" ;
+        echo  "     <input type='submit' name='上传智联文件'>" ;
+        echo  " </form>" ;
+        echo  " <form action='http://192.168.60.175:666/recruit/manage/post_job_2' method='post' enctype='multipart/form-data'>" ;
+        echo  "     <input type='file' name='file' accept='application/vnd.ms-excel'>51" ;
+        echo  "     <input type='submit' name='上传51文件'>" ;
+        echo  " </form>" ;
+        echo  " <form action='http://192.168.60.175:666/recruit/manage/post_job2' method='post' enctype='multipart/form-data'>" ;
+        echo  "     <input type='submit' name='上传51文件'>生成etc模板" ;
+        echo  " </form>" ;
+        echo  " </body>" ;
+        echo  " </html>";
+    }
+    public function a(){
+        echo 12;
+    }
+    public function post_job(){
+        // echo '一'.microtime();
+        // var_dump(readfile($_FILES['file']['tmp_name']));
+        // echo '二'.microtime();
+        $file_name = 'C:\Users\Administrator\Desktop\phpexl\智联.xls';
+        // $this->job->read_execl($_FILES['file']['tmp_name'],'智联');
+        $this->job->read_execl($file_name,'智联');
+        // echo '三'.microtime();
+
+           
+    }
+    public function post_job_2(){
+        $this->job->read_execl($_FILES['file']['tmp_name'],'51');
+    }
+    public function ceshi(){
+        $filename = 'D:\PHPTutorial\code\erp\app\text\list.xls';
+        $this->job->read_execl($filename);
+    }
+    public function about(){
+        $data = [
+            ['a','b','c'],
+            [1,2,3],
+            [4,5,6]
+        ];
+        $data[0] =  $this->b($data[0]);
+        echo '<pre>';
+        print_r($data);
+    }
+    public function b($data){
+            foreach($data as $key=>$val){
+                $data[$key][$val]=='a'?$data[$key][$val]=1:true;
+            }
+        return $data;
+    }
     public function out_ETC_excel(){
         $data = [
             0=>[
@@ -40,104 +101,8 @@ class manage_controller
 
     }
 
-    // 1：文件名， 2：数据， 3-10 ：lattice 第一行名称 ， 10-18：字段下标  ###注意###：参数必填
-    public function excel($filename = 'excel', $data, $A, $B, $C, $D, $E, $F, $G, $H,$I,$J,$K,$L,$M, $va, $vb, $vc, $vd, $ve, $vf, $vg, $vh){
-        // Vendor('phpoffice.phpexcel.Classes.PHPExcel');
-        // $this->objPHPExcel = app::load_sys_class('phpexcel');
-        include 'D:\PHPTutorial\code\erp\app\system\libs\phpexcel.php';
-        $objPHPExcel = new \PHPExcel();
-        $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
-        $objActSheet = $objPHPExcel->getActiveSheet();
+    public function out_51_excel(){
 
-        $objActSheet->setCellValue('A1', $A);
-        $objActSheet->setCellValue('B1', $B);
-        $objActSheet->setCellValue('C1', $C);
-        $objActSheet->setCellValue('D1', $D);
-        $objActSheet->setCellValue('E1', $E);
-        $objActSheet->setCellValue('F1', $F);
-        $objActSheet->setCellValue('G1', $G);
-        $objActSheet->setCellValue('H1', $H);
-        $objActSheet->setCellValue('I1', $I);
-        $objActSheet->setCellValue('J1', $J);
-        $objActSheet->setCellValue('K1', $K);
-        $objActSheet->setCellValue('L1', $L);
-        $objActSheet->setCellValue('M1', $M);
-
-        //设置个表格宽度
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-        // $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
-
-        // 垂直居中
-        $objPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('D')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('E')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('F')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('G')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('H')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-
-        //水平居中
-        $objPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('D')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('E')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('F')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('G')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('H')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-
-         //水平居中
-        $objPHPExcel->getActiveSheet()->getStyle('B1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('D1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('E1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('F1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('G1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('H1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        //字段字体
-        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setName('宋体')->setSize(12)->setBold(true);
-        foreach($data as $k=>$v){
-            $k +=2;
-            $objActSheet->setCellValue('A'.$k, $v["$va"]);
-            $objActSheet->setCellValue('B'.$k, $v["$vb"]);
-            $objActSheet->setCellValue('C'.$k, $v["$vc"]);
-            $objActSheet->setCellValue('D'.$k, $v["$vd"]);
-            $objActSheet->setCellValue('E'.$k, $v["$ve"]);
-            $objActSheet->setCellValue('F'.$k, $v["$vf"]);
-            $objActSheet->setCellValue('G'.$k, $v["$vg"]);
-            $objActSheet->setCellValue('H'.$k, $v["$vh"]);
-            $objActSheet->getRowDimension($k)->setRowHeight(40);
-        }
-
-        $fileName = $filename;
-        $date = date("Y-m-d",time());
-        $fileName .= "_{$date}.xls";
-        $fileName = iconv("utf-8", "gb2312", $fileName);
-        ob_end_clean();//清除缓冲区,避免乱码
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type:application/force-download");
-        header("Content-Type:application/vnd.ms-execl");
-        header("Content-Type:application/octet-stream");
-        header("Content-Type:application/download");
-        header("Content-Disposition:attachment;filename=\"$fileName\"");
-        header("Content-Transfer-Encoding:binary");
-        $objWriter->save('php://output');
     }
     public function txt(){
         $filename = 'D:\PHPTutorial\code\erp\app\text\list.xls';
@@ -161,7 +126,8 @@ class manage_controller
   }
   public function xls(){
     //   echo 1;die;
-    $filename = 'D:\PHPTutorial\code\erp\app\text\list.txt';
+
+    $filename = 'D:\PHPTutorial\code\erp\app\text\list.xls';
     // print_r(file_get_contents($filename));
     include 'D:\PHPTutorial\code\erp\app\system\libs\PHPExcel\IOFactory.php';
     include 'D:\PHPTutorial\code\erp\app\system\libs\phpexcel.php';
@@ -174,7 +140,11 @@ class manage_controller
     $objReader = \PHPExcel_IOFactory::createReaderForFile($filename);
     $objPHPExcel = $objReader->load($filename);
     $objPHPExcel->setActiveSheetIndex(0);
-    // $date = $objPHPExcel->getActiveSheet()->getCell('A16')->getValue();
-    // print_r($objPHPExcel);
+    $date = $objPHPExcel->getActiveSheet()->getCell('A16')->getValue();
+    print_r($objPHPExcel);
+    print_r($date);
+
+    
   }
+
 }

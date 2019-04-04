@@ -42,6 +42,7 @@ defined('IN_LION') or exit('No permission resources.');
         return "$database $left_join_sql where ".$where_sql;
     }
     final public function left_join_sql_all($left_soin){
+        $return  = '';
         foreach($left_soin as $k){
             $return .= $this->left_join_sql($k['base'],$k['base_field'],$k['chain_base'],$k['chain_base_field']);
         }
@@ -58,6 +59,7 @@ defined('IN_LION') or exit('No permission resources.');
 
     }
         final public function where_sql($data){
+            $where_sql = '';
         foreach($data as $k=>$v){
             if($v['condition']=='equal'){
                 $v['database']?
