@@ -109,7 +109,19 @@ class model {
 	final public function insert($data, $return_insert_id = false, $replace = false) {
 		return $this->db->insert($data, $this->table_name, $return_insert_id, $replace);
 	}
-	
+	/**
+	 * ================
+	 * @Author:        css
+	 * @Parameter:     
+	 * @DataTime:      2019-04-10
+	 * @Return:        
+	 * @Notes:         批量添加
+	 * @ErrorReason:   
+	 * ================
+	 */
+	final public function array_insert($data) {
+		return $this->db->array_insert($data, $this->table_name);
+	}
 	/**
 	 * 获取最后一次添加记录的主键号
 	 * @return int 

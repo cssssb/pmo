@@ -222,10 +222,37 @@ final class db_mysqli {
 
 		$cmd = $replace ? 'REPLACE INTO' : 'INSERT INTO';
 		$sql = $cmd.' `'.$this->config['database'].'`.`'.$table.'`('.$field.') VALUES ('.$value.')';
+		return $sql;die;
 		$return = $this->execute($sql);
 		return $return_insert_id ? $this->insert_id() : $return;
 	}
-	
+	public function array_insert($data,$table){
+		if(!is_array($data)||$table == ''|| count($data)==0){
+			return false;
+		}
+		foreach($data as $k){
+            foreach($k as $key){
+                $list[] = $key;
+			}
+			$count = count($k);
+			$field = array_keys($k);
+        }
+        $first_value = '\''.implode('\',\'',$list).'\'';
+        $first_value = explode(',',$first_value);
+		
+		for ($i=0; $i < $count; $i++) { 
+            $final_value[] = array_slice($first_value, $i * $count ,$count);
+		}
+		foreach($final_value as $k){
+            $value[]  = implode(',',$k);
+        }
+        $value = '('.implode('),(',$value).')';
+		$field = implode(',',$field);
+
+		$sql = 'INSERT INTO '.'`'.$this->config['database'].'`.`'.$table.'` ('.$field.') VALUES '.$value;
+		// return $sql;
+		return  $this->execute($sql);
+	}
 	/**
 	 * 获取最后一次添加记录的主键号
 	 * @return int 

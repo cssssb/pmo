@@ -21,8 +21,11 @@ final class job_class
         $this->model = app::load_model_class('job_resume', 'recruit');
     }
     public function all_out(){
-        $where = "time = '".date('Y-m-d',time());
-        return $this->model->select($where);
+        $where = "time = '".date('Y-m-d',time())."'";
+       
+
+        $data = $this->model->select($where);
+        return $this->export_filter($data);
     }
     public function get_ver_list(){
         $time = date('Y-m-d',time());
@@ -45,9 +48,10 @@ final class job_class
         $data = $this->model->select_distinct($time);
         $str = '';
         foreach($data as $k){
-            $str .= $k.',';
+            $str .= $k['file_name'].',';
         }
-        return substr($str,0,strrpos($str,','));
+        return explode(',',substr($str,0,strrpos($str,',')));
+
     }
     public function export(){
         $where['out_state'] = 0;
@@ -81,7 +85,7 @@ final class job_class
     // }
     public function where_out($where){
         $time = date('Y-m-d',time());
-        $where_sql = 'time = '.$time.' and file_name in ('.$where.')';
+        $where_sql = "time = '$time' and file_name in ($where)";
         $data =  $this->model->select($where_sql);
         return $this->export_filter($data);
     }
@@ -101,14 +105,14 @@ final class job_class
                 $k=='sex'?$a['性别'] = $v:true;
                 $k=='phone'?$a['手机'] = $v:true;
                 $k=='marketing_specialist'?$a['市场专员'] = $v:true;
-                $a['来源渠道'] = '招聘网站';
+                $k=='from_web'?$a['来源渠道'] = $v:true;
                 $k=='demo'?$a['渠道明细'] = $v:true;
                 $k=='age'?$a['年龄'] = $v:true;
                 $k=='email'?$a['QQ/邮箱'] = $v:true;
                 $k=='school'?$a['学校'] = $v:true;
                 $k=='major'?$a['专业'] = $v:true;
                 $k=='education'?$a['学历'] = $v:true;
-                $k=='intention'?$a['课程/求职'] = $v:true;
+                $k=='intention'?$a['意向课程/求职意向'] = $v:true;
                 $k=='go_company'?$a['备注'] = $v:true;
             }
             $list[] = $a;
@@ -118,7 +122,8 @@ final class job_class
     public function out_zhilian($data){
        $data =  $this->filter($data,'智联投递');
        $time = date('Y-m-d');
-       $file_name = $this->model->get_one('time = '.$time.' order by id desc')['file_name']+1;
+       $file_name = $this->model->get_one("time = '$time' order by id desc")['file_name']+1;
+
        foreach($data as $k){
            if(!$this->model->get_one('phone='.$k['phone'])){
                $k['time'] = $time;
@@ -135,7 +140,7 @@ final class job_class
     public function out_51($data){
        $time = date('Y-m-d');
         $data =  $this->filter($data,'前程无忧');
-        $file_name = $this->model->get_one('time = '.$time.' order by id desc')['file_name']+1;
+        $file_name = $this->model->get_one("time = '$time' order by id desc")['file_name']+1;
        foreach($data as $k){
         $k['time'] = $time;
         $k['file_name'] = $file_name;
@@ -170,6 +175,7 @@ final class job_class
                    $key =='专业'? $a['major'] = $val:true;
                     $key =='学历'?$a['education'] = $val:true;
                     $key =='意向课程/求职意向'?$a['intention'] = $val:true;
+                    $key =='课程/求职'?$a['intention'] = $val:true;
                     $key =='备注'?$a['mark'] = $val:true;
                     $key =='匹配度'?$a['matching_degree'] = $val:true;
                     $key =='简历编号'?$a['number'] = $val:true;

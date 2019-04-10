@@ -15,7 +15,7 @@ use \system\model;
 class menustatic extends model {
     public function __construct() {
         $this->db_config = app::load_config('database');
-        $this->db_setting = 'default';
+        $this->db_setting = 'onlineview';
         $this->table_name = 'role_menu_static';
         parent::__construct();
     }

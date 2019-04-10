@@ -41,7 +41,7 @@ final class protocol
             $codelist = $this->codelist;
         }
         $this->body['code'] =(int)$code;
-        if (isset($codelist[$code])) {
+         if (isset($codelist[$code])) {
             $this->body['msg'] =  $codelist[$code][0];
             $this->body['error'] = $codelist[$code][1];
         }else{

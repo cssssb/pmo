@@ -35,7 +35,10 @@ class data_controller
         $post = $this->data->get_post();
         // echo json_encode($post,JSON_UNESCAPED_UNICODE);die;
         // $post = 'a,b,c';
-        echo json_encode($this->job->where_out($post),JSON_UNESCAPED_UNICODE);
+        
+        // var_dump($_GET);
+        $str = implode(',',$post);
+        echo json_encode($this->job->where_out($str),JSON_UNESCAPED_UNICODE);
     }
     public function ver(){
         $ver_list = $this->job->get_ver_list();

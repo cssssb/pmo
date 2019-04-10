@@ -20,7 +20,7 @@ use \system\model;
            parent::__construct();
            }
         public function select_distinct($time){
-          $sql  = 'SELECT distinct file_name FROM `pmo_c`.`pmo_job_resume` WHERE time = '.$time;
+          $sql  = "SELECT distinct file_name FROM `pmo_c`.`pmo_job_resume` WHERE time = '".$time."'";
           $this->query($sql);
         return $this->fetch_array();
         }

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
+</head>
+
+<body>
+
+    <input type="file" onchange="import2(this,'http://192.168.60.175:666/recruit/data/out1','demo') " />导入智联 <div
+        id="demo">
+    </div>
+    <br />
+    <a href="" download="至ETC.xlsx" id="hf"></a>
+    <input type="file" onchange="import2(this,'http://192.168.60.175:666/recruit/data/out2','sdiv2')">导入51 <div
+        id="sdiv2">
+    </div>
+    <br /><br />
+
+    导出今日所有数据<button onclick="out_all()">导出</button><br /><br />
+    <div>选择导出数据<button onclick="data_info()">刷新</button></div><br />
+    <div id="data_list"></div><button onclick="out_info()">导出以上数据</button>
+    <br /><br /><br />
+
+    <div id="new"></div>
+
+
+    <br />
+
+
+    <script>
+        /*
+        FileReader共有4种读取方法：
+        1.readAsArrayBuffer(file)：将文件读取为ArrayBuffer。
+        2.readAsBinaryString(file)：将文件读取为二进制字符串
+        3.readAsDataURL(file)：将文件读取为Data URL
+        4.readAsText(file, [encoding])：将文件读取为文本，encoding缺省值为'UTF-8'
+                     */
+        var wb; //读取完成的数据
+        var rABS = false; //是否将文件读取为二进制字符串
+
+
+
+
+        function data_info() {
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState == 4 && ajax.status == 200) {
+
+                    var back_info = JSON.parse(ajax.responseText);
+                    var html = []
+                    for (let i = 0; i < back_info.length; i++) {
+                        let template = "<span class='list" + i +
+                            "'><input type='checkbox' name='category' /> " + '<b>' + back_info[i] + '</b>' +
+                            " </span><br />";
+                        html.push(template)
+                        document.getElementById('data_list').innerHTML = html.join('')
+                    }
+
+                }
+            }
+
+            ajax.open("post", "http://192.168.60.175:666/recruit/data/ver", false); //true异步请求，false同步
+
+            // 第四步： send一个请求。 可以发送对象和字符串，不需要传递数据发送null
+            ajax.send();
+        }
+
+        // function back_fun(id1) {
+        //     document.getElementById(id1).innerHTML = ajax.responseText;
+        // }
+
+        function import2(obj, url2, id2) { //导入
+            if (!obj.files) {
+                return;
+            }
+            var f = obj.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                if (rABS) {
+                    wb = XLSX.read(btoa(fixdata(data)), { //手动转化
+                        type: 'base64'
+                    });
+                } else {
+                    wb = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                }
+                var ajax = new XMLHttpRequest();
+                ajax.onreadystatechange = function () {
+                    if (ajax.readyState == 4 && ajax.status == 200) {
+                        document.getElementById(id2).innerHTML = ajax.responseText;
+                    }
+                }
+                ajax.open("post", url2, false); //true异步请求，false同步
+
+                // 第四步： send一个请求。 可以发送对象和字符串，不需要传递数据发送null
+                ajax.send(JSON.stringify(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])));
+
+            };
+            if (rABS) {
+                reader.readAsArrayBuffer(f);
+            } else {
+                reader.readAsBinaryString(f);
+            }
+        }
+
+        function fixdata(data) { //文件流转BinaryString
+            var o = "",
+                l = 0,
+                w = 10240;
+            for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w,
+                l * w + w)));
+            o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+            return o;
+        }
+
+        var tmpDown; //导出的二进制对象
+        function downloadExl(tmpjson, type) {
+            var tmpdata = tmpjson[0];
+            // console.log(json2);
+            tmpjson.unshift({});
+            var keyMap = []; //获取keys
+            //keyMap =Object.keys(tmpjson[0]);
+            for (var k in tmpdata) {
+                keyMap.push(k);
+                tmpjson[0][k] = k;
+            }
+            var tmpdata = []; //用来保存转换好的tmpjson
+            tmpjson.map((v, i) => keyMap.map((k, j) => Object.assign({}, {
+                v: v[k],
+                position: (j > 25 ? getCharCol(j) : String.fromCharCode(65 + j)) + (i + 1)
+            }))).reduce((prev, next) => prev.concat(next)).forEach((v, i) => tmpdata[v.position] = {
+                v: v.v
+            });
+            var outputPos = Object.keys(tmpdata); //设置区域,比如表格从A1到D10
+            var tmpWB = {
+                SheetNames: ['Sheet1'], //保存的表标题
+                Sheets: {
+                    'Sheet1': Object.assign({},
+                        tmpdata, //内容
+                        {
+                            '!ref': outputPos[0] + ':' + outputPos[outputPos.length - 1] //设置填充区域
+                        })
+                }
+            };
+            tmpDown = new Blob([s2ab(XLSX.write(tmpWB, {
+                bookType: (type == undefined ? 'xlsx' : type),
+                bookSST: false,
+                type: 'binary'
+            } //这里的数据是用来定义导出的格式类型
+            ))], {
+                    type: ""
+                }); //创建二进制对象写入转换好的字节流
+            var href = URL.createObjectURL(tmpDown); //创建对象超链接
+            document.getElementById("hf").href = href; //绑定a标签
+            document.getElementById("hf").click(); //模拟点击实现下载
+            setTimeout(function () { //延时释放
+                URL.revokeObjectURL(tmpDown);
+                // 用URL.revokeObjectURL()来释放这个object URL
+            }, 100);
+        }
+
+        
+        function s2ab(s) { //字符串转字符流
+            var buf = new ArrayBuffer(s.length);
+            var view = new Uint8Array(buf);
+            for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+        // 将指定的自然数转换为26进制表示。映射关系：[0-25] -> [A-Z]。
+        function getCharCol(n) {
+            let temCol = '',
+                s = '',
+                m = 0
+            while (n > 0) {
+                m = n % 26 + 1
+                s = String.fromCharCode(m + 64) + s
+                n = (n - m) / 26
+            }
+            return s
+        }
+
+
+        window.onload = function () {
+            data_info();
+        }
+        var arr = [];
+        function out_info() {
+            var items = document.getElementsByName("category");
+            for (i = 0; i < items.length; i++) {
+                if (items[i].checked) {
+                    arr.push(items[i].parentNode.lastElementChild.innerHTML);
+                }
+            }
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState == 4 && ajax.status == 200) {
+                    downloadExl(JSON.parse(ajax.responseText));
+                }
+            }
+            ajax.open("post", "http://192.168.60.175:666/recruit/data/where_out", false); //true异步请求，false同步
+
+            // 第四步： send一个请求。 可以发送对象和字符串，不需要传递数据发送null
+            ajax.send(JSON.stringify(arr));
+        }
+        function out_all() {
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState == 4 && ajax.status == 200) {
+
+                    var today_info = JSON.parse(ajax.responseText);
+                    downloadExl(today_info);
+                    }
+
+                }
+          
+            ajax.open("post", "http://192.168.60.175:666/recruit/data/all_out", false); 
+            ajax.send();
+
+          }
+
+          function downloadExl2(JSONData, FileName='至ETC', title, filter) {
+            if (!JSONData)
+                return;
+            //转化json为object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+            var excel = "<table>";
+
+            //设置表头  
+            var row = "<tr>";
+
+            if (title) {
+                //使用标题项
+                for (var i in title) {
+                    row += "<th align='center'>" + title[i] + '</th>';
+                }
+
+            } else {
+                //不使用标题项
+                for (var i in arrData[0]) {
+                    row += "<th align='center'>" + i + '</th>';
+                }
+            }
+
+            excel += row + "</tr>";
+
+            //设置数据  
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "<tr>";
+
+                for (var index in arrData[i]) {
+                    //判断是否有过滤行
+                    if (filter) {
+                        if (filter.indexOf(index) == -1) {
+                            var value = arrData[i][index] == null ? "" : arrData[i][index];
+                            row += '<td>' + value + '</td>';
+                        }
+                    } else {
+                        var value = arrData[i][index] == null ? "" : arrData[i][index];
+                        row += "<td align='center'>" + value + "</td>";
+                    }
+                }
+
+                excel += row + "</tr>";
+            }
+
+            excel += "</table>";
+
+            var excelFile =
+                "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'>";
+            excelFile += '<meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">';
+            excelFile += '<meta http-equiv="content-type" content="application/vnd.ms-excel';
+            excelFile += '; charset=UTF-8">';
+            excelFile += "<head>";
+            excelFile += "<!--[if gte mso 9]>";
+            excelFile += "<xml>";
+            excelFile += "<x:ExcelWorkbook>";
+            excelFile += "<x:ExcelWorksheets>";
+            excelFile += "<x:ExcelWorksheet>";
+            excelFile += "<x:Name>";
+            excelFile += "Sheet1";
+            excelFile += "</x:Name>";
+            excelFile += "<x:WorksheetOptions>";
+            excelFile += "<x:DisplayGridlines/>";
+            excelFile += "</x:WorksheetOptions>";
+            excelFile += "</x:ExcelWorksheet>";
+            excelFile += "</x:ExcelWorksheets>";
+            excelFile += "</x:ExcelWorkbook>";
+            excelFile += "</xml>";
+            excelFile += "<![endif]-->";
+            excelFile += "</head>";
+            excelFile += "<body>";
+            excelFile += excel;
+            excelFile += "</body>";
+            excelFile += "</html>";
+
+
+            var uri = 'data:application/vnd.ms-excel;charset=utf-8,' + encodeURIComponent(excelFile);
+
+            var link = document.createElement("a");
+            link.href = uri;
+
+            link.style = "visibility:hidden";
+            link.download = FileName + ".xls";
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+
+</html>
