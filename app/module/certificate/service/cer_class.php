@@ -19,59 +19,61 @@ final class cer_class
     public function __construct()
     {
         $this->model = app::load_model_class('certificate', 'certificate');
+        $this->user = app::load_model_class('user', 'certificate');
+        $this->system = app::load_model_class('system', 'certificate');
 
     }
-   public function array_insert($data){
-       echo $this->model->array_insert($data);
-   }
+
+
+    public function doc_user($token,$doc_name=''){
+        $user_id = $this->user->get_one('user_id='.$token);
+        if($doc_name!=null){
+            return $this->model->select('user_id = '.$user_id.' and doc_name='.$doc_name);
+        }
+        return $this->model->select('user_id='.$user_id);
+    }
     /**
      * ================
      * @Author:        css
      * @Parameter:     
-     * @DataTime:      2019-04-09
+     * @DataTime:      2019-04-12
      * @Return:        
-     * @Notes:         发送token和
+     * @Notes:         获取项目集成培训人员信息
      * @ErrorReason:   
      * ================
      */
-    // private function key_filter($data){
-    //     $str = '';
-    //     foreach($data as $k){
-    //         array_filp($k)=='name'?$str .= " name = $k and":true;
-    //         array_filp($k)=='phone'?$str .= " phone = $k and":true;
-    //         array_filp($k)=='usercode'?$str .= " usercode = $k and":true;
-    //     }
-    //      substr($str,0,strrpos($str,'and'));
-
-    //     return $str;
-    // }
-    // public function get_cer($data){
-    //     $type = [];
-    //     foreach($data as $key){
-    //         foreach($key as $k){
-    //             switch ($key['type']) {
-    //                 case '1':
-    //                 $type['one'] =$this->key_filter($key);
-    //                     break;
-    //                 case '2':
-    //                 $type['two'] =$this->key_filter($key);
-    //                         break;
-    //                 case '3':
-    //                 $type['three'] =$this->key_filter($key);
-    //                         break;
-    //                 default:
-    //                     # code...
-    //                     break;
-    //             }
-    //         }
-    //     }
-    //     $str = $this->key_filter($data);
-    //     return $this->model->get_cer($str);
-    // }
-    public function get_cer($data){
-        $token['token'] = $data['token'];
-        $user_id = $this->xx->get_one($token);
-        return $this->model->select('user_id = '.$user_id);
+    private function get_system_project_integration($data = []){
+        $where['identity'] = $data['identity'];
+        return $this->system->get_one($where);
     }
     
+    //判断是不是正确的身份证号码
+   private function isCreditNo($vStr){
+    $vCity = array(
+      '11','12','13','14','15','21','22',
+      '23','31','32','33','34','35','36',
+      '37','41','42','43','44','45','46',
+      '50','51','52','53','54','61','62',
+      '63','64','65','71','81','82','91'
+    );
+    if (!preg_match('/^([\d]{17}[xX\d]|[\d]{15})$/', $vStr)) return false;
+    if (!in_array(substr($vStr, 0, 2), $vCity)) return false;
+    $vStr = preg_replace('/[xX]$/i', 'a', $vStr);
+    $vLength = strlen($vStr);
+    if ($vLength == 18) {
+      $vBirthday = substr($vStr, 6, 4) . '-' . substr($vStr, 10, 2) . '-' . substr($vStr, 12, 2);
+    } else {
+      $vBirthday = '19' . substr($vStr, 6, 2) . '-' . substr($vStr, 8, 2) . '-' . substr($vStr, 10, 2);
+    }
+    if (date('Y-m-d', strtotime($vBirthday)) != $vBirthday) return false;
+    if ($vLength == 18) {
+      $vSum = 0;
+      for ($i = 17 ; $i >= 0 ; $i--) {
+        $vSubStr = substr($vStr, 17 - $i, 1);
+        $vSum += (pow(2, $i) % 11) * (($vSubStr == 'a') ? 10 : intval($vSubStr , 11));
+      }
+      if($vSum % 11 != 1) return false;
+    }
+    return true;
+  }
 }

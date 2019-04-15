@@ -83,6 +83,8 @@ final class protocol
     final private function json_out($data){
         echo json_encode($data, JSON_UNESCAPED_UNICODE);exit;
     }
-    
+    final public function out_data($data){
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);exit;
+    }
      
 }

@@ -222,7 +222,6 @@ final class db_mysqli {
 
 		$cmd = $replace ? 'REPLACE INTO' : 'INSERT INTO';
 		$sql = $cmd.' `'.$this->config['database'].'`.`'.$table.'`('.$field.') VALUES ('.$value.')';
-		return $sql;die;
 		$return = $this->execute($sql);
 		return $return_insert_id ? $this->insert_id() : $return;
 	}

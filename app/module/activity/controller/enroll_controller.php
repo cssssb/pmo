@@ -142,13 +142,6 @@ class enroll_controller
         $act_token = $_GET['act_token'];
         $bool = $this->enroll->browse($user_token,$act_token);
         $bool?$cond = 0:$cond = 1;
-        switch ($cond) {
-            case 0:
-                $this->data->out(5016);
-                break;
-            default:
-                $this->data->out(5015);
-                break;
-        }
+        $this->data->out(5015);
     }
 }

@@ -3,6 +3,7 @@ namespace certificate;
 
 //namespace 模块名
 use \app;
+use course\json;
 
 defined('IN_LION') or exit('No permission resources.');
 /**
@@ -27,28 +28,78 @@ class data_controller
         // //todo 加载相关模块
         $this->cer = app::load_service_class('cer_class', 'certificate');//
     }
-    public function text(){
-        $data = [
-            "data"=>[
-                "project_manager"=>[
-                    "name"=>"崔思思",
-                    "usercode"=>"142622000000000000",
-                    "achievement"=>"通过",
-                ],
-                "Software_test"=>[
-                    "name"=>"崔思思",
-                    "usercode"=>"142622000000000000",
-                    "achievement"=>"通过",
-                ],
-                "PMP"=>[
-                    "name"=>"崔思思",
-                    "usercode"=>"142622000000000000",
-                    "achievement"=>"通过",
-                ],
-            ]
-        ];
-        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+   
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-04-15
+     * @Return:        
+     * @Notes:         发送doc_token获取doc
+     * @ErrorReason:   
+     * ================
+     */
+    public function doc(){
+        $post = $this->data->get_post();
+        $post['doc_token'] = 'asdjkhh51asf';
+        $doc = app::load_config('doc_demo')[$post['doc_token']];
+        $this->data->out_data($doc);
     }
+    
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-04-15
+     * @Return:        
+     * @Notes:         发送用户token获取他个人在项目集成里的所有的信息
+     * @ErrorReason:   
+     * ================
+     */
+    public function user_data(){
+        $post = $this->data->get_post();
+        $post['token'] = '123456';
+        $data = $this->cer->doc_user($post['token']);
+        $data?$cond = 0:$cond = 1;
+        
+        //开始输出
+        switch ($cond) {
+            case   1://异常1
+                $this->data->out(2002,[]);
+                break;
+            default:
+                $this->data->out(2001,$data);
+            }
+    }
+
+    /**
+     * ================
+     * @Author:        css
+     * @Parameter:     
+     * @DataTime:      2019-04-15
+     * @Return:        
+     * @Notes:         发送token + doc_token 返回在xx培训里的培训信息
+     * @ErrorReason:   
+     * ================
+     */
+     public function doc_user(){
+         $post = $this->data->get_post();
+         $post['token'] = '123456';
+         $post['doc_token'] = 'asdjkhh51asf';
+         $doc_name = app::load_config('doc_demo')[$post['doc_token']]['docname'];
+         $data = $this->cer->doc_user($post['token'],$doc_name);
+         $data?$cond = 0:$cond = 1;
+         //开始输出
+         switch ($cond) {
+             case   1://异常1
+                 $this->data->out(2002,[]);
+                 break;
+             default:
+                 $this->data->out(2001,$data);
+             }
+
+     }
+    //通过选择的模板返回
     public function getone()
     {
         /**
@@ -72,63 +123,23 @@ class data_controller
                 $this->data->out();
             }
     }
-    public function info(){
-        phpinfo();
-    }
-    public function redis_test(){
-        //连接本地的 Redis 服务
-   $redis = new \Redis();
-   $redis->connect('127.0.0.1', 6379);
-//    echo "Connection to server sucessfully";
-//          //查看服务是否运行
-//    echo "Server is running: " . $redis->ping();
-    $redis->setex('db0',10, 'predis');
-    $retval = $redis->get('db0');
-    $ttl = $redis->ttl('db0');
-    echo $retval; //显示 ‘predis’
-    echo $ttl; //显示 ‘predis’
-    }
-    public function array_insert_test(){
-        $data = [
-            0=>['phone'=>1,'usercode'=>2,'name'=>3],
-            1=>['phone'=>1,'usercode'=>2,'name'=>3],
-            2=>['phone'=>1,'usercode'=>2,'name'=>3],
-            3=>['phone'=>1,'usercode'=>2,'name'=>3],
-            4=>['phone'=>1,'usercode'=>'','name'=>3],
-        ];
-        // // $list = '';
-        // foreach($data as $k){
-        //     foreach($k as $key){
-        //         $list[] = $key;
-        //     }
-        // $count = count($k);
-
-        // }
-        // $list = '\''.implode('\',\'',$list).'\'';
-        // $list = explode(',',$list);
-        // echo '<pre>';
-        // print_r($list);
-        // print_r($count);
-        // for ($i=0; $i < $count; $i++) { 
-        //     $as[] = array_slice($list, $i * $count ,$count);
-        // }
-        // foreach($as as $k){
-        //     $ass[]  = implode(',',$k);
-        // }
-        // $ass = '('.implode('),(',$ass).')';
-        // print_r($as);
-        // print_r($ass);
-
-        // print_r($count);
-        // echo "('1','2','3'),('1','2','3')";
-        // die;
-        // $this->cer->model->insert($data);
-        print_r($this->cer->array_insert($data));
-        // foreach($data as $k){
-        //     $list = array_keys($k);
-        //     // $return[] = $list;
-        // }
-        // print_r($list);
-        //应该返回的数据格式
-    }
+    
+   public function get_one_user_data(){
+    //    $post = $this->data->get_post();
+       if($_POST['identity']==null){
+           $this->data->out(5019);
+       }
+       if(!$this->isCreditNo($_POST['identity'])){
+            $this->data->out(5020);
+       }
+       $data = $this->cer->get_one_filter($_POST);
+        $return['name'] = $data['name'];
+        $return['starttime'] = $data['train_starttime'];
+        $return['endtime'] = $data['train_endtime'];
+        $return['course'] = '系统项目集成';
+        $return['teacher'] = $data['teacher'];
+        $return['docid'] = '1';
+       echo json_encode($return,JSON_UNESCAPED_UNICODE);
+   }
+   
 }
